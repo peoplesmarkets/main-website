@@ -1,0 +1,77 @@
+.Profile {
+  height: 32px;
+  width: 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: 2px solid var(--content-font-color);
+  border-radius: 50%;
+  user-select: none;
+}
+
+.Profile:hover {
+  border-color: var(--active-font-color);
+  cursor: pointer;
+}
+
+.Initials {
+  font-size: 14px;
+}
+
+.Dialog {
+  position: absolute;
+  min-width: 350px;
+  border: var(--primary-border);
+  border-radius: 27px;
+  background-color: var(--tertiary-background-color);
+  top: calc(var(--top-app-bar-height) + var(--small-spacer));
+  right: var(--small-spacer);
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.DialogHeader {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+  position: relative;
+}
+
+.DialogHeaderInitials {
+  height: 100px;
+  width: 100px;
+  border: 2px solid var(--content-font-color);
+  border-radius: 50%;
+  margin: var(--small-spacer) 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 28px;
+  user-select: none;
+}
+
+.DialogHeaderThemeIcon {
+  position: absolute;
+  top: var(--smallest-spacer);
+  right: var(--smallest-spacer);
+}
+
+.DialogHeaderEmail {
+  margin: var(--small-spacer) 0 var(--medium-spacer) 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: start;
+  align-items: center;
+}
+
+.DialogFooter {
+  display: flex;
+  justify-content: center;
+  align-items: end;
+  margin: var(--small-spacer) 0;
+}

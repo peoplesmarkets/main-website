@@ -1,0 +1,83 @@
+$vertical-margin: 40px;
+$vertical-padding: 20px;
+
+.Footer {
+  width: auto;
+  background-color: var(--tertiary-background-color);
+  border-top: var(--primary-border);
+}
+
+.FooterTitle {
+  font-size: large;
+  font-weight: normal;
+  margin: $vertical-margin var(--app-x-padding);
+}
+
+.FooterContent {
+  display: flex;
+  justify-content: space-between;
+  min-height: var(--footer-height);
+  margin: $vertical-margin var(--app-x-padding);
+}
+
+.FooterContentText {
+  width: 50%;
+}
+
+.FooterContentText p {
+  font-weight: 300;
+  margin-bottom: 0.5rem;
+  letter-spacing: 0.2px;
+}
+
+.FooterContentText em {
+  font-weight: 400;
+}
+
+.FooterContentLinks {
+  line-height: 24px;
+  margin-left: var(--medium-spacer);
+  width: 320px;
+  list-style: none;
+}
+
+.FooterContentLinks a {
+  color: var(--active-font-color);
+  text-decoration: none;
+  outline: 0;
+}
+
+.FooterLogoAndPrivacy {
+  border-top: var(--primary-border);
+  padding: $vertical-padding var(--app-x-padding);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.FooterLogoAndPrivacy a {
+  color: var(--primary-font-color);
+  text-decoration: none;
+  margin-right: 27px;
+}
+
+.FooterLogoAndPrivacy a:hover {
+  color: var(--hovered-font-color);
+}
+
+.FooterLogoAndPrivacyIcon {
+  margin-right: 27px;
+}
+
+.FooterSign {
+  border-top: var(--primary-border);
+  padding: 10px var(--app-x-padding);
+  text-align: right;
+  font-size: small;
+}
+
+.FooterSign a {
+  color: var(--active-font-color);
+  text-decoration: none;
+  outline: 0;
+}

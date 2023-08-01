@@ -1,0 +1,41 @@
+.ActionButton {
+  border: 1px solid var(--active-font-color);
+  border-radius: 4px;
+  background-color: inherit;
+  color: var(--active-font-color);
+  padding: 0 23px 0 23px;
+  height: 36px;
+  text-decoration: none;
+  outline: 0;
+}
+
+.ActionButton:hover {
+  cursor: pointer;
+}
+
+.Active {
+  border-color: var(--active-font-color);
+  color: var(--active-font-color);
+}
+
+.Active:hover {
+  background-color: var(--hovered-background-color);
+}
+
+.Danger {
+  border-color: var(--danger-font-color);
+  color: var(--danger-font-color);
+}
+
+.Danger:hover {
+  background-color: var(--hovered-danger-background-color);
+}
+
+.Neutral {
+  border-color: var(--conten-font-color);
+  color: var(--content-font-color);
+}
+
+.Neutral:hover {
+  background-color: var(--hovered-background-color);
+}

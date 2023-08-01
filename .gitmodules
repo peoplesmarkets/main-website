@@ -1,0 +1,3 @@
+[submodule "zitadel"]
+	path = zitadel
+	url = https://github.com/zitadel/zitadel.git

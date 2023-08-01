@@ -1,0 +1,63 @@
+.TopAppBar {
+  width: auto;
+  background-color: var(--secondary-background-color);
+  border-bottom: var(--primary-border);
+  display: flex;
+  align-items: center;
+  font-size: larger;
+}
+
+.TopAppBarCorner {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  height: var(--top-app-bar-height);
+  width: var(--app-x-padding);
+}
+
+.MainLink {
+  padding: auto;
+}
+.MainLogo {
+  height: 50px;
+}
+
+.TopAppBarNav {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  height: var(--top-app-bar-height);
+  width: 100%;
+  margin-right: var(--top-app-bar-height);
+}
+
+.TopAppBarNavItem {
+  height: var(--top-app-bar-height);
+  min-width: 120px;
+  text-decoration: none;
+  color: var(--primary-font-color);
+  font-size: large;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.TopAppBarNavItem:hover {
+  color: var(--hovered-font-color);
+  background-color: var(--hovered-background-color);
+}
+
+.TopAppBarNavItemActive {
+  color: var(--active-font-color);
+  border-bottom: 2px solid var(--active-font-color);
+  margin-bottom: -2px;
+}
+
+.TopAppBarNavItemActive:hover {
+  color: var(--active-font-color);
+}
+
+.TopAppBarNavItemActive:focus {
+  background-color: var(--focused-background-color);
+}
