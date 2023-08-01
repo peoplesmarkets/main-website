@@ -90,7 +90,7 @@ export default function Root() {
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
         />
 
-        <Title>People's Markets - community</Title>
+        <Title>People's Markets</Title>
       </Head>
       <Body class={styles.root}>
         <Suspense>

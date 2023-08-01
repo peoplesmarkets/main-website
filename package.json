@@ -1,5 +1,5 @@
 {
-  "name": "community",
+  "name": "main-website",
   "scripts": {
     "dev": "solid-start dev",
     "build": "solid-start build",
