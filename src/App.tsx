@@ -27,7 +27,8 @@ export default function App() {
         <Routes>
           <Route
             path={HOME_PAGE_PATH}
-            component={lazy(() => import("./routes/Index"))}
+            // component={lazy(() => import("./routes/Index"))}
+            component={lazy(() => import("./routes/GetStarted"))}
           />
           <Route
             path={GET_STARTED_PATH}
