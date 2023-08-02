@@ -2,6 +2,11 @@ import { A } from "@solidjs/router";
 
 import styles from "./Footer.module.scss";
 import MainLogoIcon from "../assets/MainLogoIcon";
+import {
+  IMPRINT_PATH,
+  PRIVACY_POLICY_PATH,
+  TERMS_OF_SERVICE_PATH,
+} from "~/root";
 
 export default function Footer() {
   return (
@@ -34,9 +39,9 @@ export default function Footer() {
 
       <div class={styles.FooterLogoAndPrivacy}>
         <MainLogoIcon class={styles.FooterLogoAndPrivacyIcon} />
-        <A href="/imprint">Imprint</A>
-        <A href="/privacy-policy">Privacy Policy</A>
-        <A href="/terms-of-service">Terms of service</A>
+        <A href={IMPRINT_PATH}>Imprint</A>
+        <A href={PRIVACY_POLICY_PATH}>Privacy Policy</A>
+        <A href={TERMS_OF_SERVICE_PATH}>Terms of service</A>
       </div>
 
       <div class={styles.FooterSign}>

@@ -17,10 +17,12 @@
 }
 
 .MainLink {
-  padding: auto;
+  height: var(--top-app-bar-height);
+  display: flex;
+  align-items: center;
 }
 .MainLogo {
-  height: 50px;
+  height: 100%;
 }
 
 .TopAppBarNav {

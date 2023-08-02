@@ -1,0 +1,17 @@
+.Section {
+  padding: 4rem 0;
+}
+
+.SectionInner {
+  margin: 0 auto;
+}
+
+.SectionInnerNormal {
+  @extend .SectionInner;
+  width: var(--section-width);
+}
+
+.SectionInnerWide {
+  @extend .SectionInner;
+  width: var(--section-max-width);
+}

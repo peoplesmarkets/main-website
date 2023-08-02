@@ -1,0 +1,54 @@
+.GetStarted {
+  padding-top: var(--largest-spacer);
+}
+
+.Hero {
+  width: var(--section-max-width);
+  margin: 0 auto;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.VPandCTA {
+  width: 44%;
+}
+
+.VPTitle {
+  margin-bottom: var(--large-spacer);
+  color: var(--content-font-color);
+  font-size: var(--title-font-size);
+  line-height: 54px;
+}
+
+.VPSubTitle {
+  margin-bottom: var(--largest-spacer);
+  color: var(--primary-font-color);
+  list-style: none;
+}
+
+.VPSubTitle li::before {
+  color: var(--orange);
+  content: "|\00a0\00a0\00a0";
+  font-weight: 800;
+  font-size: var(--subtitle-font-size);
+}
+
+.VPSubTitleItem {
+  margin-bottom: var(--medium-spacer);
+  font-size: var(--subtitle-font-size);
+  font-weight: normal;
+}
+
+.ComingSoon {
+  color: var(--orange);
+  font-size: var(--subtitle-font-size);
+  user-select: none;
+}
+
+.HeroImage {
+  width: 56%;
+  height: 400px;
+  background-color: #D9D9D9;
+  border-radius: 16px;
+}

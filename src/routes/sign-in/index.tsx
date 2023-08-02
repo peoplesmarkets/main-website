@@ -18,6 +18,4 @@ export default function SignIn() {
       window.location.href = (await buildAuthorizationRequest()).toString();
     }
   });
-
-  return <></>;
 }

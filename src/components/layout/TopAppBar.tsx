@@ -33,8 +33,8 @@ export default function TopAppBar() {
     <header class={styles.TopAppBar}>
       <div class={styles.TopAppBarCorner} />
 
-      <A href={HOME_PAGE_PATH}>
-        <h1 style="display: none;">People's Markets</h1>
+      <A class={styles.MainLink} href={HOME_PAGE_PATH}>
+        <span style="display: none;">People's Markets</span>
 
         <MainLogo class={styles.MainLogo} />
       </A>

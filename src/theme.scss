@@ -23,7 +23,7 @@
 }
 
 :root.theme-default-dark {
-  --primary-font-color: #9aa0a6;
+  --primary-font-color: #CBCED0;
   --hovered-font-color: #e8eaed;
   --active-font-color: #8ab4f8;
   --danger-font-color: #ff3b5b;
@@ -51,6 +51,8 @@
   --small-font-size: 12px;
   --default-font-size: 14px;
   --large-font-size: 16px;
+  --subtitle-font-size: 18px;
+  --title-font-size: 48px;
 
   --primary-font-family: "Roboto", "Google Sans", "-apple-system",
     "BlinkMacSystemFont", sans-serif;
@@ -61,12 +63,14 @@
   --app-x-padding: 60px;
   --top-app-bar-height: 64px;
   --footer-height: 128px;
+
   --section-width: 760px;
   --section-max-width: 1080px;
-  --widescreen-max-width: 1440px;
-  --desktop-max-width: 1240px;
-  --tablet-max-width: 905px;
+
   --mobile-max-width: 600px;
+  --tablet-max-width: 905px;
+  --desktop-max-width: 1240px;
+  --widescreen-max-width: 1440px;
 
   // Spacing
   --smallest-spacer: 4px;
@@ -74,6 +78,29 @@
   --medium-spacer: 16px;
   --large-spacer: 36px;
   --largest-spacer: 64px;
+
+  // Colors
+  // https://paletton.com/#uid=70d0u0kpBw0fFJEkXBhv6t0wcmo
+
+  --yellow-light: #ffc882;
+  --yellow: #ffa533;
+  --yellow-dark: #b26300;
+
+  --orange-light: #ffa282;
+  --orange: #ff6733;
+  --orange-dark: #b22e00;
+
+  --pink-light: #ef7aa1;
+  --pink: #e12d6a;
+  --pink-dark: #9d0035;
+
+  --blue-light: #6fa8cd;
+  --blue: #2873a3;
+  --blue-dark: #074872;
+
+  --green-light: #6dd5a3;
+  --green: #24b26e;
+  --green-dark: #007c40;
 }
 
 * {

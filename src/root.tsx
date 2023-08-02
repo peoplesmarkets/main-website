@@ -22,8 +22,14 @@ import styles from "./root.module.scss";
 import Footer from "./components/layout/Footer";
 
 export const HOME_PAGE_PATH = "/";
+export const GET_STARTED_PATH = "/get-started";
+
 export const SIGN_IN_PATH = "/sign-in";
 export const SIGN_IN_CALLBACK = "/sign-in/callback";
+
+export const IMPRINT_PATH = "/imprint";
+export const PRIVACY_POLICY_PATH = "/privacy-policy";
+export const TERMS_OF_SERVICE_PATH = "/terms-of-service";
 
 export default function Root() {
   if (_.isEmpty(import.meta.env.VITE_AUTH_OAUTH_URL)) {
@@ -87,7 +93,7 @@ export default function Root() {
         <Link rel="shortcut icon" type="image/svg" href="/assets/favicon.svg" />
         <Link
           rel="stylesheet"
-          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,600,700,800"
         />
 
         <Title>People's Markets</Title>

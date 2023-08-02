@@ -1,7 +1,8 @@
-import styles from "./index.module.scss";
+import { useNavigate } from "solid-start";
 
-export default function LandigPage() {
-  return <div class={styles.LandigPage}>
-    
-  </div>;
+import { GET_STARTED_PATH } from "~/root";
+
+export default function Index() {
+  const navigate = useNavigate();
+  navigate(GET_STARTED_PATH);
 }

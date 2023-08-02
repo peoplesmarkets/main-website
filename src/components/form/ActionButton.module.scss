@@ -39,3 +39,11 @@
 .Neutral:hover {
   background-color: var(--hovered-background-color);
 }
+
+.Disabled {
+  opacity: 38%;
+}
+
+.Disabled:hover {
+  cursor: default;
+}

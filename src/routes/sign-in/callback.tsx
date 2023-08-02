@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import { onMount } from "solid-js";
-import _ from "lodash";
 
 import { useAccessTokensContext } from "~/AccessTokensContext";
+import { HOME_PAGE_PATH } from "~/root";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
@@ -11,8 +11,6 @@ export default function SignInCallback() {
 
   onMount(async () => {
     startSessionWithCode(code, state);
-    navigate("/");
+    navigate(HOME_PAGE_PATH);
   });
-
-  return <></>;
 }
