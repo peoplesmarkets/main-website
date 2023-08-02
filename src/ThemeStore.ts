@@ -19,14 +19,15 @@ function initialize() {
         return Theme.DefaultDark;
       case Theme.DefaultLight:
       case Theme.Light:
-        return Theme.DefaultLight;
       default:
-        throw new Error(`Unknown theme ${theme} from localStorage`);
+        return Theme.DefaultLight;
     }
   }
 
-  if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
-    return Theme.DefaultDark;
+  if (typeof window?.matchMedia !== undefined) {
+    if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
+      return Theme.DefaultDark;
+    }
   }
 
   return Theme.DefaultLight;
