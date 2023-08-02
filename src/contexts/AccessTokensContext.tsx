@@ -1,10 +1,11 @@
 import { ParentProps, createContext, useContext } from "solid-js";
 import _ from "lodash";
 import { createStore } from "solid-js/store";
+import { isServer } from "solid-js/web";
 
-import { AuthServiceClient } from "../clients";
-import { parseJwtPayload } from "./lib/codecs";
-import { endSession, getToken, refreshToken } from "./lib/auth";
+import { AuthServiceClient } from "../../clients";
+import { parseJwtPayload } from "../lib/codecs";
+import { endSession, getToken, refreshToken } from "../lib/auth";
 
 const ACCESS_TOKENS_STORAGE_KEY: string = "access_tokens_storage";
 const SESSION_STORAGE_KEY: string = "session_storage";
@@ -170,6 +171,8 @@ function initialize() {
 }
 
 function setAccessTokensToStore(accessTokens: AccessTokens) {
+  if (isServer) throw new Error("Session Storage not available on server");
+
   sessionStorage.setItem(
     ACCESS_TOKENS_STORAGE_KEY,
     JSON.stringify(accessTokens, [
@@ -183,6 +186,8 @@ function setAccessTokensToStore(accessTokens: AccessTokens) {
 }
 
 function setSessionToStore(session: Session) {
+  if (isServer) throw new Error("Session Storage not available on server");
+
   sessionStorage.setItem(
     SESSION_STORAGE_KEY,
     JSON.stringify(session, ["userId", "loginName", "userName", "displayName"])
@@ -190,11 +195,15 @@ function setSessionToStore(session: Session) {
 }
 
 function removeFromStore() {
+  if (isServer) throw new Error("Session Storage not available on server");
+
   sessionStorage.removeItem(ACCESS_TOKENS_STORAGE_KEY);
   sessionStorage.removeItem(SESSION_STORAGE_KEY);
 }
 
 function getFromStore(): [AccessTokens, Session] {
+  if (isServer) throw new Error("Session Storage not available on server");
+
   const tokensFromStore = sessionStorage.getItem(ACCESS_TOKENS_STORAGE_KEY);
   const sessionFromStore = sessionStorage.getItem(SESSION_STORAGE_KEY);
 

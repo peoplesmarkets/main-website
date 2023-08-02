@@ -6,7 +6,7 @@ import {
   IMPRINT_PATH,
   PRIVACY_POLICY_PATH,
   TERMS_OF_SERVICE_PATH,
-} from "~/root";
+} from "../../App";
 
 export default function Footer() {
   return (

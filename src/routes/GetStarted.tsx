@@ -1,4 +1,4 @@
-import styles from "./get-started.module.scss";
+import styles from "./GetStarted.module.scss";
 
 export default function GetStarted() {
   return (

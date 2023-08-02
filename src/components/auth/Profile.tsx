@@ -3,9 +3,9 @@ import { Show, createSignal } from "solid-js";
 import styles from "./Profile.module.scss";
 import ActionButton from "../form/ActionButton";
 import ThemeIcon from "../assets/ThemeIcon";
-import { useAccessTokensContext } from "../../AccessTokensContext";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { getInitials } from "../../lib/codecs";
-import clickOutside from "~/directives/click-outside";
+import clickOutside from "../../directives/click-outside";
 false && clickOutside;
 
 export default function Profile() {

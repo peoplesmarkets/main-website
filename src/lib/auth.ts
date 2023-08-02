@@ -2,7 +2,7 @@ import { useNavigate } from "@solidjs/router";
 import _ from "lodash";
 
 import { hashCodeVerifier } from "./codecs";
-import { SIGN_IN_PATH } from "~/root";
+import { SIGN_IN_PATH } from "../App";
 
 export const CODE_CHALLENGE_STORAGE_KEY = "sign-in-code-challange";
 

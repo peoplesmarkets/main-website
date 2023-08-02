@@ -1,11 +1,11 @@
 import { A, useMatch } from "@solidjs/router";
 import { Show, onMount } from "solid-js";
 
-import { HOME_PAGE_PATH, SIGN_IN_PATH } from "~/root";
+import { HOME_PAGE_PATH, SIGN_IN_PATH } from "../../App";
 import MainLogo from "../assets/MainLogo";
 import ThemeIcon from "../assets/ThemeIcon";
 import styles from "./TopAppBar.module.scss";
-import { useAccessTokensContext } from "../../AccessTokensContext";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import Profile from "../auth/Profile";
 
 function TopAppBarNavItem({ href, name }: { href: string; name: string }) {
