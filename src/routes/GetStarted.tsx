@@ -5,11 +5,14 @@ export default function GetStarted() {
     <div class={styles.GetStarted}>
       <div class={styles.Hero}>
         <div class={styles.VPandCTA}>
-          <h1 class={styles.VPTitle}>Create Your Online Appearance</h1>
+          <h1 class={styles.VPTitle}>Establish Your Online Appearance</h1>
 
           <ul class={styles.VPSubTitle}>
             <li class={styles.VPSubTitleItem}>
-              Build your brand and offer your items
+              Create your own store front and build your brand
+            </li>
+            <li class={styles.VPSubTitleItem}>
+              Offer your items to the people
             </li>
             <li class={styles.VPSubTitleItem}>No costs until you sell</li>
             <li class={styles.VPSubTitleItem}>No strings attached</li>
