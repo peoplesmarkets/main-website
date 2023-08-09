@@ -9,6 +9,8 @@
   --primary-background-color: #f8f8f8;
   --secondary-background-color: #f8f9fa;
   --tertiary-background-color: #f1f3f4;
+  --blend-color: #000000;
+  --blend-opacity: 20%;
 
   --focused-background-color: #8ab4f841;
   --hovered-background-color: #8ab4f821;
@@ -33,6 +35,8 @@
   --primary-background-color: #1e1e1e;
   --secondary-background-color: #141414;
   --tertiary-background-color: #303134;
+  --blend-color: #ffffff;
+  --blend-opacity: 10%;
 
   --focused-background-color: #8ab4f80a;
   --hovered-background-color: #8ab4f80a;
@@ -111,4 +115,9 @@
 html {
   font-family: var(--primary-font-family);
   color: var(--content-font-color);
+}
+
+.no-scroll {
+  height: 100%;
+  overflow: hidden;
 }

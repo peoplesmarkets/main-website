@@ -6,6 +6,10 @@ dist
 .netlify
 netlify
 
+# Generated Clients
+clients/*
+!clients/index.ts
+
 # Environment
 .env
 .env*.local

@@ -1,6 +1,19 @@
+import { onMount } from "solid-js";
+
+import { DASHBOARD_PATH } from "../App";
+import ActionButton from "../components/form/ActionButton";
+import { authGuardRedirect, buildAuthorizationRequest } from "../lib/auth";
 import styles from "./GetStarted.module.scss";
 
 export default function GetStarted() {
+  onMount(async () => {
+    await authGuardRedirect(DASHBOARD_PATH, true);
+  });
+
+  async function getStarted() {
+    window.location.href = (await buildAuthorizationRequest(true)).toString();
+  }
+
   return (
     <div class={styles.GetStarted}>
       <div class={styles.Hero}>
@@ -18,8 +31,13 @@ export default function GetStarted() {
             <li class={styles.VPSubTitleItem}>No strings attached</li>
           </ul>
 
-          {/* TODO: replace with <ActionButton>GET STARTED</ActionButton> */}
-          <span class={styles.ComingSoon}>coming soon!</span>
+          <ActionButton
+            actionType="active"
+            extraClass={styles.CTAButton}
+            onClick={getStarted}
+          >
+            GET STARTED
+          </ActionButton>
         </div>
 
         <div class={styles.HeroImage}></div>

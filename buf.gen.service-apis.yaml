@@ -1,0 +1,11 @@
+version: v1
+plugins:
+  - name: ts
+    out: clients/
+    strategy: all
+    path: protoc-gen-ts_proto
+    opt:
+      - esModuleInterop=true
+      - useExactTypes=true
+      - env=browser
+      - outputClientImpl=grpc-web

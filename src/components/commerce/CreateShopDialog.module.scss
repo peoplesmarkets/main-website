@@ -1,0 +1,18 @@
+.Form {
+  padding: 0 24px;
+  background-color: inherit;
+}
+
+.Spacer {
+  width: 100%;
+  height: var(--medium-spacer);
+}
+
+.DialogFooter {
+  position: absolute;
+  bottom: 16px;
+  right: 24px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}

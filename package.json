@@ -6,7 +6,9 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "build-clients": "buf generate zitadel/proto --template buf.gen.zitadel.yaml"
+    "gen:service-apis": "buf mod update service-apis/proto && buf generate service-apis/proto --template buf.gen.service-apis.yaml",
+    "gen:zitadel": "buf generate zitadel/proto --template buf.gen.zitadel.yaml",
+    "gen": "npm run gen:service-apis && npm run gen:zitadel"
   },
   "type": "module",
   "dependencies": {

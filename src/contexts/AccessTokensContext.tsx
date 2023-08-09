@@ -131,6 +131,23 @@ function initialize() {
     removeFromStore();
   }
 
+  async function ensureFreshTokens() {
+    if (_.isNil(accessTokens.expiresAt)) {
+      return;
+    }
+
+    if (accessTokens.expiresAt < new Date() && accessTokens.refreshToken) {
+      try {
+        const refreshedTokens = await refreshToken(accessTokens.refreshToken);
+
+        storeAccessTokens(await refreshedTokens.json());
+        fetchSessions();
+      } catch (err) {
+        removeAccessTokens();
+      }
+    }
+  }
+
   return {
     startSessionWithCode: async (code: string, state?: string) => {
       const token = await getToken(code);
@@ -141,22 +158,7 @@ function initialize() {
       removeAccessTokens();
       endSession();
     },
-    ensureFreshTokens: async () => {
-      if (_.isNil(accessTokens.expiresAt)) {
-        return;
-      }
-
-      if (accessTokens.expiresAt < new Date() && accessTokens.refreshToken) {
-        try {
-          const refreshedTokens = await refreshToken(accessTokens.refreshToken);
-
-          storeAccessTokens(await refreshedTokens.json());
-          fetchSessions();
-        } catch (err) {
-          removeAccessTokens();
-        }
-      }
-    },
+    ensureFreshTokens,
     isAuthenticated: () => {
       return (
         !_.isNil(accessTokens.accessToken) &&
@@ -166,6 +168,10 @@ function initialize() {
     },
     currentSession: () => {
       return session;
+    },
+    accessToken: async () => {
+      await ensureFreshTokens();
+      return accessTokens.accessToken;
     },
   } as const;
 }

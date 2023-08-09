@@ -4,34 +4,41 @@ import styles from "./ActionButton.module.scss";
 type Props = {
   actionType: "active" | "danger" | "neutral";
   children: JSX.Element;
-  onClick: () => void;
+  onClick: (event?: any) => void;
   extraClass?: string;
   disabled?: boolean;
+  noBorder?: boolean;
 };
 
 export default function ActionButton(props: Props) {
-  let actionClass = "neutral";
+  let actionClass = styles.ActionButton;
+  actionClass += " ";
 
   switch (props.actionType) {
     case "active":
-      actionClass = styles.Active;
+      actionClass += styles.Active;
       break;
     case "danger":
-      actionClass = styles.Danger;
+      actionClass += styles.Danger;
       break;
     default:
-      actionClass = styles.Neutral;
+      actionClass += styles.Neutral;
       break;
   }
 
-  let disabledClass = "";
-  if (props.disabled) {
-    disabledClass = styles.Disabled;
+  if (!!props.noBorder) {
+    actionClass += " ";
+    actionClass += styles.NoBorder;
+  }
+
+  if (!!props.disabled) {
+    actionClass += " ";
+    actionClass += styles.Disabled;
   }
 
   return (
     <button
-      class={`${styles.ActionButton} ${actionClass} ${disabledClass} ${props.extraClass}`}
+      class={`${actionClass} ${props.extraClass}`}
       onClick={props.onClick}
     >
       {props.children}

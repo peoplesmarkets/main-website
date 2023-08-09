@@ -1,6 +1,6 @@
 import { A } from "@solidjs/router";
 import Section from "../components/layout/Section";
-import { HOME_PAGE_PATH } from "../App";
+import { INDEX_PAGE_PATH } from "../App";
 
 export default function NotFound() {
   return (
@@ -24,7 +24,7 @@ export default function NotFound() {
             color: "var(--active-font-color)",
             "text-decoration": "underline",
           }}
-          href={HOME_PAGE_PATH}
+          href={INDEX_PAGE_PATH}
         >
           Back to main page
         </A>

@@ -43,11 +43,14 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: transparent;
+  border: none;
 }
 
 .TopAppBarNavItem:hover {
   color: var(--hovered-font-color);
   background-color: var(--hovered-background-color);
+  cursor: pointer;
 }
 
 .TopAppBarNavItemActive {
