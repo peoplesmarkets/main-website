@@ -10,7 +10,7 @@ import { endSession, getToken, refreshToken } from "../lib/auth";
 const ACCESS_TOKENS_STORAGE_KEY: string = "access_tokens_storage";
 const SESSION_STORAGE_KEY: string = "session_storage";
 
-type AccessTokens = {
+export type AccessTokens = {
   accessToken: string | null;
   expiresAt: Date | null;
   refreshToken: string | null;
@@ -77,8 +77,13 @@ function initialize() {
   const [session, setSession] = createStore<Session>(storedSession);
 
   async function fetchSessions() {
-    const authClient = new AuthServiceClient(accessTokens.accessToken);
-    const { result } = await authClient.client.ListMyUserSessions({});
+    const authClient = new AuthServiceClient(
+      async () => accessTokens.accessToken
+    );
+    const { result } = await authClient.client.ListMyUserSessions(
+      {},
+      await authClient.withAuthHeader()
+    );
 
     const claims = parseJwtPayload(accessTokens.accessToken!);
 
