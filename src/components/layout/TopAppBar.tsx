@@ -44,7 +44,7 @@ export default function TopAppBar() {
           when={isAuthenticated()}
           fallback={
             <>
-              <TopAppBarNavItem href={SIGN_IN_PATH} name="Sign In" />
+              {/* <TopAppBarNavItem href={SIGN_IN_PATH} name="Sign In" /> */}
               <ThemeIcon />
             </>
           }

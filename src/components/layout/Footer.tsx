@@ -26,14 +26,14 @@ export default function Footer() {
               People's Markets
             </A>
           </li>
-          <li>
+          {/* <li>
             <A
               href={import.meta.env.VITE_COMMUNITY_WEBSITE_URL}
               target="_blank"
             >
               People's Markets - community
             </A>
-          </li>
+          </li> */}
         </ul>
       </div>
 
