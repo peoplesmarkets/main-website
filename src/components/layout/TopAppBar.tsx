@@ -50,13 +50,13 @@ export default function TopAppBar() {
           when={isAuthenticated()}
           fallback={
             <>
-              {/* <button
+              <button
                 class={styles.NavItem}
                 classList={{ [styles.NavItemActive]: signingIn() }}
                 onClick={signIn}
               >
                 Sign In
-              </button> */}
+              </button>
 
               <ThemeIcon />
             </>
