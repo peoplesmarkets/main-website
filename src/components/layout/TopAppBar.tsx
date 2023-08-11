@@ -9,14 +9,14 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import Profile from "../auth/Profile";
 import { buildAuthorizationRequest } from "../../lib/auth";
 
-function TopAppBarNavItem({ href, name }: { href: string; name: string }) {
+function NavItem({ href, name }: { href: string; name: string }) {
   const match = useMatch(() => href);
 
   return (
     <A
       href={href}
-      class={styles.TopAppBarNavItem}
-      classList={{ [styles.TopAppBarNavItemActive]: Boolean(match()) }}
+      class={styles.NavItem}
+      classList={{ [styles.NavItemActive]: Boolean(match()) }}
     >
       {name}
     </A>
@@ -37,7 +37,7 @@ export default function TopAppBar() {
   }
   return (
     <header class={styles.TopAppBar}>
-      <div class={styles.TopAppBarCorner} />
+      <div class={styles.Corner} />
 
       <A class={styles.MainLink} href={INDEX_PATH}>
         <span style="display: none;">People's Markets</span>
@@ -45,24 +45,17 @@ export default function TopAppBar() {
         <MainLogo class={styles.MainLogo} />
       </A>
 
-      <nav class={styles.TopAppBarNav}>
-        <Show
-          when={isAuthenticated()}
-          fallback={
-            <>
-              <button
-                class={styles.NavItem}
-                classList={{ [styles.NavItemActive]: signingIn() }}
-                onClick={signIn}
-              >
-                Sign In
-              </button>
+      <nav class={styles.Nav}>
+        <Show when={!isAuthenticated()} fallback={<Profile />}>
+          <button
+            class={styles.NavItem}
+            classList={{ [styles.NavItemActive]: signingIn() }}
+            onClick={signIn}
+          >
+            Sign In
+          </button>
 
-              <ThemeIcon />
-            </>
-          }
-        >
-          <Profile />
+          <ThemeIcon />
         </Show>
       </nav>
     </header>
