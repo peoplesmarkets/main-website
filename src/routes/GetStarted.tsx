@@ -9,7 +9,7 @@ export default function GetStarted() {
 
           <ul class={styles.VPSubTitle}>
             <li class={styles.VPSubTitleItem}>
-              Create your own store front and build your brand
+              Create your online Market Booth and build your brand
             </li>
             <li class={styles.VPSubTitleItem}>
               Offer your items to the people
