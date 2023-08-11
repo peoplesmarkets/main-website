@@ -1,9 +1,10 @@
 import { grpc } from "@improbable-eng/grpc-web";
+import _ from "lodash";
+
 import {
   AuthServiceClientImpl,
   GrpcWebImpl as ZitadelAuthServiceGrpcWebImpl,
 } from "./zitadel/zitadel/auth";
-import _ from "lodash";
 
 export class AuthServiceClient {
   private readonly rpc: ZitadelAuthServiceGrpcWebImpl;

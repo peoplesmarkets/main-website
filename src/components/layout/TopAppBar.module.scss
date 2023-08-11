@@ -7,13 +7,16 @@
   font-size: larger;
 }
 
-.TopAppBarCorner {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.Corner {
   flex-shrink: 0;
   height: var(--top-app-bar-height);
   width: var(--app-x-padding);
+}
+
+.HalfCorner {
+  flex-shrink: 0;
+  height: var(--top-app-bar-height);
+  width: calc(var(--app-x-padding) / 2);
 }
 
 .MainLink {
@@ -21,11 +24,12 @@
   display: flex;
   align-items: center;
 }
+
 .MainLogo {
   height: 100%;
 }
 
-.TopAppBarNav {
+.Nav {
   display: flex;
   justify-content: end;
   align-items: center;
@@ -34,32 +38,36 @@
   margin-right: var(--top-app-bar-height);
 }
 
-.TopAppBarNavItem {
+.NavItem {
   height: var(--top-app-bar-height);
   min-width: 120px;
   text-decoration: none;
   color: var(--primary-font-color);
+  font-family: var(--primary-font-family);
   font-size: large;
   display: flex;
   justify-content: center;
   align-items: center;
+  background-color: transparent;
+  border: none;
 }
 
-.TopAppBarNavItem:hover {
+.NavItem:hover {
   color: var(--hovered-font-color);
   background-color: var(--hovered-background-color);
+  cursor: pointer;
 }
 
-.TopAppBarNavItemActive {
+.NavItemActive {
   color: var(--active-font-color);
   border-bottom: 2px solid var(--active-font-color);
   margin-bottom: -2px;
 }
 
-.TopAppBarNavItemActive:hover {
+.NavItemActive:hover {
   color: var(--active-font-color);
 }
 
-.TopAppBarNavItemActive:focus {
+.NavItemActive:focus {
   background-color: var(--focused-background-color);
 }
