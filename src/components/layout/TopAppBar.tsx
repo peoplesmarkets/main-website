@@ -1,12 +1,13 @@
 import { A, useMatch } from "@solidjs/router";
-import { Show, onMount } from "solid-js";
+import { Show, createSignal, onMount } from "solid-js";
 
-import { HOME_PAGE_PATH, SIGN_IN_PATH } from "../../App";
+import { INDEX_PATH } from "../../App";
 import MainLogo from "../assets/MainLogo";
 import ThemeIcon from "../assets/ThemeIcon";
 import styles from "./TopAppBar.module.scss";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import Profile from "../auth/Profile";
+import { buildAuthorizationRequest } from "../../lib/auth";
 
 function TopAppBarNavItem({ href, name }: { href: string; name: string }) {
   const match = useMatch(() => href);
@@ -24,16 +25,21 @@ function TopAppBarNavItem({ href, name }: { href: string; name: string }) {
 
 export default function TopAppBar() {
   const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();
+  const [signingIn, setSigningIn] = createSignal(false);
 
   onMount(async () => {
     await ensureFreshTokens();
   });
 
+  async function signIn() {
+    setSigningIn(true);
+    window.location.href = (await buildAuthorizationRequest()).toString();
+  }
   return (
     <header class={styles.TopAppBar}>
       <div class={styles.TopAppBarCorner} />
 
-      <A class={styles.MainLink} href={HOME_PAGE_PATH}>
+      <A class={styles.MainLink} href={INDEX_PATH}>
         <span style="display: none;">People's Markets</span>
 
         <MainLogo class={styles.MainLogo} />
@@ -44,7 +50,14 @@ export default function TopAppBar() {
           when={isAuthenticated()}
           fallback={
             <>
-              {/* <TopAppBarNavItem href={SIGN_IN_PATH} name="Sign In" /> */}
+              {/* <button
+                class={styles.NavItem}
+                classList={{ [styles.NavItemActive]: signingIn() }}
+                onClick={signIn}
+              >
+                Sign In
+              </button> */}
+
               <ThemeIcon />
             </>
           }
