@@ -6,7 +6,7 @@ import { initializeThemeStore } from "./ThemeStore";
 import { lazy } from "solid-js";
 import NotFound from "./routes/404";
 
-export const INDEX_PAGE_PATH = "/";
+export const INDEX_PATH = "/";
 export const GET_STARTED_PATH = "/get-started";
 
 export const SIGN_IN_PATH = "/sign-in";
@@ -28,7 +28,8 @@ export default function App() {
       <main class={styles.Content}>
         <Routes>
           <Route
-            path={INDEX_PAGE_PATH}
+            path={INDEX_PATH}
+            // component={lazy(() => import("./routes/Index"))}
             component={lazy(() => import("./routes/GetStarted"))}
           />
           <Route

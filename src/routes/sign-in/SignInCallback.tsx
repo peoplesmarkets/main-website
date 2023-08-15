@@ -2,7 +2,7 @@ import { useNavigate, useSearchParams } from "@solidjs/router";
 import { onMount } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { INDEX_PAGE_PATH } from "../../App";
+import { INDEX_PATH } from "../../App";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
@@ -11,8 +11,21 @@ export default function SignInCallback() {
 
   onMount(async () => {
     await startSessionWithCode(code, state);
-    navigate(INDEX_PAGE_PATH);
+    navigate(INDEX_PATH);
   });
 
-  return <></>;
+  return (
+    <div
+      style={{
+        position: "absolute",
+        height: "100%",
+        width: "100%",
+        top: 0,
+        left: 0,
+        "background-color": "var(--blend-color)",
+        opacity: "var(--blend-opacity)",
+        overflow: "hidden",
+      }}
+    ></div>
+  );
 }

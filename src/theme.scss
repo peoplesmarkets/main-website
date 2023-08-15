@@ -52,10 +52,10 @@
 
 :root {
   // Fonts
-  --small-font-size: 12px;
-  --default-font-size: 14px;
-  --large-font-size: 16px;
-  --subtitle-font-size: 18px;
+  --small-font-size: 14px;
+  --default-font-size: 16px;
+  --large-font-size: 18px;
+  --subtitle-font-size: 20px;
   --title-font-size: 48px;
 
   --primary-font-family: "Roboto", "Google Sans", "-apple-system",
@@ -117,7 +117,11 @@ html {
   color: var(--content-font-color);
 }
 
-.no-scroll {
-  height: 100%;
-  overflow: hidden;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  margin-bottom: 1em;
 }

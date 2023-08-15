@@ -7,6 +7,7 @@ import {
   PRIVACY_POLICY_PATH,
   TERMS_OF_SERVICE_PATH,
 } from "../../App";
+import OpenInNew from "../assets/OpenInNew";
 
 export default function Footer() {
   return (
@@ -15,23 +16,21 @@ export default function Footer() {
       <div class={styles.FooterContent}>
         <div class={styles.FooterContentText}>
           <p>
-            People's Markets is an online platform where businesses and private
-            persons can sell goods while building up their brand and market
-            appearance.
+            People's Markets is an online platform where businesses and people
+            can offer items while building their brand and market appearance.
           </p>
         </div>
         <ul class={styles.FooterContentLinks}>
           <li>
-            <A href={import.meta.env.VITE_MAIN_WEBSITE_URL} target="_blank">
-              People's Markets
-            </A>
+            <A href={import.meta.env.VITE_MAIN_WEBSITE_URL}>People's Markets</A>
           </li>
           <li>
             <A
               href={import.meta.env.VITE_COMMUNITY_WEBSITE_URL}
               target="_blank"
             >
-              People's Markets - community
+              People's Markets - community{" "}
+              <OpenInNew class={styles.OpenInNew} />
             </A>
           </li>
         </ul>
@@ -50,7 +49,7 @@ export default function Footer() {
           href={import.meta.env.VITE_RESPONSIBLE_DEVELOPER_URL}
           target="_blank"
         >
-          Maxi Teme
+          Maximilian Temeschinko <OpenInNew class={styles.OpenInNew} />
         </A>
       </div>
     </footer>
