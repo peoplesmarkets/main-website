@@ -1,11 +1,11 @@
-import Section from "../components/layout/Section";
+import Page from "../components/layout/Page";
 
 export default function PrivacyPolicy() {
   return (
     <>
-      <Section wide={true}>
+      <Page wide>
         <h2>peoplesmarkets.com - Privacy Policy</h2>
-      </Section>
+      </Page>
     </>
   );
 }

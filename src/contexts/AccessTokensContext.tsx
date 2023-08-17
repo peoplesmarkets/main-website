@@ -10,7 +10,7 @@ import { endSession, getToken, refreshToken } from "../lib/auth";
 const ACCESS_TOKENS_STORAGE_KEY: string = "access_tokens_storage";
 const SESSION_STORAGE_KEY: string = "session_storage";
 
-type AccessTokens = {
+export type AccessTokens = {
   accessToken: string | null;
   expiresAt: Date | null;
   refreshToken: string | null;
@@ -77,8 +77,13 @@ function initialize() {
   const [session, setSession] = createStore<Session>(storedSession);
 
   async function fetchSessions() {
-    const authClient = new AuthServiceClient(accessTokens.accessToken);
-    const { result } = await authClient.client.ListMyUserSessions({});
+    const authClient = new AuthServiceClient(
+      async () => accessTokens.accessToken
+    );
+    const { result } = await authClient.client.ListMyUserSessions(
+      {},
+      await authClient.withAuthHeader()
+    );
 
     const claims = parseJwtPayload(accessTokens.accessToken!);
 
@@ -131,6 +136,23 @@ function initialize() {
     removeFromStore();
   }
 
+  async function ensureFreshTokens() {
+    if (_.isNil(accessTokens.expiresAt)) {
+      return;
+    }
+
+    if (accessTokens.expiresAt < new Date() && accessTokens.refreshToken) {
+      try {
+        const refreshedTokens = await refreshToken(accessTokens.refreshToken);
+
+        storeAccessTokens(await refreshedTokens.json());
+        fetchSessions();
+      } catch (err) {
+        removeAccessTokens();
+      }
+    }
+  }
+
   return {
     startSessionWithCode: async (code: string, state?: string) => {
       const token = await getToken(code);
@@ -141,22 +163,7 @@ function initialize() {
       removeAccessTokens();
       endSession();
     },
-    ensureFreshTokens: async () => {
-      if (_.isNil(accessTokens.expiresAt)) {
-        return;
-      }
-
-      if (accessTokens.expiresAt < new Date() && accessTokens.refreshToken) {
-        try {
-          const refreshedTokens = await refreshToken(accessTokens.refreshToken);
-
-          storeAccessTokens(await refreshedTokens.json());
-          fetchSessions();
-        } catch (err) {
-          removeAccessTokens();
-        }
-      }
-    },
+    ensureFreshTokens,
     isAuthenticated: () => {
       return (
         !_.isNil(accessTokens.accessToken) &&
@@ -166,6 +173,10 @@ function initialize() {
     },
     currentSession: () => {
       return session;
+    },
+    accessToken: async () => {
+      await ensureFreshTokens();
+      return accessTokens.accessToken;
     },
   } as const;
 }

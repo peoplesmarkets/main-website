@@ -1,0 +1,25 @@
+.Dashboard {
+  display: flex;
+}
+
+.Settings {
+  width: 100%;
+}
+
+.SettingsNav {
+  display: flex;
+  align-items: center;
+  margin: var(--medium-spacer) 0;
+  padding: 0 var(--large-spacer);
+}
+
+.SettingsNavTitle {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.SettingsBody {
+  padding: 0 var(--large-spacer);
+}

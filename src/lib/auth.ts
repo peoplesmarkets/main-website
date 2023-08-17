@@ -3,10 +3,12 @@ import _ from "lodash";
 
 import { hashCodeVerifier } from "./codecs";
 import { SIGN_IN_PATH } from "../App";
+import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { onMount } from "solid-js";
 
 export const CODE_CHALLENGE_STORAGE_KEY = "sign-in-code-challange";
 
-export async function buildAuthorizationRequest() {
+export async function buildAuthorizationRequest(register?: boolean) {
   // sha256 hash of random string in base64 encoded
   const codeVerifier = crypto.randomUUID();
   sessionStorage.setItem(CODE_CHALLENGE_STORAGE_KEY, codeVerifier);
@@ -33,6 +35,9 @@ export async function buildAuthorizationRequest() {
   requestUri.searchParams.set("response_type", "code");
   requestUri.searchParams.set("code_challenge", codeChallenge);
   requestUri.searchParams.set("code_challenge_method", "S256");
+  if (register) {
+    requestUri.searchParams.set("prompt", "create");
+  }
 
   return requestUri;
 }
@@ -101,4 +106,22 @@ export async function endSession() {
   );
 
   window.location.href = requestUri.toString();
+}
+
+export async function authGuardRedirect(
+  path: string,
+  redirectWhenAuthenticated?: boolean
+) {
+  const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();
+  const navigate = useNavigate();
+
+  await ensureFreshTokens();
+
+  if (redirectWhenAuthenticated && isAuthenticated()) {
+    navigate(path);
+  }
+
+  if (!redirectWhenAuthenticated && !isAuthenticated()) {
+    navigate(path);
+  }
 }

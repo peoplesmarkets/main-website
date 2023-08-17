@@ -8,11 +8,14 @@ import {
   TERMS_OF_SERVICE_PATH,
 } from "../../App";
 import OpenInNew from "../assets/OpenInNew";
+import GitHubMark from "../assets/GitHubLogo";
 
 export default function Footer() {
   return (
     <footer class={styles.Footer}>
-      <h1 class={styles.FooterTitle}>People's Markets</h1>
+      <div class={styles.FooterTitle}>
+        <span class={styles.FooterTitleText}>People's Markets</span>
+      </div>
       <div class={styles.FooterContent}>
         <div class={styles.FooterContentText}>
           <p>
@@ -44,12 +47,11 @@ export default function Footer() {
       </div>
 
       <div class={styles.FooterSign}>
-        <strong>People's Markets</strong> by{" "}
         <A
-          href={import.meta.env.VITE_RESPONSIBLE_DEVELOPER_URL}
+          href={import.meta.env.VITE_OPEN_SOURCE_REPOSITORIES_URL}
           target="_blank"
         >
-          Maximilian Temeschinko <OpenInNew class={styles.OpenInNew} />
+          <GitHubMark class={styles.SocialIcon} />
         </A>
       </div>
     </footer>

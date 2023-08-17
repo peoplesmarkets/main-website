@@ -5,5 +5,5 @@
 
 .Content {
   background-color: var(--primary-background-color);
-  min-height: calc(100vh + var(--footer-height));
+  min-height: var(--fill-height);
 }

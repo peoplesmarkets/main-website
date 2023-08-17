@@ -9,6 +9,12 @@ import "./theme.scss";
 
 const root = document.getElementById("root");
 
+if (_.isEmpty(import.meta.env.VITE_SERIVCE_APIS_URL)) {
+  throw new Error(
+    "ERROR: missing environment variable 'VITE_SERIVCE_APIS_URL'"
+  );
+}
+
 if (_.isEmpty(import.meta.env.VITE_AUTH_OAUTH_URL)) {
   throw new Error("ERROR: missing environment variable 'VITE_AUTH_OAUTH_URL'");
 }
@@ -37,9 +43,9 @@ if (_.isEmpty(import.meta.env.VITE_AUTH_OAUTH_LOGOUT_REDIRECT_URL)) {
   );
 }
 
-if (_.isEmpty(import.meta.env.VITE_RESPONSIBLE_DEVELOPER_URL)) {
+if (_.isEmpty(import.meta.env.VITE_OPEN_SOURCE_REPOSITORIES_URL)) {
   throw new Error(
-    "ERROR: missing environment variable 'VITE_RESPONSIBLE_DEVELOPER_URL'"
+    "ERROR: missing environment variable 'VITE_OPEN_SOURCE_REPOSITORIES_URL'"
   );
 }
 

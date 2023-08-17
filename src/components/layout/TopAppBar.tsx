@@ -35,6 +35,7 @@ export default function TopAppBar() {
     setSigningIn(true);
     window.location.href = (await buildAuthorizationRequest()).toString();
   }
+
   return (
     <header class={styles.TopAppBar}>
       <div class={styles.Corner} />

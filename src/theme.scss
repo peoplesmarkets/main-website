@@ -9,17 +9,20 @@
   --primary-background-color: #f8f8f8;
   --secondary-background-color: #f8f9fa;
   --tertiary-background-color: #f1f3f4;
+  --blend-color: #000000;
+  --blend-opacity: 20%;
 
   --focused-background-color: #8ab4f841;
   --hovered-background-color: #8ab4f821;
   --hovered-danger-background-color: #ff3b5c14;
 
   --primary-border-color: #303134;
-  --primary-border: 1px solid var(--primary-border-color);
   --secondary-border-color: #30313486;
-  --secondary-border: 1px solid var(--secondary-border-color);
+  --danger-border-color: #ff3b5b;
 
   --primary-shadow-color: #00000033;
+
+  --hover-filter: brightness(90%);
 }
 
 :root.theme-default-dark {
@@ -33,39 +36,51 @@
   --primary-background-color: #1e1e1e;
   --secondary-background-color: #141414;
   --tertiary-background-color: #303134;
+  --blend-color: #ffffff;
+  --blend-opacity: 10%;
 
   --focused-background-color: #8ab4f80a;
   --hovered-background-color: #8ab4f80a;
   --hovered-danger-background-color: #ff3b5c14;
 
   --primary-border-color: #5f6368;
-  --primary-border: 1px solid var(--primary-border-color);
   --secondary-border-color: #5f63687a;
-  --secondary-border: 1px solid var(--secondary-border-color);
+  --danger-border-color: #ff3b5b;
 
   --primary-shadow-color: #00000044;
+
+  --hover-filter: brightness(90%);
 }
 
 :root {
-  // Fonts
-  --small-font-size: 14px;
-  --default-font-size: 16px;
-  --large-font-size: 18px;
-  --subtitle-font-size: 20px;
-  --title-font-size: 48px;
+  // Borders
+  --primary-border: 1px solid var(--primary-border-color);
+  --secondary-border: 1px solid var(--secondary-border-color);
+  --danger-border: 1px solid var(--danger-border-color);
 
+  // Fonts
   --primary-font-family: "Roboto", "Google Sans", "-apple-system",
     "BlinkMacSystemFont", sans-serif;
   --secondary-font-family: "Google Sans", "-apple-system", "BlinkMacSystemFont",
     sans-serif;
+
+  --small-font-size: 13px;
+  --default-font-size: 15px;
+  --large-font-size: 17px;
+  --subtitle-font-size: 22px;
+  --title-font-size: 48px;
+
+  --light-font-weight: 300;
+  --default-font-weight: 400;
+  --bold-font-weight: 500;
 
   // Layout sizes
   --app-x-padding: 60px;
   --top-app-bar-height: 64px;
   --footer-height: 128px;
 
-  --section-width: 760px;
-  --section-max-width: 1080px;
+  --page-width: 760px;
+  --page-max-width: 1080px;
 
   --mobile-max-width: 600px;
   --tablet-max-width: 905px;
@@ -76,8 +91,10 @@
   --smallest-spacer: 4px;
   --small-spacer: 8px;
   --medium-spacer: 16px;
-  --large-spacer: 36px;
+  --large-spacer: 32px;
   --largest-spacer: 64px;
+
+  --fill-height: calc(100vh + var(--footer-height));
 
   // Colors
   // https://paletton.com/#uid=70d0u0kpBw0fFJEkXBhv6t0wcmo
@@ -113,11 +130,7 @@ html {
   color: var(--content-font-color);
 }
 
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
-  margin-bottom: 1em;
+.no-scroll {
+  height: 100%;
+  overflow: hidden;
 }

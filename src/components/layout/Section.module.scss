@@ -1,17 +1,8 @@
 .Section {
-  padding: 4rem 0;
+  padding: 2rem;
 }
 
-.SectionInner {
-  margin: 0 auto;
-}
-
-.SectionInnerNormal {
-  @extend .SectionInner;
-  width: var(--section-width);
-}
-
-.SectionInnerWide {
-  @extend .SectionInner;
-  width: var(--section-max-width);
+.Danger {
+  border: var(--danger-border);
+  border-radius: 16px;
 }

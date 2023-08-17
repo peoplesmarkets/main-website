@@ -8,16 +8,19 @@ $vertical-padding: 20px;
 }
 
 .FooterTitle {
-  font-size: large;
-  font-weight: normal;
-  margin: $vertical-margin var(--app-x-padding);
+  padding: $vertical-margin var(--app-x-padding);
+}
+
+.FooterTitleText {
+  font-size: var(--subtitle-font-size);
+  font-weight: 400;
 }
 
 .FooterContent {
   display: flex;
   justify-content: space-between;
   min-height: var(--footer-height);
-  margin: $vertical-margin var(--app-x-padding);
+  padding: 0 var(--app-x-padding) $vertical-margin var(--app-x-padding);
 }
 
 .FooterContentText {
@@ -73,13 +76,18 @@ $vertical-padding: 20px;
   border-top: var(--primary-border);
   padding: 10px var(--app-x-padding);
   text-align: right;
-  font-size: small;
+  font-size: var(--small-font-size);
 }
 
 .FooterSign a {
   color: var(--active-font-color);
   text-decoration: none;
   outline: 0;
+  margin-left: 10px;
+}
+
+.SocialIcon {
+  height: 24px;
 }
 
 .OpenInNew {

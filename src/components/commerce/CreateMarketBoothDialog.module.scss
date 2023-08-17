@@ -1,0 +1,23 @@
+.Form {
+  min-width: 390px;
+  padding: 0 var(--large-spacer);
+}
+
+.DialogFooter {
+  height: var(--largest-spacer);
+  padding: 0 var(--large-spacer);
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+}
+
+.ErrorInfo {
+  min-height: 4em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ErrorInfoText {
+  color: var(--danger-font-color);
+}
