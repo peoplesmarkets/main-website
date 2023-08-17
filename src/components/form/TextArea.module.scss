@@ -1,6 +1,6 @@
 .TextArea {
   position: relative;
-  background-color: inherit;
+  background-color: var(--primary-background-color);
 }
 
 .Input {
@@ -10,7 +10,7 @@
   border: var(--secondary-border);
   border-radius: 4px;
   color: var(--content-font-color);
-  font-size: 16px;
+  font-size: var(--default-font-size);
   box-sizing: border-box;
   font-family: var(--primary-font-family);
   resize: none;
@@ -34,15 +34,17 @@
   opacity: 1;
   transform: translateY(-32px);
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: inherit;
 }
 
 .Label {
   position: absolute;
+  background-color: inherit;
   opacity: 0;
   padding: 0 6px;
   top: 24px;
   left: 11px;
-  font-size: 14px;
+  font-size: var(--small-font-size);
   text-align: center;
   color: var(--active-font-color);
   background-color: inherit;
@@ -56,4 +58,13 @@
   opacity: 1;
   transform: translateY(-32px);
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.HasErrors {
+  border-color: var(--danger-border-color);
+}
+
+.ErrorInfo {
+  color: var(--danger-font-color);
+  font-size: var(--small-font-size);
 }

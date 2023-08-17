@@ -1,0 +1,10 @@
+.Page {
+  max-width: var(--page-width);
+  margin: 0 auto;
+  padding: 2rem 0;
+}
+
+.PageWide {
+  @extend .Page;
+  max-width: var(--page-max-width);
+}

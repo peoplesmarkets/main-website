@@ -1,7 +1,6 @@
 import { JSX, onCleanup, onMount } from "solid-js";
 import styles from "./Dialog.module.scss";
 import CloseIcon from "../assets/CloseIcon";
-import ActionButton from "../form/ActionButton";
 
 type Props = {
   title: string;

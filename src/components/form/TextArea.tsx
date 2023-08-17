@@ -1,11 +1,13 @@
 import _ from "lodash";
 
 import styles from "./TextArea.module.scss";
+import { Show } from "solid-js";
 
 type Props = {
   readonly name: string;
   readonly label: string;
   readonly rows: number;
+  readonly errors: string[];
   readonly required?: boolean;
   readonly value?: string;
   readonly onValue: (value: string) => void;
@@ -19,6 +21,7 @@ export default function TextArea(props: Props) {
           height: `${props.rows}em`,
         }}
         class={styles.Input}
+        classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
         name={props.name}
         placeholder={props.label}
         required={!!props.required}
@@ -33,6 +36,9 @@ export default function TextArea(props: Props) {
       >
         {props.label}
       </label>
+      <Show when={!_.isEmpty(props.errors)}>
+        <span class={styles.ErrorInfo}>{props.errors}</span>
+      </Show>
     </div>
   );
 }

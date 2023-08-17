@@ -10,25 +10,26 @@
 
 .Container {
   position: absolute;
-  top: 50%;
-  left: 50%;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Dialog {
-  position: relative;
-  z-index: 10;
-  height: 420px;
-  margin-top: -210px;
-  width: 420px;
-  margin-left: -210px;
-
+  min-width: 280px;
+  min-height: 140px;
   border: none;
   border-radius: 28px;
   background-color: var(--primary-background-color);
 }
 
 .Header {
-  height: 64px;
+  height: var(--largest-spacer);
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -40,8 +41,8 @@
 }
 
 .CloseContainer {
-  height: 64px;
-  width: 64px;
+  height: var(--largest-spacer);
+  width: var(--largest-spacer);
   display: flex;
   justify-content: center;
   align-items: center;

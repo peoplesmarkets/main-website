@@ -1,11 +1,11 @@
-import Section from "../components/layout/Section";
+import Page from "../components/layout/Page";
 
 export default function TermsOfUse() {
   return (
     <>
-      <Section wide={true}>
+      <Page wide>
         <h2>peoplesmarkets.com - Terms of Use</h2>
-      </Section>
+      </Page>
     </>
   );
 }

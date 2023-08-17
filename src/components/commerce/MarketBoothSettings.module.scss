@@ -1,0 +1,29 @@
+.Title {
+  display: block;
+  font-size: var(--subtitle-font-size);
+  font-weight: var(--default-font-weight);
+}
+
+.Subtitle {
+  display: block;
+  font-size: var(--large-font-size);
+  font-weight: var(--bold-font-weight);
+}
+
+.Details {
+  display: block;
+  font-size: var(--small-font-size);
+  font-weight: var(--default-font-weight);
+}
+
+.DangerSection {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 5%;
+}
+
+.DangerSection p {
+  font-size: var(--medium-font-size);
+  font-weight: 400;
+}

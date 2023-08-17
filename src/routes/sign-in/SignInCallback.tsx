@@ -10,7 +10,11 @@ export default function SignInCallback() {
   const navigate = useNavigate();
 
   onMount(async () => {
-    await startSessionWithCode(code, state);
+    try {
+      await startSessionWithCode(code, state);
+    } catch (err) {
+      console.error(err);
+    }
     navigate(INDEX_PATH);
   });
 

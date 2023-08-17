@@ -1,10 +1,12 @@
 import _ from "lodash";
 
 import styles from "./TextField.module.scss";
+import { Show } from "solid-js";
 
 type Props = {
   readonly name: string;
   readonly label: string;
+  readonly errors: string[];
   readonly required?: boolean;
   readonly value?: string;
   readonly onValue: (value: string) => void;
@@ -16,6 +18,7 @@ export default function TextField(props: Props) {
       <input
         type="text"
         class={styles.Input}
+        classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
         name={props.name}
         placeholder={props.label}
         required={!!props.required}
@@ -28,6 +31,9 @@ export default function TextField(props: Props) {
       >
         {props.label}
       </label>
+      <Show when={!_.isEmpty(props.errors)}>
+        <span class={styles.ErrorInfo}>{props.errors}</span>
+      </Show>
     </div>
   );
 }

@@ -22,10 +22,10 @@ export default function GetStarted() {
 
           <ul class={styles.VPSubTitle}>
             <li class={styles.VPSubTitleItem}>
-              Create your online Market Booth and build your brand
+              Create your Online Market Booth and build your brand
             </li>
             <li class={styles.VPSubTitleItem}>
-              Offer your items to the people
+              Offer your stuff to the people
             </li>
             <li class={styles.VPSubTitleItem}>No costs until you sell</li>
             <li class={styles.VPSubTitleItem}>No strings attached</li>

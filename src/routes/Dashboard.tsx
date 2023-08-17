@@ -1,93 +1,146 @@
-import {
-  Show,
-  createEffect,
-  createResource,
-  createSignal,
-  onMount,
-} from "solid-js";
-
-import { GET_STARTED_PATH } from "../App";
-import CreateShopDialog, {
-  CreateShop,
-} from "../components/commerce/CreateShopDialog";
-import Section from "../components/layout/Section";
-import { authGuardRedirect } from "../lib/auth";
-import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { ShopServiceClient } from "../../clients";
-import _ from "lodash";
 import { grpc } from "@improbable-eng/grpc-web";
+import { useNavigate, useParams } from "@solidjs/router";
+import _ from "lodash";
+import { Show, createResource, createSignal, onMount } from "solid-js";
+
+import { MarketBoothServiceClient } from "../../clients";
+import { DASHBOARD_PATH, GET_STARTED_PATH, buildPath } from "../App";
+import CreateMarketBoothDialog from "../components/commerce/CreateMarketBoothDialog";
+import MarketBoothSettings from "../components/commerce/MarketBoothSettings";
+import DashboardPanel from "../components/dashboard/DashboardPanel";
+import ActionButton from "../components/form/ActionButton";
+import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { authGuardRedirect } from "../lib/auth";
+import styles from "./Dashboard.module.scss";
+import { GetMarketBoothResponse } from "../../clients/peoplesmarkets/commerce/v1/market_booth";
 
 export default function Dashboard() {
+  const navigate = useNavigate();
+
   const { accessToken, currentSession } = useAccessTokensContext();
 
-  const shopService = new ShopServiceClient(accessToken);
-
-  const [showCreateShop, setShowCreateShop] = createSignal(false);
-  const [shops, { mutate, refetch }] = createResource(
-    currentSession().userId,
-    listShops
+  const [marketBoothId, setMarketBoothId] = createSignal(
+    useParams().marketBoothId
   );
 
-  createEffect(() => {
-    if (shops.state === "ready" && shops().shops.length < 1) {
-      setShowCreateShop(true);
-    }
-  });
+  const marketBoothService = new MarketBoothServiceClient(accessToken);
 
-  async function listShops(userId: string) {
-    const request = {
-      userId,
-    };
+  const [showCreateMarketBooth, setShowCreateMarketBooth] = createSignal(false);
 
-    const res = await shopService.client.ListShops(
-      request,
-      await shopService.withAuthHeader()
-    );
+  const [marketBoothList, marketBoothListActions] = createResource(
+    currentSession()?.userId,
+    listMarketBooths
+  );
 
-    return res;
-  }
-
-  async function createShop(shop: CreateShop) {
-    try {
-      await shopService.client.CreateShop(
-        shop,
-        await shopService.withAuthHeader()
-      );
-    } catch (err: any) {
-      if (err.code && err.code == grpc.Code.AlreadyExists) {
-        console.log("Already exists");
-      } else {
-        throw err;
-      }
-    }
-  }
-
-  function closeCreateShop() {
-    setShowCreateShop(false);
-  }
-
-  function openCreateShop() {
-    setShowCreateShop(true);
-  }
+  const [marketBooth, marketBoothActions] = createResource(
+    marketBoothId,
+    getMarketBooth
+  );
 
   onMount(async () => {
     await authGuardRedirect(GET_STARTED_PATH);
+
+    if (_.isNil(marketBoothId())) {
+      const marketBoothList = await listMarketBooths(currentSession().userId!);
+
+      if (_.isEmpty(marketBoothList.marketBooths)) {
+        setShowCreateMarketBooth(true);
+      } else {
+        navigate(
+          buildPath(
+            DASHBOARD_PATH,
+            _.first(marketBoothList.marketBooths)!.marketBoothId
+          ),
+          { replace: true }
+        );
+      }
+    }
   });
 
-  return (
-    <>
-      <Show when={showCreateShop()}>
-        <CreateShopDialog onValue={createShop} onClose={closeCreateShop} />
-      </Show>
+  async function listMarketBooths(userId: string) {
+    return await marketBoothService.client.ListMarketBooths(
+      { userId },
+      await marketBoothService.withAuthHeader()
+    );
+  }
 
-      <Section wide={true}>
-        <h2>Dashboard</h2>
-        <p>{shops.state}</p>
-        <p>{shops.loading}</p>
-        <p>{shops.error}</p>
-        <p>{JSON.stringify(shops())}</p>
-        <button onClick={openCreateShop}>Create a new Shop</button>
-      </Section>
-    </>
+  async function getMarketBooth(
+    marketBoothId: string
+  ): Promise<GetMarketBoothResponse> {
+    try {
+      return await marketBoothService.client.GetMarketBooth(
+        { marketBoothId },
+        await marketBoothService.withAuthHeader()
+      );
+    } catch (err: any) {
+      if (err?.code === grpc.Code.NotFound) {
+        navigate(DASHBOARD_PATH);
+      }
+
+      throw err;
+    }
+  }
+
+  function handleUpdate(newMarketBoothId?: string) {
+    if (!_.isNil(newMarketBoothId)) {
+      handleMarketBoothSelect(newMarketBoothId);
+    }
+
+    marketBoothActions.refetch();
+    marketBoothListActions.refetch();
+  }
+
+  function handleCloseCreateMarketBooth() {
+    setShowCreateMarketBooth(false);
+  }
+
+  function handleOpenCreateMarketBooth() {
+    setShowCreateMarketBooth(true);
+  }
+
+  function handleMarketBoothSelect(selected: string) {
+    setMarketBoothId(selected);
+    navigate(buildPath(DASHBOARD_PATH, selected));
+  }
+
+  return (
+    <div class={styles.Dashboard}>
+      <DashboardPanel
+        marketBoothList={marketBoothList}
+        selectedMarketBooth={marketBooth}
+        onSelectMarketBooth={handleMarketBoothSelect}
+      />
+
+      <div class={styles.Settings}>
+        <div class={styles.SettingsNav}>
+          <div class={styles.SettingsNavTitle}>
+            <h2>{marketBooth()?.marketBooth?.name}</h2>
+          </div>
+
+          <ActionButton
+            actionType="active-filled"
+            onClick={handleOpenCreateMarketBooth}
+          >
+            Create a new Market Booth
+          </ActionButton>
+        </div>
+
+        <div class={styles.SettingsBody}>
+          <Show when={!_.isNil(marketBooth()?.marketBooth)}>
+            <MarketBoothSettings
+              marketBooth={marketBooth}
+              onUpdate={handleUpdate}
+            />
+          </Show>
+        </div>
+      </div>
+
+      <Show when={showCreateMarketBooth()}>
+        <CreateMarketBoothDialog
+          onClose={handleCloseCreateMarketBooth}
+          onUpdate={handleUpdate}
+        />
+      </Show>
+    </div>
   );
 }

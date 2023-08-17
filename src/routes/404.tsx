@@ -1,11 +1,12 @@
 import { A } from "@solidjs/router";
-import Section from "../components/layout/Section";
+
 import { INDEX_PATH } from "../App";
+import Page from "../components/layout/Page";
 
 export default function NotFound() {
   return (
     <>
-      <Section wide={true}>
+      <Page wide={true}>
         <p
           style={{
             "font-size": "48px",
@@ -28,7 +29,7 @@ export default function NotFound() {
         >
           Back to main page
         </A>
-      </Section>
+      </Page>
     </>
   );
 }

@@ -6,9 +6,9 @@ import {
   GrpcWebImpl as ZitadelAuthServiceGrpcWebImpl,
 } from "./zitadel/zitadel/auth";
 import {
-  ShopServiceClientImpl,
-  GrpcWebImpl as ShopServiceGrpcWebImpl,
-} from "./peoplesmarkets/commerce/v1/shop";
+  MarketBoothServiceClientImpl,
+  GrpcWebImpl as MarketBoothServiceGrpcWebImpl,
+} from "./peoplesmarkets/commerce/v1/market_booth";
 
 type AccessTokenGetter = () => Promise<string | null>;
 
@@ -41,17 +41,17 @@ export class AuthServiceClient extends ServiceClient {
   }
 }
 
-export class ShopServiceClient extends ServiceClient {
-  private readonly rpc: ShopServiceGrpcWebImpl;
-  public readonly client: ShopServiceClientImpl;
+export class MarketBoothServiceClient extends ServiceClient {
+  private readonly rpc: MarketBoothServiceGrpcWebImpl;
+  public readonly client: MarketBoothServiceClientImpl;
 
   constructor(accessToken?: AccessTokenGetter) {
     super(accessToken);
 
-    this.rpc = new ShopServiceGrpcWebImpl(
+    this.rpc = new MarketBoothServiceGrpcWebImpl(
       import.meta.env.VITE_SERIVCE_APIS_URL,
       {}
     );
-    this.client = new ShopServiceClientImpl(this.rpc);
+    this.client = new MarketBoothServiceClientImpl(this.rpc);
   }
 }

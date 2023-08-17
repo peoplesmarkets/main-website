@@ -16,10 +16,26 @@
 .Active {
   border-color: var(--active-font-color);
   color: var(--active-font-color);
+  background-color: transparent;
 }
 
 .Active:hover {
   background-color: var(--hovered-background-color);
+}
+
+.ActiveBorderless {
+  @extend .Active;
+  border: none;
+}
+
+.ActiveFilled {
+  color: #ffffff;
+  background-color: rgb(26, 115, 232);
+  border: none;
+}
+
+.ActiveFilled:hover {
+  filter: var(--hover-filter);
 }
 
 .Danger {
@@ -31,6 +47,21 @@
   background-color: var(--hovered-danger-background-color);
 }
 
+.DangerBorderless {
+  @extend .Danger;
+  border: none;
+}
+
+.DangerFilled {
+  color: #ffffff;
+  background-color: #dc362e;
+  border: none;
+}
+
+.DangerFilled:hover {
+  filter: var(--hover-filter);
+}
+
 .Neutral {
   border-color: var(--conten-font-color);
   color: var(--content-font-color);
@@ -40,14 +71,16 @@
   background-color: var(--hovered-background-color);
 }
 
+.NetrealBorderless {
+  @extend .Neutral;
+  border: none;
+}
+
 .Disabled {
   opacity: 38%;
 }
 
 .Disabled:hover {
   cursor: default;
-}
-
-.NoBorder {
-  border: none;
+  pointer-events: none;
 }

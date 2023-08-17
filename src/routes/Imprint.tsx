@@ -1,11 +1,11 @@
-import Section from "../components/layout/Section";
+import Page from "../components/layout/Page";
 
 export default function Imprint() {
   return (
     <>
-      <Section wide={true}>
+      <Page wide>
         <h2>peoplesmarkets.com - Imprint</h2>
-      </Section>
+      </Page>
     </>
   );
 }
