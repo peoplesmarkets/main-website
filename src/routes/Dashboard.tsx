@@ -3,12 +3,13 @@ import { useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createResource, createSignal, onMount } from "solid-js";
 
+import { ActionButton } from "@peoplesmarkets/frontend-lib/components";
+
 import { MarketBoothServiceClient } from "../../clients";
 import { DASHBOARD_PATH, GET_STARTED_PATH, buildPath } from "../App";
 import CreateMarketBoothDialog from "../components/commerce/CreateMarketBoothDialog";
 import MarketBoothSettings from "../components/commerce/MarketBoothSettings";
 import DashboardPanel from "../components/dashboard/DashboardPanel";
-import ActionButton from "../components/form/ActionButton";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { authGuardRedirect } from "../lib/auth";
 import styles from "./Dashboard.module.scss";

@@ -1,7 +1,8 @@
 import { onMount } from "solid-js";
 
+import { ActionButton } from "@peoplesmarkets/frontend-lib/components";
+
 import { DASHBOARD_PATH } from "../App";
-import ActionButton from "../components/form/ActionButton";
 import { authGuardRedirect, buildAuthorizationRequest } from "../lib/auth";
 import styles from "./GetStarted.module.scss";
 
@@ -25,7 +26,7 @@ export default function GetStarted() {
               Create your Online Market Booth and build your brand
             </li>
             <li class={styles.VPSubTitleItem}>
-              Offer your stuff to the people
+              Offer your items to the people
             </li>
             <li class={styles.VPSubTitleItem}>No costs until you sell</li>
             <li class={styles.VPSubTitleItem}>No strings attached</li>

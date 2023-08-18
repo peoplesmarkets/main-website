@@ -1,13 +1,20 @@
 import { A, useMatch } from "@solidjs/router";
-import { Show, createSignal, onMount } from "solid-js";
+import { Accessor, Setter, Show, createSignal, onMount } from "solid-js";
 
-import { INDEX_PATH } from "../../App";
-import MainLogo from "../assets/MainLogo";
-import ThemeIcon from "../assets/ThemeIcon";
+import { MainLogo } from "@peoplesmarkets/frontend-lib/components/assets/MainLogo";
+import { ThemeIcon } from "@peoplesmarkets/frontend-lib/components/assets/ThemeIcon";
+import { Theme } from "@peoplesmarkets/frontend-lib/theme";
+
+import { INDEX_PATH } from "./App";
 import styles from "./TopAppBar.module.scss";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import Profile from "../auth/Profile";
-import { buildAuthorizationRequest } from "../../lib/auth";
+import Profile from "./components/auth/Profile";
+import { useAccessTokensContext } from "./contexts/AccessTokensContext";
+import { buildAuthorizationRequest } from "./lib/auth";
+
+type Props = {
+  theme: Accessor<Theme>;
+  setTheme: Setter<Theme>;
+};
 
 function NavItem({ href, name }: { href: string; name: string }) {
   const match = useMatch(() => href);
@@ -23,7 +30,7 @@ function NavItem({ href, name }: { href: string; name: string }) {
   );
 }
 
-export default function TopAppBar() {
+export default function TopAppBar(props: Props) {
   const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();
   const [signingIn, setSigningIn] = createSignal(false);
 
@@ -47,7 +54,10 @@ export default function TopAppBar() {
       </A>
 
       <nav class={styles.Nav}>
-        <Show when={!isAuthenticated()} fallback={<Profile />}>
+        <Show
+          when={!isAuthenticated()}
+          fallback={<Profile theme={props.theme} setTheme={props.setTheme} />}
+        >
           <button
             class={styles.NavItem}
             classList={{ [styles.NavItemActive]: signingIn() }}
@@ -56,7 +66,7 @@ export default function TopAppBar() {
             Sign In
           </button>
 
-          <ThemeIcon />
+          <ThemeIcon theme={props.theme} setTheme={props.setTheme} />
         </Show>
       </nav>
     </header>

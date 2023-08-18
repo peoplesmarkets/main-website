@@ -1,4 +1,4 @@
-import Page from "../components/layout/Page";
+import { Page } from "@peoplesmarkets/frontend-lib/components";
 
 export default function TermsOfUse() {
   return (

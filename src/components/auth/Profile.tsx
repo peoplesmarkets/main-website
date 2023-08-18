@@ -1,14 +1,21 @@
-import { Show, createSignal } from "solid-js";
+import { Accessor, Setter, Show, createSignal } from "solid-js";
 
-import styles from "./Profile.module.scss";
-import ActionButton from "../form/ActionButton";
-import ThemeIcon from "../assets/ThemeIcon";
+import { Theme } from "@peoplesmarkets/frontend-lib/theme";
+import { ThemeIcon, ActionButton } from "@peoplesmarkets/frontend-lib/components";
+import { clickOutside } from "@peoplesmarkets/frontend-lib/directives";
+import { getInitials } from "@peoplesmarkets/frontend-lib/lib";
+
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { getInitials } from "../../lib/codecs";
-import clickOutside from "../../directives/click-outside";
+import styles from "./Profile.module.scss";
+
 false && clickOutside;
 
-export default function Profile() {
+type Props = {
+  theme: Accessor<Theme>;
+  setTheme: Setter<Theme>;
+};
+
+export default function Profile(props: Props) {
   const { currentSession, endSession } = useAccessTokensContext();
 
   const [showDialog, setShowDialog] = createSignal(false);
@@ -31,7 +38,11 @@ export default function Profile() {
         <div class={styles.Dialog}>
           <div class={styles.DialogHeader}>
             <span class={styles.DialogHeaderInitials}>{initials()}</span>
-            <ThemeIcon class={styles.DialogHeaderThemeIcon} />
+            <ThemeIcon
+              class={styles.DialogHeaderThemeIcon}
+              theme={props.theme}
+              setTheme={props.setTheme}
+            />
 
             <div class={styles.DialogHeaderEmail}>
               <span>{currentSession()?.displayName}</span>

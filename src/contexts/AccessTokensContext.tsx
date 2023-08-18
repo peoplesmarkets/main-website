@@ -3,8 +3,9 @@ import _ from "lodash";
 import { createStore } from "solid-js/store";
 import { isServer } from "solid-js/web";
 
+import { parseJwtPayload } from "@peoplesmarkets/frontend-lib/lib";
+
 import { AuthServiceClient } from "../../clients";
-import { parseJwtPayload } from "../lib/codecs";
 import { endSession, getToken, refreshToken } from "../lib/auth";
 
 const ACCESS_TOKENS_STORAGE_KEY: string = "access_tokens_storage";

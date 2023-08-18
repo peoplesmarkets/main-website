@@ -1,9 +1,11 @@
 import { Route, Routes } from "@solidjs/router";
-import styles from "./App.module.scss";
-import TopAppBar from "./components/layout/TopAppBar";
-import Footer from "./components/layout/Footer";
-import { initializeThemeStore } from "./ThemeStore";
 import { lazy } from "solid-js";
+
+import { initializeThemeStore } from "@peoplesmarkets/frontend-lib/theme";
+
+import styles from "./App.module.scss";
+import Footer from "./Footer";
+import TopAppBar from "./TopAppBar";
 import NotFound from "./routes/404";
 
 export const INDEX_PATH = "/";
@@ -23,11 +25,11 @@ export function buildPath(...paths: string[]): string {
 }
 
 export default function App() {
-  initializeThemeStore();
+  const [theme, setTheme] = initializeThemeStore();
 
   return (
     <div class={styles.App}>
-      <TopAppBar />
+      <TopAppBar theme={theme} setTheme={setTheme} />
 
       <main class={styles.Content}>
         <Routes>
@@ -78,7 +80,7 @@ export default function App() {
         </Routes>
       </main>
 
-      <Footer />
+      <Footer theme={theme} />
     </div>
   );
 }

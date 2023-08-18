@@ -1,16 +1,25 @@
 import { A } from "@solidjs/router";
+import { Accessor } from "solid-js";
 
-import styles from "./Footer.module.scss";
-import MainLogoIcon from "../assets/MainLogoIcon";
+import { Theme } from "@peoplesmarkets/frontend-lib/theme";
+import {
+  GitHubMark,
+  MainLogoIcon,
+  OpenInNew,
+} from "@peoplesmarkets/frontend-lib/components";
+
 import {
   IMPRINT_PATH,
   PRIVACY_POLICY_PATH,
   TERMS_OF_SERVICE_PATH,
-} from "../../App";
-import OpenInNew from "../assets/OpenInNew";
-import GitHubMark from "../assets/GitHubLogo";
+} from "./App";
+import styles from "./Footer.module.scss";
 
-export default function Footer() {
+type Props = {
+  theme: Accessor<Theme>;
+};
+
+export default function Footer(props: Props) {
   return (
     <footer class={styles.Footer}>
       <div class={styles.FooterTitle}>
@@ -51,7 +60,7 @@ export default function Footer() {
           href={import.meta.env.VITE_OPEN_SOURCE_REPOSITORIES_URL}
           target="_blank"
         >
-          <GitHubMark class={styles.SocialIcon} />
+          <GitHubMark class={styles.SocialIcon} theme={props.theme} />
         </A>
       </div>
     </footer>

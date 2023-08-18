@@ -1,17 +1,20 @@
+import _ from "lodash";
 import { Resource, Show, createSignal } from "solid-js";
+
+import {
+  ActionButton,
+  DeleteConfirmation,
+  HSpace,
+  Section,
+} from "@peoplesmarkets/frontend-lib/components";
+
 import { MarketBoothServiceClient } from "../../../clients";
 import {
   DeleteMarketBoothRequest,
   GetMarketBoothResponse,
-  MarketBoothResponse,
 } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import ActionButton from "../form/ActionButton";
-import Section from "../layout/Section";
 import styles from "./MarketBoothSettings.module.scss";
-import DeleteConfirmation from "../form/DeleteConfirmation";
-import HSpace from "../layout/HSpace";
-import _ from "lodash";
 
 type Props = {
   marketBooth: Resource<GetMarketBoothResponse>;

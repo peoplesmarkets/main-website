@@ -2,12 +2,12 @@ import _ from "lodash";
 import { Resource, createEffect } from "solid-js";
 import { createStore } from "solid-js/store";
 
+import { Select, Option } from "@peoplesmarkets/frontend-lib/components";
+
 import {
   GetMarketBoothResponse,
   ListMarketBoothsResponse,
-  MarketBoothResponse,
 } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
-import Select, { Option } from "../navigation/Select";
 import styles from "./DashboardPanel.module.scss";
 
 type Props = {

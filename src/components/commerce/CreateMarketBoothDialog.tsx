@@ -1,18 +1,21 @@
-import _ from "lodash";
-import { Match, Show, Switch, createSignal } from "solid-js";
-
-import TextArea from "../form/TextArea";
-import TextField from "../form/TextField";
-import Dialog from "../layout/Dialog";
-import styles from "./CreateMarketBoothDialog.module.scss";
-import ActionButton from "../form/ActionButton";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { MarketBoothServiceClient } from "../../../clients";
-import { createStore } from "solid-js/store";
-import { CreateMarketBoothRequest } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import { grpc } from "@improbable-eng/grpc-web";
-import DiscardConfirmation from "../form/DiscardConfirmation";
-import HSpace from "../layout/HSpace";
+import _ from "lodash";
+import { Show, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
+
+import {
+  ActionButton,
+  DiscardConfirmation,
+  TextArea,
+  TextField,
+  Dialog,
+  HSpace,
+} from "@peoplesmarkets/frontend-lib/components";
+
+import { MarketBoothServiceClient } from "../../../clients";
+import { CreateMarketBoothRequest } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import styles from "./CreateMarketBoothDialog.module.scss";
 
 type Props = {
   onClose: () => void;
@@ -124,7 +127,7 @@ export default function CreateMarketBoothDialog(props: Props) {
           <div class={styles.DialogFooter}>
             <ActionButton
               actionType="active-filled"
-              onClick={createMarketBooth}
+              onClick={(e) => createMarketBooth(e)}
             >
               Save
             </ActionButton>

@@ -3,9 +3,10 @@ import { Router } from "@solidjs/router";
 import _ from "lodash";
 import { render } from "solid-js/web";
 
+import "@peoplesmarkets/frontend-lib/theme/theme.scss";
+
 import App from "./App";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
-import "./theme.scss";
 
 const root = document.getElementById("root");
 

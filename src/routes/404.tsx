@@ -1,7 +1,8 @@
 import { A } from "@solidjs/router";
 
+import { Page } from "@peoplesmarkets/frontend-lib/components";
+
 import { INDEX_PATH } from "../App";
-import Page from "../components/layout/Page";
 
 export default function NotFound() {
   return (
