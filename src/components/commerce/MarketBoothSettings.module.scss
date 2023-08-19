@@ -16,6 +16,17 @@
   font-weight: var(--default-font-weight);
 }
 
+.Details strong {
+  font-size: var(--small-font-size);
+}
+
+.EditSection {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 5%;
+}
+
 .DangerSection {
   display: flex;
   justify-content: start;

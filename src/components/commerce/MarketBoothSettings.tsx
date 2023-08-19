@@ -7,17 +7,19 @@ import {
   HSpace,
   Section,
 } from "@peoplesmarkets/frontend-lib/components";
+import { secondsToLocaleString } from "@peoplesmarkets/frontend-lib/lib";
 
 import { MarketBoothServiceClient } from "../../../clients";
 import {
   DeleteMarketBoothRequest,
-  GetMarketBoothResponse,
+  MarketBoothResponse,
 } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
 import styles from "./MarketBoothSettings.module.scss";
 
 type Props = {
-  marketBooth: Resource<GetMarketBoothResponse>;
+  marketBooth: Resource<MarketBoothResponse>;
   onUpdate: () => void;
 };
 
@@ -26,11 +28,16 @@ export default function MarketBoothSettings(props: Props) {
 
   const marketBoothService = new MarketBoothServiceClient(accessToken);
 
+  const [showEditMarketBooth, setShowEditMarketBooth] = createSignal(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     createSignal(false);
 
-  function marketBooth() {
-    return props.marketBooth()?.marketBooth;
+  function editMarketBooth() {
+    setShowEditMarketBooth(true);
+  }
+
+  function handleCloseEditMarketBooth() {
+    setShowEditMarketBooth(false);
   }
 
   function deleteMarketBooth() {
@@ -43,7 +50,7 @@ export default function MarketBoothSettings(props: Props) {
 
   async function confirmDeleteion() {
     const request: DeleteMarketBoothRequest = {
-      marketBoothId: marketBooth()!.marketBoothId,
+      marketBoothId: props.marketBooth()!.marketBoothId,
     };
 
     await marketBoothService.client.DeleteMarketBooth(
@@ -51,6 +58,11 @@ export default function MarketBoothSettings(props: Props) {
       await marketBoothService.withAuthHeader()
     );
 
+    props.onUpdate();
+  }
+
+  function handleUpdate() {
+    handleCloseEditMarketBooth();
     props.onUpdate();
   }
 
@@ -62,32 +74,46 @@ export default function MarketBoothSettings(props: Props) {
         <HSpace />
 
         <span class={styles.Details}>
-          Market Booth was created at{" "}
+          created at:{" "}
           <strong>
-            {marketBooth()
-              ? new Date(marketBooth()!.createdAt).toLocaleString()
-              : ""}
-          </strong>{" "}
-          and last updated at{" "}
+            {secondsToLocaleString(props.marketBooth()?.createdAt)}
+          </strong>
+        </span>
+
+        <span class={styles.Details}>
+          updated at:{" "}
           <strong>
-            {marketBooth()
-              ? new Date(marketBooth()!.updatedAt).toLocaleString()
-              : ""}
+            {secondsToLocaleString(props.marketBooth()?.updatedAt)}
           </strong>
         </span>
 
         <HSpace />
 
         <span class={styles.Subtitle}>Description:</span>
+
         <HSpace size="small" />
+
         <Show
-          when={!_.isEmpty(marketBooth()?.description)}
-          fallback={
-            <span class={styles.Details}>No Market Booth description ...</span>
-          }
+          when={_.isEmpty(props.marketBooth()?.description)}
+          fallback={<p>{props.marketBooth()?.description}</p>}
         >
-          <p>{marketBooth()?.description}</p>
+          <span class={styles.Details}>No Market Booth description ...</span>
         </Show>
+
+        <HSpace />
+      </Section>
+
+      <HSpace />
+
+      <Section wide bordered>
+        <span class={styles.Subtitle}>Edit</span>
+
+        <div class={styles.EditSection}>
+          <p>Edit Market Booth Details</p>
+          <ActionButton actionType="neutral" onClick={editMarketBooth}>
+            Edit
+          </ActionButton>
+        </div>
       </Section>
 
       <HSpace size="highest" />
@@ -103,9 +129,18 @@ export default function MarketBoothSettings(props: Props) {
         </div>
       </Section>
 
+      <Show when={showEditMarketBooth() && !_.isNil(props.marketBooth())}>
+        <EditMarketBoothDialog
+          marketBooth={props.marketBooth()!}
+          class={styles.EditMarketBooth}
+          onClose={handleCloseEditMarketBooth}
+          onUpdate={handleUpdate}
+        />
+      </Show>
+
       <DeleteConfirmation
         item="Market Booth"
-        itemName={marketBooth()?.name}
+        itemName={props.marketBooth()?.name}
         onCancel={discardDeletion}
         onConfirmation={confirmDeleteion}
         showSignal={showDeleteConfirmation()}

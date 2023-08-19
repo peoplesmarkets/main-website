@@ -6,6 +6,7 @@ import { Show, createResource, createSignal, onMount } from "solid-js";
 import { ActionButton } from "@peoplesmarkets/frontend-lib/components";
 
 import { MarketBoothServiceClient } from "../../clients";
+import { MarketBoothResponse } from "../../clients/peoplesmarkets/commerce/v1/market_booth";
 import { DASHBOARD_PATH, GET_STARTED_PATH, buildPath } from "../App";
 import CreateMarketBoothDialog from "../components/commerce/CreateMarketBoothDialog";
 import MarketBoothSettings from "../components/commerce/MarketBoothSettings";
@@ -13,7 +14,6 @@ import DashboardPanel from "../components/dashboard/DashboardPanel";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { authGuardRedirect } from "../lib/auth";
 import styles from "./Dashboard.module.scss";
-import { GetMarketBoothResponse } from "../../clients/peoplesmarkets/commerce/v1/market_booth";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -67,9 +67,11 @@ export default function Dashboard() {
 
   async function getMarketBooth(
     marketBoothId: string
-  ): Promise<GetMarketBoothResponse> {
+  ): Promise<MarketBoothResponse> {
+    let marketBooth;
+
     try {
-      return await marketBoothService.client.GetMarketBooth(
+      marketBooth = await marketBoothService.client.GetMarketBooth(
         { marketBoothId },
         await marketBoothService.withAuthHeader()
       );
@@ -80,6 +82,12 @@ export default function Dashboard() {
 
       throw err;
     }
+
+    if (!_.isNil(marketBooth.marketBooth)) {
+      return marketBooth.marketBooth;
+    }
+
+    throw new Error("Could not get market booth");
   }
 
   function handleUpdate(newMarketBoothId?: string) {
@@ -115,7 +123,7 @@ export default function Dashboard() {
       <div class={styles.Settings}>
         <div class={styles.SettingsNav}>
           <div class={styles.SettingsNavTitle}>
-            <h2>{marketBooth()?.marketBooth?.name}</h2>
+            <h2>{marketBooth()?.name}</h2>
           </div>
 
           <ActionButton
@@ -127,7 +135,7 @@ export default function Dashboard() {
         </div>
 
         <div class={styles.SettingsBody}>
-          <Show when={!_.isNil(marketBooth()?.marketBooth)}>
+          <Show when={!_.isNil(marketBooth())}>
             <MarketBoothSettings
               marketBooth={marketBooth}
               onUpdate={handleUpdate}

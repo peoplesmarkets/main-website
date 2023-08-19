@@ -7,12 +7,13 @@ import { Select, Option } from "@peoplesmarkets/frontend-lib/components";
 import {
   GetMarketBoothResponse,
   ListMarketBoothsResponse,
+  MarketBoothResponse,
 } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import styles from "./DashboardPanel.module.scss";
 
 type Props = {
   marketBoothList: Resource<ListMarketBoothsResponse>;
-  selectedMarketBooth: Resource<GetMarketBoothResponse>;
+  selectedMarketBooth: Resource<MarketBoothResponse>;
   onSelectMarketBooth: (marketBoothId: string) => void;
 };
 
@@ -35,7 +36,7 @@ export default function DashboardPanel(props: Props) {
   }
 
   function selectedMarketBoothId() {
-    return props.selectedMarketBooth()?.marketBooth?.marketBoothId;
+    return props.selectedMarketBooth()?.marketBoothId;
   }
 
   return (
