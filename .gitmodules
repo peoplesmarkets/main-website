@@ -1,6 +1,3 @@
-[submodule "zitadel"]
-	path = zitadel
-	url = https://github.com/zitadel/zitadel.git
 [submodule "service-apis"]
 	path = service-apis
 	url = git@github.com:peoplesmarkets/service-apis.git
