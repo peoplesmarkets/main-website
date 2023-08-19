@@ -115,7 +115,7 @@ export function EditMarketBoothDialog(props: Props) {
     <>
       <Show when={!discardConfirmation()}>
         <Dialog title="Edit Market Booth Details" onClose={closeDialog}>
-          <form class={styles.Form}>
+          <form class={styles.Form} onSubmit={(e) => updateMarketBooth(e)}>
             <TextField
               name="name"
               label="name"

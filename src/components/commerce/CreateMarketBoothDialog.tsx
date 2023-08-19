@@ -99,7 +99,7 @@ export default function CreateMarketBoothDialog(props: Props) {
     <>
       <Show when={!discardConfirmation()}>
         <Dialog title="Create a new Market Booth" onClose={closeDialog}>
-          <form class={styles.Form}>
+          <form class={styles.Form} onSubmit={(e) => createMarketBooth(e)}>
             <TextField
               name="name"
               label="name"
