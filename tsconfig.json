@@ -12,5 +12,5 @@
     "noEmit": true,
     "isolatedModules": true
   },
-  "exclude": ["node_modules", "service-apis", "frontend-lib"]
+  "exclude": ["node_modules", "service-apis"]
 }
