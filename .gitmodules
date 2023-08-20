@@ -2,6 +2,3 @@
 	path = service-apis
 	url = git@github.com:peoplesmarkets/service-apis.git
 	branch = dev
-[submodule "frontend-lib"]
-	path = frontend-lib
-	url = git@github.com:peoplesmarkets/frontend-lib.git
