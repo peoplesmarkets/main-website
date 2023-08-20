@@ -10,7 +10,9 @@
     "strict": true,
     "types": ["vite/client"],
     "noEmit": true,
-    "isolatedModules": true
+    "isolatedModules": true,
+    "composite": true,
+    "declarationMap": true
   },
   "exclude": ["node_modules", "service-apis"]
 }

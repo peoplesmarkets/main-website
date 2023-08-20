@@ -1,4 +1,4 @@
-import { Page } from "../../../frontend-lib";
+import { Page } from "@peoplesmarkets/frontend-lib";
 
 export default function TermsOfUse() {
   return (

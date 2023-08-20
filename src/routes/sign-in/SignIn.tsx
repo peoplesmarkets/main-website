@@ -1,7 +1,7 @@
 import { useNavigate } from "@solidjs/router";
 import { onMount } from "solid-js";
 
-import { buildAuthorizationRequest } from "../../../frontend-lib";
+import { buildAuthorizationRequest } from "@peoplesmarkets/frontend-lib";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { INDEX_PATH } from "../../App";

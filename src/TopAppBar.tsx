@@ -7,7 +7,7 @@ import {
   Profile,
   buildAuthorizationRequest,
   Theme,
-} from "../../frontend-lib";
+} from "@peoplesmarkets/frontend-lib";
 
 import { useAccessTokensContext } from "./contexts/AccessTokensContext";
 import { INDEX_PATH } from "./App";

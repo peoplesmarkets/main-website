@@ -17,6 +17,8 @@ export default defineConfig({
       output: {
         manualChunks: {
           lodash: ["lodash"],
+          "frontend-lib": ["@peoplesmarkets/frontend-lib"],
+          "frontend-lib-clients": ["@peoplesmarkets/frontend-lib/clients"],
         },
       },
     },

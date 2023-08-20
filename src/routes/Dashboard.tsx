@@ -3,7 +3,7 @@ import { useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createResource, createSignal, onMount } from "solid-js";
 
-import { ActionButton } from "../../../frontend-lib";
+import { ActionButton } from "@peoplesmarkets/frontend-lib";
 
 import { MarketBoothServiceClient } from "../../clients";
 import { MarketBoothResponse } from "../../clients/peoplesmarkets/commerce/v1/market_booth";

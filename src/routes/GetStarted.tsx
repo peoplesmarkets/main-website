@@ -1,6 +1,6 @@
 import { onMount } from "solid-js";
 
-import { ActionButton, buildAuthorizationRequest } from "../../../frontend-lib";
+import { ActionButton, buildAuthorizationRequest } from "@peoplesmarkets/frontend-lib";
 
 import { DASHBOARD_PATH } from "../App";
 import styles from "./GetStarted.module.scss";

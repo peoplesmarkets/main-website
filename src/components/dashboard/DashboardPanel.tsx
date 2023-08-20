@@ -2,7 +2,7 @@ import _ from "lodash";
 import { Resource, createEffect } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { Select, Option } from "../../../frontend-lib";
+import { Select, Option } from "@peoplesmarkets/frontend-lib";
 
 import {
   GetMarketBoothResponse,

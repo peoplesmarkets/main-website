@@ -7,7 +7,7 @@ import {
   HSpace,
   Section,
   secondsToLocaleString,
-} from "../../../frontend-lib";
+} from "@peoplesmarkets/frontend-lib";
 
 import { MarketBoothServiceClient } from "../../../clients";
 import {

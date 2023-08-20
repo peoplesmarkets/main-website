@@ -3,7 +3,7 @@ import { Router } from "@solidjs/router";
 import _ from "lodash";
 import { render } from "solid-js/web";
 
-import "../frontend-lib/src/theme/theme.scss";
+import "@peoplesmarkets/frontend-lib/theme.scss";
 
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 

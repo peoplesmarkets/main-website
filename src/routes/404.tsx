@@ -1,6 +1,6 @@
 import { A } from "@solidjs/router";
 
-import { Page } from "../../../frontend-lib";
+import { Page } from "@peoplesmarkets/frontend-lib";
 
 import { INDEX_PATH } from "../App";
 

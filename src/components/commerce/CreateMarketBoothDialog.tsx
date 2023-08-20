@@ -10,7 +10,7 @@ import {
   HSpace,
   TextArea,
   TextField,
-} from "../../../frontend-lib";
+} from "@peoplesmarkets/frontend-lib";
 
 import { MarketBoothServiceClient } from "../../../clients";
 import { CreateMarketBoothRequest } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";

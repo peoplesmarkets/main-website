@@ -9,7 +9,7 @@ import {
   HSpace,
   TextArea,
   TextField,
-} from "../../../frontend-lib";
+} from "@peoplesmarkets/frontend-lib";
 
 import { grpc } from "@improbable-eng/grpc-web";
 import { MarketBoothServiceClient } from "../../../clients";

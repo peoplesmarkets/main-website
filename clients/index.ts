@@ -3,7 +3,10 @@ import {
   GrpcWebImpl as MarketBoothServiceGrpcWebImpl,
 } from "./peoplesmarkets/commerce/v1/market_booth";
 
-import { AccessTokenGetter, ServiceClient } from "../frontend-lib";
+import {
+  AccessTokenGetter,
+  ServiceClient,
+} from "@peoplesmarkets/frontend-lib";
 
 export class MarketBoothServiceClient extends ServiceClient {
   private readonly rpc: MarketBoothServiceGrpcWebImpl;

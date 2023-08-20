@@ -5,7 +5,7 @@ import {
   GitHubMark,
   MainLogoIcon,
   OpenInNew, Theme
-} from "../../frontend-lib";
+} from "@peoplesmarkets/frontend-lib";
 
 import {
   IMPRINT_PATH,
