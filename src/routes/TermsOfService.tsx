@@ -1,10 +1,16 @@
+import { Trans } from "@mbarzda/solid-i18next";
+
 import { Page } from "@peoplesmarkets/frontend-lib";
+import { TKEYS } from "../locales/dev";
 
 export default function TermsOfUse() {
   return (
     <>
       <Page wide>
-        <h2>peoplesmarkets.com - Terms of Use</h2>
+        <h2>
+          <Trans key={TKEYS.peoplesmarkets_com} /> -{" "}
+          <Trans key={TKEYS["terms-of-service"].title} />
+        </h2>
       </Page>
     </>
   );

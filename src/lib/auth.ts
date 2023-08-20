@@ -1,5 +1,4 @@
 import { useNavigate } from "@solidjs/router";
-import _ from "lodash";
 
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 

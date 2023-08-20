@@ -3,6 +3,8 @@ import { A } from "@solidjs/router";
 import { Page } from "@peoplesmarkets/frontend-lib";
 
 import { INDEX_PATH } from "../App";
+import { Trans } from "@mbarzda/solid-i18next";
+import { TKEYS } from "../locales/dev";
 
 export default function NotFound() {
   return (
@@ -16,7 +18,7 @@ export default function NotFound() {
             "text-decoration": "none",
           }}
         >
-          404 Page Not Found
+          <Trans key={TKEYS["page-not-found"].title} />
         </p>
         <A
           style={{
@@ -28,7 +30,7 @@ export default function NotFound() {
           }}
           href={INDEX_PATH}
         >
-          Back to main page
+          <Trans key={TKEYS["page-not-found"]["back-to-home"]} />
         </A>
       </Page>
     </>

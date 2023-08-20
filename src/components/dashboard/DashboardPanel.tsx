@@ -2,14 +2,14 @@ import _ from "lodash";
 import { Resource, createEffect } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { Select, Option } from "@peoplesmarkets/frontend-lib";
+import { Option, Select } from "@peoplesmarkets/frontend-lib";
 
 import {
-  GetMarketBoothResponse,
   ListMarketBoothsResponse,
   MarketBoothResponse,
 } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import styles from "./DashboardPanel.module.scss";
+import { useTransContext } from "@mbarzda/solid-i18next";
 
 type Props = {
   marketBoothList: Resource<ListMarketBoothsResponse>;
@@ -18,6 +18,8 @@ type Props = {
 };
 
 export default function DashboardPanel(props: Props) {
+  const [trans] = useTransContext();
+
   const [marketBoothOptions, setMarketBoothOptions] = createStore<Option[]>([]);
 
   createEffect(() => {
@@ -42,7 +44,7 @@ export default function DashboardPanel(props: Props) {
   return (
     <nav class={styles.DashboardPanel}>
       <Select
-        label="Current Market Booth"
+        label={trans("dashboard.current-market-booth")}
         options={marketBoothOptions}
         onValue={props.onSelectMarketBooth}
         selected={selectedMarketBoothId}

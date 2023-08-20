@@ -1,0 +1,32 @@
+{
+  "root": true,
+  "env": {
+    "browser": true,
+    "es2021": true
+  },
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["solid", "@typescript-eslint", "i18next"],
+  "extends": [
+    "eslint:recommended",
+    "plugin:solid/typescript",
+    "plugin:i18next/recommended"
+  ],
+  "parserOptions": {
+    "ecmaVersion": "latest",
+    "sourceType": "module",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "solid/reactivity": "warn",
+    "solid/no-destructure": "warn",
+    "solid/jsx-no-undef": "error",
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      { "argsIgnorePattern": "^_" }
+    ]
+  },
+  "ignorePatterns": ["*.test.tsx", "*.scss"]
+}

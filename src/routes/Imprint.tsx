@@ -1,23 +1,31 @@
+import { Trans } from "@mbarzda/solid-i18next";
+
 import { Page } from "@peoplesmarkets/frontend-lib";
 
 import styles from "./Imprint.module.scss";
+import { TKEYS } from "../locales/dev";
 
 export default function Imprint() {
   return (
     <>
       <Page wide>
-        <h1>peoplesmarkets.com - Imprint</h1>
+        <h1>
+          <Trans key={TKEYS.peoplesmarkets_com} /> -{" "}
+          <Trans key={TKEYS.imprint.title} />
+        </h1>
 
-        <h2 class={styles.SubHeading}>Currently repsonsible:</h2>
+        <h2 class={styles.SubHeading}>
+          <Trans key={TKEYS.imprint.responsible.title} />:
+        </h2>
 
         <address class={styles.Address}>
-          Maximilian Temeschinko
+          <Trans key={TKEYS.imprint.responsible.name} />
           <br />
-          Thalkirchner Str. 182
+          <Trans key={TKEYS.imprint.responsible.street} />
           <br />
-          81371 Munich
+          <Trans key={TKEYS.imprint.responsible.address_line_1} />
           <br />
-          Germany
+          <Trans key={TKEYS.imprint.responsible.address_line_2} />
         </address>
       </Page>
     </>

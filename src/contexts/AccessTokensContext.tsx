@@ -1,5 +1,4 @@
 import { ParentProps, createContext, useContext } from "solid-js";
-import _ from "lodash";
 
 import { initialize } from "@peoplesmarkets/frontend-lib";
 

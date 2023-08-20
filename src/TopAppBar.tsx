@@ -1,40 +1,32 @@
-import { A, useMatch } from "@solidjs/router";
+import { A } from "@solidjs/router";
 import { Accessor, Setter, Show, createSignal, onMount } from "solid-js";
 
 import {
   MainLogo,
-  ThemeIcon,
   Profile,
-  buildAuthorizationRequest,
+  SelectLanguage,
   Theme,
+  ThemeIcon,
+  buildAuthorizationRequest,
 } from "@peoplesmarkets/frontend-lib";
 
-import { useAccessTokensContext } from "./contexts/AccessTokensContext";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { INDEX_PATH } from "./App";
 import styles from "./TopAppBar.module.scss";
+import { useAccessTokensContext } from "./contexts/AccessTokensContext";
+import { TKEYS } from "./locales/dev";
 
 type Props = {
   theme: Accessor<Theme>;
   setTheme: Setter<Theme>;
 };
 
-function NavItem({ href, name }: { href: string; name: string }) {
-  const match = useMatch(() => href);
-
-  return (
-    <A
-      href={href}
-      class={styles.NavItem}
-      classList={{ [styles.NavItemActive]: Boolean(match()) }}
-    >
-      {name}
-    </A>
-  );
-}
-
 export default function TopAppBar(props: Props) {
   const { ensureFreshTokens, isAuthenticated, currentSession, endSession } =
     useAccessTokensContext();
+
+  const [, { changeLanguage, getI18next }] = useTransContext();
+
   const [signingIn, setSigningIn] = createSignal(false);
 
   onMount(async () => {
@@ -51,7 +43,9 @@ export default function TopAppBar(props: Props) {
       <div class={styles.Corner} />
 
       <A class={styles.MainLink} href={INDEX_PATH}>
-        <span style="display: none;">People's Markets</span>
+        <span style={{ display: "none" }}>
+          <Trans key={TKEYS["Peoples-Markets"]} />
+        </span>
 
         <MainLogo class={styles.MainLogo} />
       </A>
@@ -63,13 +57,16 @@ export default function TopAppBar(props: Props) {
             classList={{ [styles.NavItemActive]: signingIn() }}
             onClick={signIn}
           >
-            Sign In
+            <Trans key={TKEYS["sign-in"]} />
           </button>
         </Show>
 
         <ThemeIcon theme={props.theme} setTheme={props.setTheme} />
 
-        {/* <SelectLanguage /> */}
+        <SelectLanguage
+          changeLanguage={changeLanguage}
+          getI18next={getI18next}
+        />
 
         <Show when={isAuthenticated()}>
           <Profile
