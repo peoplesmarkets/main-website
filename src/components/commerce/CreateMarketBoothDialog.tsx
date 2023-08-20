@@ -16,6 +16,8 @@ import { MarketBoothServiceClient } from "../../../clients";
 import { CreateMarketBoothRequest } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import styles from "./CreateMarketBoothDialog.module.scss";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { TKEYS } from "../../locales/dev";
 
 type Props = {
   onClose: () => void;
@@ -24,6 +26,8 @@ type Props = {
 
 export default function CreateMarketBoothDialog(props: Props) {
   const { accessToken } = useAccessTokensContext();
+
+  const [trans] = useTransContext();
 
   const marketBoothService = new MarketBoothServiceClient(accessToken);
 
@@ -53,7 +57,7 @@ export default function CreateMarketBoothDialog(props: Props) {
     event.preventDefault();
 
     if (_.isEmpty(marketBooth.name)) {
-      setErrors("name", ["Required field"]);
+      setErrors("name", [trans("form.required-field")]);
       return;
     }
 
@@ -129,7 +133,7 @@ export default function CreateMarketBoothDialog(props: Props) {
               actionType="active-filled"
               onClick={(e) => createMarketBooth(e)}
             >
-              Save
+              <Trans key={TKEYS.form.action.Save} />
             </ActionButton>
           </div>
         </Dialog>

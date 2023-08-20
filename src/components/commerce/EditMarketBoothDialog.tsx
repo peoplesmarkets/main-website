@@ -19,6 +19,8 @@ import {
 } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import styles from "./EditMarketBoothDialog.module.scss";
+import { Trans } from "@mbarzda/solid-i18next";
+import { TKEYS } from "../../locales/dev";
 
 type Props = {
   marketBooth: MarketBoothResponse;
@@ -32,10 +34,11 @@ export function EditMarketBoothDialog(props: Props) {
 
   const marketBoothService = new MarketBoothServiceClient(accessToken);
 
+  /* eslint-disable-next-line solid/reactivity */
   const initialMarketBooth = _.cloneDeep(props.marketBooth);
 
   const [marketBooth, setMarketBooth] = createStore<UpdateMarketBoothRequest>(
-    _.cloneDeep(props.marketBooth)
+    _.cloneDeep(initialMarketBooth)
   );
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
@@ -145,7 +148,7 @@ export function EditMarketBoothDialog(props: Props) {
               actionType="active-filled"
               onClick={(e) => updateMarketBooth(e)}
             >
-              Save
+              <Trans key={TKEYS.form.action.Save} />
             </ActionButton>
           </div>
         </Dialog>
