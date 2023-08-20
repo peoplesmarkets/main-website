@@ -14,6 +14,8 @@ import DashboardPanel from "../components/dashboard/DashboardPanel";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { authGuardRedirect } from "../lib/auth";
 import styles from "./Dashboard.module.scss";
+import { Trans } from "@mbarzda/solid-i18next";
+import { TKEYS } from "../locales/dev";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -130,7 +132,7 @@ export default function Dashboard() {
             actionType="active-filled"
             onClick={handleOpenCreateMarketBooth}
           >
-            Create a new Market Booth
+            <Trans key={TKEYS.dashboard["create-a-new-market-booth"]} />
           </ActionButton>
         </div>
 

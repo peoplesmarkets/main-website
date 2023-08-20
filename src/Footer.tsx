@@ -4,7 +4,9 @@ import { Accessor } from "solid-js";
 import {
   GitHubMark,
   MainLogoIcon,
-  OpenInNew, Theme
+  OpenInNew,
+  Theme,
+  MarkdownParagraph,
 } from "@peoplesmarkets/frontend-lib";
 
 import {
@@ -13,34 +15,40 @@ import {
   TERMS_OF_SERVICE_PATH,
 } from "./App";
 import styles from "./Footer.module.scss";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { TKEYS } from "./locales/dev";
 
 type Props = {
   theme: Accessor<Theme>;
 };
 
 export default function Footer(props: Props) {
+  const [trans] = useTransContext();
+
   return (
     <footer class={styles.Footer}>
       <div class={styles.FooterTitle}>
-        <span class={styles.FooterTitleText}>People's Markets</span>
+        <span class={styles.FooterTitleText}>
+          <Trans key={TKEYS["Peoples-Markets"]} />
+        </span>
       </div>
       <div class={styles.FooterContent}>
         <div class={styles.FooterContentText}>
-          <p>
-            People's Markets is an online platform where businesses and people
-            can offer items while building their brand and market appearance.
-          </p>
+          <MarkdownParagraph src={() => trans("footer.main-paragraph")} />
         </div>
+
         <ul class={styles.FooterContentLinks}>
           <li>
-            <A href={import.meta.env.VITE_MAIN_WEBSITE_URL}>People's Markets</A>
+            <A href={import.meta.env.VITE_MAIN_WEBSITE_URL}>
+              <Trans key={TKEYS["Peoples-Markets"]} />
+            </A>
           </li>
           <li>
             <A
               href={import.meta.env.VITE_COMMUNITY_WEBSITE_URL}
               target="_blank"
             >
-              People's Markets - community{" "}
+              <Trans key={TKEYS["Peoples-Markets-community"]} />{" "}
               <OpenInNew class={styles.OpenInNew} />
             </A>
           </li>
@@ -49,9 +57,15 @@ export default function Footer(props: Props) {
 
       <div class={styles.FooterLogoAndPrivacy}>
         <MainLogoIcon class={styles.FooterLogoAndPrivacyIcon} />
-        <A href={IMPRINT_PATH}>Imprint</A>
-        <A href={PRIVACY_POLICY_PATH}>Privacy Policy</A>
-        <A href={TERMS_OF_SERVICE_PATH}>Terms of service</A>
+        <A href={IMPRINT_PATH}>
+          <Trans key={TKEYS.imprint.title} />
+        </A>
+        <A href={PRIVACY_POLICY_PATH}>
+          <Trans key={TKEYS["privacy-policy"].title} />
+        </A>
+        <A href={TERMS_OF_SERVICE_PATH}>
+          <Trans key={TKEYS["terms-of-service"].title} />
+        </A>
       </div>
 
       <div class={styles.FooterSign}>

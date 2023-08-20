@@ -17,6 +17,8 @@ import {
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
 import styles from "./MarketBoothSettings.module.scss";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { TKEYS } from "../../locales/dev";
 
 type Props = {
   marketBooth: Resource<MarketBoothResponse>;
@@ -25,6 +27,8 @@ type Props = {
 
 export default function MarketBoothSettings(props: Props) {
   const { accessToken } = useAccessTokensContext();
+
+  const [trans] = useTransContext();
 
   const marketBoothService = new MarketBoothServiceClient(accessToken);
 
@@ -69,19 +73,21 @@ export default function MarketBoothSettings(props: Props) {
   return (
     <>
       <Section wide>
-        <span class={styles.Title}>Details</span>
+        <span class={styles.Title}>
+          <Trans key={TKEYS.dashboard.Details} />
+        </span>
 
         <HSpace />
 
         <span class={styles.Details}>
-          created at:{" "}
+          <Trans key={TKEYS.dashboard["created-at"]} />:{" "}
           <strong>
             {secondsToLocaleString(props.marketBooth()?.createdAt)}
           </strong>
         </span>
 
         <span class={styles.Details}>
-          updated at:{" "}
+          <Trans key={TKEYS.dashboard["updated-at"]} />:{" "}
           <strong>
             {secondsToLocaleString(props.marketBooth()?.updatedAt)}
           </strong>
@@ -89,7 +95,9 @@ export default function MarketBoothSettings(props: Props) {
 
         <HSpace />
 
-        <span class={styles.Subtitle}>Description:</span>
+        <span class={styles.Subtitle}>
+          <Trans key={TKEYS.dashboard.Description} />:
+        </span>
 
         <HSpace size="small" />
 
@@ -97,7 +105,9 @@ export default function MarketBoothSettings(props: Props) {
           when={_.isEmpty(props.marketBooth()?.description)}
           fallback={<p>{props.marketBooth()?.description}</p>}
         >
-          <span class={styles.Details}>No Market Booth description ...</span>
+          <span class={styles.Details}>
+            <Trans key={TKEYS.dashboard["no-market-booth-description"]} />
+          </span>
         </Show>
 
         <HSpace />
@@ -106,12 +116,16 @@ export default function MarketBoothSettings(props: Props) {
       <HSpace />
 
       <Section wide bordered>
-        <span class={styles.Subtitle}>Edit</span>
+        <span class={styles.Subtitle}>
+          <Trans key={TKEYS.form.action.Edit} />
+        </span>
 
         <div class={styles.EditSection}>
-          <p>Edit Market Booth Details</p>
+          <p>
+            <Trans key={TKEYS.dashboard["edit-market-booth-details"]} />
+          </p>
           <ActionButton actionType="neutral" onClick={editMarketBooth}>
-            Edit
+            <Trans key={TKEYS.form.action.Edit} />
           </ActionButton>
         </div>
       </Section>
@@ -119,12 +133,16 @@ export default function MarketBoothSettings(props: Props) {
       <HSpace size="highest" />
 
       <Section wide danger>
-        <span class={styles.Title}>Danger Zone</span>
+        <span class={styles.Title}>
+          <Trans key={TKEYS.dashboard["danger-zone"]} />
+        </span>
 
         <div class={styles.DangerSection}>
-          <p>Delete this Market Booth</p>
+          <p>
+            <Trans key={TKEYS.dashboard["delete-this-market-booth"]} />
+          </p>
           <ActionButton actionType="danger" onClick={deleteMarketBooth}>
-            Delete
+            <Trans key={TKEYS.form.action.Delete} />
           </ActionButton>
         </div>
       </Section>
@@ -139,7 +157,7 @@ export default function MarketBoothSettings(props: Props) {
       </Show>
 
       <DeleteConfirmation
-        item="Market Booth"
+        item={trans("dashboard.market-booth")}
         itemName={props.marketBooth()?.name}
         onCancel={discardDeletion}
         onConfirmation={confirmDeleteion}

@@ -1,9 +1,8 @@
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import { onMount } from "solid-js";
 
-
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { INDEX_PATH } from "../../App";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
@@ -31,6 +30,6 @@ export default function SignInCallback() {
         opacity: "var(--blend-opacity)",
         overflow: "hidden",
       }}
-    ></div>
+    />
   );
 }

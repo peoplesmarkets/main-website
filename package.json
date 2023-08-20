@@ -2,28 +2,40 @@
   "name": "main-website",
   "license": "MIT",
   "scripts": {
-    "start": "vite",
     "dev": "vite",
+    "lint": "eslint './src/**/*.{ts,tsx}'",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "gen": "buf generate service-apis/proto --template buf.gen.service-apis.yaml",
     "build": "vite build",
-    "serve": "vite preview",
-    "gen": "buf mod update service-apis/proto && buf generate service-apis/proto --template buf.gen.service-apis.yaml"
+    "serve": "vite preview"
   },
   "type": "module",
   "dependencies": {
     "@improbable-eng/grpc-web": "^0.15.0",
-    "@peoplesmarkets/frontend-lib": "^0.3.0",
+    "@mbarzda/solid-i18next": "^1.2.2",
+    "@peoplesmarkets/frontend-lib": "^0.3.2",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.8.2",
+    "i18next": "^23.4.4",
+    "i18next-browser-languagedetector": "^7.1.0",
     "lodash": "^4.17.21",
     "solid-js": "^1.7.11"
   },
   "devDependencies": {
     "@bufbuild/buf": "^1.25.0",
+    "@solidjs/testing-library": "^0.8.4",
     "@types/lodash": "^4.14.196",
+    "@typescript-eslint/eslint-plugin": "^6.4.0",
+    "eslint": "^8.47.0",
+    "eslint-plugin-i18next": "^6.0.3",
+    "eslint-plugin-solid": "^0.13.0",
+    "jsdom": "^22.1.0",
     "sass": "^1.64.2",
     "ts-proto": "^1.156.2",
     "typescript": "^5.1.3",
     "vite": "^4.4.6",
-    "vite-plugin-solid": "^2.7.0"
+    "vite-plugin-solid": "^2.7.0",
+    "vitest": "^0.34.2"
   }
 }
