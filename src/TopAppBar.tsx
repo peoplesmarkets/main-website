@@ -1,15 +1,17 @@
 import { A, useMatch } from "@solidjs/router";
 import { Accessor, Setter, Show, createSignal, onMount } from "solid-js";
 
-import { MainLogo } from "@peoplesmarkets/frontend-lib/components/assets/MainLogo";
-import { ThemeIcon } from "@peoplesmarkets/frontend-lib/components/assets/ThemeIcon";
-import { Theme } from "@peoplesmarkets/frontend-lib/theme";
+import {
+  MainLogo,
+  ThemeIcon,
+  Profile,
+  buildAuthorizationRequest,
+  Theme,
+} from "../../frontend-lib";
 
+import { useAccessTokensContext } from "./contexts/AccessTokensContext";
 import { INDEX_PATH } from "./App";
 import styles from "./TopAppBar.module.scss";
-import Profile from "./components/auth/Profile";
-import { useAccessTokensContext } from "./contexts/AccessTokensContext";
-import { buildAuthorizationRequest } from "./lib/auth";
 
 type Props = {
   theme: Accessor<Theme>;
@@ -31,7 +33,8 @@ function NavItem({ href, name }: { href: string; name: string }) {
 }
 
 export default function TopAppBar(props: Props) {
-  const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();
+  const { ensureFreshTokens, isAuthenticated, currentSession, endSession } =
+    useAccessTokensContext();
   const [signingIn, setSigningIn] = createSignal(false);
 
   onMount(async () => {
@@ -54,10 +57,7 @@ export default function TopAppBar(props: Props) {
       </A>
 
       <nav class={styles.Nav}>
-        <Show
-          when={!isAuthenticated()}
-          fallback={<Profile theme={props.theme} setTheme={props.setTheme} />}
-        >
+        <Show when={!isAuthenticated()}>
           <button
             class={styles.NavItem}
             classList={{ [styles.NavItemActive]: signingIn() }}
@@ -65,8 +65,20 @@ export default function TopAppBar(props: Props) {
           >
             Sign In
           </button>
+        </Show>
 
-          <ThemeIcon theme={props.theme} setTheme={props.setTheme} />
+        <ThemeIcon theme={props.theme} setTheme={props.setTheme} />
+
+        {/* <SelectLanguage /> */}
+
+        <Show when={isAuthenticated()}>
+          <Profile
+            class={styles.Profile}
+            theme={props.theme}
+            setTheme={props.setTheme}
+            currentSession={currentSession}
+            onEndSession={endSession}
+          />
         </Show>
       </nav>
     </header>

@@ -1,12 +1,11 @@
 import { A } from "@solidjs/router";
 import { Accessor } from "solid-js";
 
-import { Theme } from "@peoplesmarkets/frontend-lib/theme";
 import {
   GitHubMark,
   MainLogoIcon,
-  OpenInNew,
-} from "@peoplesmarkets/frontend-lib/components";
+  OpenInNew, Theme
+} from "../../frontend-lib";
 
 import {
   IMPRINT_PATH,

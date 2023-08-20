@@ -6,14 +6,11 @@
     "dev": "vite",
     "build": "vite build",
     "serve": "vite preview",
-    "gen:service-apis": "buf mod update service-apis/proto && buf generate service-apis/proto --template buf.gen.service-apis.yaml",
-    "gen:zitadel": "buf generate zitadel/proto --template buf.gen.zitadel.yaml",
-    "gen": "npm run gen:service-apis && npm run gen:zitadel"
+    "gen": "buf mod update service-apis/proto && buf generate service-apis/proto --template buf.gen.service-apis.yaml"
   },
   "type": "module",
   "dependencies": {
     "@improbable-eng/grpc-web": "^0.15.0",
-    "@peoplesmarkets/frontend-lib": "^0.0.4",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.8.2",
     "lodash": "^4.17.21",

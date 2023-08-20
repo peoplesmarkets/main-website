@@ -1,10 +1,10 @@
 import { onMount } from "solid-js";
 
-import { ActionButton } from "@peoplesmarkets/frontend-lib/components";
+import { ActionButton, buildAuthorizationRequest } from "../../../frontend-lib";
 
 import { DASHBOARD_PATH } from "../App";
-import { authGuardRedirect, buildAuthorizationRequest } from "../lib/auth";
 import styles from "./GetStarted.module.scss";
+import { authGuardRedirect } from "../lib/auth";
 
 export default function GetStarted() {
   onMount(async () => {

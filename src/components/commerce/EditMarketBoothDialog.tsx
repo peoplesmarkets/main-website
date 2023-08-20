@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { Resource, Show, createSignal } from "solid-js";
+import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import {
@@ -9,8 +9,9 @@ import {
   HSpace,
   TextArea,
   TextField,
-} from "@peoplesmarkets/frontend-lib/components";
+} from "../../../frontend-lib";
 
+import { grpc } from "@improbable-eng/grpc-web";
 import { MarketBoothServiceClient } from "../../../clients";
 import {
   MarketBoothResponse,
@@ -18,7 +19,6 @@ import {
 } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import styles from "./EditMarketBoothDialog.module.scss";
-import { grpc } from "@improbable-eng/grpc-web";
 
 type Props = {
   marketBooth: MarketBoothResponse;

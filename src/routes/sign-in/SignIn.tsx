@@ -1,9 +1,10 @@
 import { useNavigate } from "@solidjs/router";
 import { onMount } from "solid-js";
 
-import { INDEX_PATH } from "../../App";
+import { buildAuthorizationRequest } from "../../../frontend-lib";
+
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildAuthorizationRequest } from "../../lib/auth";
+import { INDEX_PATH } from "../../App";
 
 export default function SignIn() {
   const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();

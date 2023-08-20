@@ -5,12 +5,12 @@ import { createStore } from "solid-js/store";
 
 import {
   ActionButton,
+  Dialog,
   DiscardConfirmation,
+  HSpace,
   TextArea,
   TextField,
-  Dialog,
-  HSpace,
-} from "@peoplesmarkets/frontend-lib/components";
+} from "../../../frontend-lib";
 
 import { MarketBoothServiceClient } from "../../../clients";
 import { CreateMarketBoothRequest } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";

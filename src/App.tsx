@@ -1,7 +1,7 @@
 import { Route, Routes } from "@solidjs/router";
 import { lazy } from "solid-js";
 
-import { initializeThemeStore } from "@peoplesmarkets/frontend-lib/theme";
+import { initializeThemeStore } from "../../frontend-lib";
 
 import styles from "./App.module.scss";
 import Footer from "./Footer";

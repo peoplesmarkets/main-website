@@ -1,4 +1,4 @@
-import { Page } from "@peoplesmarkets/frontend-lib/components";
+import { Page } from "../../../frontend-lib";
 
 import styles from "./Imprint.module.scss";
 

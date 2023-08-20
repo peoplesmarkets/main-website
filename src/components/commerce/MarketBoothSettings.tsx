@@ -6,8 +6,8 @@ import {
   DeleteConfirmation,
   HSpace,
   Section,
-} from "@peoplesmarkets/frontend-lib/components";
-import { secondsToLocaleString } from "@peoplesmarkets/frontend-lib/lib";
+  secondsToLocaleString,
+} from "../../../frontend-lib";
 
 import { MarketBoothServiceClient } from "../../../clients";
 import {
