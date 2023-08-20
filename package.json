@@ -11,7 +11,7 @@
   "type": "module",
   "dependencies": {
     "@improbable-eng/grpc-web": "^0.15.0",
-    "@peoplesmarkets/frontend-lib": "^0.2.2",
+    "@peoplesmarkets/frontend-lib": "^0.3.0",
     "@solidjs/meta": "^0.28.2",
     "@solidjs/router": "^0.8.2",
     "lodash": "^4.17.21",
