@@ -1,9 +1,9 @@
 import { EN } from "./en";
 
 export const DE = {
-  "Peoples-Markets": "People's Markets",
-  "Peoples-Markets-community": "People's Markets - community",
-  peoplesmarkets_com: "peoplesmarkets.com",
+  "Peoples-Markets": EN["Peoples-Markets"],
+  "Peoples-Markets-community": EN["Peoples-Markets-community"],
+  peoplesmarkets_com: EN.peoplesmarkets_com,
   "sign-in": "Login",
   form: {
     action: {

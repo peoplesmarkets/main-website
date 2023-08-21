@@ -1,9 +1,9 @@
 import _ from "lodash";
 import { assert, describe, expect, test } from "vitest";
 
-import { LOCALES } from "../src/locales";
-import { errorPrint } from "./common";
-import { TKEYS } from "../src/locales/dev";
+import { LOCALES } from ".";
+import { errorPrint } from "../../testing/common";
+import { TKEYS } from "./dev";
 
 describe("Locales", () => {
   test("Check that all vaules in TKEYS are the path to their keys respectiveley", () => {
