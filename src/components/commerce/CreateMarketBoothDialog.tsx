@@ -57,7 +57,7 @@ export default function CreateMarketBoothDialog(props: Props) {
     event.preventDefault();
 
     if (_.isEmpty(marketBooth.name)) {
-      setErrors("name", [trans("form.required-field")]);
+      setErrors("name", [trans(TKEYS.form.errors["required-field"])]);
       return;
     }
 

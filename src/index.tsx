@@ -6,7 +6,8 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import _ from "lodash";
 import { render } from "solid-js/web";
 
-import "@peoplesmarkets/frontend-lib/theme.scss";
+// import "@peoplesmarkets/frontend-lib/theme.scss";
+import "./theme.scss";
 
 import App from "./App";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
@@ -67,12 +68,16 @@ if (_.isEmpty(import.meta.env.VITE_COMMUNITY_WEBSITE_URL)) {
 }
 
 render(() => {
-  i18next.use(LanguageDetector);
+  const instance = i18next.createInstance({
+    load: "all",
+    resources: LOCALES,
+  });
+  instance.use(LanguageDetector);
 
   return (
     <Router>
       <AccessTokenProvider>
-        <TransProvider options={{ resources: LOCALES }}>
+        <TransProvider instance={instance}>
           <App />
         </TransProvider>
       </AccessTokenProvider>

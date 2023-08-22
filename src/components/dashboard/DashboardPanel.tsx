@@ -10,6 +10,7 @@ import {
 } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import styles from "./DashboardPanel.module.scss";
 import { useTransContext } from "@mbarzda/solid-i18next";
+import { TKEYS } from "../../locales/dev";
 
 type Props = {
   marketBoothList: Resource<ListMarketBoothsResponse>;
@@ -44,7 +45,7 @@ export default function DashboardPanel(props: Props) {
   return (
     <nav class={styles.DashboardPanel}>
       <Select
-        label={trans("dashboard.current-market-booth")}
+        label={trans(TKEYS.dashboard["current-market-booth"])}
         options={marketBoothOptions}
         onValue={props.onSelectMarketBooth}
         selected={selectedMarketBoothId}

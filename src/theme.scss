@@ -1,0 +1,174 @@
+:root.theme-default-light {
+  --primary-font-color: #202124;
+  --hovered-font-color: #1d1e20;
+  --active-font-color: #1a73e8;
+  --danger-font-color: #ff3b5b;
+  --content-font-color: #303134;
+  --secondary-content-font-color: #303134ee;
+
+  --primary-background-color: rgb(255, 255, 255);
+  --secondary-background-color: rgb(243, 246, 252);
+  // --primary-background-color: #f8f8f8;
+  // --secondary-background-color: #f8f9fa;
+  --tertiary-background-color: #f1f3f4;
+  --active-background-color: #c2e7ff;
+  --hovered-background: linear-gradient(
+    0deg,
+    rgba(68, 71, 70, 0.12),
+    rgba(68, 71, 70, 0.12)
+  );
+  --blend-color: #000000;
+  --blend-opacity: 20%;
+
+  --focused-background-color: #8ab4f841;
+  --hovered-background-color: #8ab4f821;
+  --hovered-danger-background-color: #ff3b5c14;
+
+  --primary-border-color: #303134;
+  --secondary-border-color: #30313486;
+  --danger-border-color: #ff3b5b;
+
+  --primary-shadow-color: #00000033;
+
+  --hover-filter: brightness(90%);
+}
+
+:root.theme-default-dark {
+  --primary-font-color: #cbced0;
+  --hovered-font-color: #e8eaed;
+  --active-font-color: #8ab4f8;
+  --danger-font-color: #ff3b5b;
+  --content-font-color: #e8eaed;
+  --secondary-content-font-color: #e8eaed8a;
+
+  --primary-background-color: #1e1e1e;
+  --secondary-background-color: rgb(45, 47, 49);
+  // --secondary-background-color: #141414;
+  --tertiary-background-color: #303134;
+  --active-background-color: #004a77;
+  --hovered-background: linear-gradient(
+    0deg,
+    rgba(196, 199, 197, 0.08),
+    rgba(196, 199, 197, 0.08)
+  );
+  --blend-color: #ffffff;
+  --blend-opacity: 10%;
+
+  --focused-background-color: #8ab4f80a;
+  --hovered-background-color: #8ab4f80a;
+  --hovered-danger-background-color: #ff3b5c14;
+
+  --primary-border-color: #5f6368;
+  --secondary-border-color: #5f63687a;
+  --danger-border-color: #ff3b5b;
+
+  --primary-shadow-color: #00000044;
+
+  --hover-filter: brightness(90%);
+}
+
+:root {
+  // Layout sizes
+  --top-app-bar-height: 64px;
+  --footer-height: 128px;
+  --fill-height: calc(100vh - var(--top-app-bar-height));
+
+  $medium-min-width: 600px;
+  $expanded-min-width: 1080px;
+  $medium-max-width: $expanded-min-width - 1px;
+
+  // Spacing
+  --smallest-spacer: 4px;
+  --small-spacer: 8px;
+  --medium-spacer: 16px;
+  --large-spacer: 32px;
+  --largest-spacer: 64px;
+
+  // Borders
+  --primary-border: 1px solid var(--primary-border-color);
+  --secondary-border: 1px solid var(--secondary-border-color);
+  --danger-border: 1px solid var(--danger-border-color);
+
+  --small-border-radius: 4px;
+  --medium-border-radius: 8px;
+  --large-border-radius: 16px;
+
+  // Fonts
+  --font-display-small: normal normal 400 36px /1.2222 "Noto Sans";
+  --font-display-medium: normal normal 400 45px /1.1555 "Noto Sans";
+  --font-display-large: normal normal 400 57px /1.1228 "Noto Sans";
+
+  --font-headline-small: normal normal 400 24px /1.3333 "Noto Sans";
+  --font-headline-medium: normal normal 400 28px /1.2857 "Noto Sans";
+  --font-headline-large: normal normal 400 32px /1.25 "Noto Sans";
+
+  --font-title-small: normal normal 500 14px /1.4285 "Noto Sans";
+  --font-title-medium: normal normal 500 18px /1.5 "Noto Sans";
+  --font-title-large: normal normal 400 22px /1.2727 "Noto Sans";
+
+  --font-label-small: normal normal 500 12px /1.3333 "Roboto";
+  --font-label-medium: normal normal 500 14px /1.4285 "Roboto";
+  --font-label-large: normal normal 500 16px /1.5 "Roboto";
+
+  --font-body-small: normal normal 400 12px /1.3333 "Roboto";
+  --font-body-medium: normal normal 400 14px /1.4286 "Roboto";
+  --font-body-large: normal normal 400 16px /1.5 "Roboto";
+
+  --font-display: var(--font-display-small);
+  --font-headline: var(--font-headline-small);
+  --font-title: var(--font-title-medium);
+  --font-label: var(--font-label-large);
+  --font-body: var(--font-body-small);
+
+  @media only screen and (min-width: $medium-min-width) and (max-width: $medium-max-width) {
+    --font-display: var(--font-display-medium);
+    --font-hedline: var(--font-headline-medium);
+    --font-title: var(--font-title-medium);
+    --font-body: var(--font-body-medium);
+  }
+
+  @media only screen and (min-width: $expanded-min-width) {
+    --font-display: var(--font-display-large);
+    --font-hedline: var(--font-headline-large);
+    --font-title: var(--font-title-large);
+    --font-body: var(--font-body-large);
+  }
+
+  // Colors
+  // https://paletton.com/#uid=70d0u0kpBw0fFJEkXBhv6t0wcmo
+
+  --yellow-light: #ffc882;
+  --yellow: #ffa533;
+  --yellow-dark: #b26300;
+
+  --orange-light: #ffa282;
+  --orange: #ff6733;
+  --orange-dark: #b22e00;
+
+  --pink-light: #ef7aa1;
+  --pink: #e12d6a;
+  --pink-dark: #9d0035;
+
+  --blue-light: #6fa8cd;
+  --blue: #2873a3;
+  --blue-dark: #074872;
+
+  --green-light: #6dd5a3;
+  --green: #24b26e;
+  --green-dark: #007c40;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  font: var(--font-body);
+  color: var(--content-font-color);
+}
+
+.no-scroll {
+  height: 100%;
+  overflow: hidden;
+}

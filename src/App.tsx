@@ -5,7 +5,7 @@ import { initializeThemeStore } from "@peoplesmarkets/frontend-lib";
 
 import styles from "./App.module.scss";
 import Footer from "./Footer";
-import TopAppBar from "./TopAppBar";
+import { Panel } from "./Panel";
 import NotFound from "./routes/404";
 
 export const INDEX_PATH = "/";
@@ -24,18 +24,49 @@ export function buildPath(...paths: string[]): string {
   return paths.join("/");
 }
 
+export function removeTralingSlash(path: string) {
+  if (path === "/") return path;
+  return path.endsWith("/") ? path.slice(0, -1) : path;
+}
+
+export function getPathSegments(path: string) {
+  if (path === "/") return [""];
+  return removeTralingSlash(path).split("/");
+}
+
+export function isSubPath(base: string, path: string): boolean {
+  const cleanedBase = removeTralingSlash(base);
+  const cleanedPath = removeTralingSlash(path);
+
+  if (cleanedBase === cleanedPath) return false;
+
+  if (!cleanedPath.startsWith(cleanedBase)) {
+    return false;
+  }
+
+  const baseSegments = getPathSegments(cleanedBase);
+  const pathSegments = getPathSegments(cleanedPath);
+
+  if (baseSegments.length + 1 !== pathSegments.length) {
+    return false;
+  }
+
+  pathSegments.pop();
+
+  return baseSegments.join("") === pathSegments.join("");
+}
+
 export default function App() {
   const [theme, setTheme] = initializeThemeStore();
 
   return (
     <div class={styles.App}>
-      <TopAppBar theme={theme} setTheme={setTheme} />
+      <Panel theme={theme} setTheme={setTheme} />
 
       <main class={styles.Content}>
         <Routes>
           <Route
             path={INDEX_PATH}
-            // component={lazy(() => import("./routes/Index"))}
             component={lazy(() => import("./routes/GetStarted"))}
           />
           <Route
@@ -75,7 +106,6 @@ export default function App() {
             component={lazy(() => import("./routes/TermsOfService"))}
           />
 
-          {/* Fall back */}
           <Route path="*" component={NotFound} />
         </Routes>
       </main>

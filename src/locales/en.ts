@@ -2,17 +2,35 @@ export const EN = {
   "Peoples-Markets": "People's Markets",
   "Peoples-Markets-community": "People's Markets - community",
   peoplesmarkets_com: "peoplesmarkets.com",
-  "sign-in": "Sign In",
   form: {
     action: {
       Save: "Save",
       Edit: "Edit",
       Delete: "Delete",
     },
+    errors: {
+      "required-field": "Required field",
+    },
+  },
+  "main-navigation": {
+    actions: {
+      "sign-in": "Sign In",
+      "user-settings": "User Settings",
+    },
+    links: {
+      home: "Home",
+      dashboard: "Dashboard",
+    },
+    settings: {
+      "switch-to-light-mode": "Switch to light mode",
+      "switch-to-dark-mode": "Switch to dark mode",
+      "change-language": "Language / Sprache",
+    },
   },
   footer: {
     "main-paragraph":
       "People's Markets is an online platform where businesses and people can offer their goods while building their brand and market appearance.",
+    "community-paragraph": "Get involved in any aspect of the project.",
   },
   imprint: {
     title: "Imprint",
