@@ -20,11 +20,12 @@ export const TKEYS = {
   "main-navigation": {
     actions: {
       "sign-in": "main-navigation.actions.sign-in",
-      "user-settings": "main-navigation.actions.user-settings",
     },
     links: {
       home: "main-navigation.links.home",
       dashboard: "main-navigation.links.dashboard",
+      "user-settings": "main-navigation.links.user-settings",
+      community: "main-navigation.links.community",
     },
     settings: {
       "switch-to-light-mode": "main-navigation.settings.switch-to-light-mode",
@@ -87,6 +88,14 @@ export const TKEYS = {
         "user-settings-page.market-booth.current-market-booth",
       "no-market-booth-yet":
         "user-settings-page.market-booth.no-market-booth-yet",
+    },
+  },
+  "community-page": {
+    posts: {
+      title: "community-page.posts.title",
+      "presentation-is-inspired-by":
+        "community-page.posts.presentation-is-inspired-by",
+      medium: "community-page.posts.medium",
     },
   },
 };
