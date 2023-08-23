@@ -22,12 +22,14 @@ import styles from "./Panel.module.scss";
 import { TKEYS } from "./locales/dev";
 import { getNextLanguageKey } from "./locales";
 import {
+  COMMUNITY_PATH,
   DASHBOARD_PATH,
   INDEX_PATH,
   USER_SETTINGS_PATH,
   isSubPath,
 } from "./App";
 import { useAccessTokensContext } from "./contexts/AccessTokensContext";
+import CommunityIcon from "./components/icons/CommunityLogoIcon";
 
 false && clickOutside;
 
@@ -165,9 +167,22 @@ export function Panel(props: Props) {
               }}
             >
               <UserSettingsIcon class={styles.MainNavigationIcon} />
-              <Trans key={TKEYS["main-navigation"].actions["user-settings"]} />
+              <Trans key={TKEYS["main-navigation"].links["user-settings"]} />
             </A>
           </Show>
+
+          <A
+            href={COMMUNITY_PATH}
+            class={styles.NavigationItem}
+            classList={{
+              [styles.NavigationItemActive]:
+                isSubPath(COMMUNITY_PATH, location.pathname) ||
+                Boolean(useMatch(() => COMMUNITY_PATH)()),
+            }}
+          >
+            <CommunityIcon class={styles.MainNavigationIcon} />
+            <Trans key={TKEYS["main-navigation"].links.community} />
+          </A>
         </div>
 
         <div class={styles.Settings}>

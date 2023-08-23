@@ -1,0 +1,27 @@
+.PostsHeader {
+  border-bottom: var(--secondary-border);
+  padding: 1rem 0;
+
+  ol {
+    list-style-position: inside;
+  }
+
+  li {
+    font: var(--font-title);
+  }
+
+  a {
+    color: var(--content-font-color);
+    text-decoration: none;
+  }
+}
+
+.Active a {
+  color: var(--active-font-color);
+}
+
+.OpenInNew {
+  width: 0.7em;
+  height: 0.7em;
+  fill: var(--active-font-color);
+}

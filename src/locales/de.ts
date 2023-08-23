@@ -1,6 +1,7 @@
+import { TKEYS } from "./dev";
 import { EN } from "./en";
 
-export const DE = {
+export const DE: typeof TKEYS = {
   "Peoples-Markets": EN["Peoples-Markets"],
   "Peoples-Markets-community": EN["Peoples-Markets-community"],
   peoplesmarkets_com: EN.peoplesmarkets_com,
@@ -22,11 +23,12 @@ export const DE = {
   "main-navigation": {
     actions: {
       "sign-in": "Login",
-      "user-settings": "Benutzereinstellungen",
     },
     links: {
       home: "Hauptseite",
       dashboard: EN["main-navigation"].links.dashboard,
+      "user-settings": "Benutzereinstellungen",
+      community: "Community",
     },
     settings: {
       "switch-to-light-mode": "Hellmodus aktivieren",
@@ -86,6 +88,14 @@ export const DE = {
     "market-booth": {
       "current-market-booth": "Marktstand Auswahl",
       "no-market-booth-yet": "Bisher kein Markstand",
+    },
+  },
+  "community-page": {
+    posts: {
+      title: EN["community-page"].posts.title,
+      "presentation-is-inspired-by":
+        "Die Darstellungsweise der Posts ist stark inspiriert von",
+      medium: EN["community-page"].posts.medium,
     },
   },
 };
