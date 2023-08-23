@@ -14,6 +14,7 @@ import { MarketBoothProvider } from "./contexts/MarketBoothContext";
 import { signInDataRoute } from "./data-routes";
 import { LOCALES } from "./locales";
 import NotFound from "./routes/404";
+import CommunityRoutes from "./routes/community/CommunityRoutes";
 
 export const INDEX_PATH = "/";
 export const GET_STARTED_PATH = "/get-started";
@@ -23,6 +24,11 @@ export const SIGN_IN_CALLBACK = "/sign-in/callback";
 
 export const DASHBOARD_PATH = "/dashboard";
 export const USER_SETTINGS_PATH = "/user-settings";
+
+export const COMMUNITY_PATH = "/community";
+export const DEVELOPMENT_POSTS_SUBPATH = "/development-posts";
+export const COMMUNITY_DEVELOPMENT_POSTS_PATH =
+  COMMUNITY_PATH + DEVELOPMENT_POSTS_SUBPATH;
 
 export const IMPRINT_PATH = "/imprint";
 export const PRIVACY_POLICY_PATH = "/privacy-policy";
@@ -77,6 +83,10 @@ export default function App() {
                   />
                 </MarketBoothProvider>
               </AccessTokenProvider>
+
+              <Route path={COMMUNITY_PATH}>
+                <CommunityRoutes />
+              </Route>
 
               <Route
                 path={IMPRINT_PATH}

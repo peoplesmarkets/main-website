@@ -1,4 +1,6 @@
-export const EN = {
+import { TKEYS } from "./dev";
+
+export const EN: typeof TKEYS = {
   "Peoples-Markets": "People's Markets",
   "Peoples-Markets-community": "People's Markets - community",
   peoplesmarkets_com: "peoplesmarkets.com",
@@ -20,11 +22,12 @@ export const EN = {
   "main-navigation": {
     actions: {
       "sign-in": "Sign In",
-      "user-settings": "User Settings",
     },
     links: {
       home: "Home",
       dashboard: "Dashboard",
+      "user-settings": "User Settings",
+      community: "Community",
     },
     settings: {
       "switch-to-light-mode": "Switch to light mode",
@@ -84,6 +87,14 @@ export const EN = {
     "market-booth": {
       "current-market-booth": "Current Market Booth",
       "no-market-booth-yet": "No Market Booth yet",
+    },
+  },
+  "community-page": {
+    posts: {
+      title: "Posts",
+      "presentation-is-inspired-by":
+        "The presentation of the posts is heavily inspired by",
+      medium: "Medium",
     },
   },
 };

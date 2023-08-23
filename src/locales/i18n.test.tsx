@@ -4,8 +4,43 @@ import { assert, describe, expect, test } from "vitest";
 import { LOCALES, getNextLanguageKey } from ".";
 import { errorPrint } from "../../testing/common";
 import { TKEYS } from "./dev";
+import { LANGUAGES } from "@peoplesmarkets/frontend-lib";
 
 describe("Locales", () => {
+  test("Check that no language has TKEYS vaules as value", () => {
+    function checkValuesAreNotKeyPath(
+      obj: Record<string, any>,
+      parentKey: string
+    ) {
+      for (const [key, value] of _.entries(obj)) {
+        assert(_.isString(key));
+        assert(_.isString(value) || _.isObject(value));
+
+        const fullPath = _.isEmpty(parentKey) ? key : `${parentKey}.${key}`;
+
+        if (_.isString(value)) {
+          assert(value != fullPath, `${value} was equal to ${fullPath}`);
+        } else {
+          checkValuesAreNotKeyPath(value, fullPath);
+        }
+      }
+    }
+
+    assert(!_.isNil(LOCALES));
+    assert(!_.isEmpty(LOCALES));
+    assert(_.isObject(LOCALES));
+
+    for (const lang of _.values(LANGUAGES)) {
+      const translation = LOCALES[lang].translation;
+
+      assert(!_.isNil(translation));
+      assert(!_.isEmpty(translation));
+      assert(_.isObject(translation));
+
+      checkValuesAreNotKeyPath(translation, "");
+    }
+  });
+
   test("Check that all vaules in TKEYS are the path to their keys respectiveley", () => {
     function checkObjectsValuesMatchKeyPath(
       obj: Record<string, any>,
