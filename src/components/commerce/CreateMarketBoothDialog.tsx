@@ -4,19 +4,17 @@ import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import {
-  ActionButton,
-  Dialog,
-  DiscardConfirmation,
-  HSpace,
-  TextArea,
-  TextField,
-} from "@peoplesmarkets/frontend-lib";
-
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
 import { CreateMarketBoothRequest } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import {
+  ActionButton,
+  DiscardConfirmation,
+  TextArea,
+  TextField,
+} from "../form";
+import { Dialog } from "../layout/Dialog";
 import styles from "./CreateMarketBoothDialog.module.scss";
 
 type Props = {
@@ -110,8 +108,6 @@ export default function CreateMarketBoothDialog(props: Props) {
               errors={errors.name}
             />
 
-            <HSpace />
-
             <TextArea
               name="description"
               label="description"
@@ -121,8 +117,6 @@ export default function CreateMarketBoothDialog(props: Props) {
               onValue={onDescriptionInput}
               errors={errors.description}
             />
-
-            <HSpace />
           </form>
 
           <div class={styles.DialogFooter}>

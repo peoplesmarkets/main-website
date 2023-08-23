@@ -2,9 +2,8 @@ import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show, createSignal, onMount } from "solid-js";
 
-import { ActionButton, HSpace } from "@peoplesmarkets/frontend-lib";
-
 import CreateMarketBoothDialog from "../components/commerce/CreateMarketBoothDialog";
+import { ActionButton } from "../components/form";
 import { Select } from "../components/navigation/Select";
 import { useMarketBoothContext } from "../contexts/MarketBoothContext";
 import { TKEYS } from "../locales/dev";
@@ -61,7 +60,7 @@ export default function UserSettings() {
   }
 
   return (
-    <div>
+    <div class={styles.UserSettings}>
       <span class={styles.Title}>
         <Trans key={TKEYS["user-settings-page"].title} />
       </span>
@@ -75,8 +74,6 @@ export default function UserSettings() {
         selected={() => currentMarketBooth()?.marketBoothId}
       />
 
-      <HSpace />
-      
       <ActionButton
         actionType="active-filled"
         onClick={handleOpenCreateMarketBooth}

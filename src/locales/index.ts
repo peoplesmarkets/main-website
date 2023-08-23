@@ -1,9 +1,24 @@
-import { LANGUAGES } from "@peoplesmarkets/frontend-lib";
-
 import { DE } from "./de";
 import { EN } from "./en";
 import { TKEYS } from "./dev";
 import _ from "lodash";
+
+export const LANGUAGES = {
+  english: "en",
+  german: "de",
+};
+
+export const LOCALES = {
+  dev: {
+    translation: TKEYS,
+  },
+  [LANGUAGES.english]: {
+    translation: EN,
+  },
+  [LANGUAGES.german]: {
+    translation: DE,
+  },
+};
 
 export function getNextLanguageKey(currentLanguageKey: string) {
   const languageKeys = _.values(LANGUAGES);
@@ -25,15 +40,3 @@ export function getNextLanguageKey(currentLanguageKey: string) {
 
   return languageKeys[0];
 }
-
-export const LOCALES = {
-  dev: {
-    translation: TKEYS,
-  },
-  [LANGUAGES.english]: {
-    translation: EN,
-  },
-  [LANGUAGES.german]: {
-    translation: DE,
-  },
-};

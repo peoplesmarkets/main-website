@@ -11,6 +11,7 @@ export const DE: typeof TKEYS = {
       Edit: "Bearbeiten",
       Delete: "Löschen",
       Cancel: "Abbrechen",
+      Discard: "Verwerfen",
       "Are-you-sure-you-want-to-delete-the":
         '{{item}} namens "{{name}}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",

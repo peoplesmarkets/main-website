@@ -8,6 +8,7 @@ export const TKEYS = {
       Edit: "form.action.Edit",
       Delete: "form.action.Delete",
       Cancel: "form.action.Cancel",
+      Discard: "form.action.Discard",
       "Are-you-sure-you-want-to-delete-the":
         "form.action.Are-you-sure-you-want-to-delete-the",
       "Confirm-Deletion?": "form.action.Confirm-Deletion?",
