@@ -1,0 +1,179 @@
+$panel-height: 64px;
+
+.Panel {
+  max-height: 64px;
+  background-color: var(--primary-background-color);
+  border-bottom: var(--primary-border);
+  display: flex;
+}
+
+.MenuIcon {
+  fill: var(--primary-font-color);
+  width: 22px;
+  height: 22px;
+  margin: 10px;
+  padding: 11px;
+  border-radius: 50%;
+}
+
+.MenuIcon:hover {
+  background-color: rgba(0, 0, 0, 0);
+  background: var(--hovered-background);
+}
+
+.Panel .Main {
+  flex-grow: 1;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  margin-right: 1rem;
+}
+
+.Panel .MainLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+}
+
+.Panel .MainLink:hover {
+  background-color: rgba(0, 0, 0, 0);
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.Panel .MainLogoIcon {
+  $padding: 16px;
+  padding: $padding 0;
+  height: calc($panel-height - 2 * $padding);
+  fill: var(--primary-font-color);
+  margin-left: 10px;
+}
+
+.Panel .MainLogo {
+  $padding: 10px;
+  padding: $padding;
+  height: calc($panel-height - 2 * $padding);
+  max-height: 44px;
+  min-height: 25px;
+  fill: var(--primary-font-color);
+}
+
+$slider-width: 320px;
+
+.Slider {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  left: -$slider-width;
+  width: $slider-width;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  background-color: var(--secondary-background-color);
+}
+
+.Slider .Menu {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SlideIn {
+  left: 0;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.SlideOut {
+  left: -$slider-width;
+  transition: left 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.SliderBackground {
+  position: absolute;
+  z-index: 1;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: rgba(0, 0, 0, 0.32);
+}
+
+.SliderBackgroundIn {
+  visibility: visible;
+  opacity: 1;
+  transition: all 0.6s;
+}
+
+.SliderBackgroundOut {
+  visibility: hidden;
+  opacity: 0;
+  transition: all 0.3s;
+}
+
+.MainNavigation {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.MainNavigationIcon {
+  margin: 0 0.8rem;
+  height: 1.7rem;
+  fill: var(--content-font-color);
+}
+
+$navigation-item-height: 48px;
+
+.NavigationItem {
+  width: $slider-width - 32px;
+  height: $navigation-item-height;
+  border-radius: calc($navigation-item-height / 2);
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  user-select: none;
+  font: var(--font-label);
+  text-decoration: none;
+  color: var(--content-font-color);
+  background: none;
+  border: none;
+  outline: inherit;
+  box-sizing: border-box;
+}
+
+.NavigationItem:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.NavigationItemActive {
+  background-color: var(--active-background-color);
+}
+
+.NavigationItemActive:hover {
+  @extend .NavigationItemActive;
+}
+
+.NavigationIcon {
+  width: calc($navigation-item-height / 2.2);
+  height: calc($navigation-item-height / 2.2);
+  fill: var(--content-font-color);
+}
+
+.Settings {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.Settings .NavigationItem {
+  padding: 0 2.4rem;
+  justify-content: space-between;
+}

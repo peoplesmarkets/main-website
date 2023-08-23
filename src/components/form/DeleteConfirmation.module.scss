@@ -1,0 +1,16 @@
+.Information {
+  padding: 0 var(--large-spacer);
+  max-width: 320px;
+  font: var(--font-label);
+}
+
+.Footer {
+  padding: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}
+
+.Footer * {
+  margin-left: var(--small-spacer);
+}

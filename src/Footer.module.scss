@@ -1,93 +1,65 @@
-$vertical-margin: 40px;
-$vertical-padding: 20px;
+.FooterContainer {
+  background-color: var(--secondary-background-color);
+  border-top: var(--primary-border);
+}
 
 .Footer {
-  width: auto;
-  background-color: var(--tertiary-background-color);
-  border-top: var(--primary-border);
+  max-width: 80rem;
+  margin: 0 auto;
 }
 
-.FooterTitle {
-  padding: $vertical-margin var(--app-x-padding);
-}
-
-.FooterTitleText {
-  font-size: var(--subtitle-font-size);
-  font-weight: 400;
-}
-
-.FooterContent {
+.Title {
+  height: 48px;
+  padding: 2rem;
   display: flex;
-  justify-content: space-between;
-  min-height: var(--footer-height);
-  padding: 0 var(--app-x-padding) $vertical-margin var(--app-x-padding);
-}
-
-.FooterContentText {
-  width: 50%;
-}
-
-.FooterContentText p {
-  font-weight: 300;
-  margin-bottom: 0.5rem;
-  letter-spacing: 0.2px;
-}
-
-.FooterContentText em {
-  font-weight: 400;
-}
-
-.FooterContentLinks {
-  line-height: 24px;
-  margin-left: var(--medium-spacer);
-  width: 320px;
-  list-style: none;
-}
-
-.FooterContentLinks a {
-  color: var(--active-font-color);
-  text-decoration: none;
-  outline: 0;
-}
-
-.FooterLogoAndPrivacy {
-  border-top: var(--primary-border);
-  padding: $vertical-padding var(--app-x-padding);
-  display: flex;
-  justify-content: flex-start;
   align-items: center;
 }
 
-.FooterLogoAndPrivacy a {
-  color: var(--primary-font-color);
+.MainLogoIcon {
+  height: 36px;
+  fill: var(--primary-font-color);
+}
+
+.MainLogoText {
+  height: 44px;
+  fill: var(--primary-font-color);
+  margin-left: 1rem;
+}
+
+.Content {
+  max-width: 600px;
+  padding: 0 2rem 1rem 2rem;
+  font: var(--font-label);
+}
+
+.SiteLinks {
+  padding: 0 2rem 1rem 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: end;
+}
+
+.SiteLinks a {
+  font: var(--font-label-large);
   text-decoration: none;
-  margin-right: 27px;
-}
-
-.FooterLogoAndPrivacy a:hover {
-  color: var(--hovered-font-color);
-}
-
-.FooterLogoAndPrivacyIcon {
-  margin-right: 27px;
-}
-
-.FooterSign {
-  border-top: var(--primary-border);
-  padding: 10px var(--app-x-padding);
-  text-align: right;
-  font-size: var(--small-font-size);
-}
-
-.FooterSign a {
   color: var(--active-font-color);
-  text-decoration: none;
-  outline: 0;
-  margin-left: 10px;
+}
+
+.SocialContainer {
+  @extend .FooterContainer;
+}
+
+.Social {
+  @extend .Footer;
+  box-sizing: border-box;
+  padding: 1rem 2rem;
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
 
 .SocialIcon {
-  height: 24px;
+  height: 30px;
 }
 
 .OpenInNew {

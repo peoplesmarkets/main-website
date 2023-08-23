@@ -1,36 +1,33 @@
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { Resource, Show, createSignal } from "solid-js";
+import { Show, createSignal } from "solid-js";
 
 import {
   ActionButton,
-  DeleteConfirmation,
   HSpace,
   Section,
   secondsToLocaleString,
 } from "@peoplesmarkets/frontend-lib";
 
-import { MarketBoothServiceClient } from "../../../clients";
-import {
-  DeleteMarketBoothRequest,
-  MarketBoothResponse,
-} from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { TKEYS } from "../../locales/dev";
+import { MarketBoothService } from "../../services";
+import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { DeleteConfirmation } from "../form/DeleteConfirmation";
 import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
 import styles from "./MarketBoothSettings.module.scss";
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { TKEYS } from "../../locales/dev";
 
 type Props = {
-  marketBooth: Resource<MarketBoothResponse>;
-  onUpdate: () => void;
+  marketBooth: () => MarketBoothResponse | undefined;
+  onUpdate?: () => Promise<void>;
 };
 
 export default function MarketBoothSettings(props: Props) {
-  const { accessToken } = useAccessTokensContext();
-
   const [trans] = useTransContext();
 
-  const marketBoothService = new MarketBoothServiceClient(accessToken);
+  const { accessToken } = useAccessTokensContext();
+
+  const marketBoothService = new MarketBoothService(accessToken);
 
   const [showEditMarketBooth, setShowEditMarketBooth] = createSignal(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
@@ -44,7 +41,7 @@ export default function MarketBoothSettings(props: Props) {
     setShowEditMarketBooth(false);
   }
 
-  function deleteMarketBooth() {
+  function startDeletetion() {
     setShowDeleteConfirmation(true);
   }
 
@@ -53,21 +50,11 @@ export default function MarketBoothSettings(props: Props) {
   }
 
   async function confirmDeleteion() {
-    const request: DeleteMarketBoothRequest = {
-      marketBoothId: props.marketBooth()!.marketBoothId,
-    };
-
-    await marketBoothService.client.DeleteMarketBooth(
-      request,
-      await marketBoothService.withAuthHeader()
-    );
-
-    props.onUpdate();
-  }
-
-  function handleUpdate() {
-    handleCloseEditMarketBooth();
-    props.onUpdate();
+    if (!_.isNil(props.marketBooth())) {
+      await marketBoothService.delete(props.marketBooth()!.marketBoothId);
+    }
+    await props.onUpdate?.();
+    setShowDeleteConfirmation(false);
   }
 
   return (
@@ -113,15 +100,13 @@ export default function MarketBoothSettings(props: Props) {
         <HSpace />
       </Section>
 
-      <HSpace />
-
       <Section wide bordered>
-        <span class={styles.Subtitle}>
+        <span class={styles.Title}>
           <Trans key={TKEYS.form.action.Edit} />
         </span>
 
         <div class={styles.EditSection}>
-          <p>
+          <p class={styles.Body}>
             <Trans key={TKEYS.dashboard["edit-market-booth-details"]} />
           </p>
           <ActionButton actionType="neutral" onClick={editMarketBooth}>
@@ -130,7 +115,7 @@ export default function MarketBoothSettings(props: Props) {
         </div>
       </Section>
 
-      <HSpace size="highest" />
+      <HSpace />
 
       <Section wide danger>
         <span class={styles.Title}>
@@ -138,10 +123,10 @@ export default function MarketBoothSettings(props: Props) {
         </span>
 
         <div class={styles.DangerSection}>
-          <p>
+          <p class={styles.Body}>
             <Trans key={TKEYS.dashboard["delete-this-market-booth"]} />
           </p>
-          <ActionButton actionType="danger" onClick={deleteMarketBooth}>
+          <ActionButton actionType="danger" onClick={startDeletetion}>
             <Trans key={TKEYS.form.action.Delete} />
           </ActionButton>
         </div>
@@ -152,12 +137,12 @@ export default function MarketBoothSettings(props: Props) {
           marketBooth={props.marketBooth()!}
           class={styles.EditMarketBooth}
           onClose={handleCloseEditMarketBooth}
-          onUpdate={handleUpdate}
+          onUpdate={() => props.onUpdate?.()}
         />
       </Show>
 
       <DeleteConfirmation
-        item={trans("dashboard.market-booth")}
+        item={trans(TKEYS.dashboard["market-booth"])}
         itemName={props.marketBooth()?.name}
         onCancel={discardDeletion}
         onConfirmation={confirmDeleteion}

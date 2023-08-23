@@ -1,156 +1,76 @@
-import { grpc } from "@improbable-eng/grpc-web";
-import { useNavigate, useParams } from "@solidjs/router";
-import _ from "lodash";
-import { Show, createResource, createSignal, onMount } from "solid-js";
-
-import { ActionButton } from "@peoplesmarkets/frontend-lib";
-
-import { MarketBoothServiceClient } from "../../clients";
-import { MarketBoothResponse } from "../../clients/peoplesmarkets/commerce/v1/market_booth";
-import { DASHBOARD_PATH, GET_STARTED_PATH, buildPath } from "../App";
-import CreateMarketBoothDialog from "../components/commerce/CreateMarketBoothDialog";
-import MarketBoothSettings from "../components/commerce/MarketBoothSettings";
-import DashboardPanel from "../components/dashboard/DashboardPanel";
-import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { authGuardRedirect } from "../lib/auth";
-import styles from "./Dashboard.module.scss";
 import { Trans } from "@mbarzda/solid-i18next";
+import { A, useNavigate, useParams } from "@solidjs/router";
+import _ from "lodash";
+import { Show, createSignal, onMount } from "solid-js";
+
+import { DASHBOARD_PATH, USER_SETTINGS_PATH, buildPath } from "../App";
+import MarketBoothSettings from "../components/commerce/MarketBoothSettings";
+import { useMarketBoothContext } from "../contexts/MarketBoothContext";
 import { TKEYS } from "../locales/dev";
+import styles from "./Dashboard.module.scss";
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  const { accessToken, currentSession } = useAccessTokensContext();
+  const {
+    currentMarketBooth,
+    setCurrentMarketBooth,
+    refetchCurrentMarketBooth,
+    refetchMarketBoothList,
+    initializeMarketBoothList,
+  } = useMarketBoothContext();
 
-  const [marketBoothId, setMarketBoothId] = createSignal(
-    useParams().marketBoothId
-  );
-
-  const marketBoothService = new MarketBoothServiceClient(accessToken);
-
-  const [showCreateMarketBooth, setShowCreateMarketBooth] = createSignal(false);
-
-  const [marketBoothList, marketBoothListActions] = createResource(
-    currentSession()?.userId,
-    listMarketBooths
-  );
-
-  const [marketBooth, marketBoothActions] = createResource(
-    marketBoothId,
-    getMarketBooth
-  );
+  const [showCreateMarketBooth] = createSignal(false);
 
   onMount(async () => {
-    await authGuardRedirect(GET_STARTED_PATH);
+    const marketBoothId = useParams().marketBoothId;
+    await initializeMarketBoothList();
 
-    if (_.isNil(marketBoothId())) {
-      const marketBoothList = await listMarketBooths(currentSession().userId!);
-
-      if (_.isEmpty(marketBoothList.marketBooths)) {
-        setShowCreateMarketBooth(true);
-      } else {
-        navigate(
-          buildPath(
-            DASHBOARD_PATH,
-            _.first(marketBoothList.marketBooths)!.marketBoothId
-          ),
-          { replace: true }
-        );
-      }
+    if (_.isNil(marketBoothId)) {
+      // Dashboard path called without marketBoothId
+      checkCurrentMarketBoothOrRedirect();
+    } else if (setCurrentMarketBooth(marketBoothId)) {
+      // Successfully set current market booth from market booth list
+      navigate(buildPath(DASHBOARD_PATH, marketBoothId), { replace: true });
+    } else {
+      // Could not find current market booth in market booth list
+      await refetchMarketBoothList();
+      navigate(DASHBOARD_PATH, { replace: true });
     }
   });
 
-  async function listMarketBooths(userId: string) {
-    return await marketBoothService.client.ListMarketBooths(
-      { userId },
-      await marketBoothService.withAuthHeader()
-    );
-  }
-
-  async function getMarketBooth(
-    marketBoothId: string
-  ): Promise<MarketBoothResponse> {
-    let marketBooth;
-
-    try {
-      marketBooth = await marketBoothService.client.GetMarketBooth(
-        { marketBoothId },
-        await marketBoothService.withAuthHeader()
-      );
-    } catch (err: any) {
-      if (err?.code === grpc.Code.NotFound) {
-        navigate(DASHBOARD_PATH);
-      }
-
-      throw err;
+  function checkCurrentMarketBoothOrRedirect() {
+    if (_.isNil(currentMarketBooth())) {
+      navigate(USER_SETTINGS_PATH, { replace: true });
+    } else {
+      navigate(buildPath(DASHBOARD_PATH, currentMarketBooth()!.marketBoothId), {
+        replace: true,
+      });
     }
-
-    if (!_.isNil(marketBooth.marketBooth)) {
-      return marketBooth.marketBooth;
-    }
-
-    throw new Error("Could not get market booth");
   }
 
-  function handleUpdate(newMarketBoothId?: string) {
-    if (!_.isNil(newMarketBoothId)) {
-      handleMarketBoothSelect(newMarketBoothId);
-    }
-
-    marketBoothActions.refetch();
-    marketBoothListActions.refetch();
-  }
-
-  function handleCloseCreateMarketBooth() {
-    setShowCreateMarketBooth(false);
-  }
-
-  function handleOpenCreateMarketBooth() {
-    setShowCreateMarketBooth(true);
-  }
-
-  function handleMarketBoothSelect(selected: string) {
-    setMarketBoothId(selected);
-    navigate(buildPath(DASHBOARD_PATH, selected));
+  async function handleMarketBoothUpdate() {
+    await refetchMarketBoothList();
+    await refetchCurrentMarketBooth();
+    checkCurrentMarketBoothOrRedirect();
   }
 
   return (
     <div class={styles.Dashboard}>
-      <DashboardPanel
-        marketBoothList={marketBoothList}
-        selectedMarketBooth={marketBooth}
-        onSelectMarketBooth={handleMarketBoothSelect}
-      />
+      <Show when={currentMarketBooth()}>
+        <div class={styles.Settings}>
+          <span class={styles.Title}>{currentMarketBooth()?.name}</span>
 
-      <div class={styles.Settings}>
-        <div class={styles.SettingsNav}>
-          <div class={styles.SettingsNavTitle}>
-            <h2>{marketBooth()?.name}</h2>
-          </div>
-
-          <ActionButton
-            actionType="active-filled"
-            onClick={handleOpenCreateMarketBooth}
-          >
-            <Trans key={TKEYS.dashboard["create-a-new-market-booth"]} />
-          </ActionButton>
+          <MarketBoothSettings
+            marketBooth={() => currentMarketBooth()}
+            onUpdate={handleMarketBoothUpdate}
+          />
         </div>
-
-        <div class={styles.SettingsBody}>
-          <Show when={!_.isNil(marketBooth())}>
-            <MarketBoothSettings
-              marketBooth={marketBooth}
-              onUpdate={handleUpdate}
-            />
-          </Show>
-        </div>
-      </div>
-
+      </Show>
       <Show when={showCreateMarketBooth()}>
-        <CreateMarketBoothDialog
-          onClose={handleCloseCreateMarketBooth}
-          onUpdate={handleUpdate}
-        />
+        <A href={USER_SETTINGS_PATH}>
+          <Trans key={TKEYS["main-navigation"].actions["user-settings"]} />
+        </A>
       </Show>
     </div>
   );

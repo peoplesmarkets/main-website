@@ -9,7 +9,7 @@
     "jsx": "preserve",
     "strict": true,
     "strictNullChecks": true,
-    "types": ["vite/client"],
+    "types": [],
     "noEmit": true,
     "isolatedModules": true,
     "composite": true,

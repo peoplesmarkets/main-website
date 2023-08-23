@@ -2,16 +2,39 @@ export const TKEYS = {
   "Peoples-Markets": "Peoples-Markets",
   "Peoples-Markets-community": "Peoples-Markets-community",
   peoplesmarkets_com: "peoplesmarkets_com",
-  "sign-in": "sign-in",
   form: {
     action: {
       Save: "form.action.Save",
       Edit: "form.action.Edit",
       Delete: "form.action.Delete",
+      Cancel: "form.action.Cancel",
+      "Are-you-sure-you-want-to-delete-the":
+        "form.action.Are-you-sure-you-want-to-delete-the",
+      "Confirm-Deletion?": "form.action.Confirm-Deletion?",
+    },
+    errors: {
+      "required-field": "form.errors.required-field",
+      "not-modified": "form.errors.not-modified",
+    },
+  },
+  "main-navigation": {
+    actions: {
+      "sign-in": "main-navigation.actions.sign-in",
+      "user-settings": "main-navigation.actions.user-settings",
+    },
+    links: {
+      home: "main-navigation.links.home",
+      dashboard: "main-navigation.links.dashboard",
+    },
+    settings: {
+      "switch-to-light-mode": "main-navigation.settings.switch-to-light-mode",
+      "switch-to-dark-mode": "main-navigation.settings.switch-to-dark-mode",
+      "change-language": "main-navigation.settings.change-language",
     },
   },
   footer: {
     "main-paragraph": "footer.main-paragraph",
+    "community-paragraph": "footer.community-paragraph",
   },
   imprint: {
     title: "imprint.title",
@@ -56,5 +79,14 @@ export const TKEYS = {
     "danger-zone": "dashboard.danger-zone",
     "delete-this-market-booth": "dashboard.delete-this-market-booth",
     "market-booth": "dashboard.market-booth",
+  },
+  "user-settings-page": {
+    title: "user-settings-page.title",
+    "market-booth": {
+      "current-market-booth":
+        "user-settings-page.market-booth.current-market-booth",
+      "no-market-booth-yet":
+        "user-settings-page.market-booth.no-market-booth-yet",
+    },
   },
 };

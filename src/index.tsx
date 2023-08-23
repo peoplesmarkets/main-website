@@ -1,16 +1,10 @@
 // @refresh reload
-import { TransProvider } from "@mbarzda/solid-i18next";
-import { Router } from "@solidjs/router";
-import i18next from "i18next";
-import LanguageDetector from "i18next-browser-languagedetector";
 import _ from "lodash";
 import { render } from "solid-js/web";
 
-import "@peoplesmarkets/frontend-lib/theme.scss";
+import "./theme.scss";
 
 import App from "./App";
-import { AccessTokenProvider } from "./contexts/AccessTokensContext";
-import { LOCALES } from "./locales";
 
 const root = document.getElementById("root");
 
@@ -66,16 +60,4 @@ if (_.isEmpty(import.meta.env.VITE_COMMUNITY_WEBSITE_URL)) {
   );
 }
 
-render(() => {
-  i18next.use(LanguageDetector);
-
-  return (
-    <Router>
-      <AccessTokenProvider>
-        <TransProvider options={{ resources: LOCALES }}>
-          <App />
-        </TransProvider>
-      </AccessTokenProvider>
-    </Router>
-  );
-}, root!);
+render(() => <App />, root!);

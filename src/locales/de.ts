@@ -4,17 +4,40 @@ export const DE = {
   "Peoples-Markets": EN["Peoples-Markets"],
   "Peoples-Markets-community": EN["Peoples-Markets-community"],
   peoplesmarkets_com: EN.peoplesmarkets_com,
-  "sign-in": "Login",
   form: {
     action: {
       Save: "Speichern",
       Edit: "Bearbeiten",
       Delete: "Löschen",
+      Cancel: "Abbrechen",
+      "Are-you-sure-you-want-to-delete-the":
+        '{{item}} namens "{{name}}" wirklich löschen?',
+      "Confirm-Deletion?": "Wirklich löschen?",
+    },
+    errors: {
+      "required-field": "Eingabe erforderlich",
+      "not-modified": "Kein Änderrung",
+    },
+  },
+  "main-navigation": {
+    actions: {
+      "sign-in": "Login",
+      "user-settings": "Benutzereinstellungen",
+    },
+    links: {
+      home: "Hauptseite",
+      dashboard: EN["main-navigation"].links.dashboard,
+    },
+    settings: {
+      "switch-to-light-mode": "Hellmodus aktivieren",
+      "switch-to-dark-mode": "Dunkelmodus aktivieren",
+      "change-language": "Language / Sprache",
     },
   },
   footer: {
     "main-paragraph":
       "People's Markets ist eine online Platform auf der Menschen ihre Waren anbieten und ihren Online-Auftritt ausbauen können.",
+    "community-paragraph": "Gestalte jeden Aspekt des Projectes mit.",
   },
   imprint: {
     title: "Impressum",
@@ -57,5 +80,12 @@ export const DE = {
     "danger-zone": "Gefahrenzone",
     "delete-this-market-booth": "Diesen Marktstand Löschen",
     "market-booth": "Marktstand",
+  },
+  "user-settings-page": {
+    title: "Benutzereinstellungen",
+    "market-booth": {
+      "current-market-booth": "Marktstand Auswahl",
+      "no-market-booth-yet": "Bisher kein Markstand",
+    },
   },
 };
