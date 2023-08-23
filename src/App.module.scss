@@ -1,9 +1,17 @@
+$medium-min-width: 600px;
+$expanded-min-width: 1080px;
+
 .App {
-  margin: 0;
-  padding: 0;
+  background-color: var(--primary-background-color);
+  width: 100%;
 }
 
 .Content {
-  background-color: var(--primary-background-color);
   min-height: var(--fill-height);
+  margin: 0 auto;
+  padding: 0 1rem;
+
+  @media only screen and (min-width: $medium-min-width) {
+    max-width: 80%;
+  }
 }

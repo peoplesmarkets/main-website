@@ -10,7 +10,7 @@ import {
   LanguageIcon,
   MainLogoIcon,
   MainLogoIconless,
-  ProfileIcon,
+  UserSettingsIcon,
   SignInIcon,
   Theme,
   ThemeIcon,
@@ -21,7 +21,12 @@ import {
 import styles from "./Panel.module.scss";
 import { TKEYS } from "./locales/dev";
 import { getNextLanguageKey } from "./locales";
-import { DASHBOARD_PATH, INDEX_PATH, isSubPath } from "./App";
+import {
+  DASHBOARD_PATH,
+  INDEX_PATH,
+  USER_SETTINGS_PATH,
+  isSubPath,
+} from "./App";
 import { useAccessTokensContext } from "./contexts/AccessTokensContext";
 
 false && clickOutside;
@@ -49,10 +54,7 @@ export function Panel(props: Props) {
   });
 
   createEffect(() => {
-    console.log(location.pathname);
-    if (location.pathname) {
-      closeSlider();
-    }
+    location.pathname && closeSlider();
   });
 
   function switchTheme() {
@@ -126,6 +128,7 @@ export function Panel(props: Props) {
           <Show when={!isAuthenticated()}>
             <A
               href={INDEX_PATH}
+              replace
               class={styles.NavigationItem}
               classList={{
                 [styles.NavigationItemActive]: Boolean(
@@ -151,6 +154,19 @@ export function Panel(props: Props) {
               <DashboardIcon class={styles.MainNavigationIcon} />
               <Trans key={TKEYS["main-navigation"].links.dashboard} />
             </A>
+
+            <A
+              href={USER_SETTINGS_PATH}
+              class={styles.NavigationItem}
+              classList={{
+                [styles.NavigationItemActive]: Boolean(
+                  useMatch(() => USER_SETTINGS_PATH)()
+                ),
+              }}
+            >
+              <UserSettingsIcon class={styles.MainNavigationIcon} />
+              <Trans key={TKEYS["main-navigation"].actions["user-settings"]} />
+            </A>
           </Show>
         </div>
 
@@ -164,13 +180,6 @@ export function Panel(props: Props) {
               <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
               <SignInIcon class={styles.NavigationIcon} />
             </a>
-          </Show>
-          <Show when={isAuthenticated()}>
-            <div class={styles.NavigationItem}>
-              <Trans key={TKEYS["main-navigation"].actions["user-settings"]} />
-
-              <ProfileIcon initials="MT" class={styles.NavigationIcon} />
-            </div>
           </Show>
 
           <button class={styles.NavigationItem} onClick={swichtLanguage}>

@@ -9,9 +9,14 @@ export const DE = {
       Save: "Speichern",
       Edit: "Bearbeiten",
       Delete: "Löschen",
+      Cancel: "Abbrechen",
+      "Are-you-sure-you-want-to-delete-the":
+        '{{item}} namens "{{name}}" wirklich löschen?',
+      "Confirm-Deletion?": "Wirklich löschen?",
     },
     errors: {
       "required-field": "Eingabe erforderlich",
+      "not-modified": "Kein Änderrung",
     },
   },
   "main-navigation": {
@@ -75,5 +80,12 @@ export const DE = {
     "danger-zone": "Gefahrenzone",
     "delete-this-market-booth": "Diesen Marktstand Löschen",
     "market-booth": "Marktstand",
+  },
+  "user-settings-page": {
+    title: "Benutzereinstellungen",
+    "market-booth": {
+      "current-market-booth": "Marktstand Auswahl",
+      "no-market-booth-yet": "Bisher kein Markstand",
+    },
   },
 };

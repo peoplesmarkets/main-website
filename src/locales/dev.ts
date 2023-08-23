@@ -7,9 +7,14 @@ export const TKEYS = {
       Save: "form.action.Save",
       Edit: "form.action.Edit",
       Delete: "form.action.Delete",
+      Cancel: "form.action.Cancel",
+      "Are-you-sure-you-want-to-delete-the":
+        "form.action.Are-you-sure-you-want-to-delete-the",
+      "Confirm-Deletion?": "form.action.Confirm-Deletion?",
     },
     errors: {
       "required-field": "form.errors.required-field",
+      "not-modified": "form.errors.not-modified",
     },
   },
   "main-navigation": {
@@ -74,5 +79,14 @@ export const TKEYS = {
     "danger-zone": "dashboard.danger-zone",
     "delete-this-market-booth": "dashboard.delete-this-market-booth",
     "market-booth": "dashboard.market-booth",
+  },
+  "user-settings-page": {
+    title: "user-settings-page.title",
+    "market-booth": {
+      "current-market-booth":
+        "user-settings-page.market-booth.current-market-booth",
+      "no-market-booth-yet":
+        "user-settings-page.market-booth.no-market-booth-yet",
+    },
   },
 };

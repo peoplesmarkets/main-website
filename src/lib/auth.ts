@@ -12,10 +12,10 @@ export async function authGuardRedirect(
   await ensureFreshTokens();
 
   if (redirectWhenAuthenticated && isAuthenticated()) {
-    navigate(path);
+    navigate(path, { replace: true });
   }
 
   if (!redirectWhenAuthenticated && !isAuthenticated()) {
-    navigate(path);
+    navigate(path, { replace: true });
   }
 }

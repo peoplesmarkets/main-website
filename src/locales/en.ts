@@ -7,9 +7,14 @@ export const EN = {
       Save: "Save",
       Edit: "Edit",
       Delete: "Delete",
+      Cancel: "Cancel",
+      "Are-you-sure-you-want-to-delete-the":
+        'Are you sure you want to delete the {{item}}: "{{name}}"?',
+      "Confirm-Deletion?": "Confirm Deletion?",
     },
     errors: {
       "required-field": "Required field",
+      "not-modified": "Not modified",
     },
   },
   "main-navigation": {
@@ -73,5 +78,12 @@ export const EN = {
     "danger-zone": "Danger Zone",
     "delete-this-market-booth": "Delete this Market Booth",
     "market-booth": "Market Booth",
+  },
+  "user-settings-page": {
+    title: "User Settings",
+    "market-booth": {
+      "current-market-booth": "Current Market Booth",
+      "no-market-booth-yet": "No Market Booth yet",
+    },
   },
 };

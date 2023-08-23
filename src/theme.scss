@@ -74,7 +74,9 @@
   --fill-height: calc(100vh - var(--top-app-bar-height));
 
   $medium-min-width: 600px;
+  --medium-min-width: 600px;
   $expanded-min-width: 1080px;
+  --expanded-min-width: 1080px;
   $medium-max-width: $expanded-min-width - 1px;
 
   // Spacing
@@ -166,6 +168,12 @@
 html {
   font: var(--font-body);
   color: var(--content-font-color);
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 
 .no-scroll {
