@@ -2,13 +2,6 @@ import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 
-import {
-  ActionButton,
-  HSpace,
-  Section,
-  secondsToLocaleString,
-} from "@peoplesmarkets/frontend-lib";
-
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
@@ -16,6 +9,9 @@ import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/m
 import { DeleteConfirmation } from "../form/DeleteConfirmation";
 import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
 import styles from "./MarketBoothSettings.module.scss";
+import { secondsToLocaleString } from "../../lib";
+import { ActionButton } from "../form";
+import { Section } from "../layout/Section";
 
 type Props = {
   marketBooth: () => MarketBoothResponse | undefined;
@@ -64,8 +60,6 @@ export default function MarketBoothSettings(props: Props) {
           <Trans key={TKEYS.dashboard.Details} />
         </span>
 
-        <HSpace />
-
         <span class={styles.Details}>
           <Trans key={TKEYS.dashboard["created-at"]} />:{" "}
           <strong>
@@ -80,13 +74,9 @@ export default function MarketBoothSettings(props: Props) {
           </strong>
         </span>
 
-        <HSpace />
-
         <span class={styles.Subtitle}>
           <Trans key={TKEYS.dashboard.Description} />:
         </span>
-
-        <HSpace size="small" />
 
         <Show
           when={_.isEmpty(props.marketBooth()?.description)}
@@ -96,8 +86,6 @@ export default function MarketBoothSettings(props: Props) {
             <Trans key={TKEYS.dashboard["no-market-booth-description"]} />
           </span>
         </Show>
-
-        <HSpace />
       </Section>
 
       <Section wide bordered>
@@ -114,8 +102,6 @@ export default function MarketBoothSettings(props: Props) {
           </ActionButton>
         </div>
       </Section>
-
-      <HSpace />
 
       <Section wide danger>
         <span class={styles.Title}>

@@ -1,10 +1,9 @@
 import _ from "lodash";
 import { assert, describe, expect, test } from "vitest";
 
-import { LOCALES, getNextLanguageKey } from ".";
+import { LANGUAGES, LOCALES, getNextLanguageKey } from ".";
 import { errorPrint } from "../../testing/common";
 import { TKEYS } from "./dev";
-import { LANGUAGES } from "@peoplesmarkets/frontend-lib";
 
 describe("Locales", () => {
   test("Check that no language has TKEYS vaules as value", () => {

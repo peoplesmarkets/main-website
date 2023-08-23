@@ -1,7 +1,6 @@
 import { JSX, onCleanup, onMount } from "solid-js";
 
-import { CloseIcon } from "@peoplesmarkets/frontend-lib";
-
+import { CloseIcon } from "../icons";
 import styles from "./Dialog.module.scss";
 
 type Props = {
@@ -30,7 +29,7 @@ export function Dialog(props: Props) {
                 class={styles.CloseButton}
                 onClick={(e) => props.onClose(e)}
               >
-                <CloseIcon extraClass={styles.Close} />
+                <CloseIcon class={styles.Close} />
               </button>
             </div>
           </div>

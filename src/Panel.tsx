@@ -4,32 +4,31 @@ import _ from "lodash";
 import { Accessor, Setter, Show, createEffect, createSignal } from "solid-js";
 
 import {
-  BurgerArrowIcon,
-  BurgerIcon,
-  DashboardIcon,
-  LanguageIcon,
-  MainLogoIcon,
-  MainLogoIconless,
-  UserSettingsIcon,
-  SignInIcon,
-  Theme,
-  ThemeIcon,
-  buildAuthorizationRequest,
-  clickOutside,
-} from "@peoplesmarkets/frontend-lib";
-
-import styles from "./Panel.module.scss";
-import { TKEYS } from "./locales/dev";
-import { getNextLanguageKey } from "./locales";
-import {
   COMMUNITY_PATH,
   DASHBOARD_PATH,
   INDEX_PATH,
   USER_SETTINGS_PATH,
   isSubPath,
 } from "./App";
-import { useAccessTokensContext } from "./contexts/AccessTokensContext";
+import styles from "./Panel.module.scss";
+import { MainLogoText } from "./components/assets";
+import {
+  BurgerArrowIcon,
+  BurgerIcon,
+  DashboardIcon,
+  LanguageIcon,
+  MainLogoIcon,
+  SignInIcon,
+  ThemeIcon,
+  UserSettingsIcon,
+} from "./components/icons";
 import CommunityIcon from "./components/icons/CommunityLogoIcon";
+import { useAccessTokensContext } from "./contexts/AccessTokensContext";
+import { Theme } from "./contexts/ThemeStore";
+import { clickOutside } from "./directives";
+import { buildAuthorizationRequest } from "./lib";
+import { getNextLanguageKey } from "./locales";
+import { TKEYS } from "./locales/dev";
 
 false && clickOutside;
 
@@ -102,7 +101,7 @@ export function Panel(props: Props) {
         <div class={styles.Main}>
           <A class={styles.MainLink} href={INDEX_PATH}>
             <MainLogoIcon class={styles.MainLogoIcon} />
-            <MainLogoIconless class={styles.MainLogo} />
+            <MainLogoText class={styles.MainLogo} />
           </A>
         </div>
       </div>

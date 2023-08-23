@@ -2,6 +2,10 @@
   padding: 0 var(--large-spacer);
 }
 
+.Form > * {
+  margin-bottom: 1rem;
+}
+
 .DialogFooter {
   height: var(--largest-spacer);
   padding: 0 var(--large-spacer);

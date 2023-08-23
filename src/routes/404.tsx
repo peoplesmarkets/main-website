@@ -1,6 +1,6 @@
 import { A } from "@solidjs/router";
 
-import { Page } from "@peoplesmarkets/frontend-lib";
+import { Page } from "../components/layout/Page";
 
 import { INDEX_PATH } from "../App";
 import { Trans } from "@mbarzda/solid-i18next";
@@ -9,7 +9,7 @@ import { TKEYS } from "../locales/dev";
 export default function NotFound() {
   return (
     <>
-      <Page wide={true}>
+      <Page>
         <p
           style={{
             "font-size": "48px",
