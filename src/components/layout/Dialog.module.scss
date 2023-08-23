@@ -1,0 +1,70 @@
+.Background {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: var(--blend-color);
+  opacity: var(--blend-opacity);
+}
+
+.Container {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background-color: transparent;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Dialog {
+  width: 100%;
+  max-width: 400px;
+  margin: 0 2rem;
+  border: none;
+  border-radius: 28px;
+  background-color: var(--primary-background-color);
+}
+
+.Header {
+  height: var(--largest-spacer);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-left: 2rem;
+  margin-right: 1rem;
+}
+
+.Title {
+  font: var(--font-title);
+}
+
+.CloseContainer {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.CloseButton {
+  height: 36px;
+  width: 36px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  border-radius: 50%;
+}
+
+.CloseButton:hover {
+  color: var(--hovered-font-color);
+  background-color: var(--hovered-background-color);
+  cursor: pointer;
+}
+
+.Close {
+  height: 20px;
+}

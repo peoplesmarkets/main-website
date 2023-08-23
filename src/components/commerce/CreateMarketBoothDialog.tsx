@@ -1,4 +1,5 @@
 import { grpc } from "@improbable-eng/grpc-web";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
@@ -12,16 +13,15 @@ import {
   TextField,
 } from "@peoplesmarkets/frontend-lib";
 
-import { MarketBoothServiceClient } from "../../../clients";
-import { CreateMarketBoothRequest } from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import styles from "./CreateMarketBoothDialog.module.scss";
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { TKEYS } from "../../locales/dev";
+import { MarketBoothService } from "../../services";
+import { CreateMarketBoothRequest } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import styles from "./CreateMarketBoothDialog.module.scss";
 
 type Props = {
   onClose: () => void;
-  onUpdate: (newMarketBoothId?: string) => void;
+  onUpdate?: () => void;
 };
 
 export default function CreateMarketBoothDialog(props: Props) {
@@ -29,7 +29,7 @@ export default function CreateMarketBoothDialog(props: Props) {
 
   const [trans] = useTransContext();
 
-  const marketBoothService = new MarketBoothServiceClient(accessToken);
+  const marketBoothService = new MarketBoothService(accessToken);
 
   const [marketBooth, setMarketBooth] = createStore<CreateMarketBoothRequest>({
     name: "",
@@ -57,17 +57,14 @@ export default function CreateMarketBoothDialog(props: Props) {
     event.preventDefault();
 
     if (_.isEmpty(marketBooth.name)) {
-      setErrors("name", [trans("form.required-field")]);
+      setErrors("name", [trans(TKEYS.form.errors["required-field"])]);
       return;
     }
 
     try {
-      const createdMarketBooth =
-        await marketBoothService.client.CreateMarketBooth(
-          marketBooth,
-          await marketBoothService.withAuthHeader()
-        );
-      props.onUpdate(createdMarketBooth.marketBooth?.marketBoothId);
+      await marketBoothService.create(marketBooth);
+
+      props.onUpdate?.();
       props.onClose();
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.AlreadyExists) {

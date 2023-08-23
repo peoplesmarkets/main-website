@@ -1,38 +1,40 @@
+import { grpc } from "@improbable-eng/grpc-web";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import {
   ActionButton,
-  Dialog,
   DiscardConfirmation,
   HSpace,
   TextArea,
   TextField,
 } from "@peoplesmarkets/frontend-lib";
 
-import { grpc } from "@improbable-eng/grpc-web";
-import { MarketBoothServiceClient } from "../../../clients";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { TKEYS } from "../../locales/dev";
+import { MarketBoothService } from "../../services";
 import {
   MarketBoothResponse,
   UpdateMarketBoothRequest,
-} from "../../../clients/peoplesmarkets/commerce/v1/market_booth";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+} from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { Dialog } from "../layout/Dialog";
 import styles from "./EditMarketBoothDialog.module.scss";
-import { Trans } from "@mbarzda/solid-i18next";
-import { TKEYS } from "../../locales/dev";
 
 type Props = {
   marketBooth: MarketBoothResponse;
   class?: string;
   onClose: () => void;
-  onUpdate: (marketBooth?: MarketBoothResponse) => void;
+  onUpdate?: () => void;
 };
 
 export function EditMarketBoothDialog(props: Props) {
+  const [trans] = useTransContext();
+
   const { accessToken } = useAccessTokensContext();
 
-  const marketBoothService = new MarketBoothServiceClient(accessToken);
+  const marketBoothService = new MarketBoothService(accessToken);
 
   /* eslint-disable-next-line solid/reactivity */
   const initialMarketBooth = _.cloneDeep(props.marketBooth);
@@ -73,19 +75,15 @@ export function EditMarketBoothDialog(props: Props) {
     event.preventDefault();
 
     if (!dataWasChanged()) {
-      setErrors("name", ["not modified"]);
-      setErrors("description", ["not modified"]);
+      setErrors("name", [trans(TKEYS.form.errors["not-modified"])]);
+      setErrors("description", [trans(TKEYS.form.errors["not-modified"])]);
       return;
     }
 
     try {
-      const updatedMarketBooth =
-        await marketBoothService.client.UpdateMarketBooth(
-          marketBooth,
-          await marketBoothService.withAuthHeader()
-        );
+      await marketBoothService.update(marketBooth);
 
-      props.onUpdate(updatedMarketBooth.marketBooth);
+      props.onUpdate?.();
       props.onClose();
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.AlreadyExists) {

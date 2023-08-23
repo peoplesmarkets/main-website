@@ -1,7 +1,7 @@
 import _ from "lodash";
 import { assert, describe, expect, test } from "vitest";
 
-import { LOCALES } from ".";
+import { LOCALES, getNextLanguageKey } from ".";
 import { errorPrint } from "../../testing/common";
 import { TKEYS } from "./dev";
 
@@ -87,5 +87,36 @@ describe("Locales", () => {
         ).toEqual(comparisons[b]);
       }
     }
+  });
+
+  test("Get next languages key", () => {
+    let res;
+
+    try {
+      res = getNextLanguageKey("de");
+    } catch (err) {
+      expect(err).toBeUndefined();
+    }
+
+    assert(typeof res === "string");
+    assert(res != "dev");
+
+    try {
+      res = getNextLanguageKey("en");
+    } catch (err) {
+      expect(err).toBeUndefined();
+    }
+
+    assert(typeof res === "string");
+    assert(res != "dev");
+
+    try {
+      res = getNextLanguageKey(undefined as any);
+    } catch (err) {
+      expect(err).toBeUndefined();
+    }
+
+    assert(typeof res === "string");
+    assert(res != "dev");
   });
 });

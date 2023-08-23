@@ -3,10 +3,10 @@ import { onMount } from "solid-js";
 
 import { buildAuthorizationRequest } from "@peoplesmarkets/frontend-lib";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { INDEX_PATH } from "../../App";
+import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { INDEX_PATH } from "../App";
 
-export default function SignIn() {
+export function signInDataRoute() {
   const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();
   const navigate = useNavigate();
 
