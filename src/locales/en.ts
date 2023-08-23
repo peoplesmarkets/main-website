@@ -10,6 +10,7 @@ export const EN: typeof TKEYS = {
       Edit: "Edit",
       Delete: "Delete",
       Cancel: "Cancel",
+      Discard: "Discard",
       "Are-you-sure-you-want-to-delete-the":
         'Are you sure you want to delete the {{item}}: "{{name}}"?',
       "Confirm-Deletion?": "Confirm Deletion?",

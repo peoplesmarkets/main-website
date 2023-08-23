@@ -1,16 +1,15 @@
+import { TransProvider } from "@mbarzda/solid-i18next";
 import { Route, Router, Routes } from "@solidjs/router";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import { lazy } from "solid-js";
 
-import { initializeThemeStore } from "@peoplesmarkets/frontend-lib";
-
-import { TransProvider } from "@mbarzda/solid-i18next";
 import styles from "./App.module.scss";
 import Footer from "./Footer";
 import { Panel } from "./Panel";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 import { MarketBoothProvider } from "./contexts/MarketBoothContext";
+import { initializeThemeStore } from "./contexts/ThemeStore";
 import { signInDataRoute } from "./data-routes";
 import { LOCALES } from "./locales";
 import NotFound from "./routes/404";

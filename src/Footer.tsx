@@ -3,19 +3,14 @@ import { A } from "@solidjs/router";
 import { Accessor } from "solid-js";
 
 import {
-  GitHubMark,
-  MainLogoIcon,
-  MainLogoIconless,
-  OpenInNew,
-  Theme,
-} from "@peoplesmarkets/frontend-lib";
-
-import {
   IMPRINT_PATH,
   PRIVACY_POLICY_PATH,
   TERMS_OF_SERVICE_PATH,
 } from "./App";
 import styles from "./Footer.module.scss";
+import { MainLogoText } from "./components/assets";
+import { GitHubIcon, MainLogoIcon, OpenInNewIcon } from "./components/icons";
+import { Theme } from "./contexts/ThemeStore";
 import { TKEYS } from "./locales/dev";
 
 type Props = {
@@ -29,7 +24,7 @@ export default function Footer(props: Props) {
         <div class={styles.Footer}>
           <div class={styles.Title}>
             <MainLogoIcon class={styles.MainLogoIcon} />
-            <MainLogoIconless class={styles.MainLogoText} />
+            <MainLogoText class={styles.MainLogoText} />
           </div>
 
           <div class={styles.Content}>
@@ -62,7 +57,7 @@ export default function Footer(props: Props) {
               target="_blank"
             >
               <Trans key={TKEYS["Peoples-Markets-community"]} />{" "}
-              <OpenInNew class={styles.OpenInNew} />
+              <OpenInNewIcon class={styles.OpenInNew} />
             </A>
           </div>
         </div>
@@ -73,7 +68,7 @@ export default function Footer(props: Props) {
             href={import.meta.env.VITE_OPEN_SOURCE_REPOSITORIES_URL}
             target="_blank"
           >
-            <GitHubMark class={styles.SocialIcon} theme={props.theme} />
+            <GitHubIcon class={styles.SocialIcon} theme={props.theme} />
           </A>
         </div>
       </div>

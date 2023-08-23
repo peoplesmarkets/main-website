@@ -1,11 +1,10 @@
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { Show } from "solid-js";
 
-import { ActionButton } from "@peoplesmarkets/frontend-lib";
-
-import { Dialog } from "../layout/Dialog";
-import styles from "./DeleteConfirmation.module.scss";
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { TKEYS } from "../../locales/dev";
+import { Dialog } from "../layout/Dialog";
+import { ActionButton } from "./ActionButton";
+import styles from "./DeleteConfirmation.module.scss";
 
 type Props = {
   readonly item: string;

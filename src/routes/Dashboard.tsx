@@ -69,7 +69,7 @@ export default function Dashboard() {
       </Show>
       <Show when={showCreateMarketBooth()}>
         <A href={USER_SETTINGS_PATH}>
-          <Trans key={TKEYS["main-navigation"].actions["user-settings"]} />
+          <Trans key={TKEYS["main-navigation"].links["user-settings"]} />
         </A>
       </Show>
     </div>

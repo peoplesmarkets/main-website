@@ -16,9 +16,19 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
+          "solid-js": ["solid-js", "@solidjs/meta", "@solidjs/router"],
           lodash: ["lodash"],
-          "frontend-lib": ["@peoplesmarkets/frontend-lib"],
-          "frontend-lib-clients": ["@peoplesmarkets/frontend-lib/clients"],
+          axios: ["axios"],
+          i18next: [
+            "i18next",
+            "i18next-browser-languagedetector",
+            "@mbarzda/solid-i18next",
+          ],
+          "markdown-it": [
+            "markdown-it",
+            "markdown-it-image-figures",
+            "markdown-it-link-attributes",
+          ],
         },
       },
     },

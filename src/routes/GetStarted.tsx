@@ -1,10 +1,8 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { onMount } from "solid-js";
 
-import { buildAuthorizationRequest } from "@peoplesmarkets/frontend-lib";
-
 import { DASHBOARD_PATH } from "../App";
-import { authGuardRedirect } from "../lib/auth";
+import { authGuardRedirect, buildAuthorizationRequest } from "../lib/auth";
 import { TKEYS } from "../locales/dev";
 import styles from "./GetStarted.module.scss";
 

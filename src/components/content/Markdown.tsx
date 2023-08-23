@@ -1,8 +1,7 @@
 import _ from "lodash";
 import { createEffect } from "solid-js";
 
-import { getMarkdownItInstance } from "@peoplesmarkets/frontend-lib";
-
+import { getMarkdownItInstance } from "../../lib";
 import styles from "./Markdown.module.scss";
 
 type Props = {
