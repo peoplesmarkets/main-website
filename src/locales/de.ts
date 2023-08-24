@@ -39,7 +39,7 @@ export const DE: typeof TKEYS = {
   footer: {
     "main-paragraph":
       "People's Markets ist eine online Platform auf der Menschen ihre Waren anbieten und ihren Online-Auftritt ausbauen können.",
-    "community-paragraph": "Gestalte jeden Aspekt des Projectes mit.",
+    "community-paragraph": "Gestalte jeden Aspekt des Projekts mit.",
   },
   imprint: {
     title: "Impressum",
