@@ -1,25 +1,25 @@
-import _ from "lodash";
-import { Show, createResource } from "solid-js";
 
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { Markdown } from "../../components/content/Markdown";
 import { Page } from "../../components/layout/Page";
-import styles from "./Home.module.scss";
+import { TKEYS } from "../../locales/dev";
+import styles from './Home.module.scss';
+import { PostsNav } from "./PostsNav";
 
 export default function Home() {
-  const [content] = createResource(fetchContent);
-
-  async function fetchContent() {
-    const res = await fetch("/content/posts/the-broad-idea.md");
-
-    return res.text();
-  }
+  const [trans] = useTransContext();
 
   return (
     <>
       <Page>
-        <Show when={!_.isEmpty(content())}>
-          <Markdown src={() => content()!} class={styles.Content} />
-        </Show>
+        <div class={styles.Home}>
+          <h1>
+            <Trans key={TKEYS["community-page"].headline} />
+          </h1>
+          <Markdown src={() => trans(TKEYS["community-page"].description)} />
+        </div>
+
+        <PostsNav />
       </Page>
     </>
   );

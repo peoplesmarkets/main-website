@@ -92,6 +92,9 @@ export const DE: typeof TKEYS = {
     },
   },
   "community-page": {
+    headline: "Hilf dem Projekt zu wachsen!",
+    description:
+      '## Es ist geplant, dass das der Ort sein wird, an dem sich jeder am Projekt beteiligen kann. Momentan nutze bitte die "[Issues](https://github.com/peoplesmarkets/Project/issues)" auf GitHub, um dein Feedback und Kritik abzugeben.',
     posts: {
       title: EN["community-page"].posts.title,
       "presentation-is-inspired-by":

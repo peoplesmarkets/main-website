@@ -8,7 +8,7 @@ Hello! : ) After [listing the main components](https://community.peoplesmarkets
 
 ---
 
-## 02 - Vault cluster deployment and its purpose
+### 02 - Vault cluster deployment and its purpose
 
 The setup of a Vault cluster is quite simple. There is no separation between server and client nodes, or control-plane and worker nodes. We use the integrated storage that is recommended by the HashiCorp docs which in turn uses the Raft Consensus Algorithm. That means one node is active and the other nodes are standing by. Requests to standby nodes get proxied to the active one. That means in order to be able to handle more load on the cluster, it is not helpful to simply increase the number of nodes, which is something to keep in mind for the future regarding scaling the system.
 
@@ -24,9 +24,9 @@ We use tokens in Consul (our service mesh software) in order to authenticate req
 
 _Maximilian Temeschinko_
 
-## Shameless Ads:
+### Shameless Ads:
 
-Check out [peoplesmarkets.com](https://peoplesmarkets.com)! And the [community page](https://community.peoplesmarkets.com)! And the [repositories](https://github.com/peoplesmarkets)! Have a good one : )
+Check out [peoplesmarkets.com](https://peoplesmarkets.com)! And the [repositories](https://github.com/peoplesmarkets)! Have a good one : )
 
 ![peoplesmarkets.com website logo icon](/content/FooterLogoAndPreviewImage.png)
 

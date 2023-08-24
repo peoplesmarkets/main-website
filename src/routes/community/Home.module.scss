@@ -1,10 +1,4 @@
-@import "../../components/content/Markdown.module.scss";
-
-.Content > * {
-  margin-top: 1rem;
-}
-
-.Content {
-  @extend .Markdown;
-  padding: 0 1rem;
+.Home {
+  border-bottom: var(--secondary-border);
+  padding-bottom: 2rem;
 }

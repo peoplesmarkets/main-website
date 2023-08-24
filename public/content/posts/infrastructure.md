@@ -38,7 +38,7 @@ _Maximilian Temeschinko_
 
 ## Shameless Ads:
 
-Check out [peoplesmarkets.com](https://peoplesmarkets.com)! And the [community page](https://community.peoplesmarkets.com)! And the [repositories](https://github.com/peoplesmarkets)! Have a good one : )
+Check out [peoplesmarkets.com](https://peoplesmarkets.com)! And the [repositories](https://github.com/peoplesmarkets)! Have a good one : )
 
 ![peoplesmarkets.com website logo icon](/content/FooterLogoAndPreviewImage.png)
 
