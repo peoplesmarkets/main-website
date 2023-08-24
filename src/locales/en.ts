@@ -2,7 +2,6 @@ import { TKEYS } from "./dev";
 
 export const EN: typeof TKEYS = {
   "Peoples-Markets": "People's Markets",
-  "Peoples-Markets-community": "People's Markets - community",
   peoplesmarkets_com: "peoplesmarkets.com",
   form: {
     action: {

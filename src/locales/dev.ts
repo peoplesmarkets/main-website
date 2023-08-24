@@ -1,6 +1,5 @@
 export const TKEYS = {
   "Peoples-Markets": "Peoples-Markets",
-  "Peoples-Markets-community": "Peoples-Markets-community",
   peoplesmarkets_com: "peoplesmarkets_com",
   form: {
     action: {

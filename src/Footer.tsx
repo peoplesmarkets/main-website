@@ -3,6 +3,7 @@ import { A } from "@solidjs/router";
 import { Accessor } from "solid-js";
 
 import {
+  COMMUNITY_PATH,
   IMPRINT_PATH,
   PRIVACY_POLICY_PATH,
   TERMS_OF_SERVICE_PATH,
@@ -52,12 +53,8 @@ export default function Footer(props: Props) {
           </div>
 
           <div class={styles.SiteLinks}>
-            <A
-              href={import.meta.env.VITE_COMMUNITY_WEBSITE_URL}
-              target="_blank"
-            >
-              <Trans key={TKEYS["Peoples-Markets-community"]} />{" "}
-              <OpenInNewIcon class={styles.OpenInNew} />
+            <A href={COMMUNITY_PATH}>
+              <Trans key={TKEYS["main-navigation"].links.community} />{" "}
             </A>
           </div>
         </div>

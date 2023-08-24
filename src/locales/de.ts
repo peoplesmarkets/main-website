@@ -3,7 +3,6 @@ import { EN } from "./en";
 
 export const DE: typeof TKEYS = {
   "Peoples-Markets": EN["Peoples-Markets"],
-  "Peoples-Markets-community": EN["Peoples-Markets-community"],
   peoplesmarkets_com: EN.peoplesmarkets_com,
   form: {
     action: {
@@ -29,7 +28,7 @@ export const DE: typeof TKEYS = {
       home: "Hauptseite",
       dashboard: EN["main-navigation"].links.dashboard,
       "user-settings": "Benutzereinstellungen",
-      community: "Community",
+      community: EN["main-navigation"].links.community,
     },
     settings: {
       "switch-to-light-mode": "Hellmodus aktivieren",
