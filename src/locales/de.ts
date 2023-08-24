@@ -62,7 +62,7 @@ export const DE: typeof TKEYS = {
     "back-to-home": "Zurück zur Startseite",
   },
   "landing-page": {
-    "establish-your-online-appearance": "Erstelle deinen Online-Auftritt",
+    "establish-your-online-appearance": "Erstell dir deine Online-Präsenz",
     "create-your-online-market-booth-and-build-your-brand":
       "Baue deine Marke mit einem Online-Marktstand auf",
     "offer-your-goods-to-the-people": "Biete den Menschen deine Waren an",
