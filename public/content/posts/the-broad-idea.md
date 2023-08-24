@@ -6,6 +6,12 @@ Community- and customer-driven ...
 - ... project governance and management (how)
 - ... product development, refinement and documentation (what)
 
+![peoplesmarkets.com website logo icon](/content/BannerLogo.png)
+
+**peoplesmarkets.com website logo**
+
+---
+
 ## Community- and customer-driven values and principles
 
 The fundamental values and principles the project is based on should be open to the public and open for discussion. It is important that those values and principles, including this document, can be changed or extended. Project governance as well as product design have to conform to those values and principles. They are a part of the general appearance of the project and can serve as an additional reference point for customers’ trust.
@@ -23,10 +29,16 @@ The project's governance and management should be open to the public and open fo
 
 Customers who are using a product or service know exactly the value it provides for their specific use case. The community and customers combined have a greater understanding and expertise of the market segment in general and of the product and service in particular. Therefore, it is important to define, refine, and document all features in public with the community and customers. Not only can the community and customers provide valuable information and decisions, but they can also provide implementations.
 
+_Maximilian Temeschinko_
+
 ---
 
 ## Disclaimer:
 
-Currently, this is just my personal view. No proper research has been done. As always, take everything with a grain of salt. Please feel free to comment with corrections, disagreements, additions, etc. by [opening an issue](https://github.com/peoplesmarkets/community-website/issues) on GitHub.
+Currently, this is just my personal view. No proper research has been done. As always, take everything with a grain of salt. Please feel free to comment with corrections, disagreements, additions, etc. by [opening an issue](https://github.com/peoplesmarkets/Project/issues) on GitHub.
 
-_Maximilian Temeschinko_
+Check out [peoplesmarkets.com](https://peoplesmarkets.com)! And the [repositories](https://github.com/peoplesmarkets)! Have a good one : )
+
+![peoplesmarkets.com website logo icon](/content/FooterLogoAndPreviewImage.png)
+
+**peoplesmarkets.com website logo icon**

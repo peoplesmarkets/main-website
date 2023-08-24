@@ -92,6 +92,8 @@ export const TKEYS = {
     },
   },
   "community-page": {
+    headline: "community-page.headline",
+    description: "community-page.description",
     posts: {
       title: "community-page.posts.title",
       "presentation-is-inspired-by":
