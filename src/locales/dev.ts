@@ -1,6 +1,9 @@
 export const TKEYS = {
   "Peoples-Markets": "Peoples-Markets",
   peoplesmarkets_com: "peoplesmarkets_com",
+  fetching: {
+    "content-loading": "fetching.content-loading",
+  },
   form: {
     action: {
       Save: "form.action.Save",
@@ -12,6 +15,7 @@ export const TKEYS = {
         "form.action.Are-you-sure-you-want-to-delete-the",
       "Confirm-Deletion?": "form.action.Confirm-Deletion?",
     },
+    "danger-zone": "form.danger-zone",
     errors: {
       "required-field": "form.errors.required-field",
       "not-modified": "form.errors.not-modified",
@@ -70,7 +74,6 @@ export const TKEYS = {
     "GET-STARTED": "landing-page.GET-STARTED",
   },
   dashboard: {
-    "danger-zone": "dashboard.danger-zone",
     "market-booth": "dashboard.market-booth",
   },
   "market-booth": {
@@ -93,14 +96,18 @@ export const TKEYS = {
   },
   offers: {
     title: "offers.title",
+    Details: "offers.Details",
     "title-plural": "offers.title-plural",
     "create-new-offer": "offers.create-new-offer",
     "edit-offer": "offers.edit-offer",
+    "delete-this-offer": "offers.delete-this-offer",
     labels: {
       Name: "offers.labels.Name",
       name: "offers.labels.name",
       Description: "offers.labels.Description",
       description: "offers.labels.description",
+      "Created-at": "offers.labels.Created-at",
+      "Updated-at": "offers.labels.Updated-at",
     },
     "no-offer-description": "offers.no-offer-description",
   },

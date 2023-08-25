@@ -1,6 +1,7 @@
 .Title {
   display: block;
   font: var(--font-title);
+  margin-bottom: 0.5rem;
 }
 
 .Table {
@@ -23,6 +24,12 @@
 
 .Name {
   font: var(--font-label);
+  color: var(--primary-content-color);
+  text-decoration: none;
+}
+
+.Name:hover {
+  color: var(--active-content-color);
 }
 
 .Actions {

@@ -22,6 +22,9 @@ export const SIGN_IN_PATH = "/sign-in";
 export const SIGN_IN_CALLBACK = "/sign-in/callback";
 
 export const DASHBOARD_PATH = "/dashboard";
+
+export const OFFERS_SUBPATH = "/offers";
+
 export const USER_SETTINGS_PATH = "/user-settings";
 
 export const COMMUNITY_PATH = "/community";
@@ -75,6 +78,15 @@ export default function App() {
                     path={buildPath(DASHBOARD_PATH, ":marketBoothId")}
                     component={lazy(() => import("./routes/Dashboard"))}
                   />
+                  <Route
+                    path={buildPath(
+                      DASHBOARD_PATH,
+                      ":marketBoothId",
+                      OFFERS_SUBPATH,
+                      ":offerId"
+                    )}
+                    component={lazy(() => import("./routes/commerce/Offers"))}
+                  />
 
                   <Route
                     path={USER_SETTINGS_PATH}
@@ -112,7 +124,23 @@ export default function App() {
 }
 
 export function buildPath(...paths: string[]): string {
-  return paths.join("/");
+  if (paths.length === 1 && paths[0] === "/") {
+    return "/";
+  }
+
+  return (
+    "/" +
+    paths
+      .filter((p) => p !== "/")
+      .map((p) => removeLeadingSlash(p))
+      .map((p) => removeTralingSlash(p))
+      .join("/")
+  );
+}
+
+export function removeLeadingSlash(path: string) {
+  if (path === "/") return path;
+  return path.startsWith("/") ? path.slice(1) : path;
 }
 
 export function removeTralingSlash(path: string) {
