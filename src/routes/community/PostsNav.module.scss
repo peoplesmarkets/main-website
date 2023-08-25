@@ -1,6 +1,5 @@
 .PostsNav {
-  border-bottom: var(--secondary-border);
-  padding: 1rem 0;
+  padding: 2rem 1rem;
 
   ol {
     list-style-position: inside;
@@ -11,7 +10,7 @@
   }
 
   a {
-    color: var(--content-font-color);
+    color: var(--primary-content-color);
     text-decoration: none;
   }
 }
@@ -25,11 +24,11 @@
 }
 
 .Active a {
-  color: var(--active-font-color);
+  color: var(--active-content-color);
 }
 
 .OpenInNew {
   width: 0.7em;
   height: 0.7em;
-  fill: var(--active-font-color);
+  fill: var(--active-content-color);
 }

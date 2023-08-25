@@ -8,6 +8,8 @@ import MarketBoothSettings from "../components/commerce/MarketBoothSettings";
 import { useMarketBoothContext } from "../contexts/MarketBoothContext";
 import { TKEYS } from "../locales/dev";
 import styles from "./Dashboard.module.scss";
+import { OfferSettings } from "../components/commerce/OfferSettings";
+import { Page } from "../components/layout/Page";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -56,22 +58,26 @@ export default function Dashboard() {
   }
 
   return (
-    <div class={styles.Dashboard}>
-      <Show when={currentMarketBooth()}>
-        <div class={styles.Settings}>
-          <span class={styles.Title}>{currentMarketBooth()?.name}</span>
+    <Page>
+      <div class={styles.Dashboard}>
+        <Show when={currentMarketBooth()}>
+          <div class={styles.Settings}>
+            <span class={styles.Title}>{currentMarketBooth()?.name}</span>
 
-          <MarketBoothSettings
-            marketBooth={() => currentMarketBooth()}
-            onUpdate={handleMarketBoothUpdate}
-          />
-        </div>
-      </Show>
-      <Show when={showCreateMarketBooth()}>
-        <A href={USER_SETTINGS_PATH}>
-          <Trans key={TKEYS["main-navigation"].links["user-settings"]} />
-        </A>
-      </Show>
-    </div>
+            <OfferSettings marketBooth={() => currentMarketBooth()!} />
+
+            <MarketBoothSettings
+              marketBooth={currentMarketBooth}
+              onUpdate={handleMarketBoothUpdate}
+            />
+          </div>
+        </Show>
+        <Show when={showCreateMarketBooth()}>
+          <A href={USER_SETTINGS_PATH}>
+            <Trans key={TKEYS["main-navigation"].links["user-settings"]} />
+          </A>
+        </Show>
+      </div>
+    </Page>
   );
 }

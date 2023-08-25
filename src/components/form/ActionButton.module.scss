@@ -1,8 +1,8 @@
 .ActionButton {
-  border: 1px solid var(--active-font-color);
+  border: 1px solid var(--active-content-color);
   border-radius: 4px;
   background-color: inherit;
-  color: var(--active-font-color);
+  color: var(--active-content-color);
   padding: 0 23px 0 23px;
   height: 36px;
   text-decoration: none;
@@ -14,13 +14,13 @@
 }
 
 .Active {
-  border-color: var(--active-font-color);
-  color: var(--active-font-color);
+  border-color: var(--active-content-color);
+  color: var(--active-content-color);
   background-color: transparent;
 }
 
 .Active:hover {
-  background-color: var(--hovered-background-color);
+  background: var(--hovered-background);
 }
 
 .ActiveBorderless {
@@ -39,8 +39,8 @@
 }
 
 .Danger {
-  border-color: var(--danger-font-color);
-  color: var(--danger-font-color);
+  border-color: var(--danger-content-color);
+  color: var(--danger-content-color);
 }
 
 .Danger:hover {
@@ -64,11 +64,11 @@
 
 .Neutral {
   border-color: var(--conten-font-color);
-  color: var(--content-font-color);
+  color: var(--primary-content-color);
 }
 
 .Neutral:hover {
-  background-color: var(--hovered-background-color);
+  background: var(--hovered-background);
 }
 
 .NetrealBorderless {

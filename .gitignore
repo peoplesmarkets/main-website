@@ -6,9 +6,7 @@ dist
 netlify
 
 # Generated Clients
-src/services/*
-!src/services/index.ts
-!src/services/auth.ts
+src/services/peoplesmarkets
 
 # Environment
 .env

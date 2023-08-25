@@ -10,7 +10,7 @@ import {
 } from "./App";
 import styles from "./Footer.module.scss";
 import { MainLogoText } from "./components/assets";
-import { GitHubIcon, MainLogoIcon, OpenInNewIcon } from "./components/icons";
+import { GitHubIcon, MainLogoIcon } from "./components/icons";
 import { Theme } from "./contexts/ThemeStore";
 import { TKEYS } from "./locales/dev";
 

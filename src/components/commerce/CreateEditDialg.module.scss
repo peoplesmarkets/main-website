@@ -1,5 +1,5 @@
 .Form {
-  padding: 0 var(--large-spacer);
+  padding: 0 1rem;
 }
 
 .Form > * {
@@ -7,8 +7,7 @@
 }
 
 .DialogFooter {
-  height: var(--largest-spacer);
-  padding: 0 var(--large-spacer);
+  padding: 0 2rem 1rem 2rem;
   display: flex;
   justify-content: flex-end;
   align-items: center;
@@ -22,5 +21,5 @@
 }
 
 .ErrorInfoText {
-  color: var(--danger-font-color);
+  color: var(--danger-content-color);
 }

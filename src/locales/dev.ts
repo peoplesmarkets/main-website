@@ -15,6 +15,7 @@ export const TKEYS = {
     errors: {
       "required-field": "form.errors.required-field",
       "not-modified": "form.errors.not-modified",
+      "already-exists": "form.errors.already-exists",
     },
   },
   "main-navigation": {
@@ -69,26 +70,42 @@ export const TKEYS = {
     "GET-STARTED": "landing-page.GET-STARTED",
   },
   dashboard: {
-    "create-a-new-market-booth": "dashboard.create-a-new-market-booth",
-    "current-market-booth": "dashboard.current-market-booth",
-    Details: "dashboard.Details",
-    "created-at": "dashboard.created-at",
-    "updated-at": "dashboard.updated-at",
-    Description: "dashboard.Description",
-    "no-market-booth-description": "dashboard.no-market-booth-description",
-    "edit-market-booth-details": "dashboard.edit-market-booth-details",
     "danger-zone": "dashboard.danger-zone",
-    "delete-this-market-booth": "dashboard.delete-this-market-booth",
     "market-booth": "dashboard.market-booth",
+  },
+  "market-booth": {
+    Details: "market-booth.Details",
+    "current-market-booth": "market-booth.current-market-booth",
+    "no-market-booth-yet": "market-booth.no-market-booth-yet",
+    "create-new-market-booth": "market-booth.create-new-market-booth",
+    "no-market-booth-description": "market-booth.no-market-booth-description",
+    "edit-market-booth-details": "market-booth.edit-market-booth-details",
+    "delete-this-market-booth": "market-booth.delete-this-market-booth",
+    labels: {
+      Details: "market-booth.labels.Details",
+      Name: "market-booth.labels.Name",
+      name: "market-booth.labels.name",
+      Description: "market-booth.labels.Description",
+      description: "market-booth.labels.description",
+      "Created-at": "market-booth.labels.Created-at",
+      "Updated-at": "market-booth.labels.Updated-at",
+    },
+  },
+  offers: {
+    title: "offers.title",
+    "title-plural": "offers.title-plural",
+    "create-new-offer": "offers.create-new-offer",
+    "edit-offer": "offers.edit-offer",
+    labels: {
+      Name: "offers.labels.Name",
+      name: "offers.labels.name",
+      Description: "offers.labels.Description",
+      description: "offers.labels.description",
+    },
+    "no-offer-description": "offers.no-offer-description",
   },
   "user-settings-page": {
     title: "user-settings-page.title",
-    "market-booth": {
-      "current-market-booth":
-        "user-settings-page.market-booth.current-market-booth",
-      "no-market-booth-yet":
-        "user-settings-page.market-booth.no-market-booth-yet",
-    },
   },
   "community-page": {
     headline: "community-page.headline",

@@ -14,7 +14,7 @@ export default function NotFound() {
           style={{
             "font-size": "48px",
             "font-weight": "600",
-            color: "var(--content-font-color)",
+            color: "var(--primary-content-color)",
             "text-decoration": "none",
           }}
         >
@@ -25,7 +25,7 @@ export default function NotFound() {
             "font-size": "18px",
             "font-weight": "normal",
             "text-align": "right",
-            color: "var(--active-font-color)",
+            color: "var(--active-content-color)",
             "text-decoration": "underline",
           }}
           href={INDEX_PATH}

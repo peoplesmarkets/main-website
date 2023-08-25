@@ -17,6 +17,7 @@ export const EN: typeof TKEYS = {
     errors: {
       "required-field": "Required field",
       "not-modified": "Not modified",
+      "already-exists": "Already exists",
     },
   },
   "main-navigation": {
@@ -70,24 +71,42 @@ export const EN: typeof TKEYS = {
     "GET-STARTED": "GET STARTED",
   },
   dashboard: {
-    "create-a-new-market-booth": "Create a new Market Booth",
+    "danger-zone": "Danger Zone",
+    "market-booth": "Market Booth",
+  },
+  "market-booth": {
+    Details: "Maket Booth Details",
     "current-market-booth": "Current Market Booth",
-    Details: "Details",
-    "created-at": "created at",
-    "updated-at": "updated at",
-    Description: "Description",
+    "no-market-booth-yet": "No Market Booth yet",
+    "create-new-market-booth": "Create a new Market Booth",
     "no-market-booth-description": "No Market Booth description ...",
     "edit-market-booth-details": "Edit Market Booth Details",
-    "danger-zone": "Danger Zone",
     "delete-this-market-booth": "Delete this Market Booth",
-    "market-booth": "Market Booth",
+    labels: {
+      Details: "Details",
+      Name: "Name",
+      name: "name",
+      Description: "Description",
+      description: "description",
+      "Created-at": "Created at",
+      "Updated-at": "Updated at",
+    },
+  },
+  offers: {
+    title: "Offer",
+    "title-plural": "Offers",
+    "create-new-offer": "Create a new Offer",
+    "edit-offer": "Edit Offer",
+    labels: {
+      Name: "Name",
+      name: "Name",
+      Description: "Description",
+      description: "Description",
+    },
+    "no-offer-description": "No offer description ...",
   },
   "user-settings-page": {
     title: "User Settings",
-    "market-booth": {
-      "current-market-booth": "Current Market Booth",
-      "no-market-booth-yet": "No Market Booth yet",
-    },
   },
   "community-page": {
     headline: "Help the project grow!",

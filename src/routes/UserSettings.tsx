@@ -24,9 +24,7 @@ export default function UserSettings() {
   onMount(async () => {
     await refetchMarketBoothList();
 
-    console.log(
-      trans(TKEYS["user-settings-page"]["market-booth"]["no-market-booth-yet"])
-    );
+    console.log(trans(TKEYS["market-booth"]["no-market-booth-yet"]));
   });
 
   function marketBoothOptions() {
@@ -34,9 +32,7 @@ export default function UserSettings() {
       return [
         {
           key: "",
-          name: trans(
-            TKEYS["user-settings-page"]["market-booth"]["no-market-booth-yet"]
-          ),
+          name: trans(TKEYS["market-booth"]["no-market-booth-yet"]),
         },
       ];
     } else {
@@ -66,9 +62,7 @@ export default function UserSettings() {
       </span>
 
       <Select
-        label={trans(
-          TKEYS["user-settings-page"]["market-booth"]["current-market-booth"]
-        )}
+        label={trans(TKEYS["market-booth"]["current-market-booth"])}
         options={marketBoothOptions}
         onValue={setCurrentMarketBooth}
         selected={() => currentMarketBooth()?.marketBoothId}
@@ -78,7 +72,7 @@ export default function UserSettings() {
         actionType="active-filled"
         onClick={handleOpenCreateMarketBooth}
       >
-        <Trans key={TKEYS.dashboard["create-a-new-market-booth"]} />
+        <Trans key={TKEYS["market-booth"]["create-new-market-booth"]} />
       </ActionButton>
 
       <Show when={showCreateMarketBooth()}>

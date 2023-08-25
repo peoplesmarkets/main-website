@@ -2,13 +2,13 @@ $panel-height: 64px;
 
 .Panel {
   max-height: 64px;
-  background-color: var(--primary-background-color);
+  background-color: var(--display-background-color);
   border-bottom: var(--primary-border);
   display: flex;
 }
 
 .MenuIcon {
-  fill: var(--content-font-color);
+  fill: var(--primary-content-color);
   width: 22px;
   height: 22px;
   margin: 10px;
@@ -46,7 +46,7 @@ $panel-height: 64px;
   $padding: 16px;
   padding: $padding 0;
   height: calc($panel-height - 2 * $padding);
-  fill: var(--content-font-color);
+  fill: var(--primary-content-color);
   stroke: transparent;
   margin-left: 10px;
 }
@@ -57,7 +57,7 @@ $panel-height: 64px;
   height: calc($panel-height - 2 * $padding);
   max-height: 44px;
   min-height: 25px;
-  fill: var(--content-font-color);
+  fill: var(--primary-content-color);
 }
 
 $slider-width: 320px;
@@ -125,7 +125,7 @@ $slider-width: 320px;
 .MainNavigationIcon {
   margin: 0 0.8rem;
   height: 1.7rem;
-  fill: var(--content-font-color);
+  fill: var(--primary-content-color);
 }
 
 $navigation-item-height: 48px;
@@ -140,7 +140,7 @@ $navigation-item-height: 48px;
   user-select: none;
   font: var(--font-label);
   text-decoration: none;
-  color: var(--content-font-color);
+  color: var(--primary-content-color);
   background: none;
   border: none;
   outline: inherit;
@@ -163,7 +163,7 @@ $navigation-item-height: 48px;
 .NavigationIcon {
   width: calc($navigation-item-height / 2.2);
   height: calc($navigation-item-height / 2.2);
-  fill: var(--content-font-color);
+  fill: var(--primary-content-color);
 }
 
 .Settings {

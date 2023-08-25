@@ -11,20 +11,18 @@
   background-color: inherit;
   border: var(--secondary-border);
   border-radius: 4px;
-  color: var(--content-font-color);
-  font-size: var(--default-font-size);
+  color: var(--primary-content-color);
   box-sizing: border-box;
-  font-family: var(--primary-font-family);
 }
 
 .SelectField select:focus {
   outline: none;
-  border-color: var(--active-font-color);
+  border-color: var(--active-content-color);
   border-width: 2px;
 }
 
 .SelectField select:focus + label {
-  color: var(--active-font-color);
+  color: var(--active-content-color);
 }
 
 .SelectField label {
@@ -32,9 +30,8 @@
   padding: 0 6px;
   top: 24px;
   left: 11px;
-  font-size: var(--small-font-size);
   text-align: center;
-  color: var(--content-font-color);
+  color: var(--primary-content-color);
   background-color: inherit;
   border-radius: 2px;
   pointer-events: none;
