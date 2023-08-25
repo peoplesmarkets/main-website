@@ -6,10 +6,11 @@ import { Posts } from "./Posts";
 import { PostsNav } from "./PostsNav";
 import styles from "./CommunityRoutes.module.scss";
 import { Section } from "../../components/layout/Section";
+import { Page } from "../../components/layout/Page";
 
 function PostsHeader() {
   return (
-    <>
+    <Page>
       <div class={styles.PostsHeader}>
         <PostsNav />
       </div>
@@ -17,7 +18,7 @@ function PostsHeader() {
       <Section>
         <Outlet />
       </Section>
-    </>
+    </Page>
   );
 }
 
