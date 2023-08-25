@@ -8,12 +8,6 @@ import App from "./App";
 
 const root = document.getElementById("root");
 
-if (_.isEmpty(import.meta.env.VITE_SERIVCE_APIS_URL)) {
-  throw new Error(
-    "ERROR: missing environment variable 'VITE_SERIVCE_APIS_URL'"
-  );
-}
-
 if (_.isEmpty(import.meta.env.VITE_AUTH_OAUTH_URL)) {
   throw new Error("ERROR: missing environment variable 'VITE_AUTH_OAUTH_URL'");
 }
@@ -54,9 +48,9 @@ if (_.isEmpty(import.meta.env.VITE_MAIN_WEBSITE_URL)) {
   );
 }
 
-if (_.isEmpty(import.meta.env.VITE_COMMUNITY_WEBSITE_URL)) {
+if (_.isEmpty(import.meta.env.VITE_SERIVCE_APIS_URL)) {
   throw new Error(
-    "ERROR: missing environment variable 'VITE_COMMUNITY_WEBSITE_URL'"
+    "ERROR: missing environment variable 'VITE_SERIVCE_APIS_URL'"
   );
 }
 

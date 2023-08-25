@@ -8,7 +8,7 @@ interface ImportMetaEnv {
   readonly VITE_AUTH_OAUTH_LOGOUT_REDIRECT_URL: string;
   readonly VITE_OPEN_SOURCE_REPOSITORIES_URL: string;
   readonly VITE_MAIN_WEBSITE_URL: string;
-  readonly VITE_COMMUNITY_WEBSITE_URL: string;
+  readonly VITE_SERIVCE_APIS_URL: string;
 }
 
 interface ImportMeta {

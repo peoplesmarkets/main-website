@@ -6,8 +6,11 @@ import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
-import { MarketBoothService } from "../../services";
-import { CreateMarketBoothRequest } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { OfferService } from "../../services";
+import {
+  OfferResponse,
+  UpdateOfferRequest,
+} from "../../services/peoplesmarkets/commerce/v1/offer";
 import {
   ActionButton,
   DiscardConfirmation,
@@ -18,21 +21,24 @@ import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
+  readonly offer: () => OfferResponse;
   onClose: () => void;
   onUpdate?: () => void;
 };
 
-export default function CreateMarketBoothDialog(props: Props) {
+export function EditOfferDialog(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
 
-  const marketBoothService = new MarketBoothService(accessToken);
+  const offerService = new OfferService(accessToken);
 
-  const [marketBooth, setMarketBooth] = createStore<CreateMarketBoothRequest>({
-    name: "",
-    description: "",
-  });
+  /* eslint-disable-next-line solid/reactivity */
+  const initialOffer = _.cloneDeep(props.offer());
+
+  const [offer, setOffer] = createStore<UpdateOfferRequest>(
+    _.cloneDeep(initialOffer)
+  );
 
   const [errors, setErrors] = createStore({
     name: [] as string[],
@@ -41,26 +47,31 @@ export default function CreateMarketBoothDialog(props: Props) {
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
+  function resetErrors() {
+    setErrors({ name: [], description: [] });
+  }
+
   function onNameInput(value: string) {
-    setErrors("name", []);
-    setMarketBooth("name", value);
+    resetErrors();
+    setOffer("name", value.trim());
   }
 
   function onDescriptionInput(value: string) {
-    setErrors("description", []);
-    setMarketBooth("description", value);
+    resetErrors();
+    setOffer("description", value.trim());
   }
 
-  async function createMarketBooth(event: SubmitEvent) {
+  async function updateOffer(event: SubmitEvent) {
     event.preventDefault();
 
-    if (_.isEmpty(marketBooth.name)) {
-      setErrors("name", [trans(TKEYS.form.errors["required-field"])]);
+    if (!dataWasChanged()) {
+      setErrors("name", [trans(TKEYS.form.errors["not-modified"])]);
+      setErrors("description", [trans(TKEYS.form.errors["not-modified"])]);
       return;
     }
 
     try {
-      await marketBoothService.create(marketBooth);
+      await offerService.update(offer);
 
       props.onUpdate?.();
       props.onClose();
@@ -73,12 +84,24 @@ export default function CreateMarketBoothDialog(props: Props) {
     }
   }
 
+  function dataWasChanged() {
+    return (
+      offer.name !== initialOffer.name ||
+      offer.description !== initialOffer.description
+    );
+  }
+
   function closeDialog() {
-    if (!_.isEmpty(marketBooth.name) || !_.isEmpty(marketBooth.description)) {
+    if (dataWasChanged()) {
       setDiscardConfirmation(true);
     } else {
       props.onClose();
     }
+  }
+
+  function continueEditing() {
+    resetErrors();
+    setDiscardConfirmation(false);
   }
 
   function confirmCloseDialog() {
@@ -86,45 +109,32 @@ export default function CreateMarketBoothDialog(props: Props) {
     props.onClose();
   }
 
-  function continueEditing() {
-    setErrors("name", []);
-    setErrors("description", []);
-    setDiscardConfirmation(false);
-  }
-
   return (
     <>
       <Show when={!discardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS["market-booth"]["create-new-market-booth"])}
-          onClose={closeDialog}
-        >
-          <form class={styles.Form} onSubmit={(e) => createMarketBooth(e)}>
+        <Dialog title={trans(TKEYS.offers["edit-offer"])} onClose={closeDialog}>
+          <form class={styles.Form} onSubmit={updateOffer}>
             <TextField
               name="name"
-              label={trans(TKEYS["market-booth"].labels.name)}
-              required={true}
-              value={marketBooth.name}
+              label={trans(TKEYS.offers.labels.name)}
+              required
+              value={offer.name}
               onValue={onNameInput}
               errors={errors.name}
             />
 
             <TextArea
               name="description"
-              label={trans(TKEYS["market-booth"].labels.description)}
+              label={trans(TKEYS.offers.labels.description)}
               rows={8}
-              required={false}
-              value={marketBooth.description}
+              value={offer.description}
               onValue={onDescriptionInput}
               errors={errors.description}
             />
           </form>
 
           <div class={styles.DialogFooter}>
-            <ActionButton
-              actionType="active-filled"
-              onClick={(e) => createMarketBooth(e)}
-            >
+            <ActionButton actionType="active-filled" onClick={updateOffer}>
               <Trans key={TKEYS.form.action.Save} />
             </ActionButton>
           </div>

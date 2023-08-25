@@ -1,0 +1,37 @@
+.Title {
+  display: block;
+  font: var(--font-title);
+}
+
+.Table {
+  margin-bottom: 0.5rem;
+  border-top: var(--secondary-border);
+}
+
+.Row {
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: var(--secondary-border);
+  gap: 1em;
+}
+
+.Row:hover {
+  background: var(--hovered-background);
+}
+
+.Name {
+  font: var(--font-label);
+}
+
+.Actions {
+  display: flex;
+  gap: 0.5em;
+}
+
+.TableActions {
+  display: flex;
+  justify-content: end;
+  padding: 0 0.5rem;
+}

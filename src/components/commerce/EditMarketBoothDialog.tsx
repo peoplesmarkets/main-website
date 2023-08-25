@@ -18,7 +18,7 @@ import {
   TextField,
 } from "../form";
 import { Dialog } from "../layout/Dialog";
-import styles from "./EditMarketBoothDialog.module.scss";
+import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
   marketBooth: MarketBoothResponse;
@@ -41,12 +41,12 @@ export function EditMarketBoothDialog(props: Props) {
     _.cloneDeep(initialMarketBooth)
   );
 
-  const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
-
   const [errors, setErrors] = createStore({
     name: [] as string[],
     description: [] as string[],
   });
+
+  const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
   function resetErrors() {
     setErrors({ name: [], description: [] });
@@ -60,13 +60,6 @@ export function EditMarketBoothDialog(props: Props) {
   function onDescriptionInput(value: string) {
     resetErrors();
     setMarketBooth("description", value.trim());
-  }
-
-  function dataWasChanged() {
-    return (
-      marketBooth.name !== initialMarketBooth.name ||
-      marketBooth.description !== initialMarketBooth.description
-    );
   }
 
   async function updateMarketBooth(event: SubmitEvent) {
@@ -85,11 +78,18 @@ export function EditMarketBoothDialog(props: Props) {
       props.onClose();
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.AlreadyExists) {
-        setErrors("name", ["Already exists"]);
+        setErrors("name", [trans(TKEYS.form.errors["already-exists"])]);
       } else {
         throw err;
       }
     }
+  }
+
+  function dataWasChanged() {
+    return (
+      marketBooth.name !== initialMarketBooth.name ||
+      marketBooth.description !== initialMarketBooth.description
+    );
   }
 
   function closeDialog() {
@@ -113,12 +113,15 @@ export function EditMarketBoothDialog(props: Props) {
   return (
     <>
       <Show when={!discardConfirmation()}>
-        <Dialog title="Edit Market Booth Details" onClose={closeDialog}>
-          <form class={styles.Form} onSubmit={(e) => updateMarketBooth(e)}>
+        <Dialog
+          title={trans(TKEYS["market-booth"]["edit-market-booth-details"])}
+          onClose={closeDialog}
+        >
+          <form class={styles.Form} onSubmit={updateMarketBooth}>
             <TextField
               name="name"
-              label="name"
-              required={true}
+              label={trans(TKEYS["market-booth"].labels.name)}
+              required
               value={marketBooth.name}
               onValue={onNameInput}
               errors={errors.name}
@@ -126,9 +129,8 @@ export function EditMarketBoothDialog(props: Props) {
 
             <TextArea
               name="description"
-              label="description"
+              label={trans(TKEYS["market-booth"].labels.description)}
               rows={8}
-              required={false}
               value={marketBooth.description}
               onValue={onDescriptionInput}
               errors={errors.description}

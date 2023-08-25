@@ -3,7 +3,6 @@ import { JSX } from "solid-js";
 import styles from "./Section.module.scss";
 
 type Props = JSX.HTMLAttributes<HTMLDivElement> & {
-  wide?: boolean;
   bordered?: boolean;
   danger?: boolean;
 };

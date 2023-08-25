@@ -9,30 +9,32 @@
   background-color: inherit;
   border: var(--secondary-border);
   border-radius: 4px;
-  color: var(--content-font-color);
-  font-size: var(--default-font-size);
+  font: var(--font-body);
+  color: var(--primary-content-color);
   box-sizing: border-box;
-  font-family: var(--primary-font-family);
   resize: none;
+
+  ::placeholder {
+    color: var(--secondary-content-color);
+  }
 }
 
 .Input:focus {
   outline: none;
-  border-color: var(--active-font-color);
+  border-color: var(--active-content-color);
   border-width: 2px;
 }
 
 .Input:focus::placeholder {
-  font-family: var(--primary-font-family);
   opacity: 0;
-  color: var(--content-font-color);
+  color: var(--secondary-content-color);
   transform: translateY(-9px);
   transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .Input:focus + label {
   opacity: 1;
-  transform: translateY(-32px);
+  transform: translateY(-2.8em);
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
   background-color: inherit;
 }
@@ -42,29 +44,27 @@
   background-color: inherit;
   opacity: 0;
   padding: 0 6px;
-  top: 24px;
+  top: 2.2em;
   left: 11px;
-  font-size: var(--small-font-size);
   text-align: center;
-  color: var(--active-font-color);
+  font: var(--font-detail);
+  color: var(--active-content-color);
   background-color: inherit;
   border-radius: 2px;
   pointer-events: none;
-  font-family: var(--primary-font-family);
 }
 
 .LabelEdited {
-  color: var(--content-font-color);
+  color: var(--secondary-content-color);
   opacity: 1;
-  transform: translateY(-32px);
+  transform: translateY(-2.7em);
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .HasErrors {
-  border-color: var(--danger-border-color);
+  border-color: var(--danger-content-color);
 }
 
 .ErrorInfo {
-  color: var(--danger-font-color);
-  font-size: var(--small-font-size);
+  color: var(--danger-content-color);
 }

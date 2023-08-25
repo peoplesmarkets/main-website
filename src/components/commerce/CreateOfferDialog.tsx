@@ -1,13 +1,12 @@
 import { grpc } from "@improbable-eng/grpc-web";
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
-import { MarketBoothService } from "../../services";
-import { CreateMarketBoothRequest } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { OfferService } from "../../services";
 import {
   ActionButton,
   DiscardConfirmation,
@@ -18,18 +17,21 @@ import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
+  marketBoothId: string;
   onClose: () => void;
   onUpdate?: () => void;
 };
 
-export default function CreateMarketBoothDialog(props: Props) {
+export function CreateOfferDialog(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
 
-  const marketBoothService = new MarketBoothService(accessToken);
+  const offerService = new OfferService(accessToken);
 
-  const [marketBooth, setMarketBooth] = createStore<CreateMarketBoothRequest>({
+  const [offer, setOffer] = createStore({
+    /* eslint-disable-next-line solid/reactivity */
+    marketBoothId: props.marketBoothId,
     name: "",
     description: "",
   });
@@ -43,24 +45,24 @@ export default function CreateMarketBoothDialog(props: Props) {
 
   function onNameInput(value: string) {
     setErrors("name", []);
-    setMarketBooth("name", value);
+    setOffer("name", value);
   }
 
   function onDescriptionInput(value: string) {
     setErrors("description", []);
-    setMarketBooth("description", value);
+    setOffer("description", value);
   }
 
-  async function createMarketBooth(event: SubmitEvent) {
+  async function createOffer(event: SubmitEvent) {
     event.preventDefault();
 
-    if (_.isEmpty(marketBooth.name)) {
+    if (_.isEmpty(offer.name)) {
       setErrors("name", [trans(TKEYS.form.errors["required-field"])]);
       return;
     }
 
     try {
-      await marketBoothService.create(marketBooth);
+      await offerService.create(offer);
 
       props.onUpdate?.();
       props.onClose();
@@ -74,7 +76,7 @@ export default function CreateMarketBoothDialog(props: Props) {
   }
 
   function closeDialog() {
-    if (!_.isEmpty(marketBooth.name) || !_.isEmpty(marketBooth.description)) {
+    if (!_.isEmpty(offer.name) || !_.isEmpty(offer.description)) {
       setDiscardConfirmation(true);
     } else {
       props.onClose();
@@ -96,25 +98,25 @@ export default function CreateMarketBoothDialog(props: Props) {
     <>
       <Show when={!discardConfirmation()}>
         <Dialog
-          title={trans(TKEYS["market-booth"]["create-new-market-booth"])}
+          title={trans(TKEYS.offers["create-new-offer"])}
           onClose={closeDialog}
         >
-          <form class={styles.Form} onSubmit={(e) => createMarketBooth(e)}>
+          <form class={styles.Form} onSubmit={(e) => createOffer(e)}>
             <TextField
               name="name"
-              label={trans(TKEYS["market-booth"].labels.name)}
+              label={trans(TKEYS.offers.labels.name)}
               required={true}
-              value={marketBooth.name}
+              value={offer.name}
               onValue={onNameInput}
               errors={errors.name}
             />
 
             <TextArea
               name="description"
-              label={trans(TKEYS["market-booth"].labels.description)}
+              label={trans(TKEYS.offers.labels.description)}
               rows={8}
               required={false}
-              value={marketBooth.description}
+              value={offer.description}
               onValue={onDescriptionInput}
               errors={errors.description}
             />
@@ -123,7 +125,7 @@ export default function CreateMarketBoothDialog(props: Props) {
           <div class={styles.DialogFooter}>
             <ActionButton
               actionType="active-filled"
-              onClick={(e) => createMarketBooth(e)}
+              onClick={(e) => createOffer(e)}
             >
               <Trans key={TKEYS.form.action.Save} />
             </ActionButton>

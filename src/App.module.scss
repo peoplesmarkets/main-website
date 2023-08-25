@@ -8,9 +8,4 @@ $medium-min-width: 600px;
 .Content {
   min-height: var(--fill-height);
   margin: 0 auto;
-  padding: 0 1rem;
-
-  @media only screen and (min-width: $medium-min-width) {
-    max-width: 80%;
-  }
 }

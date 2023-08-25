@@ -57,11 +57,11 @@
   background-color: transparent;
   border: none;
   border-radius: 50%;
+  fill: var(--primary-content-color);
 }
 
 .CloseButton:hover {
-  color: var(--hovered-font-color);
-  background-color: var(--hovered-background-color);
+  background: var(--hovered-background);
   cursor: pointer;
 }
 

@@ -1,6 +1,6 @@
 .Slider {
   position: absolute;
-  background-color: var(--hovered-background-color);
+  background: var(--hovered-background);
   max-width: 200px;
   transform: translateX(32px);
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
