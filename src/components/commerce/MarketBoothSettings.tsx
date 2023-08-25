@@ -56,20 +56,6 @@ export default function MarketBoothSettings(props: Props) {
   return (
     <>
       <Section>
-        <span class={styles.Title}>
-          <Trans key={TKEYS["market-booth"].Details} />
-        </span>
-
-        <span class={styles.Details}>
-          <Trans key={TKEYS["market-booth"].labels["Created-at"]} />:{" "}
-          {secondsToLocaleString(props.marketBooth()?.createdAt)}
-        </span>
-
-        <span class={styles.Details}>
-          <Trans key={TKEYS["market-booth"].labels["Updated-at"]} />:{" "}
-          {secondsToLocaleString(props.marketBooth()?.updatedAt)}
-        </span>
-
         <span class={styles.Label}>
           <Trans key={TKEYS["market-booth"].labels.Description} />:
         </span>
@@ -82,6 +68,22 @@ export default function MarketBoothSettings(props: Props) {
             <Trans key={TKEYS["market-booth"]["no-market-booth-description"]} />
           </span>
         </Show>
+      </Section>
+
+      <Section>
+        <span class={styles.Label}>
+          <Trans key={TKEYS["market-booth"].Details} />
+        </span>
+
+        <span class={styles.Details}>
+          <Trans key={TKEYS["market-booth"].labels["Created-at"]} />:{" "}
+          {secondsToLocaleString(props.marketBooth()?.createdAt)}
+        </span>
+
+        <span class={styles.Details}>
+          <Trans key={TKEYS["market-booth"].labels["Updated-at"]} />:{" "}
+          {secondsToLocaleString(props.marketBooth()?.updatedAt)}
+        </span>
       </Section>
 
       <Section bordered>
@@ -101,10 +103,10 @@ export default function MarketBoothSettings(props: Props) {
 
       <Section danger>
         <span class={styles.Title}>
-          <Trans key={TKEYS.dashboard["danger-zone"]} />
+          <Trans key={TKEYS.form["danger-zone"]} />
         </span>
 
-        <div class={styles.DangerSection}>
+        <div class={styles.EditSection}>
           <p class={styles.Body}>
             <Trans key={TKEYS["market-booth"]["delete-this-market-booth"]} />
           </p>

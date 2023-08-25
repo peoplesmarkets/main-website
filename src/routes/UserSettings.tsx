@@ -23,8 +23,6 @@ export default function UserSettings() {
 
   onMount(async () => {
     await refetchMarketBoothList();
-
-    console.log(trans(TKEYS["market-booth"]["no-market-booth-yet"]));
   });
 
   function marketBoothOptions() {

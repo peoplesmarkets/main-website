@@ -63,6 +63,7 @@ describe("Codecs", () => {
       }
       expect(res).toEqual("N");
     });
+    
     test("Get initials for two names : ok", () => {
       const name = "Name Last";
       let res;

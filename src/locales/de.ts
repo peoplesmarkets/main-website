@@ -4,6 +4,9 @@ import { EN } from "./en";
 export const DE: typeof TKEYS = {
   "Peoples-Markets": EN["Peoples-Markets"],
   peoplesmarkets_com: EN.peoplesmarkets_com,
+  fetching: {
+    "content-loading": "Wird geladen ...",
+  },
   form: {
     action: {
       Save: "Speichern",
@@ -15,6 +18,7 @@ export const DE: typeof TKEYS = {
         '{{item}} namens "{{name}}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",
     },
+    "danger-zone": "Gefahrenzone",
     errors: {
       "required-field": "Eingabe erforderlich",
       "not-modified": "Kein Änderrung",
@@ -72,7 +76,6 @@ export const DE: typeof TKEYS = {
     "GET-STARTED": "LOS GEHT'S",
   },
   dashboard: {
-    "danger-zone": "Gefahrenzone",
     "market-booth": "Marktstand",
   },
   "market-booth": {
@@ -81,8 +84,8 @@ export const DE: typeof TKEYS = {
     "no-market-booth-yet": "Bisher kein Markstand",
     "create-new-market-booth": "Neuen Marktstand erstellen",
     "no-market-booth-description": "Keine Beschreibung vorhanden ...",
-    "edit-market-booth-details": "Marktstand Details Bearbeiten",
-    "delete-this-market-booth": "Diesen Marktstand Löschen",
+    "edit-market-booth-details": "Marktstand Details bearbeiten",
+    "delete-this-market-booth": "Diesen Marktstand löschen",
     labels: {
       Details: "Details",
       Name: "Name",
@@ -95,14 +98,18 @@ export const DE: typeof TKEYS = {
   },
   offers: {
     title: "Angebot",
+    Details: "Angebot Details",
     "title-plural": "Angebote",
     "create-new-offer": "Neues Angebot erstellen",
     "edit-offer": "Angebot bearbeiten",
+    "delete-this-offer": "Dieses Angebot löschen",
     labels: {
       Name: "Name",
       name: "Name",
       Description: "Beschreibung",
       description: "Beschreibung",
+      "Created-at": "Erstellt am",
+      "Updated-at": "Bearbeitet am",
     },
     "no-offer-description": "Keine Beschreibung vorhanden ...",
   },

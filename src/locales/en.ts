@@ -3,6 +3,9 @@ import { TKEYS } from "./dev";
 export const EN: typeof TKEYS = {
   "Peoples-Markets": "People's Markets",
   peoplesmarkets_com: "peoplesmarkets.com",
+  fetching: {
+    "content-loading": "Content loading ...",
+  },
   form: {
     action: {
       Save: "Save",
@@ -14,6 +17,7 @@ export const EN: typeof TKEYS = {
         'Are you sure you want to delete the {{item}}: "{{name}}"?',
       "Confirm-Deletion?": "Confirm Deletion?",
     },
+    "danger-zone": "Danger Zone",
     errors: {
       "required-field": "Required field",
       "not-modified": "Not modified",
@@ -71,7 +75,6 @@ export const EN: typeof TKEYS = {
     "GET-STARTED": "GET STARTED",
   },
   dashboard: {
-    "danger-zone": "Danger Zone",
     "market-booth": "Market Booth",
   },
   "market-booth": {
@@ -94,14 +97,18 @@ export const EN: typeof TKEYS = {
   },
   offers: {
     title: "Offer",
+    Details: "Offer details",
     "title-plural": "Offers",
     "create-new-offer": "Create a new Offer",
     "edit-offer": "Edit Offer",
+    "delete-this-offer": "Delete this Offer",
     labels: {
       Name: "Name",
       name: "Name",
       Description: "Description",
       description: "Description",
+      "Created-at": "Created at",
+      "Updated-at": "Updated at",
     },
     "no-offer-description": "No offer description ...",
   },
