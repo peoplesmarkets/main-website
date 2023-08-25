@@ -22,6 +22,9 @@ export const TKEYS = {
       "already-exists": "form.errors.already-exists",
     },
   },
+  dashboard: {
+    "market-booth": "dashboard.market-booth",
+  },
   "main-navigation": {
     actions: {
       "sign-in": "main-navigation.actions.sign-in",
@@ -38,29 +41,8 @@ export const TKEYS = {
       "change-language": "main-navigation.settings.change-language",
     },
   },
-  footer: {
-    "main-paragraph": "footer.main-paragraph",
-    "community-paragraph": "footer.community-paragraph",
-  },
-  imprint: {
-    title: "imprint.title",
-    responsible: {
-      title: "imprint.responsible.title",
-      name: "imprint.responsible.name",
-      street: "imprint.responsible.street",
-      address_line_1: "imprint.responsible.address_line_1",
-      address_line_2: "imprint.responsible.address_line_2",
-    },
-  },
-  "privacy-policy": {
-    title: "privacy-policy.title",
-  },
-  "terms-of-service": {
-    title: "terms-of-service.title",
-  },
-  "page-not-found": {
-    title: "page-not-found.title",
-    "back-to-home": "page-not-found.back-to-home",
+  "user-settings-page": {
+    title: "user-settings-page.title",
   },
   "landing-page": {
     "establish-your-online-appearance":
@@ -72,9 +54,6 @@ export const TKEYS = {
     "no-costs-until-you-sell": "landing-page.no-costs-until-you-sell",
     "no-strings-attached": "landing-page.no-strings-attached",
     "GET-STARTED": "landing-page.GET-STARTED",
-  },
-  dashboard: {
-    "market-booth": "dashboard.market-booth",
   },
   "market-booth": {
     Details: "market-booth.Details",
@@ -111,9 +90,6 @@ export const TKEYS = {
     },
     "no-offer-description": "offers.no-offer-description",
   },
-  "user-settings-page": {
-    title: "user-settings-page.title",
-  },
   "community-page": {
     headline: "community-page.headline",
     description: "community-page.description",
@@ -123,5 +99,29 @@ export const TKEYS = {
         "community-page.posts.presentation-is-inspired-by",
       medium: "community-page.posts.medium",
     },
+  },
+  imprint: {
+    title: "imprint.title",
+    responsible: {
+      title: "imprint.responsible.title",
+      name: "imprint.responsible.name",
+      street: "imprint.responsible.street",
+      address_line_1: "imprint.responsible.address_line_1",
+      address_line_2: "imprint.responsible.address_line_2",
+    },
+  },
+  "privacy-policy": {
+    title: "privacy-policy.title",
+  },
+  "terms-of-service": {
+    title: "terms-of-service.title",
+  },
+  "page-not-found": {
+    title: "page-not-found.title",
+    "back-to-home": "page-not-found.back-to-home",
+  },
+  footer: {
+    "main-paragraph": "footer.main-paragraph",
+    "community-paragraph": "footer.community-paragraph",
   },
 };

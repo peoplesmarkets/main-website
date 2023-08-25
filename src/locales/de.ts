@@ -25,6 +25,9 @@ export const DE: typeof TKEYS = {
       "already-exists": "Bereits vergeben",
     },
   },
+  dashboard: {
+    "market-booth": "Marktstand",
+  },
   "main-navigation": {
     actions: {
       "sign-in": "Login",
@@ -41,30 +44,8 @@ export const DE: typeof TKEYS = {
       "change-language": "Language / Sprache",
     },
   },
-  footer: {
-    "main-paragraph":
-      "People's Markets ist eine online Platform auf der Menschen ihre Waren anbieten und ihren Online-Auftritt ausbauen können.",
-    "community-paragraph": "Gestalte jeden Aspekt des Projekts mit.",
-  },
-  imprint: {
-    title: "Impressum",
-    responsible: {
-      title: "Derzeit verantwortlich",
-      name: EN.imprint.responsible.name,
-      street: EN.imprint.responsible.street,
-      address_line_1: "81371 München",
-      address_line_2: "Deutschland",
-    },
-  },
-  "privacy-policy": {
-    title: "Datenschutzrichtlinie",
-  },
-  "terms-of-service": {
-    title: "AGB",
-  },
-  "page-not-found": {
-    title: "404 Seite nicht gefunden",
-    "back-to-home": "Zurück zur Startseite",
+  "user-settings-page": {
+    title: "Benutzereinstellungen",
   },
   "landing-page": {
     "establish-your-online-appearance": "Erstell dir deine Online-Präsenz",
@@ -74,9 +55,6 @@ export const DE: typeof TKEYS = {
     "no-costs-until-you-sell": "Keine Kosten bis zum Verkauf",
     "no-strings-attached": "Keine Verbindlichkeiten",
     "GET-STARTED": "LOS GEHT'S",
-  },
-  dashboard: {
-    "market-booth": "Marktstand",
   },
   "market-booth": {
     Details: "Marktstand Details",
@@ -113,9 +91,6 @@ export const DE: typeof TKEYS = {
     },
     "no-offer-description": "Keine Beschreibung vorhanden ...",
   },
-  "user-settings-page": {
-    title: "Benutzereinstellungen",
-  },
   "community-page": {
     headline: "Hilf dem Projekt zu wachsen!",
     description:
@@ -126,5 +101,30 @@ export const DE: typeof TKEYS = {
         "Die Darstellungsweise der Posts ist stark inspiriert von",
       medium: EN["community-page"].posts.medium,
     },
+  },
+  imprint: {
+    title: "Impressum",
+    responsible: {
+      title: "Derzeit verantwortlich",
+      name: EN.imprint.responsible.name,
+      street: EN.imprint.responsible.street,
+      address_line_1: "81371 München",
+      address_line_2: "Deutschland",
+    },
+  },
+  "privacy-policy": {
+    title: "Datenschutzrichtlinie",
+  },
+  "terms-of-service": {
+    title: "AGB",
+  },
+  "page-not-found": {
+    title: "404 Seite nicht gefunden",
+    "back-to-home": "Zurück zur Startseite",
+  },
+  footer: {
+    "main-paragraph":
+      "People's Markets ist eine online Platform auf der Menschen ihre Waren anbieten und ihren Online-Auftritt ausbauen können.",
+    "community-paragraph": "Gestalte jeden Aspekt des Projekts mit.",
   },
 };

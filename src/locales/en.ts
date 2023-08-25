@@ -24,6 +24,9 @@ export const EN: typeof TKEYS = {
       "already-exists": "Already exists",
     },
   },
+  dashboard: {
+    "market-booth": "Market Booth",
+  },
   "main-navigation": {
     actions: {
       "sign-in": "Sign In",
@@ -40,30 +43,8 @@ export const EN: typeof TKEYS = {
       "change-language": "Language / Sprache",
     },
   },
-  footer: {
-    "main-paragraph":
-      "People's Markets is an online platform where businesses and people can offer their goods while building their brand and market appearance.",
-    "community-paragraph": "Get involved in any aspect of the project.",
-  },
-  imprint: {
-    title: "Imprint",
-    responsible: {
-      title: "Currently responsible",
-      name: "Maximilian Temeschinko",
-      street: "Thalkirchner Str. 182",
-      address_line_1: "8137 Munich",
-      address_line_2: "Germany",
-    },
-  },
-  "privacy-policy": {
-    title: "Privacy Policy",
-  },
-  "terms-of-service": {
-    title: "Terms of service",
-  },
-  "page-not-found": {
-    title: "404 Page Not Found",
-    "back-to-home": "Back to home page",
+  "user-settings-page": {
+    title: "User Settings",
   },
   "landing-page": {
     "establish-your-online-appearance": "Establish Your Online Appearance",
@@ -73,9 +54,6 @@ export const EN: typeof TKEYS = {
     "no-costs-until-you-sell": "No costs until you sell",
     "no-strings-attached": "No strings attached",
     "GET-STARTED": "GET STARTED",
-  },
-  dashboard: {
-    "market-booth": "Market Booth",
   },
   "market-booth": {
     Details: "Maket Booth Details",
@@ -112,9 +90,6 @@ export const EN: typeof TKEYS = {
     },
     "no-offer-description": "No offer description ...",
   },
-  "user-settings-page": {
-    title: "User Settings",
-  },
   "community-page": {
     headline: "Help the project grow!",
     description:
@@ -125,5 +100,30 @@ export const EN: typeof TKEYS = {
         "The presentation of the posts is heavily inspired by",
       medium: "Medium",
     },
+  },
+  imprint: {
+    title: "Imprint",
+    responsible: {
+      title: "Currently responsible",
+      name: "Maximilian Temeschinko",
+      street: "Thalkirchner Str. 182",
+      address_line_1: "81371 Munich",
+      address_line_2: "Germany",
+    },
+  },
+  "privacy-policy": {
+    title: "Privacy Policy",
+  },
+  "terms-of-service": {
+    title: "Terms of service",
+  },
+  "page-not-found": {
+    title: "404 Page Not Found",
+    "back-to-home": "Back to home page",
+  },
+  footer: {
+    "main-paragraph":
+      "People's Markets is an online platform where businesses and people can offer their goods while building their brand and market appearance.",
+    "community-paragraph": "Get involved in any aspect of the project.",
   },
 };
