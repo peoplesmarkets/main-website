@@ -9,9 +9,9 @@ export enum Theme {
 }
 
 function initialize() {
-  let theme = localStorage?.getItem("theme");
+  const theme = localStorage?.getItem("theme");
   if (theme) {
-    switch (localStorage.getItem("theme")) {
+    switch (theme) {
       case Theme.DefaultDark:
       case Theme.Dark:
         return Theme.DefaultDark;

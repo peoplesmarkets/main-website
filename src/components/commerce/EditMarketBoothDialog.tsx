@@ -114,13 +114,15 @@ export function EditMarketBoothDialog(props: Props) {
     <>
       <Show when={!discardConfirmation()}>
         <Dialog
-          title={trans(TKEYS["market-booth"]["edit-market-booth-details"])}
+          title={trans(
+            TKEYS.dashboard["market-booth"]["edit-market-booth-details"]
+          )}
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={updateMarketBooth}>
             <TextField
               name="name"
-              label={trans(TKEYS["market-booth"].labels.name)}
+              label={trans(TKEYS.dashboard["market-booth"].labels.name)}
               required
               value={marketBooth.name}
               onValue={onNameInput}
@@ -129,7 +131,7 @@ export function EditMarketBoothDialog(props: Props) {
 
             <TextArea
               name="description"
-              label={trans(TKEYS["market-booth"].labels.description)}
+              label={trans(TKEYS.dashboard["market-booth"].labels.description)}
               rows={8}
               value={marketBooth.description}
               onValue={onDescriptionInput}

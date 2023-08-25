@@ -112,7 +112,7 @@ function initialize() {
     id_token,
     state,
   }: AccessTokensResponse) {
-    let expiresAt = new Date();
+    const expiresAt = new Date();
     expiresAt.setSeconds(expiresAt.getSeconds() + expires_in);
 
     const accessTokensToStore: AccessTokens = {

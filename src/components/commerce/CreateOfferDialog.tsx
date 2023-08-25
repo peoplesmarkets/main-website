@@ -98,13 +98,13 @@ export function CreateOfferDialog(props: Props) {
     <>
       <Show when={!discardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.offers["create-new-offer"])}
+          title={trans(TKEYS.dashboard.offers["create-new-offer"])}
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={(e) => createOffer(e)}>
             <TextField
               name="name"
-              label={trans(TKEYS.offers.labels.name)}
+              label={trans(TKEYS.dashboard.offers.labels.name)}
               required={true}
               value={offer.name}
               onValue={onNameInput}
@@ -113,7 +113,7 @@ export function CreateOfferDialog(props: Props) {
 
             <TextArea
               name="description"
-              label={trans(TKEYS.offers.labels.description)}
+              label={trans(TKEYS.dashboard.offers.labels.description)}
               rows={8}
               required={false}
               value={offer.description}

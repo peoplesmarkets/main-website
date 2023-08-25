@@ -30,7 +30,7 @@ export default function UserSettings() {
       return [
         {
           key: "",
-          name: trans(TKEYS["market-booth"]["no-market-booth-yet"]),
+          name: trans(TKEYS.dashboard["market-booth"]["no-market-booth-yet"]),
         },
       ];
     } else {
@@ -61,7 +61,7 @@ export default function UserSettings() {
         </span>
 
         <Select
-          label={trans(TKEYS["market-booth"]["current-market-booth"])}
+          label={trans(TKEYS.dashboard["market-booth"]["current-market-booth"])}
           options={marketBoothOptions}
           onValue={setCurrentMarketBooth}
           selected={() => currentMarketBooth()?.marketBoothId}
@@ -71,7 +71,9 @@ export default function UserSettings() {
           actionType="active-filled"
           onClick={handleOpenCreateMarketBooth}
         >
-          <Trans key={TKEYS["market-booth"]["create-new-market-booth"]} />
+          <Trans
+            key={TKEYS.dashboard["market-booth"]["create-new-market-booth"]}
+          />
         </ActionButton>
 
         <Show when={showCreateMarketBooth()}>

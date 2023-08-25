@@ -90,7 +90,7 @@ export function OfferSettings(props: Props) {
     <>
       <Section>
         <span class={styles.Title}>
-          <Trans key={TKEYS.offers["title-plural"]} />
+          <Trans key={TKEYS.dashboard.offers["title-plural"]} />
         </span>
 
         <Show
@@ -143,7 +143,7 @@ export function OfferSettings(props: Props) {
             actionType="active-filled"
             onClick={handleOpenCreateOffer}
           >
-            <Trans key={TKEYS.offers["create-new-offer"]} />
+            <Trans key={TKEYS.dashboard.offers["create-new-offer"]} />
           </ActionButton>
         </div>
       </Section>
@@ -165,7 +165,7 @@ export function OfferSettings(props: Props) {
       </Show>
 
       <DeleteConfirmation
-        item={trans(TKEYS.offers.title)}
+        item={trans(TKEYS.dashboard.offers.title)}
         itemName={selectedOffer()?.name}
         onCancel={discardDeletion}
         onConfirmation={confirmDeleteion}

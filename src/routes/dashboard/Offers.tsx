@@ -80,13 +80,13 @@ export default function Offers() {
 
           <Section>
             <span class={styles.Label}>
-              <Trans key={TKEYS.offers.labels.Description} />:
+              <Trans key={TKEYS.dashboard.offers.labels.Description} />:
             </span>
             <Show
               when={!_.isEmpty(offer()?.description)}
               fallback={
                 <span class={styles.Details}>
-                  <Trans key={TKEYS.offers["no-offer-description"]} />
+                  <Trans key={TKEYS.dashboard.offers["no-offer-description"]} />
                 </span>
               }
             >
@@ -96,16 +96,16 @@ export default function Offers() {
 
           <Section>
             <span class={styles.Label}>
-              <Trans key={TKEYS.offers.Details} />:
+              <Trans key={TKEYS.dashboard.offers.Details} />:
             </span>
 
             <span class={styles.Details}>
-              <Trans key={TKEYS.offers.labels["Created-at"]} />:{" "}
+              <Trans key={TKEYS.dashboard.offers.labels["Created-at"]} />:{" "}
               {secondsToLocaleString(offer()?.createdAt)}
             </span>
 
             <span class={styles.Details}>
-              <Trans key={TKEYS.offers.labels["Updated-at"]} />:{" "}
+              <Trans key={TKEYS.dashboard.offers.labels["Updated-at"]} />:{" "}
               {secondsToLocaleString(offer()?.updatedAt)}
             </span>
           </Section>
@@ -117,7 +117,7 @@ export default function Offers() {
 
             <div class={styles.EditSection}>
               <p class={styles.Body}>
-                <Trans key={TKEYS.offers["edit-offer"]} />
+                <Trans key={TKEYS.dashboard.offers["edit-offer"]} />
               </p>
               <ActionButton actionType="neutral" onClick={handleOpenEditOffer}>
                 <Trans key={TKEYS.form.action.Edit} />
@@ -132,7 +132,7 @@ export default function Offers() {
 
             <div class={styles.EditSection}>
               <p class={styles.Body}>
-                <Trans key={TKEYS.offers["delete-this-offer"]} />
+                <Trans key={TKEYS.dashboard.offers["delete-this-offer"]} />
               </p>
               <ActionButton actionType="danger" onClick={startDeletetion}>
                 <Trans key={TKEYS.form.action.Delete} />
@@ -151,7 +151,7 @@ export default function Offers() {
       </Show>
 
       <DeleteConfirmation
-        item={trans(TKEYS.offers.title)}
+        item={trans(TKEYS.dashboard.offers.title)}
         itemName={offer()?.name}
         onCancel={discardDeletion}
         onConfirmation={confirmDeleteion}

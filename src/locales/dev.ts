@@ -23,7 +23,46 @@ export const TKEYS = {
     },
   },
   dashboard: {
-    "market-booth": "dashboard.market-booth",
+    "market-booth": {
+      title: "dashboard.market-booth.title",
+      Details: "dashboard.market-booth.Details",
+      "current-market-booth": "dashboard.market-booth.current-market-booth",
+      "no-market-booth-yet": "dashboard.market-booth.no-market-booth-yet",
+      "create-new-market-booth":
+        "dashboard.market-booth.create-new-market-booth",
+      "no-market-booth-description":
+        "dashboard.market-booth.no-market-booth-description",
+      "edit-market-booth-details":
+        "dashboard.market-booth.edit-market-booth-details",
+      "delete-this-market-booth":
+        "dashboard.market-booth.delete-this-market-booth",
+      labels: {
+        Details: "dashboard.market-booth.labels.Details",
+        Name: "dashboard.market-booth.labels.Name",
+        name: "dashboard.market-booth.labels.name",
+        Description: "dashboard.market-booth.labels.Description",
+        description: "dashboard.market-booth.labels.description",
+        "Created-at": "dashboard.market-booth.labels.Created-at",
+        "Updated-at": "dashboard.market-booth.labels.Updated-at",
+      },
+    },
+    offers: {
+      title: "dashboard.offers.title",
+      Details: "dashboard.offers.Details",
+      "title-plural": "dashboard.offers.title-plural",
+      "create-new-offer": "dashboard.offers.create-new-offer",
+      "edit-offer": "dashboard.offers.edit-offer",
+      "delete-this-offer": "dashboard.offers.delete-this-offer",
+      labels: {
+        Name: "dashboard.offers.labels.Name",
+        name: "dashboard.offers.labels.name",
+        Description: "dashboard.offers.labels.Description",
+        description: "dashboard.offers.labels.description",
+        "Created-at": "dashboard.offers.labels.Created-at",
+        "Updated-at": "dashboard.offers.labels.Updated-at",
+      },
+      "no-offer-description": "dashboard.offers.no-offer-description",
+    },
   },
   "main-navigation": {
     actions: {
@@ -31,7 +70,7 @@ export const TKEYS = {
     },
     links: {
       "market-booths": "main-navigation.links.market-booths",
-      "offers": "main-navigation.links.offers",
+      offers: "main-navigation.links.offers",
       dashboard: "main-navigation.links.dashboard",
       "user-settings": "main-navigation.links.user-settings",
       community: "main-navigation.links.community",
@@ -44,41 +83,6 @@ export const TKEYS = {
   },
   "user-settings-page": {
     title: "user-settings-page.title",
-  },
-  "market-booth": {
-    Details: "market-booth.Details",
-    "current-market-booth": "market-booth.current-market-booth",
-    "no-market-booth-yet": "market-booth.no-market-booth-yet",
-    "create-new-market-booth": "market-booth.create-new-market-booth",
-    "no-market-booth-description": "market-booth.no-market-booth-description",
-    "edit-market-booth-details": "market-booth.edit-market-booth-details",
-    "delete-this-market-booth": "market-booth.delete-this-market-booth",
-    labels: {
-      Details: "market-booth.labels.Details",
-      Name: "market-booth.labels.Name",
-      name: "market-booth.labels.name",
-      Description: "market-booth.labels.Description",
-      description: "market-booth.labels.description",
-      "Created-at": "market-booth.labels.Created-at",
-      "Updated-at": "market-booth.labels.Updated-at",
-    },
-  },
-  offers: {
-    title: "offers.title",
-    Details: "offers.Details",
-    "title-plural": "offers.title-plural",
-    "create-new-offer": "offers.create-new-offer",
-    "edit-offer": "offers.edit-offer",
-    "delete-this-offer": "offers.delete-this-offer",
-    labels: {
-      Name: "offers.labels.Name",
-      name: "offers.labels.name",
-      Description: "offers.labels.Description",
-      description: "offers.labels.description",
-      "Created-at": "offers.labels.Created-at",
-      "Updated-at": "offers.labels.Updated-at",
-    },
-    "no-offer-description": "offers.no-offer-description",
   },
   "community-page": {
     headline: "community-page.headline",
