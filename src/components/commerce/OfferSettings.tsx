@@ -1,4 +1,4 @@
-import { For, Show, createSignal, onMount } from "solid-js";
+import { For, Show, createResource, createSignal, onMount } from "solid-js";
 
 import styles from "./OfferSettings.module.scss";
 import { CreateOfferDialog } from "./CreateOfferDialog";
@@ -12,6 +12,8 @@ import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import _ from "lodash";
 import { EditOfferDialog } from "./EditOfferDialog";
+import { A } from "@solidjs/router";
+import { DASHBOARD_PATH, OFFERS_SUBPATH, buildPath } from "../../App";
 
 type Props = {
   readonly marketBooth: () => MarketBoothResponse;
@@ -24,7 +26,7 @@ export function OfferSettings(props: Props) {
 
   const offerService = new OfferService(accessToken);
 
-  const [offers, setOffers] = createSignal<OfferResponse[]>([]);
+  const [offers, { refetch }] = createResource(fetchOffers);
 
   const [showCreateOffer, setShowCreateOffer] = createSignal(false);
   const [showEditOffer, setShowEditOffer] = createSignal(false);
@@ -46,7 +48,7 @@ export function OfferSettings(props: Props) {
   }
 
   async function refreshOffers() {
-    setOffers(await fetchOffers());
+    refetch();
   }
 
   function handleOpenCreateOffer() {
@@ -91,31 +93,50 @@ export function OfferSettings(props: Props) {
           <Trans key={TKEYS.offers["title-plural"]} />
         </span>
 
-        <div class={styles.Table}>
-          <For each={offers()}>
-            {(offer) => (
-              <div class={styles.Row}>
-                <span class={styles.Name}>{offer.name}</span>
-
-                <div class={styles.Actions}>
-                  <ActionButton
-                    actionType="neutral"
-                    onClick={() => handleOpenEditOffer(offer)}
+        <Show
+          when={offers.state === "ready"}
+          fallback={
+            <p>
+              <Trans key={TKEYS.fetching["content-loading"]} />
+            </p>
+          }
+        >
+          <div class={styles.Table}>
+            <For each={offers()}>
+              {(offer) => (
+                <div class={styles.Row}>
+                  <A
+                    class={styles.Name}
+                    href={buildPath(
+                      DASHBOARD_PATH,
+                      props.marketBooth().marketBoothId,
+                      OFFERS_SUBPATH,
+                      offer.offerId
+                    )}
                   >
-                    <Trans key={TKEYS.form.action.Edit} />
-                  </ActionButton>
+                    {offer.name}
+                  </A>
 
-                  <ActionButton
-                    actionType="danger"
-                    onClick={() => startDeletetion(offer)}
-                  >
-                    <Trans key={TKEYS.form.action.Delete} />
-                  </ActionButton>
+                  <div class={styles.Actions}>
+                    <ActionButton
+                      actionType="neutral"
+                      onClick={() => handleOpenEditOffer(offer)}
+                    >
+                      <Trans key={TKEYS.form.action.Edit} />
+                    </ActionButton>
+
+                    <ActionButton
+                      actionType="danger"
+                      onClick={() => startDeletetion(offer)}
+                    >
+                      <Trans key={TKEYS.form.action.Delete} />
+                    </ActionButton>
+                  </div>
                 </div>
-              </div>
-            )}
-          </For>
-        </div>
+              )}
+            </For>
+          </div>
+        </Show>
 
         <div class={styles.TableActions}>
           <ActionButton

@@ -3,11 +3,81 @@ import { Router } from "@solidjs/router";
 import { render } from "@solidjs/testing-library";
 import { assert, describe, expect, test } from "vitest";
 
-import App, { getPathSegments, isSubPath, removeTralingSlash } from "./App";
+import App, {
+  buildPath,
+  getPathSegments,
+  isSubPath,
+  removeLeadingSlash,
+  removeTralingSlash,
+} from "./App";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 import { LOCALES } from "./locales";
 
 describe("App rendering", () => {
+  describe("buildPath", () => {
+    function testBuildPathHappy(...paths: string[]) {
+      let res;
+      try {
+        res = buildPath(...paths);
+      } catch (err) {
+        expect(err).toBeUndefined();
+      }
+      return res;
+    }
+
+    test("'/'", () => {
+      const res = testBuildPathHappy("/");
+      expect(res).toEqual("/");
+    });
+    test("'/' + 'first'", () => {
+      const res = testBuildPathHappy("/", "first");
+      expect(res).toEqual("/first");
+    });
+    test("with leading slash in subpath", () => {
+      const res = testBuildPathHappy("/", "/first");
+      expect(res).toEqual("/first");
+    });
+    test("with traling slash in subpath", () => {
+      const res = testBuildPathHappy("/", "first/");
+      expect(res).toEqual("/first");
+    });
+    test("with leading and traling slash in subpath", () => {
+      const res = testBuildPathHappy("/", "/first/");
+      expect(res).toEqual("/first");
+    });
+    test("with multiple segments", () => {
+      const res = testBuildPathHappy("/", "/first/", "/second", "third");
+      expect(res).toEqual("/first/second/third");
+    });
+  });
+  describe("removeLeadingSlash", () => {
+    function testRemoveLeadingSlashHappy(path: string) {
+      let res;
+      try {
+        res = removeLeadingSlash(path);
+      } catch (err) {
+        expect(err).toBeUndefined();
+      }
+      return res;
+    }
+
+    test("'/'", () => {
+      const res = testRemoveLeadingSlashHappy("/");
+      expect(res).toEqual("/");
+    });
+    test("without leading slash", () => {
+      const res = testRemoveLeadingSlashHappy("first");
+      expect(res).toEqual("first");
+    });
+    test("with leading slash", () => {
+      const res = testRemoveLeadingSlashHappy("/first");
+      expect(res).toEqual("first");
+    });
+    test("with leading and traling slash", () => {
+      const res = testRemoveLeadingSlashHappy("/first/");
+      expect(res).toEqual("first/");
+    });
+  });
   describe("removeTralingSlash", () => {
     function testRemoveTralingSlashHappy(path: string) {
       let res;

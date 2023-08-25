@@ -1,11 +1,14 @@
 .Title {
   display: block;
+  margin: 0 auto;
+  padding: 1rem 0;
   font: var(--font-title);
+  text-align: center;
 }
 
 .Label {
+  display: block;
   font: var(--font-label);
-  margin-bottom: 0.5rem;
 }
 
 .Body {
@@ -17,8 +20,11 @@
   font: var(--font-body);
 }
 
-.Details strong {
-  font: var(--font-body);
+.Actions {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 1rem;
 }
 
 .EditSection {
