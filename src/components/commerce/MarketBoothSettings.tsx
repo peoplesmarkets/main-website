@@ -12,6 +12,7 @@ import styles from "./MarketBoothSettings.module.scss";
 import { secondsToLocaleString } from "../../lib";
 import { ActionButton } from "../form";
 import { Section } from "../layout/Section";
+import { Multiline } from "../content/Multiline";
 
 type Props = {
   marketBooth: () => MarketBoothResponse | undefined;
@@ -61,12 +62,16 @@ export default function MarketBoothSettings(props: Props) {
         </span>
 
         <Show
-          when={_.isEmpty(props.marketBooth()?.description)}
-          fallback={<p>{props.marketBooth()?.description}</p>}
+          when={!_.isEmpty(props.marketBooth()?.description)}
+          fallback={
+            <span class={styles.Details}>
+              <Trans
+                key={TKEYS["market-booth"]["no-market-booth-description"]}
+              />
+            </span>
+          }
         >
-          <span class={styles.Details}>
-            <Trans key={TKEYS["market-booth"]["no-market-booth-description"]} />
-          </span>
+          <Multiline text={() => props.marketBooth()?.description} />
         </Show>
       </Section>
 
