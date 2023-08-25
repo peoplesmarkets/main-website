@@ -1,70 +1,53 @@
 :root.theme-default-light {
-  --primary-font-color: #202124;
-  --hovered-font-color: #1d1e20;
-  --active-font-color: #1a73e8;
-  --danger-font-color: #ff3b5b;
-  --content-font-color: #303134;
-  --secondary-content-font-color: #303134ee;
+  --display-content-color: #141414;
+  --primary-content-color: #303134;
+  --secondary-content-color: #4d4e53;
+  --active-content-color: #1a73e8;
+  --danger-content-color: #ff3b5b;
 
-  --primary-background-color: #F8F9FA;
+  --primary-border-color: #303134;
+  --secondary-border-color: #30313486;
+  --danger-border-color: #ff3b5ce3;
+
+  --display-background-color: #f8f9fa;
+  --primary-background-color: #f8f8f8;
   --secondary-background-color: rgb(243, 246, 252);
-  // --primary-background-color: rgb(255, 255, 255);
-  // --primary-background-color: #f8f8f8;
-  // --secondary-background-color: #f8f9fa;
-  --tertiary-background-color: #f1f3f4;
   --active-background-color: #c2e7ff;
   --hovered-background: linear-gradient(
     0deg,
     rgba(68, 71, 70, 0.12),
     rgba(68, 71, 70, 0.12)
   );
+  --hovered-danger-background-color: #ff3b5c14;
   --blend-color: #000000;
   --blend-opacity: 20%;
-
-  --focused-background-color: #8ab4f841;
-  --hovered-background-color: #8ab4f821;
-  --hovered-danger-background-color: #ff3b5c14;
-
-  --primary-border-color: #303134;
-  --secondary-border-color: #30313486;
-  --danger-border-color: #ff3b5b;
-
-  --primary-shadow-color: #00000033;
 
   --hover-filter: brightness(90%);
 }
 
 :root.theme-default-dark {
-  --primary-font-color: #cbced0;
-  --hovered-font-color: #e8eaed;
-  --active-font-color: #8ab4f8;
-  --danger-font-color: #ff3b5b;
-  --content-font-color: #e8eaed;
-  --secondary-content-font-color: #e8eaed8a;
+  --display-content-color: #f8f9fa;
+  --primary-content-color: #e8eaed;
+  --secondary-content-color: #b9bbbd;
+  --active-content-color: #8ab4f8;
+  --danger-content-color: #ff3b5b;
 
-  --primary-background-color: #141414;
+  --primary-border-color: #5f6368;
+  --secondary-border-color: #5f63687a;
+  --danger-border-color: #ff3b5cb7;
+
+  --display-background-color: #141414;
+  --primary-background-color: #1e1e1e;
   --secondary-background-color: rgb(45, 47, 49);
-  // --primary-background-color: #1e1e1e;
-  // --secondary-background-color: #141414;
-  --tertiary-background-color: #303134;
   --active-background-color: #004a77;
   --hovered-background: linear-gradient(
     0deg,
     rgba(196, 199, 197, 0.08),
     rgba(196, 199, 197, 0.08)
   );
+  --hovered-danger-background-color: #ff3b5c14;
   --blend-color: #ffffff;
   --blend-opacity: 10%;
-
-  --focused-background-color: #8ab4f80a;
-  --hovered-background-color: #8ab4f80a;
-  --hovered-danger-background-color: #ff3b5c14;
-
-  --primary-border-color: #5f6368;
-  --secondary-border-color: #5f63687a;
-  --danger-border-color: #ff3b5b;
-
-  --primary-shadow-color: #00000044;
 
   --hover-filter: brightness(90%);
 }
@@ -123,6 +106,7 @@
   --font-title: var(--font-title-medium);
   --font-label: var(--font-label-large);
   --font-body: var(--font-body-medium);
+  --font-detail: var(--font-body-small);
 
   @media only screen and (min-width: $medium-min-width) and (max-width: $medium-max-width) {
     --font-display: var(--font-display-medium);
@@ -130,6 +114,7 @@
     --font-title: var(--font-title-medium);
     --font-label: var(--font-label-large);
     --font-body: var(--font-body-medium);
+    --font-detail: var(--font-body-small);
   }
 
   @media only screen and (min-width: $expanded-min-width) {
@@ -138,6 +123,7 @@
     --font-title: var(--font-title-large);
     --font-label: var(--font-label-large);
     --font-body: var(--font-body-large);
+    --font-detail: var(--font-body-medium);
   }
 
   // Colors
@@ -171,7 +157,7 @@
 
 html {
   font: var(--font-body);
-  color: var(--content-font-color);
+  color: var(--primary-content-color);
 
   ::-webkit-scrollbar {
     display: none;

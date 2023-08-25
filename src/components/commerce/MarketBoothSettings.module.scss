@@ -13,12 +13,11 @@
 
 .Details {
   display: block;
-  font-size: var(--small-font-size);
-  font-weight: var(--default-font-weight);
+  font: var(--font-body);
 }
 
 .Details strong {
-  font-size: var(--small-font-size);
+  font: var(--font-body);
 }
 
 .EditSection {

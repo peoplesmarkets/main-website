@@ -18,6 +18,7 @@ export const DE: typeof TKEYS = {
     errors: {
       "required-field": "Eingabe erforderlich",
       "not-modified": "Kein Änderrung",
+      "already-exists": "Bereits vergeben",
     },
   },
   "main-navigation": {
@@ -71,24 +72,42 @@ export const DE: typeof TKEYS = {
     "GET-STARTED": "LOS GEHT'S",
   },
   dashboard: {
-    "create-a-new-market-booth": "Neuen Marktstand erstellen",
+    "danger-zone": "Gefahrenzone",
+    "market-booth": "Marktstand",
+  },
+  "market-booth": {
+    Details: "Marktstand Details",
     "current-market-booth": "Marktstand Auswahl",
-    Details: "Details",
-    "created-at": "erstellt am",
-    "updated-at": "bearbeitet am",
-    Description: "Beschreibung",
+    "no-market-booth-yet": "Bisher kein Markstand",
+    "create-new-market-booth": "Neuen Marktstand erstellen",
     "no-market-booth-description": "Keine Beschreibung vorhanden ...",
     "edit-market-booth-details": "Marktstand Details Bearbeiten",
-    "danger-zone": "Gefahrenzone",
     "delete-this-market-booth": "Diesen Marktstand Löschen",
-    "market-booth": "Marktstand",
+    labels: {
+      Details: "Details",
+      Name: "Name",
+      name: "Name",
+      Description: "Beschreibung",
+      description: "Beschreibung",
+      "Created-at": "Erstellt am",
+      "Updated-at": "Bearbeitet am",
+    },
+  },
+  offers: {
+    title: "Angebot",
+    "title-plural": "Angebote",
+    "create-new-offer": "Neues Angebot erstellen",
+    "edit-offer": "Angebot bearbeiten",
+    labels: {
+      Name: "Name",
+      name: "Name",
+      Description: "Beschreibung",
+      description: "Beschreibung",
+    },
+    "no-offer-description": "Keine Beschreibung vorhanden ...",
   },
   "user-settings-page": {
     title: "Benutzereinstellungen",
-    "market-booth": {
-      "current-market-booth": "Marktstand Auswahl",
-      "no-market-booth-yet": "Bisher kein Markstand",
-    },
   },
   "community-page": {
     headline: "Hilf dem Projekt zu wachsen!",

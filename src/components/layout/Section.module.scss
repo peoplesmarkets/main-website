@@ -1,15 +1,15 @@
 .Section {
-  padding: 2rem;
+  padding: 2rem 1rem;
 }
 
 .Bordered {
-  margin: 1rem auto;
+  margin: 1rem;
   border: var(--primary-border);
   border-radius: var(--medium-border-radius);
 }
 
 .Danger {
-  margin: 1rem auto;
+  margin: 1rem;
   border: var(--danger-border);
   border-radius: var(--medium-border-radius);
 }

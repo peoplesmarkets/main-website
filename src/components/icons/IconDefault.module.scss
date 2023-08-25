@@ -3,14 +3,14 @@
   width: 30px;
   padding: 12px;
   border-radius: 50%;
-  fill: var(--primary-font-color);
+  fill: var(--primary-content-color);
 }
 
 .IconDefault:hover {
   cursor: pointer;
-  background-color: var(--hovered-background-color);
+  background: var(--hovered-background);
 }
 
 .IconDefault:active:focus {
-  background-color: var(--hovered-background-color);
+  background: var(--hovered-background);
 }

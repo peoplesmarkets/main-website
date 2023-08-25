@@ -55,27 +55,23 @@ export default function MarketBoothSettings(props: Props) {
 
   return (
     <>
-      <Section wide>
+      <Section>
         <span class={styles.Title}>
-          <Trans key={TKEYS.dashboard.Details} />
+          <Trans key={TKEYS["market-booth"].Details} />
         </span>
 
         <span class={styles.Details}>
-          <Trans key={TKEYS.dashboard["created-at"]} />:{" "}
-          <strong>
-            {secondsToLocaleString(props.marketBooth()?.createdAt)}
-          </strong>
+          <Trans key={TKEYS["market-booth"].labels["Created-at"]} />:{" "}
+          {secondsToLocaleString(props.marketBooth()?.createdAt)}
         </span>
 
         <span class={styles.Details}>
-          <Trans key={TKEYS.dashboard["updated-at"]} />:{" "}
-          <strong>
-            {secondsToLocaleString(props.marketBooth()?.updatedAt)}
-          </strong>
+          <Trans key={TKEYS["market-booth"].labels["Updated-at"]} />:{" "}
+          {secondsToLocaleString(props.marketBooth()?.updatedAt)}
         </span>
 
-        <span class={styles.Subtitle}>
-          <Trans key={TKEYS.dashboard.Description} />:
+        <span class={styles.Label}>
+          <Trans key={TKEYS["market-booth"].labels.Description} />:
         </span>
 
         <Show
@@ -83,19 +79,19 @@ export default function MarketBoothSettings(props: Props) {
           fallback={<p>{props.marketBooth()?.description}</p>}
         >
           <span class={styles.Details}>
-            <Trans key={TKEYS.dashboard["no-market-booth-description"]} />
+            <Trans key={TKEYS["market-booth"]["no-market-booth-description"]} />
           </span>
         </Show>
       </Section>
 
-      <Section wide bordered>
+      <Section bordered>
         <span class={styles.Title}>
           <Trans key={TKEYS.form.action.Edit} />
         </span>
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["edit-market-booth-details"]} />
+            <Trans key={TKEYS["market-booth"]["edit-market-booth-details"]} />
           </p>
           <ActionButton actionType="neutral" onClick={editMarketBooth}>
             <Trans key={TKEYS.form.action.Edit} />
@@ -103,14 +99,14 @@ export default function MarketBoothSettings(props: Props) {
         </div>
       </Section>
 
-      <Section wide danger>
+      <Section danger>
         <span class={styles.Title}>
           <Trans key={TKEYS.dashboard["danger-zone"]} />
         </span>
 
         <div class={styles.DangerSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["delete-this-market-booth"]} />
+            <Trans key={TKEYS["market-booth"]["delete-this-market-booth"]} />
           </p>
           <ActionButton actionType="danger" onClick={startDeletetion}>
             <Trans key={TKEYS.form.action.Delete} />

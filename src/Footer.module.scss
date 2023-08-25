@@ -17,12 +17,12 @@
 
 .MainLogoIcon {
   height: 36px;
-  fill: var(--primary-font-color);
+  fill: var(--primary-content-color);
 }
 
 .MainLogoText {
   height: 44px;
-  fill: var(--primary-font-color);
+  fill: var(--primary-content-color);
   margin-left: 1rem;
 }
 
@@ -42,7 +42,7 @@
 .SiteLinks a {
   font: var(--font-label-large);
   text-decoration: none;
-  color: var(--active-font-color);
+  color: var(--active-content-color);
 }
 
 .SocialContainer {
@@ -65,5 +65,5 @@
 .OpenInNew {
   width: 0.7em;
   height: 0.7em;
-  fill: var(--active-font-color);
+  fill: var(--active-content-color);
 }
