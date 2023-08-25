@@ -12,11 +12,16 @@ import { MarketBoothProvider } from "./contexts/MarketBoothContext";
 import { initializeThemeStore } from "./contexts/ThemeStore";
 import { signInDataRoute } from "./data-routes";
 import { LOCALES } from "./locales";
-import NotFound from "./routes/404";
+import NotFound from "./routes/info/404";
 import CommunityRoutes from "./routes/community/CommunityRoutes";
+import PrivacyPolicy from "./routes/info/PrivacyPolicy";
+import TermsOfService from "./routes/info/TermsOfService";
+import Imprint from "./routes/info/Imprint";
+import GetStarted from "./routes/info/GetStarted";
 
 export const INDEX_PATH = "/";
-export const GET_STARTED_PATH = "/get-started";
+export const MARKET_BOOTHS_PATH = "/";
+export const OFFERS_PATH = "/offers";
 
 export const SIGN_IN_PATH = "/sign-in";
 export const SIGN_IN_CALLBACK = "/sign-in/callback";
@@ -32,6 +37,7 @@ export const DEVELOPMENT_POSTS_SUBPATH = "/development-posts";
 export const COMMUNITY_DEVELOPMENT_POSTS_PATH =
   COMMUNITY_PATH + DEVELOPMENT_POSTS_SUBPATH;
 
+export const GET_STARTED_PATH = "/get-started";
 export const IMPRINT_PATH = "/imprint";
 export const PRIVACY_POLICY_PATH = "/privacy-policy";
 export const TERMS_OF_SERVICE_PATH = "/terms-of-service";
@@ -53,16 +59,16 @@ export default function App() {
 
           <main class={styles.Content}>
             <Routes>
-              <AccessTokenProvider>
-                <Route
-                  path={INDEX_PATH}
-                  component={lazy(() => import("./routes/GetStarted"))}
-                />
-                <Route
-                  path={GET_STARTED_PATH}
-                  component={lazy(() => import("./routes/GetStarted"))}
-                />
+              <Route
+                path={INDEX_PATH}
+                component={lazy(() => import("./routes/commerce/MarketBooths"))}
+              />
+              <Route
+                path={OFFERS_PATH}
+                component={lazy(() => import("./routes/commerce/Offers"))}
+              />
 
+              <AccessTokenProvider>
                 <Route path={SIGN_IN_PATH} data={signInDataRoute} />
                 <Route
                   path={SIGN_IN_CALLBACK}
@@ -72,11 +78,15 @@ export default function App() {
                 <MarketBoothProvider>
                   <Route
                     path={DASHBOARD_PATH}
-                    component={lazy(() => import("./routes/Dashboard"))}
+                    component={lazy(
+                      () => import("./routes/dashboard/Dashboard")
+                    )}
                   />
                   <Route
                     path={buildPath(DASHBOARD_PATH, ":marketBoothId")}
-                    component={lazy(() => import("./routes/Dashboard"))}
+                    component={lazy(
+                      () => import("./routes/dashboard/Dashboard")
+                    )}
                   />
                   <Route
                     path={buildPath(
@@ -85,7 +95,7 @@ export default function App() {
                       OFFERS_SUBPATH,
                       ":offerId"
                     )}
-                    component={lazy(() => import("./routes/commerce/Offers"))}
+                    component={lazy(() => import("./routes/dashboard/Offers"))}
                   />
 
                   <Route
@@ -99,18 +109,10 @@ export default function App() {
                 <CommunityRoutes />
               </Route>
 
-              <Route
-                path={IMPRINT_PATH}
-                component={lazy(() => import("./routes/Imprint"))}
-              />
-              <Route
-                path={PRIVACY_POLICY_PATH}
-                component={lazy(() => import("./routes/PrivacyPolicy"))}
-              />
-              <Route
-                path={TERMS_OF_SERVICE_PATH}
-                component={lazy(() => import("./routes/TermsOfService"))}
-              />
+              <Route path={GET_STARTED_PATH} component={GetStarted} />
+              <Route path={IMPRINT_PATH} component={Imprint} />
+              <Route path={PRIVACY_POLICY_PATH} component={PrivacyPolicy} />
+              <Route path={TERMS_OF_SERVICE_PATH} component={TermsOfService} />
 
               <Route path="*" component={NotFound} />
             </Routes>

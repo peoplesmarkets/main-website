@@ -3,13 +3,13 @@ import { A, useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createSignal, onMount } from "solid-js";
 
-import { DASHBOARD_PATH, USER_SETTINGS_PATH, buildPath } from "../App";
-import MarketBoothSettings from "../components/commerce/MarketBoothSettings";
-import { useMarketBoothContext } from "../contexts/MarketBoothContext";
-import { TKEYS } from "../locales/dev";
+import { DASHBOARD_PATH, USER_SETTINGS_PATH, buildPath } from "../../App";
+import MarketBoothSettings from "../../components/commerce/MarketBoothSettings";
+import { OfferSettings } from "../../components/commerce/OfferSettings";
+import { Page } from "../../components/layout/Page";
+import { useMarketBoothContext } from "../../contexts/MarketBoothContext";
+import { TKEYS } from "../../locales/dev";
 import styles from "./Dashboard.module.scss";
-import { OfferSettings } from "../components/commerce/OfferSettings";
-import { Page } from "../components/layout/Page";
 
 export default function Dashboard() {
   const navigate = useNavigate();

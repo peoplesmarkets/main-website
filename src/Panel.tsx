@@ -7,6 +7,7 @@ import {
   COMMUNITY_PATH,
   DASHBOARD_PATH,
   INDEX_PATH,
+  OFFERS_PATH,
   USER_SETTINGS_PATH,
   isSubPath,
 } from "./App";
@@ -29,6 +30,8 @@ import { clickOutside } from "./directives";
 import { buildAuthorizationRequest } from "./lib";
 import { getNextLanguageKey } from "./locales";
 import { TKEYS } from "./locales/dev";
+import { StoreFrontIcon } from "./components/icons/StorefrontIcon";
+import { SearchGlobalIcon } from "./components/icons/SearchGlobalIcon";
 
 false && clickOutside;
 
@@ -126,21 +129,35 @@ export function Panel(props: Props) {
         </div>
 
         <div class={styles.MainNavigation}>
-          <Show when={!isAuthenticated()}>
-            <A
-              href={INDEX_PATH}
-              replace
-              class={styles.NavigationItem}
-              classList={{
-                [styles.NavigationItemActive]: Boolean(
-                  useMatch(() => INDEX_PATH)()
-                ),
-              }}
-            >
-              <MainLogoIcon class={styles.MainNavigationIcon} />
-              <Trans key={TKEYS["main-navigation"].links.home} />
-            </A>
-          </Show>
+          <A
+            href={INDEX_PATH}
+            replace
+            class={styles.NavigationItem}
+            classList={{
+              [styles.NavigationItemActive]: Boolean(
+                useMatch(() => INDEX_PATH)()
+              ),
+            }}
+          >
+            <StoreFrontIcon class={styles.MainNavigationIcon} />
+            <Trans
+              key={TKEYS["main-navigation"].links["market-booths"]}
+            />
+          </A>
+          <A
+            href={OFFERS_PATH}
+            replace
+            class={styles.NavigationItem}
+            classList={{
+              [styles.NavigationItemActive]: Boolean(
+                useMatch(() => OFFERS_PATH)()
+              ),
+            }}
+          >
+            <SearchGlobalIcon class={styles.MainNavigationIcon} />
+            <Trans key={TKEYS["main-navigation"].links["offers"]} />
+          </A>
+
           <Show when={isAuthenticated()}>
             <A
               href={DASHBOARD_PATH}

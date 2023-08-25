@@ -32,7 +32,8 @@ export const EN: typeof TKEYS = {
       "sign-in": "Sign In",
     },
     links: {
-      home: "Home",
+      "market-booths": "Market Booths",
+      offers: "Offers",
       dashboard: "Dashboard",
       "user-settings": "User Settings",
       community: "Community",
@@ -45,15 +46,6 @@ export const EN: typeof TKEYS = {
   },
   "user-settings-page": {
     title: "User Settings",
-  },
-  "landing-page": {
-    "establish-your-online-appearance": "Establish Your Online Appearance",
-    "create-your-online-market-booth-and-build-your-brand":
-      "Create your online Market Booth and build your brand",
-    "offer-your-goods-to-the-people": "Offer your goods to the people",
-    "no-costs-until-you-sell": "No costs until you sell",
-    "no-strings-attached": "No strings attached",
-    "GET-STARTED": "GET STARTED",
   },
   "market-booth": {
     Details: "Maket Booth Details",
@@ -100,6 +92,16 @@ export const EN: typeof TKEYS = {
         "The presentation of the posts is heavily inspired by",
       medium: "Medium",
     },
+  },
+  "landing-page": {
+    "get-started": "Get started",
+    "GET-STARTED": "GET STARTED",
+    "establish-your-online-appearance": "Establish Your Online Appearance",
+    "create-your-online-market-booth-and-build-your-brand":
+      "Create your online Market Booth and build your brand",
+    "offer-your-goods-to-the-people": "Offer your goods to the people",
+    "no-costs-until-you-sell": "No costs until you sell",
+    "no-strings-attached": "No strings attached",
   },
   imprint: {
     title: "Imprint",

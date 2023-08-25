@@ -30,7 +30,8 @@ export const TKEYS = {
       "sign-in": "main-navigation.actions.sign-in",
     },
     links: {
-      home: "main-navigation.links.home",
+      "market-booths": "main-navigation.links.market-booths",
+      "offers": "main-navigation.links.offers",
       dashboard: "main-navigation.links.dashboard",
       "user-settings": "main-navigation.links.user-settings",
       community: "main-navigation.links.community",
@@ -43,17 +44,6 @@ export const TKEYS = {
   },
   "user-settings-page": {
     title: "user-settings-page.title",
-  },
-  "landing-page": {
-    "establish-your-online-appearance":
-      "landing-page.establish-your-online-appearance",
-    "create-your-online-market-booth-and-build-your-brand":
-      "landing-page.create-your-online-market-booth-and-build-your-brand",
-    "offer-your-goods-to-the-people":
-      "landing-page.offer-your-goods-to-the-people",
-    "no-costs-until-you-sell": "landing-page.no-costs-until-you-sell",
-    "no-strings-attached": "landing-page.no-strings-attached",
-    "GET-STARTED": "landing-page.GET-STARTED",
   },
   "market-booth": {
     Details: "market-booth.Details",
@@ -99,6 +89,18 @@ export const TKEYS = {
         "community-page.posts.presentation-is-inspired-by",
       medium: "community-page.posts.medium",
     },
+  },
+  "landing-page": {
+    "get-started": "landing-page.get-started",
+    "GET-STARTED": "landing-page.GET-STARTED",
+    "establish-your-online-appearance":
+      "landing-page.establish-your-online-appearance",
+    "create-your-online-market-booth-and-build-your-brand":
+      "landing-page.create-your-online-market-booth-and-build-your-brand",
+    "offer-your-goods-to-the-people":
+      "landing-page.offer-your-goods-to-the-people",
+    "no-costs-until-you-sell": "landing-page.no-costs-until-you-sell",
+    "no-strings-attached": "landing-page.no-strings-attached",
   },
   imprint: {
     title: "imprint.title",

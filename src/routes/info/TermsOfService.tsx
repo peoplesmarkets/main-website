@@ -1,10 +1,10 @@
 import { Trans } from "@mbarzda/solid-i18next";
 
-import { Page } from "../components/layout/Page";
-import { TKEYS } from "../locales/dev";
-import { Section } from "../components/layout/Section";
+import { Page } from "../../components/layout/Page";
+import { Section } from "../../components/layout/Section";
+import { TKEYS } from "../../locales/dev";
 
-export default function TermsOfUse() {
+export default function TermsOfService() {
   return (
     <>
       <Page>

@@ -1,10 +1,9 @@
 import { Trans } from "@mbarzda/solid-i18next";
 
-import { Page } from "../components/layout/Page";
-
+import { Page } from "../../components/layout/Page";
+import { Section } from "../../components/layout/Section";
+import { TKEYS } from "../../locales/dev";
 import styles from "./Imprint.module.scss";
-import { TKEYS } from "../locales/dev";
-import { Section } from "../components/layout/Section";
 
 export default function Imprint() {
   return (

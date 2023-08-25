@@ -45,6 +45,19 @@
   color: var(--active-content-color);
 }
 
+.LinkWithIcon {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.LinkIcon {
+  fill: var(--active-content-color);
+  height: 2rem;
+  margin-bottom: 0.5rem;
+}
+
 .SocialContainer {
   @extend .FooterContainer;
 }

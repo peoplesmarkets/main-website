@@ -33,7 +33,8 @@ export const DE: typeof TKEYS = {
       "sign-in": "Login",
     },
     links: {
-      home: "Hauptseite",
+      "market-booths": "Marktstände",
+      offers: "Angebote",
       dashboard: EN["main-navigation"].links.dashboard,
       "user-settings": "Benutzereinstellungen",
       community: EN["main-navigation"].links.community,
@@ -46,15 +47,6 @@ export const DE: typeof TKEYS = {
   },
   "user-settings-page": {
     title: "Benutzereinstellungen",
-  },
-  "landing-page": {
-    "establish-your-online-appearance": "Erstell dir deine Online-Präsenz",
-    "create-your-online-market-booth-and-build-your-brand":
-      "Baue deine Marke mit einem Online-Marktstand auf",
-    "offer-your-goods-to-the-people": "Biete den Menschen deine Waren an",
-    "no-costs-until-you-sell": "Keine Kosten bis zum Verkauf",
-    "no-strings-attached": "Keine Verbindlichkeiten",
-    "GET-STARTED": "LOS GEHT'S",
   },
   "market-booth": {
     Details: "Marktstand Details",
@@ -101,6 +93,16 @@ export const DE: typeof TKEYS = {
         "Die Darstellungsweise der Posts ist stark inspiriert von",
       medium: EN["community-page"].posts.medium,
     },
+  },
+  "landing-page": {
+    "get-started": "Los geht's",
+    "GET-STARTED": "LOS GEHT'S",
+    "establish-your-online-appearance": "Erstell dir deine Online-Präsenz",
+    "create-your-online-market-booth-and-build-your-brand":
+      "Baue deine Marke mit einem Online-Marktstand auf",
+    "offer-your-goods-to-the-people": "Biete den Menschen deine Waren an",
+    "no-costs-until-you-sell": "Keine Kosten bis zum Verkauf",
+    "no-strings-attached": "Keine Verbindlichkeiten",
   },
   imprint: {
     title: "Impressum",

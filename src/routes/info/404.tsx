@@ -1,10 +1,9 @@
+import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 
-import { Page } from "../components/layout/Page";
-
-import { INDEX_PATH } from "../App";
-import { Trans } from "@mbarzda/solid-i18next";
-import { TKEYS } from "../locales/dev";
+import { INDEX_PATH } from "../../App";
+import { Page } from "../../components/layout/Page";
+import { TKEYS } from "../../locales/dev";
 
 export default function NotFound() {
   return (

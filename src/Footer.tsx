@@ -4,6 +4,7 @@ import { Accessor } from "solid-js";
 
 import {
   COMMUNITY_PATH,
+  GET_STARTED_PATH,
   IMPRINT_PATH,
   PRIVACY_POLICY_PATH,
   TERMS_OF_SERVICE_PATH,
@@ -13,6 +14,7 @@ import { MainLogoText } from "./components/assets";
 import { GitHubIcon, MainLogoIcon } from "./components/icons";
 import { Theme } from "./contexts/ThemeStore";
 import { TKEYS } from "./locales/dev";
+import { RocketLaunchIcon } from "./components/icons/RocketLaunchIcon";
 
 type Props = {
   theme: Accessor<Theme>;
@@ -35,6 +37,10 @@ export default function Footer(props: Props) {
           </div>
 
           <div class={styles.SiteLinks}>
+            <A href={GET_STARTED_PATH} class={styles.LinkWithIcon}>
+              <Trans key={TKEYS["landing-page"]["get-started"]} />
+              <RocketLaunchIcon class={styles.LinkIcon} />
+            </A>
             <A href={IMPRINT_PATH}>
               <Trans key={TKEYS.imprint.title} />
             </A>
