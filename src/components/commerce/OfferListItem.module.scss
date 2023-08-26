@@ -1,0 +1,21 @@
+.OfferListItem {
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+}
+
+.OfferListItem:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.Label {
+  display: block;
+  font: var(--font-label);
+  margin-bottom: 1rem;
+}
+
+.Detail {
+  display: block;
+  font: var(--font-body);
+}

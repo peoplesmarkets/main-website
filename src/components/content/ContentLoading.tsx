@@ -9,7 +9,11 @@ export function isResolved(
 
 export function ContentLoading() {
   return (
-    <p>
+    <p
+      style={{
+        font: "var(--font-label)",
+      }}
+    >
       <Trans key={TKEYS.fetching["content-loading"]} />
     </p>
   );

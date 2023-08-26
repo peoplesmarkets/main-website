@@ -7,13 +7,13 @@ import {
   ContentLoading,
   isResolved,
 } from "../../components/content";
-import { Multiline } from "../../components/content/Multiline";
 import { SearchGlobalIcon } from "../../components/icons/SearchGlobalIcon";
 import { SearchIcon } from "../../components/icons/SearchIcon";
 import { Page, Section } from "../../components/layout";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import styles from "./Offers.module.scss";
+import { OfferListItem } from "../../components/commerce/OfferListItem";
 
 export default function Offers() {
   const offerService = new OfferService();
@@ -74,14 +74,7 @@ export default function Offers() {
           </Match>
           <Match when={isResolved(offers.state)}>
             <For each={offers()}>
-              {(offer) => (
-                <div class={styles.ResultRow}>
-                  <span class={styles.Label}>{offer.name}</span>
-                  <span class={styles.Detail}>
-                    <Multiline text={() => offer.description} maxRows={6} />
-                  </span>
-                </div>
-              )}
+              {(offer) => <OfferListItem offer={offer} />}
             </For>
           </Match>
         </Switch>

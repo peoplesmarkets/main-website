@@ -25,6 +25,15 @@ export const EN: typeof TKEYS = {
       "already-exists": "Already exists",
     },
   },
+  "market-booth": {
+    title: "Market Booth",
+    "title-plural": "Market Booths",
+  },
+  offer: {
+    title: "Offer",
+    "title-plural": "Offers",
+    "no-offers-yet": "No Offers yet ...",
+  },
   "market-booths-search": {
     title: "Search for a Market Booth",
   },
@@ -33,7 +42,6 @@ export const EN: typeof TKEYS = {
   },
   dashboard: {
     "market-booth": {
-      title: "Market Booth",
       Details: "Maket Booth Details",
       "current-market-booth": "Current Market Booth",
       "no-market-booth-yet": "No Market Booth yet",
@@ -52,7 +60,6 @@ export const EN: typeof TKEYS = {
       },
     },
     offers: {
-      title: "Offer",
       Details: "Offer details",
       "title-plural": "Offers",
       "create-new-offer": "Create a new Offer",

@@ -175,7 +175,7 @@ export function OfferSettings(props: Props) {
       </Show>
 
       <DeleteConfirmation
-        item={trans(TKEYS.dashboard.offers.title)}
+        item={trans(TKEYS.offer.title)}
         itemName={selectedOffer()?.name}
         onCancel={discardDeletion}
         onConfirmation={confirmDeleteion}

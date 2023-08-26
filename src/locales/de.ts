@@ -26,6 +26,15 @@ export const DE: typeof TKEYS = {
       "already-exists": "Bereits vergeben",
     },
   },
+  "market-booth": {
+    title: "Marktstand",
+    "title-plural": "Marktstände",
+  },
+  offer: {
+    title: "Angebot",
+    "title-plural": "Angebote",
+    "no-offers-yet": "Derzeit noch keine Angebote ...",
+  },
   "market-booths-search": {
     title: "Finde einen Marktstand",
   },
@@ -34,7 +43,6 @@ export const DE: typeof TKEYS = {
   },
   dashboard: {
     "market-booth": {
-      title: "Marktstand",
       Details: "Marktstand Details",
       "current-market-booth": "Marktstand Auswahl",
       "no-market-booth-yet": "Bisher kein Markstand",
@@ -53,7 +61,6 @@ export const DE: typeof TKEYS = {
       },
     },
     offers: {
-      title: "Angebot",
       Details: "Angebot Details",
       "title-plural": "Angebote",
       "create-new-offer": "Neues Angebot erstellen",

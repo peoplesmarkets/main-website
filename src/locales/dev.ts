@@ -23,6 +23,15 @@ export const TKEYS = {
       "already-exists": "form.errors.already-exists",
     },
   },
+  "market-booth": {
+    title: "market-booth.title",
+    "title-plural": "market-booth.title-plural",
+  },
+  offer: {
+    title: "offer.title",
+    "title-plural": "offer.title-plural",
+    "no-offers-yet": "offer.no-offers-yet",
+  },
   "market-booths-search": {
     title: "market-booths-search.title",
   },
@@ -31,7 +40,6 @@ export const TKEYS = {
   },
   dashboard: {
     "market-booth": {
-      title: "dashboard.market-booth.title",
       Details: "dashboard.market-booth.Details",
       "current-market-booth": "dashboard.market-booth.current-market-booth",
       "no-market-booth-yet": "dashboard.market-booth.no-market-booth-yet",
@@ -54,7 +62,6 @@ export const TKEYS = {
       },
     },
     offers: {
-      title: "dashboard.offers.title",
       Details: "dashboard.offers.Details",
       "title-plural": "dashboard.offers.title-plural",
       "create-new-offer": "dashboard.offers.create-new-offer",

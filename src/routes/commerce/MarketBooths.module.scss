@@ -47,9 +47,19 @@ $search-height: 2rem;
 }
 
 .ResultRow {
+  display: block;
+  width: 100%;
   margin-bottom: 0.5rem;
   padding: 1rem;
   border-radius: 8px;
+  color: var(--primary-content-color);
+
+  user-select: none;
+  background: inherit;
+  border: none;
+  outline: inherit;
+  text-align: start;
+  text-decoration: none;
 }
 
 .ResultRow:hover {

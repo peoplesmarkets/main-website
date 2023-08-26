@@ -14,6 +14,8 @@ import {
   ContentError,
   isResolved,
 } from "../../components/content";
+import { A } from "@solidjs/router";
+import { MARKET_BOOTHS_PATH, buildPath } from "../../App";
 
 export default function MarketBooths() {
   const marketBoothService = new MarketBoothService();
@@ -75,7 +77,13 @@ export default function MarketBooths() {
           <Match when={isResolved(marketBooths.state)}>
             <For each={marketBooths()}>
               {(marketBooth) => (
-                <div class={styles.ResultRow}>
+                <A
+                  class={styles.ResultRow}
+                  href={buildPath(
+                    MARKET_BOOTHS_PATH,
+                    marketBooth.marketBoothId
+                  )}
+                >
                   <span class={styles.Label}>{marketBooth.name}</span>
                   <span class={styles.Detail}>
                     <Multiline
@@ -83,7 +91,7 @@ export default function MarketBooths() {
                       maxRows={6}
                     />
                   </span>
-                </div>
+                </A>
               )}
             </For>
           </Match>

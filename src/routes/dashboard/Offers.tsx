@@ -161,7 +161,7 @@ export default function Offers() {
       </Show>
 
       <DeleteConfirmation
-        item={trans(TKEYS.dashboard.offers.title)}
+        item={trans(TKEYS.offer.title)}
         itemName={offer()?.name}
         onCancel={discardDeletion}
         onConfirmation={confirmDeleteion}

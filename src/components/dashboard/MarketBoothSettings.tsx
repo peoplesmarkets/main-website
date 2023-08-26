@@ -93,22 +93,6 @@ export function MarketBoothSettings(props: Props) {
         </span>
       </Section>
 
-      <Section>
-        <span class={styles.Label}>
-          <Trans key={TKEYS.dashboard["market-booth"].Details} />
-        </span>
-
-        <span class={styles.Details}>
-          <Trans key={TKEYS.dashboard["market-booth"].labels["Created-at"]} />:{" "}
-          {secondsToLocaleString(props.marketBooth()?.createdAt)}
-        </span>
-
-        <span class={styles.Details}>
-          <Trans key={TKEYS.dashboard["market-booth"].labels["Updated-at"]} />:{" "}
-          {secondsToLocaleString(props.marketBooth()?.updatedAt)}
-        </span>
-      </Section>
-
       <Section bordered>
         <span class={styles.Title}>
           <Trans key={TKEYS.form.action.Edit} />
