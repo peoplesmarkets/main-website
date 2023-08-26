@@ -19,7 +19,7 @@ type Props = {
   onUpdate?: () => Promise<void>;
 };
 
-export default function MarketBoothSettings(props: Props) {
+export function MarketBoothSettings(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();

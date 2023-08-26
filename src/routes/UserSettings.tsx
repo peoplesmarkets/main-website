@@ -1,15 +1,20 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show, createSignal, onMount } from "solid-js";
-import CreateMarketBoothDialog from "../components/commerce/CreateMarketBoothDialog";
+
+import { CreateMarketBoothDialog } from "../components/dashboard";
 import { ActionButton } from "../components/form";
-import { Select } from "../components/navigation/Select";
+import { Page } from "../components/layout";
+import { Select } from "../components/navigation";
 import { useMarketBoothContext } from "../contexts/MarketBoothContext";
 import { TKEYS } from "../locales/dev";
 import styles from "./UserSettings.module.scss";
-import { Page } from "../components/layout/Page";
+import { useNavigate } from "@solidjs/router";
+import { DASHBOARD_PATH } from "../App";
 
 export default function UserSettings() {
+  const navigate = useNavigate();
+
   const [trans] = useTransContext();
 
   const {
@@ -41,6 +46,11 @@ export default function UserSettings() {
     }
   }
 
+  function handleMarketBoothSelected(marketBoothId: string) {
+    setCurrentMarketBooth(marketBoothId);
+    navigate(DASHBOARD_PATH);
+  }
+
   function handleOpenCreateMarketBooth() {
     setShowCreateMarketBooth(true);
   }
@@ -63,7 +73,7 @@ export default function UserSettings() {
         <Select
           label={trans(TKEYS.dashboard["market-booth"]["current-market-booth"])}
           options={marketBoothOptions}
-          onValue={setCurrentMarketBooth}
+          onValue={handleMarketBoothSelected}
           selected={() => currentMarketBooth()?.marketBoothId}
         />
 

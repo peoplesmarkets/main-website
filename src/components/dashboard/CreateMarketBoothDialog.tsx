@@ -22,7 +22,7 @@ type Props = {
   onUpdate?: () => void;
 };
 
-export default function CreateMarketBoothDialog(props: Props) {
+export function CreateMarketBoothDialog(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();

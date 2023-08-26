@@ -2,6 +2,7 @@ import {
   CreateOfferRequest,
   GrpcWebImpl,
   OfferServiceClientImpl,
+  OffersFilterField,
   UpdateOfferRequest,
 } from "../peoplesmarkets/commerce/v1/offer";
 
@@ -34,6 +35,15 @@ export class OfferService extends ServiceClient {
       },
       await this.withAuthHeader()
     );
+  }
+
+  public async search(query?: string) {
+    return this.client.ListOffers({
+      filter: {
+        field: OffersFilterField.OFFERS_FILTER_FIELD_NAME_AND_DESCRIPTION,
+        query,
+      },
+    });
   }
 
   public async update(request: UpdateOfferRequest) {

@@ -1,16 +1,10 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { onMount } from "solid-js";
 
-import { DASHBOARD_PATH } from "../../App";
-import { authGuardRedirect, buildAuthorizationRequest } from "../../lib/auth";
+import { buildAuthorizationRequest } from "../../lib/auth";
 import { TKEYS } from "../../locales/dev";
 import styles from "./GetStarted.module.scss";
 
 export default function GetStarted() {
-  onMount(async () => {
-    await authGuardRedirect(DASHBOARD_PATH, true);
-  });
-
   async function getStarted() {
     window.location.href = (await buildAuthorizationRequest(true)).toString();
   }

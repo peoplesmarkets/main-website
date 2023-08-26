@@ -22,6 +22,12 @@ export const TKEYS = {
       "already-exists": "form.errors.already-exists",
     },
   },
+  "market-booths-search": {
+    title: "market-booths-search.title",
+  },
+  "offers-search": {
+    title: "offers-search.title",
+  },
   dashboard: {
     "market-booth": {
       title: "dashboard.market-booth.title",

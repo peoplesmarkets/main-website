@@ -24,6 +24,12 @@ export const EN: typeof TKEYS = {
       "already-exists": "Already exists",
     },
   },
+  "market-booths-search": {
+    title: "Search for a Market Booth",
+  },
+  "offers-search": {
+    title: "Search all Offers"
+  },
   dashboard: {
     "market-booth": {
       title: "Market Booth",

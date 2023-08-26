@@ -4,8 +4,7 @@ import _ from "lodash";
 import { Show, createSignal, onMount } from "solid-js";
 
 import { DASHBOARD_PATH, USER_SETTINGS_PATH, buildPath } from "../../App";
-import MarketBoothSettings from "../../components/commerce/MarketBoothSettings";
-import { OfferSettings } from "../../components/commerce/OfferSettings";
+import { MarketBoothSettings, OfferSettings } from "../../components/dashboard";
 import { Page } from "../../components/layout/Page";
 import { useMarketBoothContext } from "../../contexts/MarketBoothContext";
 import { TKEYS } from "../../locales/dev";

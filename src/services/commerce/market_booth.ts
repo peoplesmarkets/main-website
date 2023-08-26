@@ -2,6 +2,7 @@ import {
   CreateMarketBoothRequest,
   GrpcWebImpl,
   MarketBoothServiceClientImpl,
+  MarketBoothsFilterField,
   UpdateMarketBoothRequest,
 } from "../peoplesmarkets/commerce/v1/market_booth";
 
@@ -34,6 +35,25 @@ export class MarketBoothService extends ServiceClient {
       { userId: userId || undefined },
       await this.withAuthHeader()
     );
+  }
+
+  public async search(query?: string) {
+    return this.client.ListMarketBooths({
+      filter: {
+        field:
+          MarketBoothsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME_AND_DESCRIPTION,
+        query,
+      },
+    });
+  }
+
+  public async searchByName(query?: string) {
+    return this.client.ListMarketBooths({
+      filter: {
+        field: MarketBoothsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME,
+        query,
+      },
+    });
   }
 
   public async update(request: UpdateMarketBoothRequest) {

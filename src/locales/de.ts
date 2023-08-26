@@ -25,6 +25,12 @@ export const DE: typeof TKEYS = {
       "already-exists": "Bereits vergeben",
     },
   },
+  "market-booths-search": {
+    title: "Finde einen Marktstand",
+  },
+  "offers-search": {
+    title: "Durchsuche alle Angebote",
+  },
   dashboard: {
     "market-booth": {
       title: "Marktstand",

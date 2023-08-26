@@ -4,11 +4,10 @@ import _ from "lodash";
 import { Show, createResource, createSignal } from "solid-js";
 
 import { DASHBOARD_PATH, buildPath } from "../../App";
-import { EditOfferDialog } from "../../components/commerce/EditOfferDialog";
 import { Multiline } from "../../components/content/Multiline";
+import { EditOfferDialog } from "../../components/dashboard/EditOfferDialog";
 import { ActionButton, DeleteConfirmation } from "../../components/form";
-import { Page } from "../../components/layout/Page";
-import { Section } from "../../components/layout/Section";
+import { Page, Section } from "../../components/layout";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
