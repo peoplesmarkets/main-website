@@ -58,11 +58,11 @@ export default function MarketBoothDetail() {
           </Section>
           <Section>
             <span class={styles.Details}>
-              <Trans key={TKEYS.dashboard.offers.labels["Created-at"]} />:{" "}
+              <Trans key={TKEYS.offer.labels["Created-at"]} />:{" "}
               {secondsToLocaleString(marketBooth()?.createdAt)}
             </span>
             <span class={styles.Details}>
-              <Trans key={TKEYS.dashboard.offers.labels["Updated-at"]} />:{" "}
+              <Trans key={TKEYS.offer.labels["Updated-at"]} />:{" "}
               {secondsToLocaleString(marketBooth()?.updatedAt)}
             </span>
           </Section>

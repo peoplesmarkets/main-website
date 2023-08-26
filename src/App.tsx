@@ -73,6 +73,10 @@ export default function App() {
                 path={OFFERS_PATH}
                 component={lazy(() => import("./routes/commerce/Offers"))}
               />
+              <Route
+                path={buildPath(OFFERS_PATH, ":offerId")}
+                component={lazy(() => import("./routes/commerce/OfferDetail"))}
+              />
 
               <AccessTokenProvider>
                 <Route path={SIGN_IN_PATH} data={signInDataRoute} />

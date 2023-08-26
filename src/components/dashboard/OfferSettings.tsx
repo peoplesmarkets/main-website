@@ -69,6 +69,7 @@ export function OfferSettings(props: Props) {
   }
 
   function handleOpenEditOffer(offer: OfferResponse) {
+    console.log("edit offer", offer);
     setSelectedOffer(offer);
     setShowEditOffer(true);
   }

@@ -26,11 +26,30 @@ export const TKEYS = {
   "market-booth": {
     title: "market-booth.title",
     "title-plural": "market-booth.title-plural",
+    "no-description": "market-booth.no-description",
+    labels: {
+      Details: "market-booth.labels.Details",
+      Name: "market-booth.labels.Name",
+      name: "market-booth.labels.name",
+      Description: "market-booth.labels.Description",
+      description: "market-booth.labels.description",
+      "Created-at": "market-booth.labels.Created-at",
+      "Updated-at": "market-booth.labels.Updated-at",
+    },
   },
   offer: {
     title: "offer.title",
     "title-plural": "offer.title-plural",
     "no-offers-yet": "offer.no-offers-yet",
+    "no-description": "offer.no-description",
+    labels: {
+      Name: "offer.labels.Name",
+      name: "offer.labels.name",
+      Description: "offer.labels.Description",
+      description: "offer.labels.description",
+      "Created-at": "offer.labels.Created-at",
+      "Updated-at": "offer.labels.Updated-at",
+    },
   },
   "market-booths-search": {
     title: "market-booths-search.title",
@@ -45,21 +64,10 @@ export const TKEYS = {
       "no-market-booth-yet": "dashboard.market-booth.no-market-booth-yet",
       "create-new-market-booth":
         "dashboard.market-booth.create-new-market-booth",
-      "no-market-booth-description":
-        "dashboard.market-booth.no-market-booth-description",
       "edit-market-booth-details":
         "dashboard.market-booth.edit-market-booth-details",
       "delete-this-market-booth":
         "dashboard.market-booth.delete-this-market-booth",
-      labels: {
-        Details: "dashboard.market-booth.labels.Details",
-        Name: "dashboard.market-booth.labels.Name",
-        name: "dashboard.market-booth.labels.name",
-        Description: "dashboard.market-booth.labels.Description",
-        description: "dashboard.market-booth.labels.description",
-        "Created-at": "dashboard.market-booth.labels.Created-at",
-        "Updated-at": "dashboard.market-booth.labels.Updated-at",
-      },
     },
     offers: {
       Details: "dashboard.offers.Details",
@@ -67,15 +75,6 @@ export const TKEYS = {
       "create-new-offer": "dashboard.offers.create-new-offer",
       "edit-offer": "dashboard.offers.edit-offer",
       "delete-this-offer": "dashboard.offers.delete-this-offer",
-      labels: {
-        Name: "dashboard.offers.labels.Name",
-        name: "dashboard.offers.labels.name",
-        Description: "dashboard.offers.labels.Description",
-        description: "dashboard.offers.labels.description",
-        "Created-at": "dashboard.offers.labels.Created-at",
-        "Updated-at": "dashboard.offers.labels.Updated-at",
-      },
-      "no-offer-description": "dashboard.offers.no-offer-description",
     },
   },
   "main-navigation": {

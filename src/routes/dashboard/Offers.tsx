@@ -84,15 +84,13 @@ export default function Offers() {
 
             <Section>
               <span class={styles.Label}>
-                <Trans key={TKEYS.dashboard.offers.labels.Description} />:
+                <Trans key={TKEYS.offer.labels.Description} />:
               </span>
               <Show
                 when={!_.isEmpty(offer()?.description)}
                 fallback={
                   <span class={styles.Details}>
-                    <Trans
-                      key={TKEYS.dashboard.offers["no-offer-description"]}
-                    />
+                    <Trans key={TKEYS.offer["no-description"]} />
                   </span>
                 }
               >
@@ -106,12 +104,12 @@ export default function Offers() {
               </span>
 
               <span class={styles.Details}>
-                <Trans key={TKEYS.dashboard.offers.labels["Created-at"]} />:{" "}
+                <Trans key={TKEYS.offer.labels["Created-at"]} />:{" "}
                 {secondsToLocaleString(offer()?.createdAt)}
               </span>
 
               <span class={styles.Details}>
-                <Trans key={TKEYS.dashboard.offers.labels["Updated-at"]} />:{" "}
+                <Trans key={TKEYS.offer.labels["Updated-at"]} />:{" "}
                 {secondsToLocaleString(offer()?.updatedAt)}
               </span>
             </Section>
