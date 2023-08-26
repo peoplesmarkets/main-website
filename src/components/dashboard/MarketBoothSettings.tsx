@@ -133,7 +133,7 @@ export function MarketBoothSettings(props: Props) {
       </Show>
 
       <DeleteConfirmation
-        item={trans(TKEYS.dashboard["market-booth"])}
+        item={trans(TKEYS["market-booth"].title)}
         itemName={props.marketBooth()?.name}
         onCancel={discardDeletion}
         onConfirmation={confirmDeleteion}

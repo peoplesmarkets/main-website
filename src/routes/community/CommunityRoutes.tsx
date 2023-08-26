@@ -1,12 +1,13 @@
 import { Outlet, Route } from "@solidjs/router";
 
-import { DEVELOPMENT_POSTS_SUBPATH, buildPath } from "../../App";
+import { DEVELOPMENT_POSTS_SUBPATH } from "../../App";
+import { Page } from "../../components/layout/Page";
+import { Section } from "../../components/layout/Section";
+import { buildPath } from "../../lib";
+import styles from "./CommunityRoutes.module.scss";
 import Home from "./Home";
 import { Posts } from "./Posts";
 import { PostsNav } from "./PostsNav";
-import styles from "./CommunityRoutes.module.scss";
-import { Section } from "../../components/layout/Section";
-import { Page } from "../../components/layout/Page";
 
 function PostsHeader() {
   return (

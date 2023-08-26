@@ -3,23 +3,23 @@ import { useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
-import { DASHBOARD_PATH, buildPath } from "../../App";
-import { Multiline } from "../../components/content/Multiline";
-import { EditOfferDialog } from "../../components/dashboard/EditOfferDialog";
-import { ActionButton, DeleteConfirmation } from "../../components/form";
-import { Page, Section } from "../../components/layout";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { secondsToLocaleString } from "../../lib";
-import { TKEYS } from "../../locales/dev";
-import { OfferService } from "../../services";
-import styles from "./Offers.module.scss";
+import { DASHBOARD_PATH } from "../../App";
 import {
   ContentError,
   ContentLoading,
   isResolved,
 } from "../../components/content";
+import { Multiline } from "../../components/content/Multiline";
+import { EditOfferDialog } from "../../components/dashboard/EditOfferDialog";
+import { ActionButton, DeleteConfirmation } from "../../components/form";
+import { Page, Section } from "../../components/layout";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { buildPath, secondsToLocaleString } from "../../lib";
+import { TKEYS } from "../../locales/dev";
+import { OfferService } from "../../services";
+import styles from "./Offers.module.scss";
 
-export default function Offers() {
+export function Offers() {
   const { marketBoothId, offerId } = useParams();
   const navigate = useNavigate();
 

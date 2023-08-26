@@ -10,7 +10,6 @@ import {
   MARKET_BOOTHS_PATH,
   OFFERS_PATH,
   USER_SETTINGS_PATH,
-  isSubPath,
 } from "./App";
 import styles from "./Panel.module.scss";
 import { MainLogoText } from "./components/assets";
@@ -24,15 +23,15 @@ import {
   ThemeIcon,
   UserSettingsIcon,
 } from "./components/icons";
-import CommunityIcon from "./components/icons/CommunityLogoIcon";
+import CommunityIcon from "./components/icons/CommunityIcon";
+import { SearchGlobalIcon } from "./components/icons/SearchGlobalIcon";
+import { StoreFrontIcon } from "./components/icons/StorefrontIcon";
 import { useAccessTokensContext } from "./contexts/AccessTokensContext";
 import { Theme } from "./contexts/ThemeStore";
 import { clickOutside } from "./directives";
-import { buildAuthorizationRequest } from "./lib";
+import { buildAuthorizationRequest, isSubPath } from "./lib";
 import { getNextLanguageKey } from "./locales";
 import { TKEYS } from "./locales/dev";
-import { StoreFrontIcon } from "./components/icons/StorefrontIcon";
-import { SearchGlobalIcon } from "./components/icons/SearchGlobalIcon";
 
 false && clickOutside;
 
@@ -141,9 +140,7 @@ export function Panel(props: Props) {
             }}
           >
             <StoreFrontIcon class={styles.MainNavigationIcon} />
-            <Trans
-              key={TKEYS["main-navigation"].links["market-booths"]}
-            />
+            <Trans key={TKEYS["main-navigation"].links["market-booths"]} />
           </A>
           <A
             href={OFFERS_PATH}

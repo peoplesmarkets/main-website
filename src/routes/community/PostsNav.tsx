@@ -2,7 +2,8 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { A, useParams } from "@solidjs/router";
 import { For, JSX } from "solid-js";
 
-import { buildPath, COMMUNITY_DEVELOPMENT_POSTS_PATH } from "../../App";
+import { COMMUNITY_DEVELOPMENT_POSTS_PATH } from "../../App";
+import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import styles from "./PostsNav.module.scss";
 

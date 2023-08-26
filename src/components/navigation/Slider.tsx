@@ -5,7 +5,6 @@ import styles from "./Slider.module.scss";
 type Props = {
   class?: string;
   children: JSX.Element;
-  showSlider: () => boolean;
 };
 
 export function Slider(props: Props) {

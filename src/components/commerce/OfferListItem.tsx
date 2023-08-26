@@ -1,8 +1,10 @@
 import { A } from "@solidjs/router";
+
+import { OFFERS_PATH } from "../../App";
+import { buildPath } from "../../lib";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { Multiline } from "../content";
 import styles from "./OfferListItem.module.scss";
-import { OFFERS_PATH, buildPath } from "../../App";
 
 type Props = {
   readonly offer: OfferResponse;
