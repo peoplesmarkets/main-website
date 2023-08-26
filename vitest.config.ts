@@ -3,14 +3,10 @@ import solid from "vite-plugin-solid";
 
 export default defineConfig({
   test: {
-    include: ["src/**/*.test.{ts,tsx}"],
+    include: ["src/**/*.test.{ts,tsx,jsx}"],
     environment: "jsdom",
     deps: {
-      optimizer: {
-        web: {
-          include: [],
-        },
-      },
+      optimizer: { web: { include: [] } },
     },
     threads: false,
     isolate: true,

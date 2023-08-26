@@ -1,12 +1,13 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { A, useNavigate, useParams } from "@solidjs/router";
+import { A, useNavigate } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createSignal, onMount } from "solid-js";
+import { Show, createSignal } from "solid-js";
 
-import { DASHBOARD_PATH, USER_SETTINGS_PATH, buildPath } from "../../App";
+import { DASHBOARD_PATH, USER_SETTINGS_PATH } from "../../App";
 import { MarketBoothSettings, OfferSettings } from "../../components/dashboard";
 import { Page } from "../../components/layout/Page";
 import { useMarketBoothContext } from "../../contexts/MarketBoothContext";
+import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import styles from "./Dashboard.module.scss";
 
@@ -15,30 +16,11 @@ export default function Dashboard() {
 
   const {
     currentMarketBooth,
-    setCurrentMarketBooth,
     refetchCurrentMarketBooth,
     refetchMarketBoothList,
-    initializeMarketBoothList,
   } = useMarketBoothContext();
 
   const [showCreateMarketBooth] = createSignal(false);
-
-  onMount(async () => {
-    const marketBoothId = useParams().marketBoothId;
-    await initializeMarketBoothList();
-
-    if (_.isNil(marketBoothId)) {
-      // Dashboard path called without marketBoothId
-      checkCurrentMarketBoothOrRedirect();
-    } else if (setCurrentMarketBooth(marketBoothId)) {
-      // Successfully set current market booth from market booth list
-      navigate(buildPath(DASHBOARD_PATH, marketBoothId), { replace: true });
-    } else {
-      // Could not find current market booth in market booth list
-      await refetchMarketBoothList();
-      navigate(DASHBOARD_PATH, { replace: true });
-    }
-  });
 
   function checkCurrentMarketBoothOrRedirect() {
     if (_.isNil(currentMarketBooth())) {

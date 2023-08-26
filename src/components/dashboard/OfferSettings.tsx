@@ -1,3 +1,6 @@
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { A } from "@solidjs/router";
+import _ from "lodash";
 import {
   For,
   Match,
@@ -8,21 +11,19 @@ import {
   onMount,
 } from "solid-js";
 
-import styles from "./OfferSettings.module.scss";
-import { CreateOfferDialog } from "./CreateOfferDialog";
-import { Section } from "../layout/Section";
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { ActionButton, DeleteConfirmation } from "../form";
-import { TKEYS } from "../../locales/dev";
+import { DASHBOARD_PATH, OFFERS_SUBPATH } from "../../App";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { buildPath } from "../../lib";
+import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
-import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
-import _ from "lodash";
-import { EditOfferDialog } from "./EditOfferDialog";
-import { A } from "@solidjs/router";
-import { DASHBOARD_PATH, OFFERS_SUBPATH, buildPath } from "../../App";
+import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { ContentError, ContentLoading, isResolved } from "../content";
+import { ActionButton, DeleteConfirmation } from "../form";
+import { Section } from "../layout/Section";
+import { CreateOfferDialog } from "./CreateOfferDialog";
+import { EditOfferDialog } from "./EditOfferDialog";
+import styles from "./OfferSettings.module.scss";
 
 type Props = {
   readonly marketBooth: () => MarketBoothResponse;

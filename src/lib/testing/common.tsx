@@ -3,7 +3,9 @@ import { RouteDataFunc, Router } from "@solidjs/router";
 import { Queries, queries, render } from "@solidjs/testing-library";
 import { Component, JSX } from "solid-js";
 import { expect } from "vitest";
+
 import { AccessTokenProvider } from "../../contexts/AccessTokensContext";
+import { MarketBoothProvider } from "../../contexts/MarketBoothContext";
 import { LOCALES } from "../../locales";
 
 export const SEPARATOR =
@@ -56,9 +58,11 @@ export function renderIntoRoot(
 } {
   const App = () => (
     <Router>
-      <AccessTokenProvider>
-        <TransProvider options={{ resources: LOCALES }}>{ui()}</TransProvider>
-      </AccessTokenProvider>
+      <TransProvider options={{ load: "all", resources: LOCALES }}>
+        <AccessTokenProvider>
+          <MarketBoothProvider>{ui()}</MarketBoothProvider>
+        </AccessTokenProvider>
+      </TransProvider>
     </Router>
   );
 

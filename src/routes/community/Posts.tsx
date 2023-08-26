@@ -1,9 +1,9 @@
-import { useNavigate, useParams } from "@solidjs/router";
+import { useParams } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createResource, onMount } from "solid-js";
+import { Show, createResource } from "solid-js";
 
-import { COMMUNITY_DEVELOPMENT_POSTS_PATH, buildPath } from "../../App";
 import { Markdown } from "../../components/content/Markdown";
+import { buildPath } from "../../lib";
 import styles from "./Home.module.scss";
 
 export function Posts() {
@@ -14,17 +14,6 @@ export function Posts() {
 
     return res.text();
   }
-
-  onMount(() => {
-    if (_.isNil(useParams().postSlug)) {
-      useNavigate()(
-        buildPath(COMMUNITY_DEVELOPMENT_POSTS_PATH, "infrastructure"),
-        {
-          replace: true,
-        }
-      );
-    }
-  });
 
   return (
     <>

@@ -2,7 +2,6 @@ import { TransProvider } from "@mbarzda/solid-i18next";
 import { Route, Router, Routes } from "@solidjs/router";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
-import { lazy } from "solid-js";
 
 import styles from "./App.module.scss";
 import Footer from "./Footer";
@@ -11,13 +10,23 @@ import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 import { MarketBoothProvider } from "./contexts/MarketBoothContext";
 import { initializeThemeStore } from "./contexts/ThemeStore";
 import { signInDataRoute } from "./data-routes";
+import { dashboardDataRoute } from "./data-routes/dashboard";
+import { buildPath } from "./lib";
 import { LOCALES } from "./locales";
-import NotFound from "./routes/info/404";
+import SignInCallback from "./routes/SignInCallback";
+import UserSettings from "./routes/UserSettings";
+import MarketBoothDetail from "./routes/commerce/MarketBoothDetail";
+import MarketBooths from "./routes/commerce/MarketBooths";
+import OfferDetail from "./routes/commerce/OfferDetail";
+import Offers from "./routes/commerce/Offers";
 import CommunityRoutes from "./routes/community/CommunityRoutes";
+import Dashboard from "./routes/dashboard/Dashboard";
+import { Offers as DashboardOffers } from "./routes/dashboard/Offers";
+import NotFound from "./routes/info/404";
+import GetStarted from "./routes/info/GetStarted";
+import Imprint from "./routes/info/Imprint";
 import PrivacyPolicy from "./routes/info/PrivacyPolicy";
 import TermsOfService from "./routes/info/TermsOfService";
-import Imprint from "./routes/info/Imprint";
-import GetStarted from "./routes/info/GetStarted";
 
 export const INDEX_PATH = "/";
 export const MARKET_BOOTHS_PATH = "/";
@@ -59,44 +68,26 @@ export default function App() {
 
           <main class={styles.Content}>
             <Routes>
-              <Route
-                path={INDEX_PATH}
-                component={lazy(() => import("./routes/commerce/MarketBooths"))}
-              />
+              <Route path={INDEX_PATH} component={MarketBooths} />
               <Route
                 path={buildPath(MARKET_BOOTHS_PATH, ":marketBoothId")}
-                component={lazy(
-                  () => import("./routes/commerce/MarketBoothDetail")
-                )}
+                component={MarketBoothDetail}
               />
-              <Route
-                path={OFFERS_PATH}
-                component={lazy(() => import("./routes/commerce/Offers"))}
-              />
+              <Route path={OFFERS_PATH} component={Offers} />
               <Route
                 path={buildPath(OFFERS_PATH, ":offerId")}
-                component={lazy(() => import("./routes/commerce/OfferDetail"))}
+                component={OfferDetail}
               />
 
               <AccessTokenProvider>
                 <Route path={SIGN_IN_PATH} data={signInDataRoute} />
-                <Route
-                  path={SIGN_IN_CALLBACK}
-                  component={lazy(() => import("./routes/SignInCallback"))}
-                />
+                <Route path={SIGN_IN_CALLBACK} component={SignInCallback} />
 
                 <MarketBoothProvider>
-                  <Route
-                    path={DASHBOARD_PATH}
-                    component={lazy(
-                      () => import("./routes/dashboard/Dashboard")
-                    )}
-                  />
+                  <Route path={DASHBOARD_PATH} data={dashboardDataRoute} />
                   <Route
                     path={buildPath(DASHBOARD_PATH, ":marketBoothId")}
-                    component={lazy(
-                      () => import("./routes/dashboard/Dashboard")
-                    )}
+                    component={Dashboard}
                   />
                   <Route
                     path={buildPath(
@@ -105,13 +96,10 @@ export default function App() {
                       OFFERS_SUBPATH,
                       ":offerId"
                     )}
-                    component={lazy(() => import("./routes/dashboard/Offers"))}
+                    component={DashboardOffers}
                   />
 
-                  <Route
-                    path={USER_SETTINGS_PATH}
-                    component={lazy(() => import("./routes/UserSettings"))}
-                  />
+                  <Route path={USER_SETTINGS_PATH} component={UserSettings} />
                 </MarketBoothProvider>
               </AccessTokenProvider>
 
@@ -133,56 +121,4 @@ export default function App() {
       </TransProvider>
     </Router>
   );
-}
-
-export function buildPath(...paths: string[]): string {
-  if (paths.length === 1 && paths[0] === "/") {
-    return "/";
-  }
-
-  return (
-    "/" +
-    paths
-      .filter((p) => p !== "/")
-      .map((p) => removeLeadingSlash(p))
-      .map((p) => removeTralingSlash(p))
-      .join("/")
-  );
-}
-
-export function removeLeadingSlash(path: string) {
-  if (path === "/") return path;
-  return path.startsWith("/") ? path.slice(1) : path;
-}
-
-export function removeTralingSlash(path: string) {
-  if (path === "/") return path;
-  return path.endsWith("/") ? path.slice(0, -1) : path;
-}
-
-export function getPathSegments(path: string) {
-  if (path === "/") return [""];
-  return removeTralingSlash(path).split("/");
-}
-
-export function isSubPath(base: string, path: string): boolean {
-  const cleanedBase = removeTralingSlash(base);
-  const cleanedPath = removeTralingSlash(path);
-
-  if (cleanedBase === cleanedPath) return false;
-
-  if (!cleanedPath.startsWith(cleanedBase)) {
-    return false;
-  }
-
-  const baseSegments = getPathSegments(cleanedBase);
-  const pathSegments = getPathSegments(cleanedPath);
-
-  if (baseSegments.length + 1 !== pathSegments.length) {
-    return false;
-  }
-
-  pathSegments.pop();
-
-  return baseSegments.join("") === pathSegments.join("");
 }

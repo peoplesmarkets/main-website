@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { ParentProps, createContext, useContext } from "solid-js";
+import { Context, ParentProps, createContext, useContext } from "solid-js";
 import { createStore } from "solid-js/store";
 import { isServer } from "solid-js/web";
 
@@ -49,20 +49,25 @@ type AccessTokensResponse = {
 
 type AccessTokenContextType = ReturnType<typeof initialize>;
 
-const initialized = initialize();
-
-export const AccessTokenContext =
-  createContext<AccessTokenContextType>(initialized);
+const AccessTokenContext: Context<AccessTokenContextType> = createContext(
+  initialize()
+);
 
 export function AccessTokenProvider(props: ParentProps) {
+  const handle = useContext(AccessTokenContext);
+
   return (
-    <AccessTokenContext.Provider value={initialized}>
+    <AccessTokenContext.Provider value={handle}>
       {props.children}
     </AccessTokenContext.Provider>
   );
 }
 
 export function useAccessTokensContext() {
+  if (_.isNil(AccessTokenContext)) {
+    throw new Error("Must be wrapped in <AccessTokenContext>");
+  }
+
   return useContext(AccessTokenContext);
 }
 

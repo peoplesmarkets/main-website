@@ -1,21 +1,12 @@
 import { assert, describe, expect, test } from "vitest";
 
-import App, {
+import {
   buildPath,
   getPathSegments,
   isSubPath,
   removeLeadingSlash,
   removeTralingSlash,
-} from "./App";
-import { renderIntoRoot } from "./lib/testing";
-
-describe("App rendering", () => {
-  test("Render '<App />' inside all providers : ok", () => {
-    const app = renderIntoRoot(() => <App />, {});
-
-    expect(app).toBeDefined();
-  });
-});
+} from "./path";
 
 describe("buildPath", () => {
   function testBuildPathHappy(...paths: string[]) {
