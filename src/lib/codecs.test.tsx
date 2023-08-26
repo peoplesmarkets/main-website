@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { cleanupDOM, createDOM, expectNoError } from "../../testing";
+import { cleanupDOM, createDOM, expectNoError } from "./testing";
 import {
   encodeArrayBufferToBase64Url,
   getInitials,

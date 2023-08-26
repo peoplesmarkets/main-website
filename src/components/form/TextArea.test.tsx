@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { cleanupDOM, createDOM, renderIntoMain } from "../../../testing";
+import { cleanupDOM, createDOM, renderIntoRoot } from "../../lib/testing";
 
 import { TextArea } from "./TextArea";
 
@@ -12,7 +12,7 @@ describe("<TextArea />", () => {
   afterEach(cleanupDOM);
 
   test("Render default", () => {
-    const { container } = renderIntoMain(() => (
+    const { container } = renderIntoRoot(() => (
       <TextArea
         name="textArea"
         label="text area"

@@ -46,7 +46,7 @@ export function trimLines(
     if (start.length < max) {
       start.push("...");
     } else {
-      start.splice(start.length -1, 1, "...");
+      start.splice(start.length - 1, 1, "...");
     }
     return start;
   }
@@ -56,6 +56,10 @@ export function trimLines(
 
 export function Multiline(props: Props) {
   function content() {
+    if (_.isNil(props.text()) || _.isEmpty(props.text())) {
+      return [];
+    }
+
     let lines = props.text()?.split("\n");
     return trimLines(lines, props.maxRows);
   }

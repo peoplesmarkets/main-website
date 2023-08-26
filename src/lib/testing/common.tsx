@@ -1,7 +1,10 @@
-import { RouteDataFunc } from "@solidjs/router";
+import { TransProvider } from "@mbarzda/solid-i18next";
+import { RouteDataFunc, Router } from "@solidjs/router";
 import { Queries, queries, render } from "@solidjs/testing-library";
 import { Component, JSX } from "solid-js";
 import { expect } from "vitest";
+import { AccessTokenProvider } from "../../contexts/AccessTokensContext";
+import { LOCALES } from "../../locales";
 
 export const SEPARATOR =
   "\n--------------------------------------------------------------------------------\n";
@@ -21,8 +24,8 @@ export function unreachable() {
 
 // borrowed from https://github.com/pablo-abc/felte
 export function createDOM(): void {
-  const main = document.createElement("main");
-  main.id = "main";
+  const main = document.createElement("root");
+  main.id = "root";
   document.body.appendChild(main);
 }
 
@@ -38,7 +41,7 @@ export function removeAllChildNodes(parent: Node): void {
   }
 }
 
-export function renderIntoMain(
+export function renderIntoRoot(
   ui: () => JSX.Element,
   options?: {
     baseElement?: HTMLElement;
@@ -51,8 +54,22 @@ export function renderIntoMain(
 ): {
   container: HTMLElement;
 } {
-  return render(ui, {
-    container: document.getElementById("main")!,
+  const App = () => (
+    <Router>
+      <AccessTokenProvider>
+        <TransProvider options={{ resources: LOCALES }}>{ui()}</TransProvider>
+      </AccessTokenProvider>
+    </Router>
+  );
+
+  return render(App, {
+    container: document.getElementById("root")!,
     ...options,
   });
 }
+
+export const noObj = {} as any;
+export function getNoObj() {
+  return noObj;
+}
+export function noOp() {}

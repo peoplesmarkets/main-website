@@ -119,7 +119,7 @@ export function EditOfferDialog(props: Props) {
           <form class={styles.Form} onSubmit={updateOffer}>
             <TextField
               name="name"
-              label={trans(TKEYS.dashboard.offers.labels.name)}
+              label={trans(TKEYS.offer.labels.name)}
               required
               value={offer.name}
               onValue={onNameInput}
@@ -128,7 +128,7 @@ export function EditOfferDialog(props: Props) {
 
             <TextArea
               name="description"
-              label={trans(TKEYS.dashboard.offers.labels.description)}
+              label={trans(TKEYS.offer.labels.description)}
               rows={8}
               value={offer.description}
               onValue={onDescriptionInput}
