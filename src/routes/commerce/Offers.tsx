@@ -1,14 +1,19 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { For, createResource, createSignal } from "solid-js";
+import { For, Match, Switch, createResource, createSignal } from "solid-js";
 
+import {
+  ContentError,
+  ContentLoading,
+  isResolved,
+} from "../../components/content";
+import { Multiline } from "../../components/content/Multiline";
 import { SearchGlobalIcon } from "../../components/icons/SearchGlobalIcon";
 import { SearchIcon } from "../../components/icons/SearchIcon";
 import { Page, Section } from "../../components/layout";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import styles from "./Offers.module.scss";
-import { Multiline } from "../../components/content/Multiline";
 
 export default function Offers() {
   const offerService = new OfferService();
@@ -60,16 +65,26 @@ export default function Offers() {
       </Section>
 
       <Section>
-        <For each={offers()}>
-          {(offer) => (
-            <div class={styles.ResultRow}>
-              <span class={styles.Label}>{offer.name}</span>
-              <span class={styles.Detail}>
-                <Multiline text={() => offer.description} maxRows={6} />
-              </span>
-            </div>
-          )}
-        </For>
+        <Switch>
+          <Match when={offers.state === "errored"}>
+            <ContentError />
+          </Match>
+          <Match when={offers.state === "pending"}>
+            <ContentLoading />
+          </Match>
+          <Match when={isResolved(offers.state)}>
+            <For each={offers()}>
+              {(offer) => (
+                <div class={styles.ResultRow}>
+                  <span class={styles.Label}>{offer.name}</span>
+                  <span class={styles.Detail}>
+                    <Multiline text={() => offer.description} maxRows={6} />
+                  </span>
+                </div>
+              )}
+            </For>
+          </Match>
+        </Switch>
       </Section>
     </Page>
   );

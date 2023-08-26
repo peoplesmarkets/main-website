@@ -5,6 +5,7 @@ export const EN: typeof TKEYS = {
   peoplesmarkets_com: "peoplesmarkets.com",
   fetching: {
     "content-loading": "Content loading ...",
+    "content-error": "Unexpected Error",
   },
   form: {
     action: {
@@ -28,7 +29,7 @@ export const EN: typeof TKEYS = {
     title: "Search for a Market Booth",
   },
   "offers-search": {
-    title: "Search all Offers"
+    title: "Search all Offers",
   },
   dashboard: {
     "market-booth": {

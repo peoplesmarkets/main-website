@@ -3,6 +3,7 @@ export const TKEYS = {
   peoplesmarkets_com: "peoplesmarkets_com",
   fetching: {
     "content-loading": "fetching.content-loading",
+    "content-error": "fetching.content-error",
   },
   form: {
     action: {

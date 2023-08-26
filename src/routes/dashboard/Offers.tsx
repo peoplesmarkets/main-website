@@ -1,7 +1,7 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createResource, createSignal } from "solid-js";
+import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
 import { DASHBOARD_PATH, buildPath } from "../../App";
 import { Multiline } from "../../components/content/Multiline";
@@ -13,6 +13,11 @@ import { secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import styles from "./Offers.module.scss";
+import {
+  ContentError,
+  ContentLoading,
+  isResolved,
+} from "../../components/content";
 
 export default function Offers() {
   const { marketBoothId, offerId } = useParams();
@@ -67,78 +72,84 @@ export default function Offers() {
   return (
     <>
       <Page>
-        <Show
-          when={offer.state == "ready" && !_.isNil(offer())}
-          fallback={
-            <p>
-              <Trans key={TKEYS.fetching["content-loading"]} />
-            </p>
-          }
-        >
-          <span class={styles.Title}>{offer()?.name}</span>
+        <Switch>
+          <Match when={offer.state === "errored"}>
+            <ContentError />
+          </Match>
+          <Match when={offer.state === "pending"}>
+            <ContentLoading />
+          </Match>
+          <Match when={isResolved(offer.state)}>
+            <span class={styles.Title}>{offer()?.name}</span>
 
-          <Section>
-            <span class={styles.Label}>
-              <Trans key={TKEYS.dashboard.offers.labels.Description} />:
-            </span>
-            <Show
-              when={!_.isEmpty(offer()?.description)}
-              fallback={
-                <span class={styles.Details}>
-                  <Trans key={TKEYS.dashboard.offers["no-offer-description"]} />
-                </span>
-              }
-            >
-              <Multiline text={() => offer()?.description} />
-            </Show>
-          </Section>
+            <Section>
+              <span class={styles.Label}>
+                <Trans key={TKEYS.dashboard.offers.labels.Description} />:
+              </span>
+              <Show
+                when={!_.isEmpty(offer()?.description)}
+                fallback={
+                  <span class={styles.Details}>
+                    <Trans
+                      key={TKEYS.dashboard.offers["no-offer-description"]}
+                    />
+                  </span>
+                }
+              >
+                <Multiline text={() => offer()?.description} />
+              </Show>
+            </Section>
 
-          <Section>
-            <span class={styles.Label}>
-              <Trans key={TKEYS.dashboard.offers.Details} />:
-            </span>
+            <Section>
+              <span class={styles.Label}>
+                <Trans key={TKEYS.dashboard.offers.Details} />:
+              </span>
 
-            <span class={styles.Details}>
-              <Trans key={TKEYS.dashboard.offers.labels["Created-at"]} />:{" "}
-              {secondsToLocaleString(offer()?.createdAt)}
-            </span>
+              <span class={styles.Details}>
+                <Trans key={TKEYS.dashboard.offers.labels["Created-at"]} />:{" "}
+                {secondsToLocaleString(offer()?.createdAt)}
+              </span>
 
-            <span class={styles.Details}>
-              <Trans key={TKEYS.dashboard.offers.labels["Updated-at"]} />:{" "}
-              {secondsToLocaleString(offer()?.updatedAt)}
-            </span>
-          </Section>
+              <span class={styles.Details}>
+                <Trans key={TKEYS.dashboard.offers.labels["Updated-at"]} />:{" "}
+                {secondsToLocaleString(offer()?.updatedAt)}
+              </span>
+            </Section>
 
-          <Section bordered>
-            <span class={styles.Label}>
-              <Trans key={TKEYS.form.action.Edit} />
-            </span>
-
-            <div class={styles.EditSection}>
-              <p class={styles.Body}>
-                <Trans key={TKEYS.dashboard.offers["edit-offer"]} />
-              </p>
-              <ActionButton actionType="neutral" onClick={handleOpenEditOffer}>
+            <Section bordered>
+              <span class={styles.Label}>
                 <Trans key={TKEYS.form.action.Edit} />
-              </ActionButton>
-            </div>
-          </Section>
+              </span>
 
-          <Section danger>
-            <span class={styles.Label}>
-              <Trans key={TKEYS.form["danger-zone"]} />
-            </span>
+              <div class={styles.EditSection}>
+                <p class={styles.Body}>
+                  <Trans key={TKEYS.dashboard.offers["edit-offer"]} />
+                </p>
+                <ActionButton
+                  actionType="neutral"
+                  onClick={handleOpenEditOffer}
+                >
+                  <Trans key={TKEYS.form.action.Edit} />
+                </ActionButton>
+              </div>
+            </Section>
 
-            <div class={styles.EditSection}>
-              <p class={styles.Body}>
-                <Trans key={TKEYS.dashboard.offers["delete-this-offer"]} />
-              </p>
-              <ActionButton actionType="danger" onClick={startDeletetion}>
-                <Trans key={TKEYS.form.action.Delete} />
-              </ActionButton>
-            </div>
-          </Section>
-        </Show>
+            <Section danger>
+              <span class={styles.Label}>
+                <Trans key={TKEYS.form["danger-zone"]} />
+              </span>
+
+              <div class={styles.EditSection}>
+                <p class={styles.Body}>
+                  <Trans key={TKEYS.dashboard.offers["delete-this-offer"]} />
+                </p>
+                <ActionButton actionType="danger" onClick={startDeletetion}>
+                  <Trans key={TKEYS.form.action.Delete} />
+                </ActionButton>
+              </div>
+            </Section>
+          </Match>
+        </Switch>
       </Page>
 
       <Show when={showEditOffer()}>

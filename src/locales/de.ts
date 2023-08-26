@@ -6,6 +6,7 @@ export const DE: typeof TKEYS = {
   peoplesmarkets_com: EN.peoplesmarkets_com,
   fetching: {
     "content-loading": "Wird geladen ...",
+    "content-error": "Unerwarteter Fehler",
   },
   form: {
     action: {
