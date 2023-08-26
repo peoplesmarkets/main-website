@@ -1,0 +1,32 @@
+.OfferListItem {
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 1rem;
+  border-radius: 8px;
+  color: var(--primary-content-color);
+
+  user-select: none;
+  background: inherit;
+  border: none;
+  outline: inherit;
+  text-align: start;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.OfferListItem:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.Label {
+  display: block;
+  font: var(--font-label);
+  margin-bottom: 1rem;
+}
+
+.Detail {
+  display: block;
+  font: var(--font-body);
+}

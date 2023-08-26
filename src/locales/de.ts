@@ -6,6 +6,7 @@ export const DE: typeof TKEYS = {
   peoplesmarkets_com: EN.peoplesmarkets_com,
   fetching: {
     "content-loading": "Wird geladen ...",
+    "content-error": "Unerwarteter Fehler",
   },
   form: {
     action: {
@@ -25,6 +26,34 @@ export const DE: typeof TKEYS = {
       "already-exists": "Bereits vergeben",
     },
   },
+  "market-booth": {
+    title: "Marktstand",
+    "title-plural": "Marktstände",
+    "no-description": "Keine Beschreibung vorhanden ...",
+    labels: {
+      Details: "Details",
+      Name: "Name",
+      name: "Name",
+      Description: "Beschreibung",
+      description: "Beschreibung",
+      "Created-at": "Erstellt am",
+      "Updated-at": "Bearbeitet am",
+    },
+  },
+  offer: {
+    title: "Angebot",
+    "title-plural": "Angebote",
+    "no-offers-yet": "Derzeit noch keine Angebote ...",
+    "no-description": "Keine Beschreibung vorhanden ...",
+    labels: {
+      Name: "Name",
+      name: "Name",
+      Description: "Beschreibung",
+      description: "Beschreibung",
+      "Created-at": "Erstellt am",
+      "Updated-at": "Bearbeitet am",
+    },
+  },
   "market-booths-search": {
     title: "Finde einen Marktstand",
   },
@@ -33,40 +62,19 @@ export const DE: typeof TKEYS = {
   },
   dashboard: {
     "market-booth": {
-      title: "Marktstand",
       Details: "Marktstand Details",
       "current-market-booth": "Marktstand Auswahl",
       "no-market-booth-yet": "Bisher kein Markstand",
       "create-new-market-booth": "Neuen Marktstand erstellen",
-      "no-market-booth-description": "Keine Beschreibung vorhanden ...",
       "edit-market-booth-details": "Marktstand Details bearbeiten",
       "delete-this-market-booth": "Diesen Marktstand löschen",
-      labels: {
-        Details: "Details",
-        Name: "Name",
-        name: "Name",
-        Description: "Beschreibung",
-        description: "Beschreibung",
-        "Created-at": "Erstellt am",
-        "Updated-at": "Bearbeitet am",
-      },
     },
     offers: {
-      title: "Angebot",
       Details: "Angebot Details",
       "title-plural": "Angebote",
       "create-new-offer": "Neues Angebot erstellen",
       "edit-offer": "Angebot bearbeiten",
       "delete-this-offer": "Dieses Angebot löschen",
-      labels: {
-        Name: "Name",
-        name: "Name",
-        Description: "Beschreibung",
-        description: "Beschreibung",
-        "Created-at": "Erstellt am",
-        "Updated-at": "Bearbeitet am",
-      },
-      "no-offer-description": "Keine Beschreibung vorhanden ...",
     },
   },
   "main-navigation": {

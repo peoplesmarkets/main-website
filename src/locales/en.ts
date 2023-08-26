@@ -5,6 +5,7 @@ export const EN: typeof TKEYS = {
   peoplesmarkets_com: "peoplesmarkets.com",
   fetching: {
     "content-loading": "Content loading ...",
+    "content-error": "Unexpected Error",
   },
   form: {
     action: {
@@ -24,48 +25,55 @@ export const EN: typeof TKEYS = {
       "already-exists": "Already exists",
     },
   },
+  "market-booth": {
+    title: "Market Booth",
+    "title-plural": "Market Booths",
+    "no-description": "No description ...",
+    labels: {
+      Details: "Details",
+      Name: "Name",
+      name: "name",
+      Description: "Description",
+      description: "description",
+      "Created-at": "Created at",
+      "Updated-at": "Updated at",
+    },
+  },
+  offer: {
+    title: "Offer",
+    "title-plural": "Offers",
+    "no-offers-yet": "No Offers yet ...",
+    "no-description": "No description ...",
+    labels: {
+      Name: "Name",
+      name: "Name",
+      Description: "Description",
+      description: "Description",
+      "Created-at": "Created at",
+      "Updated-at": "Updated at",
+    },
+  },
   "market-booths-search": {
     title: "Search for a Market Booth",
   },
   "offers-search": {
-    title: "Search all Offers"
+    title: "Search all Offers",
   },
   dashboard: {
     "market-booth": {
-      title: "Market Booth",
       Details: "Maket Booth Details",
       "current-market-booth": "Current Market Booth",
       "no-market-booth-yet": "No Market Booth yet",
       "create-new-market-booth": "Create a new Market Booth",
-      "no-market-booth-description": "No Market Booth description ...",
       "edit-market-booth-details": "Edit Market Booth Details",
       "delete-this-market-booth": "Delete this Market Booth",
-      labels: {
-        Details: "Details",
-        Name: "Name",
-        name: "name",
-        Description: "Description",
-        description: "description",
-        "Created-at": "Created at",
-        "Updated-at": "Updated at",
-      },
     },
     offers: {
-      title: "Offer",
       Details: "Offer details",
       "title-plural": "Offers",
       "create-new-offer": "Create a new Offer",
       "edit-offer": "Edit Offer",
       "delete-this-offer": "Delete this Offer",
-      labels: {
-        Name: "Name",
-        name: "Name",
-        Description: "Description",
-        description: "Description",
-        "Created-at": "Created at",
-        "Updated-at": "Updated at",
-      },
-      "no-offer-description": "No offer description ...",
     },
   },
   "main-navigation": {

@@ -1,6 +1,6 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { For, createResource, createSignal } from "solid-js";
+import { For, Match, Switch, createResource, createSignal } from "solid-js";
 
 import { SearchIcon } from "../../components/icons/SearchIcon";
 import { StoreFrontIcon } from "../../components/icons/StorefrontIcon";
@@ -9,6 +9,13 @@ import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
 import styles from "./MarketBooths.module.scss";
 import { Multiline } from "../../components/content/Multiline";
+import {
+  ContentLoading,
+  ContentError,
+  isResolved,
+} from "../../components/content";
+import { A } from "@solidjs/router";
+import { MARKET_BOOTHS_PATH, buildPath } from "../../App";
 
 export default function MarketBooths() {
   const marketBoothService = new MarketBoothService();
@@ -60,16 +67,35 @@ export default function MarketBooths() {
       </Section>
 
       <Section>
-        <For each={marketBooths()}>
-          {(marketBooth) => (
-            <div class={styles.ResultRow}>
-              <span class={styles.Label}>{marketBooth.name}</span>
-              <span class={styles.Detail}>
-                <Multiline text={() => marketBooth.description} maxRows={6} />
-              </span>
-            </div>
-          )}
-        </For>
+        <Switch>
+          <Match when={marketBooths.state === "errored"}>
+            <ContentError />
+          </Match>
+          <Match when={marketBooths.state === "pending"}>
+            <ContentLoading />
+          </Match>
+          <Match when={isResolved(marketBooths.state)}>
+            <For each={marketBooths()}>
+              {(marketBooth) => (
+                <A
+                  class={styles.ResultRow}
+                  href={buildPath(
+                    MARKET_BOOTHS_PATH,
+                    marketBooth.marketBoothId
+                  )}
+                >
+                  <span class={styles.Label}>{marketBooth.name}</span>
+                  <span class={styles.Detail}>
+                    <Multiline
+                      text={() => marketBooth.description}
+                      maxRows={6}
+                    />
+                  </span>
+                </A>
+              )}
+            </For>
+          </Match>
+        </Switch>
       </Section>
     </Page>
   );

@@ -58,18 +58,14 @@ export function MarketBoothSettings(props: Props) {
     <>
       <Section>
         <span class={styles.Label}>
-          <Trans key={TKEYS.dashboard["market-booth"].labels.Description} />:
+          <Trans key={TKEYS["market-booth"].labels.Description} />:
         </span>
 
         <Show
           when={!_.isEmpty(props.marketBooth()?.description)}
           fallback={
             <span class={styles.Details}>
-              <Trans
-                key={
-                  TKEYS.dashboard["market-booth"]["no-market-booth-description"]
-                }
-              />
+              <Trans key={TKEYS["market-booth"]["no-description"]} />
             </span>
           }
         >
@@ -83,28 +79,12 @@ export function MarketBoothSettings(props: Props) {
         </span>
 
         <span class={styles.Details}>
-          <Trans key={TKEYS.dashboard["market-booth"].labels["Created-at"]} />:{" "}
+          <Trans key={TKEYS["market-booth"].labels["Created-at"]} />:{" "}
           {secondsToLocaleString(props.marketBooth()?.createdAt)}
         </span>
 
         <span class={styles.Details}>
-          <Trans key={TKEYS.dashboard["market-booth"].labels["Updated-at"]} />:{" "}
-          {secondsToLocaleString(props.marketBooth()?.updatedAt)}
-        </span>
-      </Section>
-
-      <Section>
-        <span class={styles.Label}>
-          <Trans key={TKEYS.dashboard["market-booth"].Details} />
-        </span>
-
-        <span class={styles.Details}>
-          <Trans key={TKEYS.dashboard["market-booth"].labels["Created-at"]} />:{" "}
-          {secondsToLocaleString(props.marketBooth()?.createdAt)}
-        </span>
-
-        <span class={styles.Details}>
-          <Trans key={TKEYS.dashboard["market-booth"].labels["Updated-at"]} />:{" "}
+          <Trans key={TKEYS["market-booth"].labels["Updated-at"]} />:{" "}
           {secondsToLocaleString(props.marketBooth()?.updatedAt)}
         </span>
       </Section>

@@ -2,7 +2,7 @@ import _ from "lodash";
 import { assert, describe, expect, test } from "vitest";
 
 import { LANGUAGES, LOCALES, getNextLanguageKey } from ".";
-import { errorPrint } from "../../testing/common";
+import { errorPrint } from "../lib/testing";
 import { TKEYS } from "./dev";
 
 describe("Locales", () => {

@@ -64,8 +64,18 @@ export default function App() {
                 component={lazy(() => import("./routes/commerce/MarketBooths"))}
               />
               <Route
+                path={buildPath(MARKET_BOOTHS_PATH, ":marketBoothId")}
+                component={lazy(
+                  () => import("./routes/commerce/MarketBoothDetail")
+                )}
+              />
+              <Route
                 path={OFFERS_PATH}
                 component={lazy(() => import("./routes/commerce/Offers"))}
+              />
+              <Route
+                path={buildPath(OFFERS_PATH, ":offerId")}
+                component={lazy(() => import("./routes/commerce/OfferDetail"))}
               />
 
               <AccessTokenProvider>

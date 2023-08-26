@@ -122,7 +122,7 @@ export function EditMarketBoothDialog(props: Props) {
           <form class={styles.Form} onSubmit={updateMarketBooth}>
             <TextField
               name="name"
-              label={trans(TKEYS.dashboard["market-booth"].labels.name)}
+              label={trans(TKEYS["market-booth"].labels.name)}
               required
               value={marketBooth.name}
               onValue={onNameInput}
@@ -131,7 +131,7 @@ export function EditMarketBoothDialog(props: Props) {
 
             <TextArea
               name="description"
-              label={trans(TKEYS.dashboard["market-booth"].labels.description)}
+              label={trans(TKEYS["market-booth"].labels.description)}
               rows={8}
               value={marketBooth.description}
               onValue={onDescriptionInput}

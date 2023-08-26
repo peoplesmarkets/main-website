@@ -7,6 +7,7 @@ import {
   COMMUNITY_PATH,
   DASHBOARD_PATH,
   INDEX_PATH,
+  MARKET_BOOTHS_PATH,
   OFFERS_PATH,
   USER_SETTINGS_PATH,
   isSubPath,
@@ -130,12 +131,12 @@ export function Panel(props: Props) {
 
         <div class={styles.MainNavigation}>
           <A
-            href={INDEX_PATH}
+            href={MARKET_BOOTHS_PATH}
             replace
             class={styles.NavigationItem}
             classList={{
               [styles.NavigationItemActive]: Boolean(
-                useMatch(() => INDEX_PATH)()
+                useMatch(() => MARKET_BOOTHS_PATH)()
               ),
             }}
           >
