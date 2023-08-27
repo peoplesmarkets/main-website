@@ -7,6 +7,7 @@ export const TKEYS = {
   },
   form: {
     action: {
+      OK: "form.action.OK",
       Save: "form.action.Save",
       Edit: "form.action.Edit",
       Delete: "form.action.Delete",
@@ -18,6 +19,7 @@ export const TKEYS = {
     },
     "danger-zone": "form.danger-zone",
     errors: {
+      Conflict: "form.errors.Conflict",
       "required-field": "form.errors.required-field",
       "not-modified": "form.errors.not-modified",
       "already-exists": "form.errors.already-exists",
@@ -27,6 +29,9 @@ export const TKEYS = {
     title: "market-booth.title",
     "title-plural": "market-booth.title-plural",
     "no-description": "market-booth.no-description",
+    errors: {
+      "ensure-offers-deleted": "market-booth.errors.ensure-offers-deleted",
+    },
     labels: {
       Details: "market-booth.labels.Details",
       Name: "market-booth.labels.Name",

@@ -1,0 +1,12 @@
+.Message {
+  display: block;
+  padding: 0 var(--large-spacer);
+  font: var(--font-label);
+}
+
+.Footer {
+  padding: 2rem;
+  display: flex;
+  justify-content: flex-end;
+  align-items: flex-end;
+}

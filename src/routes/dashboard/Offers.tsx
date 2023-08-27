@@ -158,13 +158,14 @@ export function Offers() {
         />
       </Show>
 
-      <DeleteConfirmation
-        item={trans(TKEYS.offer.title)}
-        itemName={offer()?.name}
-        onCancel={discardDeletion}
-        onConfirmation={confirmDeleteion}
-        showSignal={showDeleteConfirmation()}
-      />
+      <Show when={showDeleteConfirmation()}>
+        <DeleteConfirmation
+          item={trans(TKEYS.offer.title)}
+          itemName={offer()?.name}
+          onCancel={discardDeletion}
+          onConfirmation={confirmDeleteion}
+        />
+      </Show>
     </>
   );
 }

@@ -9,6 +9,7 @@ export const EN: typeof TKEYS = {
   },
   form: {
     action: {
+      OK: "OK",
       Save: "Save",
       Edit: "Edit",
       Delete: "Delete",
@@ -20,6 +21,7 @@ export const EN: typeof TKEYS = {
     },
     "danger-zone": "Danger Zone",
     errors: {
+      Conflict: "Conflict",
       "required-field": "Required field",
       "not-modified": "Not modified",
       "already-exists": "Already exists",
@@ -29,6 +31,9 @@ export const EN: typeof TKEYS = {
     title: "Market Booth",
     "title-plural": "Market Booths",
     "no-description": "No description ...",
+    errors: {
+      "ensure-offers-deleted": "Ensure all Offers are deleted first.",
+    },
     labels: {
       Details: "Details",
       Name: "Name",

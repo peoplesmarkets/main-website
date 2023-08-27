@@ -144,11 +144,12 @@ export function EditOfferDialog(props: Props) {
         </Dialog>
       </Show>
 
-      <DiscardConfirmation
-        showSignal={discardConfirmation()}
-        onCancel={continueEditing}
-        onDiscard={confirmCloseDialog}
-      />
+      <Show when={discardConfirmation()}>
+        <DiscardConfirmation
+          onCancel={continueEditing}
+          onDiscard={confirmCloseDialog}
+        />
+      </Show>
     </>
   );
 }
