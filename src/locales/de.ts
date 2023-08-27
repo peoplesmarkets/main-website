@@ -10,6 +10,7 @@ export const DE: typeof TKEYS = {
   },
   form: {
     action: {
+      OK: "Okay",
       Save: "Speichern",
       Edit: "Bearbeiten",
       Delete: "Löschen",
@@ -21,6 +22,7 @@ export const DE: typeof TKEYS = {
     },
     "danger-zone": "Gefahrenzone",
     errors: {
+      Conflict: "Konflikt",
       "required-field": "Eingabe erforderlich",
       "not-modified": "Kein Änderrung",
       "already-exists": "Bereits vergeben",
@@ -30,6 +32,9 @@ export const DE: typeof TKEYS = {
     title: "Marktstand",
     "title-plural": "Marktstände",
     "no-description": "Keine Beschreibung vorhanden ...",
+    errors: {
+      "ensure-offers-deleted": "Lösche zuerst alle Angebote.",
+    },
     labels: {
       Details: "Details",
       Name: "Name",

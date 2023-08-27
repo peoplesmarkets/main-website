@@ -54,10 +54,8 @@ const AccessTokenContext: Context<AccessTokenContextType> = createContext(
 );
 
 export function AccessTokenProvider(props: ParentProps) {
-  const handle = useContext(AccessTokenContext);
-
   return (
-    <AccessTokenContext.Provider value={handle}>
+    <AccessTokenContext.Provider value={useContext(AccessTokenContext)}>
       {props.children}
     </AccessTokenContext.Provider>
   );

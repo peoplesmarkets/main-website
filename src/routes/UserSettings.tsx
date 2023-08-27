@@ -1,37 +1,43 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { useNavigate } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createSignal, onMount } from "solid-js";
+import { Show, createResource, createSignal } from "solid-js";
 
+import { DASHBOARD_PATH } from "../App";
 import { CreateMarketBoothDialog } from "../components/dashboard";
 import { ActionButton } from "../components/form";
 import { Page } from "../components/layout";
 import { Select } from "../components/navigation";
+import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { useMarketBoothContext } from "../contexts/MarketBoothContext";
 import { TKEYS } from "../locales/dev";
+import { MarketBoothService } from "../services";
 import styles from "./UserSettings.module.scss";
-import { useNavigate } from "@solidjs/router";
-import { DASHBOARD_PATH } from "../App";
 
 export default function UserSettings() {
   const navigate = useNavigate();
 
   const [trans] = useTransContext();
 
-  const {
-    currentMarketBooth,
-    setCurrentMarketBooth,
-    marketBoothList,
-    refetchMarketBoothList,
-  } = useMarketBoothContext();
+  const { accessToken, currentSession } = useAccessTokensContext();
+  const { currentMarketBooth, setCurrentMarketBooth } = useMarketBoothContext();
+
+  const marketBoothService = new MarketBoothService(accessToken);
+
+  const [marketBooths, { refetch }] = createResource(
+    () => currentSession().userId,
+    fetchMarketBooths
+  );
+
+  async function fetchMarketBooths(userId: string) {
+    const response = await marketBoothService.list(userId);
+    return response.marketBooths;
+  }
 
   const [showCreateMarketBooth, setShowCreateMarketBooth] = createSignal(false);
 
-  onMount(async () => {
-    await refetchMarketBoothList();
-  });
-
   function marketBoothOptions() {
-    if (_.isEmpty(marketBoothList())) {
+    if (_.isEmpty(marketBooths())) {
       return [
         {
           key: "",
@@ -39,7 +45,7 @@ export default function UserSettings() {
         },
       ];
     } else {
-      return marketBoothList().map(({ marketBoothId, name }) => ({
+      return marketBooths()!.map(({ marketBoothId, name }) => ({
         key: marketBoothId,
         name,
       }));
@@ -47,8 +53,13 @@ export default function UserSettings() {
   }
 
   function handleMarketBoothSelected(marketBoothId: string) {
-    setCurrentMarketBooth(marketBoothId);
-    navigate(DASHBOARD_PATH);
+    const selectedMarketBooth = marketBooths()?.find(
+      (m) => m.marketBoothId === marketBoothId
+    );
+    setCurrentMarketBooth(selectedMarketBooth);
+    if (!_.isNil(selectedMarketBooth)) {
+      navigate(DASHBOARD_PATH);
+    }
   }
 
   function handleOpenCreateMarketBooth() {
@@ -60,7 +71,7 @@ export default function UserSettings() {
   }
 
   async function handleMarketBoothUpdate() {
-    await refetchMarketBoothList();
+    refetch();
   }
 
   return (

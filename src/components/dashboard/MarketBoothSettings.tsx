@@ -1,23 +1,28 @@
+import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { Multiline } from "../content/Multiline";
+import { ActionButton } from "../form";
 import { DeleteConfirmation } from "../form/DeleteConfirmation";
+import { Message } from "../form/Message";
+import { Section } from "../layout/Section";
 import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
 import styles from "./MarketBoothSettings.module.scss";
-import { secondsToLocaleString } from "../../lib";
-import { ActionButton } from "../form";
-import { Section } from "../layout/Section";
-import { Multiline } from "../content/Multiline";
 
 type Props = {
   marketBooth: () => MarketBoothResponse | undefined;
   onUpdate?: () => Promise<void>;
+  onDelete?: () => void;
 };
+
+type DIALOG = "none" | "delete" | "message";
 
 export function MarketBoothSettings(props: Props) {
   const [trans] = useTransContext();
@@ -27,8 +32,7 @@ export function MarketBoothSettings(props: Props) {
   const marketBoothService = new MarketBoothService(accessToken);
 
   const [showEditMarketBooth, setShowEditMarketBooth] = createSignal(false);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] =
-    createSignal(false);
+  const [showDialog, setShowDialog] = createSignal<DIALOG>("none");
 
   function editMarketBooth() {
     setShowEditMarketBooth(true);
@@ -39,19 +43,32 @@ export function MarketBoothSettings(props: Props) {
   }
 
   function startDeletetion() {
-    setShowDeleteConfirmation(true);
+    setShowDialog("delete");
   }
 
   function discardDeletion() {
-    setShowDeleteConfirmation(false);
+    setShowDialog("none");
+  }
+
+  function handleCloseMessage() {
+    setShowDialog("none");
   }
 
   async function confirmDeleteion() {
     if (!_.isNil(props.marketBooth())) {
-      await marketBoothService.delete(props.marketBooth()!.marketBoothId);
+      try {
+        await marketBoothService.delete(props.marketBooth()!.marketBoothId);
+      } catch (err: any) {
+        if (err.code && err.code === grpc.Code.FailedPrecondition) {
+          setShowDialog("message");
+          return;
+        } else {
+          throw err;
+        }
+      }
     }
-    await props.onUpdate?.();
-    setShowDeleteConfirmation(false);
+    props.onDelete?.();
+    setShowDialog("none");
   }
 
   return (
@@ -132,13 +149,22 @@ export function MarketBoothSettings(props: Props) {
         />
       </Show>
 
-      <DeleteConfirmation
-        item={trans(TKEYS["market-booth"].title)}
-        itemName={props.marketBooth()?.name}
-        onCancel={discardDeletion}
-        onConfirmation={confirmDeleteion}
-        showSignal={showDeleteConfirmation()}
-      />
+      <Show when={showDialog() === "delete"}>
+        <DeleteConfirmation
+          item={trans(TKEYS["market-booth"].title)}
+          itemName={props.marketBooth()?.name}
+          onCancel={discardDeletion}
+          onConfirmation={confirmDeleteion}
+        />
+      </Show>
+      <Show when={showDialog() === "message"}>
+        <Message
+          title={trans(TKEYS.form.errors.Conflict)}
+          onClose={handleCloseMessage}
+        >
+          <Trans key={TKEYS["market-booth"].errors["ensure-offers-deleted"]} />
+        </Message>
+      </Show>
     </>
   );
 }
