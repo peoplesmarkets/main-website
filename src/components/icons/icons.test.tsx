@@ -22,6 +22,7 @@ import { SignInIcon } from "./SignInIcon";
 import { StoreFrontIcon } from "./StorefrontIcon";
 import { ThemeIcon } from "./ThemeIcon";
 import { UserSettingsIcon } from "./UserSettingsIcon";
+import { EditIcon } from "./EditIcon";
 
 /**
  * Render to check if objects are accessed correctly
@@ -48,6 +49,10 @@ describe("Render once", () => {
   });
   test("DashboardIcon", () => {
     const { container } = renderIntoRoot(() => <DashboardIcon />);
+    expect(container).toBeDefined();
+  });
+  test("EditIcon", () => {
+    const { container } = renderIntoRoot(() => <EditIcon />);
     expect(container).toBeDefined();
   });
   test("GitHubIcon", () => {

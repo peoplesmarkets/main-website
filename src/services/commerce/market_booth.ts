@@ -3,6 +3,7 @@ import {
   GrpcWebImpl,
   MarketBoothServiceClientImpl,
   MarketBoothsFilterField,
+  UpdateImageOfMarketBoothRequest,
   UpdateMarketBoothRequest,
 } from "../peoplesmarkets/commerce/v1/market_booth";
 
@@ -62,6 +63,20 @@ export class MarketBoothService extends ServiceClient {
 
   public async delete(marketBoothId: string) {
     return this.client.DeleteMarketBooth(
+      { marketBoothId },
+      await this.withAuthHeader()
+    );
+  }
+
+  public async updateImage(request: UpdateImageOfMarketBoothRequest) {
+    return this.client.UpdateImageOfMarketBooth(
+      request,
+      await this.withAuthHeader()
+    );
+  }
+
+  public async removeImage(marketBoothId: string) {
+    return this.client.RemoveImageFromMarketBooth(
       { marketBoothId },
       await this.withAuthHeader()
     );

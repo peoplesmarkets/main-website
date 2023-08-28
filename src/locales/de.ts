@@ -8,8 +8,12 @@ export const DE: typeof TKEYS = {
     "content-loading": "Wird geladen ...",
     "content-error": "Unerwarteter Fehler",
   },
+  common: {
+    file: "Datei",
+  },
   form: {
     action: {
+      Add: "Hinzufügen",
       OK: "Okay",
       Save: "Speichern",
       Edit: "Bearbeiten",
@@ -26,12 +30,17 @@ export const DE: typeof TKEYS = {
       "required-field": "Eingabe erforderlich",
       "not-modified": "Kein Änderrung",
       "already-exists": "Bereits vergeben",
+      "item-too-large": "{{item}} ist zu groß",
+      "wrong-type": "Falscher Dateityp",
     },
   },
   "market-booth": {
     title: "Marktstand",
     "title-plural": "Marktstände",
     "no-description": "Keine Beschreibung vorhanden ...",
+    "edit-image": "Bild bearbeiten",
+    "delete-image": "Bild löschen",
+    "delete-confirmation-message": "Derzeitiges Bild wirklich löschen",
     errors: {
       "ensure-offers-deleted": "Lösche zuerst alle Angebote.",
     },
@@ -73,6 +82,7 @@ export const DE: typeof TKEYS = {
       "create-new-market-booth": "Neuen Marktstand erstellen",
       "edit-market-booth-details": "Marktstand Details bearbeiten",
       "delete-this-market-booth": "Diesen Marktstand löschen",
+      "add-or-update-image": "Bild hinzufügen, oder bearbeiten",
     },
     offers: {
       Details: "Angebot Details",

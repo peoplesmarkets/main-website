@@ -5,9 +5,9 @@ import {
   encodeArrayBufferToBase64Url,
   getInitials,
   parseJwtPayload,
-} from "./codecs";
+} from "./string-manipulation";
 
-describe("Codecs", () => {
+describe("string-manipulation", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
@@ -63,7 +63,7 @@ describe("Codecs", () => {
       }
       expect(res).toEqual("N");
     });
-    
+
     test("Get initials for two names : ok", () => {
       const name = "Name Last";
       let res;
