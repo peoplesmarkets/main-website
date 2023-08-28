@@ -4,10 +4,13 @@ import { TKEYS } from "../../locales/dev";
 import { Dialog } from "../layout/Dialog";
 import { ActionButton } from "./ActionButton";
 import styles from "./DeleteConfirmation.module.scss";
+import { Show } from "solid-js";
+import _ from "lodash";
 
 type Props = {
-  readonly item: string;
-  readonly itemName: string | undefined;
+  readonly item?: string;
+  readonly itemName?: string | undefined;
+  readonly message?: string;
   readonly onConfirmation: () => void;
   readonly onCancel: () => void;
 };
@@ -22,13 +25,15 @@ export function DeleteConfirmation(props: Props) {
     >
       <div class={styles.Information}>
         <p>
-          <Trans
-            key={TKEYS.form.action["Are-you-sure-you-want-to-delete-the"]}
-            options={{
-              item: props.item,
-              name: props.itemName,
-            }}
-          />
+          <Show when={_.isNil(props.message)} fallback={props.message}>
+            <Trans
+              key={TKEYS.form.action["Are-you-sure-you-want-to-delete-the"]}
+              options={{
+                item: props.item,
+                name: props.itemName,
+              }}
+            />
+          </Show>
         </p>
       </div>
 

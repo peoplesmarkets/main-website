@@ -15,6 +15,7 @@ import { Message } from "../form/Message";
 import { Section } from "../layout/Section";
 import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
 import styles from "./MarketBoothSettings.module.scss";
+import { EditImageDialog } from "./EditImageDialog";
 
 type Props = {
   marketBooth: () => MarketBoothResponse | undefined;
@@ -22,7 +23,7 @@ type Props = {
   onDelete?: () => void;
 };
 
-type DIALOG = "none" | "delete" | "message";
+type DIALOG = "none" | "delete" | "message" | "add-image";
 
 export function MarketBoothSettings(props: Props) {
   const [trans] = useTransContext();
@@ -51,6 +52,14 @@ export function MarketBoothSettings(props: Props) {
   }
 
   function handleCloseMessage() {
+    setShowDialog("none");
+  }
+
+  function openAddImageDialog() {
+    setShowDialog("add-image");
+  }
+
+  function handleCloseAddImage() {
     setShowDialog("none");
   }
 
@@ -121,6 +130,17 @@ export function MarketBoothSettings(props: Props) {
             <Trans key={TKEYS.form.action.Edit} />
           </ActionButton>
         </div>
+
+        <div class={styles.EditSection}>
+          <p class={styles.Body}>
+            <Trans
+              key={TKEYS.dashboard["market-booth"]["add-or-update-image"]}
+            />
+          </p>
+          <ActionButton actionType="neutral" onClick={openAddImageDialog}>
+            <Trans key={TKEYS.form.action.Edit} />
+          </ActionButton>
+        </div>
       </Section>
 
       <Section danger>
@@ -164,6 +184,15 @@ export function MarketBoothSettings(props: Props) {
         >
           <Trans key={TKEYS["market-booth"].errors["ensure-offers-deleted"]} />
         </Message>
+      </Show>
+      <Show
+        when={showDialog() === "add-image" && !_.isNil(props.marketBooth())}
+      >
+        <EditImageDialog
+          marketBoothId={props.marketBooth()!.marketBoothId}
+          onClose={handleCloseAddImage}
+          onUpdate={() => props.onUpdate?.()}
+        />
       </Show>
     </>
   );

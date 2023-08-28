@@ -1,0 +1,53 @@
+.MarketBoothImage {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.ImageContainer {
+  position: relative;
+  min-height: 3rem;
+  min-width: 3rem;
+}
+
+.Image {
+  max-width: 100%;
+  max-height: 300px;
+  border-radius: 16px;
+}
+
+.CreateButton {
+  user-select: none;
+  background: inherit;
+  border: none;
+  outline: inherit;
+  text-align: start;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.EditButton {
+  position: absolute;
+  bottom: var(--small-spacer);
+  right: var(--small-spacer);
+
+  user-select: none;
+  background: inherit;
+  border: none;
+  outline: inherit;
+  text-align: start;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.EditButton:hover {
+  cursor: pointer;
+  background: var(--hovered-background);
+}
+
+.EditIcon {
+  height: 2rem;
+  width: 2rem;
+  padding: 0.5rem;
+  fill: var(--primary-content-color);
+}

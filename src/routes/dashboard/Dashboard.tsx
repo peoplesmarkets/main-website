@@ -7,6 +7,8 @@ import { Page } from "../../components/layout/Page";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { MarketBoothService } from "../../services";
 import styles from "./Dashboard.module.scss";
+import { grpc } from "@improbable-eng/grpc-web";
+import { MarketBoothImage } from "../../components/dashboard/MarketBoothImage";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -22,8 +24,16 @@ export default function Dashboard() {
   );
 
   async function fetchMarketBooth(marketBoothId: string) {
-    const response = await marketBoothService.get(marketBoothId);
-    return response.marketBooth;
+    try {
+      const response = await marketBoothService.get(marketBoothId);
+      return response.marketBooth;
+    } catch (err: any) {
+      if (err.code && err.code === grpc.Code.NotFound) {
+        navigate(USER_SETTINGS_PATH, { replace: true });
+      } else {
+        throw err;
+      }
+    }
   }
 
   async function handleMarketBoothUpdate() {
@@ -39,6 +49,11 @@ export default function Dashboard() {
       <div class={styles.Dashboard}>
         <Show when={marketBooth()}>
           <div class={styles.Settings}>
+            <MarketBoothImage
+              marketBooth={() => marketBooth()}
+              onUpdate={handleMarketBoothUpdate}
+            />
+
             <span class={styles.Title}>{marketBooth()?.name}</span>
 
             <OfferSettings marketBooth={() => marketBooth()!} />
