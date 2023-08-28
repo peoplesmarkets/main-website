@@ -7,8 +7,12 @@ export const EN: typeof TKEYS = {
     "content-loading": "Content loading ...",
     "content-error": "Unexpected Error",
   },
+  common: {
+    file: "file",
+  },
   form: {
     action: {
+      Add: "Add",
       OK: "OK",
       Save: "Save",
       Edit: "Edit",
@@ -25,12 +29,18 @@ export const EN: typeof TKEYS = {
       "required-field": "Required field",
       "not-modified": "Not modified",
       "already-exists": "Already exists",
+      "item-too-large": "{{item}} is too large",
+      "wrong-type": "Wrong file type",
     },
   },
   "market-booth": {
     title: "Market Booth",
     "title-plural": "Market Booths",
     "no-description": "No description ...",
+    "edit-image": "Edit image",
+    "delete-image": "Delete image",
+    "delete-confirmation-message":
+      "Are you sure you want to delete the current image?",
     errors: {
       "ensure-offers-deleted": "Ensure all Offers are deleted first.",
     },
@@ -72,6 +82,7 @@ export const EN: typeof TKEYS = {
       "create-new-market-booth": "Create a new Market Booth",
       "edit-market-booth-details": "Edit Market Booth Details",
       "delete-this-market-booth": "Delete this Market Booth",
+      "add-or-update-image": "Add or update image",
     },
     offers: {
       Details: "Offer details",

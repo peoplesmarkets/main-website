@@ -3,6 +3,7 @@ export * from "./BurgerIcon";
 export * from "./CloseIcon";
 export * from "./CommunityIcon";
 export * from "./DashboardIcon";
+export * from "./EditIcon";
 export * from "./GitHubIcon";
 export * from "./LanguageIcon";
 export * from "./MainLogoIcon";

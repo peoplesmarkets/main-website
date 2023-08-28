@@ -5,8 +5,12 @@ export const TKEYS = {
     "content-loading": "fetching.content-loading",
     "content-error": "fetching.content-error",
   },
+  common: {
+    file: "common.file",
+  },
   form: {
     action: {
+      Add: "form.action.Add",
       OK: "form.action.OK",
       Save: "form.action.Save",
       Edit: "form.action.Edit",
@@ -23,12 +27,17 @@ export const TKEYS = {
       "required-field": "form.errors.required-field",
       "not-modified": "form.errors.not-modified",
       "already-exists": "form.errors.already-exists",
+      "item-too-large": "form.errors.item-too-large",
+      "wrong-type": "form.errors.wrong-type",
     },
   },
   "market-booth": {
     title: "market-booth.title",
     "title-plural": "market-booth.title-plural",
     "no-description": "market-booth.no-description",
+    "edit-image": "market-booth.edit-image",
+    "delete-image": "market-booth.delete-image",
+    "delete-confirmation-message": "market-booth.delete-confirmation-message",
     errors: {
       "ensure-offers-deleted": "market-booth.errors.ensure-offers-deleted",
     },
@@ -73,6 +82,7 @@ export const TKEYS = {
         "dashboard.market-booth.edit-market-booth-details",
       "delete-this-market-booth":
         "dashboard.market-booth.delete-this-market-booth",
+      "add-or-update-image": "dashboard.market-booth.add-or-update-image",
     },
     offers: {
       Details: "dashboard.offers.Details",
