@@ -44,8 +44,8 @@ export default function Offers() {
     <Page>
       <Section>
         <div class={styles.MarketBooths}>
-          <div class={styles.Title}>
-            <SearchGlobalIcon class={styles.TitleIcon} />
+          <div class={styles.Headline}>
+            <SearchGlobalIcon class={styles.HeadlineIcon} />
             <span>
               <Trans key={TKEYS["offers-search"].title} />
             </span>

@@ -25,17 +25,15 @@ export function MarketBoothImage(props: Props) {
   return (
     <>
       <Show when={props.marketBooth()?.imageUrl}>
-        <div class={styles.MarketBoothImage}>
-          <div class={styles.ImageContainer}>
-            <img
-              class={styles.Image}
-              src={props.marketBooth()?.imageUrl}
-              alt=""
-            />
-            <button class={styles.EditButton} onClick={openEditDialog}>
-              <EditIcon class={styles.EditIcon} />
-            </button>
-          </div>
+        <div class={styles.ImageContainer}>
+          <img
+            class={styles.Image}
+            src={props.marketBooth()?.imageUrl}
+            alt=""
+          />
+          <button class={styles.EditButton} onClick={openEditDialog}>
+            <EditIcon class={styles.EditIcon} />
+          </button>
         </div>
       </Show>
 
