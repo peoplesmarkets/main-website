@@ -1,7 +1,14 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 import _ from "lodash";
-import { For, Match, Switch, createResource, createSignal } from "solid-js";
+import {
+  For,
+  Match,
+  Show,
+  Switch,
+  createResource,
+  createSignal,
+} from "solid-js";
 
 import { MARKET_BOOTHS_PATH } from "../../App";
 import {
@@ -47,8 +54,8 @@ export default function MarketBooths() {
     <Page>
       <Section>
         <div class={styles.MarketBooths}>
-          <div class={styles.Title}>
-            <StoreFrontIcon class={styles.TitleIcon} />
+          <div class={styles.Headline}>
+            <StoreFrontIcon class={styles.HeadlineIcon} />
             <span>
               <Trans key={TKEYS["market-booths-search"].title} />
             </span>
@@ -85,13 +92,18 @@ export default function MarketBooths() {
                     marketBooth.marketBoothId
                   )}
                 >
-                  <span class={styles.Label}>{marketBooth.name}</span>
-                  <span class={styles.Detail}>
-                    <Multiline
-                      text={() => marketBooth.description}
-                      maxRows={6}
-                    />
-                  </span>
+                  <Show when={!_.isEmpty(marketBooth.imageUrl)}>
+                    <img class={styles.Image} src={marketBooth.imageUrl} />
+                  </Show>
+                  <div>
+                    <span class={styles.Label}>{marketBooth.name}</span>
+                    <span class={styles.Detail}>
+                      <Multiline
+                        text={() => marketBooth.description}
+                        maxRows={6}
+                      />
+                    </span>
+                  </div>
                 </A>
               )}
             </For>

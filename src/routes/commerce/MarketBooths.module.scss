@@ -1,13 +1,15 @@
-.Title {
+$medium-min-width: 600px;
+
+.Headline {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
   padding-right: 1rem;
-  font: var(--font-title);
+  font: var(--font-headline);
 }
 
-.TitleIcon {
+.HeadlineIcon {
   fill: var(--primary-content-color);
   max-height: 2.4rem;
 }
@@ -54,6 +56,12 @@ $search-height: 2rem;
   border-radius: 8px;
   color: var(--primary-content-color);
 
+  @media only screen and (min-width: $medium-min-width) {
+    display: flex;
+    justify-content: start;
+    gap: 1rem;
+  }
+
   user-select: none;
   background: inherit;
   border: none;
@@ -68,10 +76,25 @@ $search-height: 2rem;
   cursor: pointer;
 }
 
+.Image {
+  width: 100%;
+  max-height: 100px;
+  border-radius: 16px;
+  aspect-ratio: 4 / 1;
+  object-fit: cover;
+  object-position: center;
+
+  @media only screen and (min-width: $medium-min-width) {
+    max-width: 300px;
+    max-height: 300px;
+    aspect-ratio: 4 / 3;
+  }
+}
+
 .Label {
   display: block;
-  font: var(--font-label);
-  margin-bottom: 1rem;
+  font: var(--font-title);
+  margin-bottom: 0.5rem;
 }
 
 .Detail {
