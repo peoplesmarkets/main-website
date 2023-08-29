@@ -1,13 +1,13 @@
-.Title {
+.Headline {
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 1rem;
   padding-right: 1rem;
-  font: var(--font-title);
+  font: var(--font-headline);
 }
 
-.TitleIcon {
+.HeadlineIcon {
   fill: var(--primary-content-color);
   max-height: 2.4rem;
 }
