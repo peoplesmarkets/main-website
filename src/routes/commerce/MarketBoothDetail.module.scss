@@ -8,9 +8,9 @@
 
 .Image {
   width: 100%;
-  max-height: 300px;
+  max-height: var(--item-image-max-height);
   object-fit: cover;
-  aspect-ratio: 4 / 1;
+  aspect-ratio: var(--item-image-aspect-ratio);
   border: none;
 }
 

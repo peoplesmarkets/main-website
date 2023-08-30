@@ -1,18 +1,30 @@
-.ImageContainer {
-  position: relative;
-  width: 100%;
+.OfferImages {
+  padding: 0 1rem;
+}
+
+.MainImage {
+  height: var(--item-image-max-height);
   display: flex;
   justify-content: center;
+  align-items: center;
+}
+
+.ImageContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .Image {
-  width: 100%;
+  max-width: 100%;
   max-height: var(--item-image-max-height);
   object-fit: cover;
   aspect-ratio: var(--item-image-aspect-ratio);
+  border-radius: 8px;
 }
 
-.EditButton {
+.DeleteButton {
   position: absolute;
   bottom: 0.5rem;
   right: 0.5rem;
@@ -29,12 +41,27 @@
   box-sizing: border-box;
 }
 
-.EditButton:hover {
+.DeleteButton:hover {
   cursor: pointer;
   background-color: var(--display-background-color);
 }
 
-.EditIcon {
+.DeleteIcon {
   padding: 8px;
   fill: var(--primary-content-color);
+}
+
+.ImageGallery {
+  margin-top: 2rem;
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.ImagePreview {
+  max-width: 90px;
+  object-fit: cover;
+  aspect-ratio: var(--item-image-aspect-ratio);
+  border-radius: 8px;
 }

@@ -1,22 +1,22 @@
+import { grpc } from "@improbable-eng/grpc-web";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import _ from "lodash";
 import { Show, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
 
-import styles from "./CreateEditDialg.module.scss";
-import { Dialog } from "../layout";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { readFileBase64 } from "../../lib";
+import { TKEYS } from "../../locales/dev";
+import { MarketBoothService } from "../../services";
+import { MediaUploadEncoding } from "../../services/peoplesmarkets/media/v1/media";
 import {
   ActionButton,
   DeleteConfirmation,
   DiscardConfirmation,
   FileField,
 } from "../form";
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { TKEYS } from "../../locales/dev";
-import _ from "lodash";
-import { createStore } from "solid-js/store";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { MarketBoothService } from "../../services";
-import { MediaUploadEncoding } from "../../services/peoplesmarkets/media/v1/media";
-import { readFileBase64 } from "../../lib";
-import { grpc } from "@improbable-eng/grpc-web";
+import { Dialog } from "../layout";
+import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
   readonly marketBoothId: string;
@@ -24,7 +24,7 @@ type Props = {
   readonly onClose: () => void;
 };
 
-export function EditImageDialog(props: Props) {
+export function EditMarketBoothImageDialog(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
@@ -38,8 +38,10 @@ export function EditImageDialog(props: Props) {
     image: [] as string[],
   });
 
-  const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
-  const [deleteConfirmation, setDeleteConfirmation] = createSignal(false);
+  const [showDiscardConfirmation, setShowDiscardConfirmation] =
+    createSignal(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] =
+    createSignal(false);
 
   async function updateImage(event: SubmitEvent) {
     event.preventDefault();
@@ -98,30 +100,30 @@ export function EditImageDialog(props: Props) {
   }
 
   function removeImage() {
-    setDeleteConfirmation(true);
+    setShowDeleteConfirmation(true);
   }
 
   function closeDialog() {
     if (_.isNil(form.image)) {
       props.onClose();
     } else {
-      setDiscardConfirmation(true);
+      setShowDiscardConfirmation(true);
     }
   }
 
   function confirmCloseDialog() {
-    setDiscardConfirmation(false);
+    setShowDiscardConfirmation(false);
     props.onClose();
   }
 
   function continueEditing() {
-    setDiscardConfirmation(false);
-    setDeleteConfirmation(false);
+    setShowDiscardConfirmation(false);
+    setShowDeleteConfirmation(false);
   }
 
   return (
     <>
-      <Show when={!discardConfirmation()}>
+      <Show when={!showDiscardConfirmation()}>
         <Dialog
           title={trans(TKEYS["market-booth"]["edit-image"])}
           onClose={closeDialog}
@@ -147,14 +149,14 @@ export function EditImageDialog(props: Props) {
         </Dialog>
       </Show>
 
-      <Show when={deleteConfirmation()}>
+      <Show when={showDeleteConfirmation()}>
         <DeleteConfirmation
-          message={trans(TKEYS["market-booth"]["delete-confirmation-message"])}
+          message={trans(TKEYS.image["delete-confirmation-message"])}
           onCancel={continueEditing}
           onConfirmation={deleteImage}
         />
       </Show>
-      <Show when={discardConfirmation()}>
+      <Show when={showDiscardConfirmation()}>
         <DiscardConfirmation
           onCancel={continueEditing}
           onDiscard={confirmCloseDialog}

@@ -39,8 +39,6 @@ export const EN: typeof TKEYS = {
     "no-description": "No description ...",
     "edit-image": "Edit image",
     "delete-image": "Delete image",
-    "delete-confirmation-message":
-      "Are you sure you want to delete the current image?",
     errors: {
       "ensure-offers-deleted": "Ensure all Offers are deleted first.",
     },
@@ -68,6 +66,10 @@ export const EN: typeof TKEYS = {
       "Updated-at": "Updated at",
     },
   },
+  image: {
+    "delete-confirmation-message":
+      "Are you sure you want to delete the current image?",
+  },
   "market-booths-search": {
     title: "Search for a Market Booth",
   },
@@ -90,6 +92,7 @@ export const EN: typeof TKEYS = {
       "create-new-offer": "Create a new Offer",
       "edit-offer": "Edit Offer",
       "delete-this-offer": "Delete this Offer",
+      "add-image": "Add image",
     },
   },
   "main-navigation": {

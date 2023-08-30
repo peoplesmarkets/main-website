@@ -150,6 +150,14 @@
   --green-light: #6dd5a3;
   --green: #24b26e;
   --green-dark: #007c40;
+
+  // Images
+  --item-image-max-width: 400px;
+  --item-image-max-height: 300px;
+  --item-image-aspect-ratio: 4 / 3;
+
+  --banner-image-max-height: 100px;
+  --banner-image-aspect-ratio: 4 / 1;
 }
 
 * {
