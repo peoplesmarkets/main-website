@@ -4,7 +4,7 @@ import {
   OfferResponse,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferImages.module.scss";
-import { For, Show, createEffect, createSignal } from "solid-js";
+import { For, Show, createEffect, createSignal, useTransition } from "solid-js";
 import { TrashIcon } from "../icons";
 import { DeleteConfirmation } from "../form";
 import { TKEYS } from "../../locales/dev";
@@ -29,25 +29,35 @@ export function OfferImages(props: Props) {
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     createSignal(false);
 
+  let imageElement: HTMLImageElement | undefined;
+  let imageContainer: HTMLDivElement | undefined;
+
   createEffect(() => {
     if (_.isNil(props.offer().images.find((i) => isSelectedImage(i)))) {
       setSelectedImage(_.first(props.offer().images));
     }
   });
 
-  function isSelectedImage(offerImage: OfferImageResponse): boolean {
-    return selectedImage()?.offerImageId === offerImage.offerImageId;
+  function isSelectedImage(
+    offerImage: OfferImageResponse | undefined
+  ): boolean {
+    return selectedImage()?.offerImageId === offerImage?.offerImageId;
   }
 
   function otherImages() {
-    return props.offer().images.filter((i) => !isSelectedImage(i));
+    return props.offer().images.sort((a, b) => a.ordering - b.ordering);
   }
 
   function handleSelectImage(offerImageId: string) {
+    imageContainer?.classList.add(styles.FadeOut);
+    imageElement?.classList.add(styles.FadeOut);
     const image = props
       .offer()
       .images.find((i) => i.offerImageId === offerImageId);
     setSelectedImage(image);
+    window.scrollTo({ top: 0 });
+    imageContainer?.classList.remove(styles.FadeOut);
+    imageElement?.classList.remove(styles.FadeOut);
   }
 
   function handleDeleteImage() {
@@ -68,8 +78,13 @@ export function OfferImages(props: Props) {
     <>
       <div class={styles.OfferImages}>
         <div class={styles.MainImage}>
-          <div class={styles.ImageContainer}>
-            <img class={styles.Image} src={selectedImage()?.imageUrl} alt="" />
+          <div class={styles.ImageContainer} ref={imageContainer}>
+            <img
+              ref={imageElement}
+              class={styles.Image}
+              src={selectedImage()?.imageUrl}
+              alt=""
+            />
             <button class={styles.DeleteButton} onClick={handleDeleteImage}>
               <TrashIcon class={styles.DeleteIcon} />
             </button>
@@ -84,7 +99,13 @@ export function OfferImages(props: Props) {
                   class={styles.ImageRow}
                   onClick={() => handleSelectImage(image.offerImageId)}
                 >
-                  <img class={styles.ImagePreview} src={image.imageUrl} />
+                  <img
+                    class={styles.ImagePreview}
+                    classList={{
+                      [styles.ActivePreview]: isSelectedImage(image),
+                    }}
+                    src={image.imageUrl}
+                  />
                 </div>
               )}
             </For>
