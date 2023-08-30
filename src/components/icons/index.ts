@@ -14,4 +14,5 @@ export * from "./SearchIcon";
 export * from "./SignInIcon";
 export * from "./StorefrontIcon";
 export * from "./ThemeIcon";
+export * from "./TrashIcon";
 export * from "./UserSettingsIcon";

@@ -37,7 +37,6 @@ export const TKEYS = {
     "no-description": "market-booth.no-description",
     "edit-image": "market-booth.edit-image",
     "delete-image": "market-booth.delete-image",
-    "delete-confirmation-message": "market-booth.delete-confirmation-message",
     errors: {
       "ensure-offers-deleted": "market-booth.errors.ensure-offers-deleted",
     },
@@ -65,6 +64,9 @@ export const TKEYS = {
       "Updated-at": "offer.labels.Updated-at",
     },
   },
+  image: {
+    "delete-confirmation-message": "image.delete-confirmation-message",
+  },
   "market-booths-search": {
     title: "market-booths-search.title",
   },
@@ -90,6 +92,7 @@ export const TKEYS = {
       "create-new-offer": "dashboard.offers.create-new-offer",
       "edit-offer": "dashboard.offers.edit-offer",
       "delete-this-offer": "dashboard.offers.delete-this-offer",
+      "add-image": "dashboard.offers.add-image",
     },
   },
   "main-navigation": {

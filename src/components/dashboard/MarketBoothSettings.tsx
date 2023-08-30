@@ -15,7 +15,7 @@ import { Message } from "../form/Message";
 import { Section } from "../layout/Section";
 import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
 import styles from "./MarketBoothSettings.module.scss";
-import { EditImageDialog } from "./EditImageDialog";
+import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 
 type Props = {
   marketBooth: () => MarketBoothResponse | undefined;
@@ -188,7 +188,7 @@ export function MarketBoothSettings(props: Props) {
       <Show
         when={showDialog() === "add-image" && !_.isNil(props.marketBooth())}
       >
-        <EditImageDialog
+        <EditMarketBoothImageDialog
           marketBoothId={props.marketBooth()!.marketBoothId}
           onClose={handleCloseAddImage}
           onUpdate={() => props.onUpdate?.()}

@@ -1,4 +1,5 @@
 import {
+  AddImageToOfferRequest,
   CreateOfferRequest,
   GrpcWebImpl,
   OfferServiceClientImpl,
@@ -52,5 +53,16 @@ export class OfferService extends ServiceClient {
 
   public async delete(offerId: string) {
     return this.client.DeleteOffer({ offerId }, await this.withAuthHeader());
+  }
+
+  public async addImage(request: AddImageToOfferRequest) {
+    return this.client.AddImageToOffer(request, await this.withAuthHeader());
+  }
+
+  public async removeImage(offerImageId: string) {
+    return this.client.RemoveImageFromOffer(
+      { offerImageId },
+      await this.withAuthHeader()
+    );
   }
 }

@@ -10,7 +10,9 @@ import {
   isResolved,
 } from "../../components/content";
 import { Multiline } from "../../components/content/Multiline";
+import { CreateOfferImageDialog } from "../../components/dashboard";
 import { EditOfferDialog } from "../../components/dashboard/EditOfferDialog";
+import { OfferImages } from "../../components/dashboard/OfferImages";
 import { ActionButton, DeleteConfirmation } from "../../components/form";
 import { Page, Section } from "../../components/layout";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
@@ -32,6 +34,7 @@ export function Offers() {
   const [offer, { refetch }] = createResource(offerId, fetchOffer);
 
   const [showEditOffer, setShowEditOffer] = createSignal(false);
+  const [showAddImage, setShowAddImage] = createSignal(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     createSignal(false);
 
@@ -41,8 +44,8 @@ export function Offers() {
     return response.offer;
   }
 
-  function refreshOffer() {
-    refetch();
+  function lastImageOrdering() {
+    return _.max(offer()?.images?.map((i) => i.ordering)) || 0;
   }
 
   function handleOpenEditOffer() {
@@ -53,15 +56,27 @@ export function Offers() {
     setShowEditOffer(false);
   }
 
-  function startDeletetion() {
+  function handleOpenAddImage() {
+    setShowAddImage(true);
+  }
+
+  function handleCloseAddImage() {
+    setShowAddImage(false);
+  }
+
+  function handleRefreshOffer() {
+    refetch();
+  }
+
+  function handleStartDeletetion() {
     setShowDeleteConfirmation(true);
   }
 
-  function discardDeletion() {
+  function handleDiscardDeletion() {
     setShowDeleteConfirmation(false);
   }
 
-  async function confirmDeleteion() {
+  async function handleConfirmDeleteion() {
     if (!_.isNil(offer())) {
       await offerService.delete(offer()!.offerId);
     }
@@ -81,6 +96,13 @@ export function Offers() {
           </Match>
           <Match when={isResolved(offer.state)}>
             <span class={styles.Title}>{offer()?.name}</span>
+
+            <Show when={!_.isNil(offer()) && !_.isEmpty(offer()?.images)}>
+              <OfferImages
+                offer={() => offer()!}
+                onUpdate={handleRefreshOffer}
+              />
+            </Show>
 
             <Section>
               <span class={styles.Label}>
@@ -130,6 +152,14 @@ export function Offers() {
                   <Trans key={TKEYS.form.action.Edit} />
                 </ActionButton>
               </div>
+              <div class={styles.EditSection}>
+                <p class={styles.Body}>
+                  <Trans key={TKEYS.dashboard.offers["add-image"]} />
+                </p>
+                <ActionButton actionType="neutral" onClick={handleOpenAddImage}>
+                  <Trans key={TKEYS.form.action.Edit} />
+                </ActionButton>
+              </div>
             </Section>
 
             <Section danger>
@@ -141,7 +171,10 @@ export function Offers() {
                 <p class={styles.Body}>
                   <Trans key={TKEYS.dashboard.offers["delete-this-offer"]} />
                 </p>
-                <ActionButton actionType="danger" onClick={startDeletetion}>
+                <ActionButton
+                  actionType="danger"
+                  onClick={handleStartDeletetion}
+                >
                   <Trans key={TKEYS.form.action.Delete} />
                 </ActionButton>
               </div>
@@ -154,7 +187,16 @@ export function Offers() {
         <EditOfferDialog
           offer={() => offer()!}
           onClose={handleCloseEditOffer}
-          onUpdate={refreshOffer}
+          onUpdate={handleRefreshOffer}
+        />
+      </Show>
+
+      <Show when={showAddImage()}>
+        <CreateOfferImageDialog
+          offerId={offer()!.offerId}
+          lastOrdering={lastImageOrdering()}
+          onClose={handleCloseAddImage}
+          onUpdate={handleRefreshOffer}
         />
       </Show>
 
@@ -162,8 +204,8 @@ export function Offers() {
         <DeleteConfirmation
           item={trans(TKEYS.offer.title)}
           itemName={offer()?.name}
-          onCancel={discardDeletion}
-          onConfirmation={confirmDeleteion}
+          onCancel={handleDiscardDeletion}
+          onConfirmation={handleConfirmDeleteion}
         />
       </Show>
     </>

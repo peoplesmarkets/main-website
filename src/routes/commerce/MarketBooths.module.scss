@@ -78,16 +78,16 @@ $search-height: 2rem;
 
 .Image {
   width: 100%;
-  max-height: 100px;
+  max-height: var(--banner-image-max-height);
   border-radius: 16px;
-  aspect-ratio: 4 / 1;
+  aspect-ratio: var(--banner-image-aspect-ratio);
   object-fit: cover;
   object-position: center;
 
   @media only screen and (min-width: $medium-min-width) {
-    max-width: 300px;
-    max-height: 300px;
-    aspect-ratio: 4 / 3;
+    max-width: var(--item-image-max-width);
+    max-height: var(--item-image-max-height);
+    aspect-ratio: var(--item-image-aspect-ratio);
   }
 }
 
