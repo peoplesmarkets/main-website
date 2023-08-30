@@ -1,30 +1,51 @@
-# SolidStart
+# Main website for peoplesmarekts.com
 
-Everything you need to build a Solid project, powered by [`solid-start`](https://start.solidjs.com);
+## Prerequesites
 
-## Creating a project
+### Update submodule with gRPC definitions
 
-```bash
-# create a new project in the current directory
-npm init solid@latest
+Ensure `service-apis` git submodule is initialized. If not yet done run:
 
-# create a new project in my-app
-npm init solid@latest my-app
+```sh
+git submodule update --init
 ```
 
-## Developing
+If `service-apis` git submodule was already initialized, ensure to pull the newest changes:
 
-Once you've created a project and installed dependencies with `npm install` (or `pnpm install` or `yarn`), start a development server:
+```sh
+git submodule update --remote
+```
 
-```bash
+### Install NPM dependencies
+
+```sh
+npm install
+```
+
+### Generate clients
+
+```sh
+npm run gen
+```
+
+## Run
+
+Ensure environment variables are set in .env file
+
+```
+VITE_SERIVCE_APIS_URL='https://api-dev.peoplesmarkets.com'
+VITE_AUTH_OAUTH_URL='https://auth-dev.peoplesmarkets.com'
+VITE_AUTH_OAUTH_CLIENT_ID='227388213923233803@main'
+VITE_AUTH_OAUTH_ORG_ID='227375460168777737'
+VITE_AUTH_OAUTH_REDIRECT_URL='http://localhost:8000/sign-in/callback'
+VITE_AUTH_OAUTH_LOGOUT_REDIRECT_URL='http://localhost:8000'
+VITE_OPEN_SOURCE_REPOSITORIES_URL='https://github.com/peoplesmarkets'
+VITE_MAIN_WEBSITE_URL='https://dev.peoplesmarkets.com'
+VITE_IMAGE_MAX_SIZE='512000'
+```
+
+Then run:
+
+```sh
 npm run dev
-
-# or start the server and open the app in a new browser tab
-npm run dev -- --open
 ```
-
-## Building
-
-Solid apps are built with _adapters_, which optimise your project for deployment to different environments.
-
-By default, `npm run build` will generate a Node app that you can run with `npm start`. To use a different adapter, add it to the `devDependencies` in `package.json` and specify in your `vite.config.js`.
