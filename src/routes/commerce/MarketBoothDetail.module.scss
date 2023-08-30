@@ -8,9 +8,8 @@
 
 .Image {
   width: 100%;
-  max-height: 300px;
+  aspect-ratio: var(--banner-image-aspect-ratio);
   object-fit: cover;
-  aspect-ratio: 4 / 1;
   border: none;
 }
 

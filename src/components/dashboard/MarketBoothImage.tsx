@@ -3,7 +3,7 @@ import { Show, createSignal } from "solid-js";
 
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import { EditIcon } from "../icons";
-import { EditImageDialog } from "./EditImageDialog";
+import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 import styles from "./MarketBoothImage.module.scss";
 
 type Props = {
@@ -38,7 +38,7 @@ export function MarketBoothImage(props: Props) {
       </Show>
 
       <Show when={showEditDialog() && !_.isNil(props.marketBooth())}>
-        <EditImageDialog
+        <EditMarketBoothImageDialog
           marketBoothId={props.marketBooth()!.marketBoothId}
           onUpdate={props.onUpdate}
           onClose={handleCloseEditDialog}

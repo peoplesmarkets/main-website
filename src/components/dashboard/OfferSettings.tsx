@@ -1,4 +1,4 @@
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 import _ from "lodash";
 import {
@@ -17,12 +17,11 @@ import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
-import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { ContentError, ContentLoading, isResolved } from "../content";
-import { ActionButton, DeleteConfirmation } from "../form";
+import { ActionButton } from "../form";
+import { ImageIcon } from "../icons";
 import { Section } from "../layout/Section";
 import { CreateOfferDialog } from "./CreateOfferDialog";
-import { EditOfferDialog } from "./EditOfferDialog";
 import styles from "./OfferSettings.module.scss";
 
 type Props = {
@@ -30,8 +29,6 @@ type Props = {
 };
 
 export function OfferSettings(props: Props) {
-  const [trans] = useTransContext();
-
   const { accessToken, currentSession } = useAccessTokensContext();
 
   const offerService = new OfferService(accessToken);
@@ -39,10 +36,6 @@ export function OfferSettings(props: Props) {
   const [offers, { refetch }] = createResource(fetchOffers);
 
   const [showCreateOffer, setShowCreateOffer] = createSignal(false);
-  const [showEditOffer, setShowEditOffer] = createSignal(false);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] =
-    createSignal(false);
-  const [selectedOffer, setSelectedOffer] = createSignal<OfferResponse>();
 
   onMount(async () => {
     await refreshOffers();
@@ -69,34 +62,6 @@ export function OfferSettings(props: Props) {
     setShowCreateOffer(false);
   }
 
-  function handleOpenEditOffer(offer: OfferResponse) {
-    console.log("edit offer", offer);
-    setSelectedOffer(offer);
-    setShowEditOffer(true);
-  }
-
-  function handleCloseEditOffer() {
-    setShowEditOffer(false);
-  }
-
-  function startDeletetion(offer: OfferResponse) {
-    setSelectedOffer(offer);
-    setShowDeleteConfirmation(true);
-  }
-
-  function discardDeletion() {
-    setSelectedOffer(undefined);
-    setShowDeleteConfirmation(false);
-  }
-
-  async function confirmDeleteion() {
-    if (!_.isNil(selectedOffer())) {
-      await offerService.delete(selectedOffer()!.offerId);
-    }
-    setShowDeleteConfirmation(false);
-    refreshOffers();
-  }
-
   return (
     <>
       <Section>
@@ -115,35 +80,31 @@ export function OfferSettings(props: Props) {
             <div class={styles.Table}>
               <For each={offers()}>
                 {(offer) => (
-                  <div class={styles.Row}>
-                    <A
-                      class={styles.Name}
-                      href={buildPath(
-                        DASHBOARD_PATH,
-                        props.marketBooth().marketBoothId,
-                        OFFERS_SUBPATH,
-                        offer.offerId
-                      )}
+                  <A
+                    class={styles.Row}
+                    href={buildPath(
+                      DASHBOARD_PATH,
+                      props.marketBooth().marketBoothId,
+                      OFFERS_SUBPATH,
+                      offer.offerId
+                    )}
+                  >
+                    <Show
+                      when={!_.isEmpty(offer.images)}
+                      fallback={
+                        <div class={styles.ImagePlaceholder}>
+                          <ImageIcon class={styles.PlaceholderIcon} />
+                        </div>
+                      }
                     >
-                      {offer.name}
-                    </A>
+                      <img
+                        class={styles.Image}
+                        src={_.first(offer.images)?.imageUrl}
+                      />
+                    </Show>
 
-                    <div class={styles.Actions}>
-                      <ActionButton
-                        actionType="neutral"
-                        onClick={() => handleOpenEditOffer(offer)}
-                      >
-                        <Trans key={TKEYS.form.action.Edit} />
-                      </ActionButton>
-
-                      <ActionButton
-                        actionType="danger"
-                        onClick={() => startDeletetion(offer)}
-                      >
-                        <Trans key={TKEYS.form.action.Delete} />
-                      </ActionButton>
-                    </div>
-                  </div>
+                    <span class={styles.Name}>{offer.name}</span>
+                  </A>
                 )}
               </For>
             </div>
@@ -165,23 +126,6 @@ export function OfferSettings(props: Props) {
           marketBoothId={props.marketBooth().marketBoothId}
           onClose={handleCloseCreateOffer}
           onUpdate={refreshOffers}
-        />
-      </Show>
-
-      <Show when={showEditOffer() && selectedOffer()}>
-        <EditOfferDialog
-          offer={() => selectedOffer()!}
-          onClose={handleCloseEditOffer}
-          onUpdate={refreshOffers}
-        />
-      </Show>
-
-      <Show when={showDeleteConfirmation()}>
-        <DeleteConfirmation
-          item={trans(TKEYS.offer.title)}
-          itemName={selectedOffer()?.name}
-          onCancel={discardDeletion}
-          onConfirmation={confirmDeleteion}
         />
       </Show>
     </>

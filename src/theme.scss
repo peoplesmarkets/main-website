@@ -150,6 +150,18 @@
   --green-light: #6dd5a3;
   --green: #24b26e;
   --green-dark: #007c40;
+
+  // Images
+  --item-image-aspect-ratio: 4 / 3;
+  --banner-image-aspect-ratio: 4 / 1;
+
+  @media only screen and (min-width: $medium-min-width) and (max-width: $medium-max-width) {
+    --banner-image-aspect-ratio: 5 / 1;
+  }
+
+  @media only screen and (min-width: $expanded-min-width) {
+    --banner-image-aspect-ratio: 6 / 1;
+  }
 }
 
 * {

@@ -11,6 +11,7 @@ import { BurgerIcon } from "./BurgerIcon";
 import { CloseIcon } from "./CloseIcon";
 import CommunityIcon from "./CommunityIcon";
 import { DashboardIcon } from "./DashboardIcon";
+import { EditIcon } from "./EditIcon";
 import { GitHubIcon } from "./GitHubIcon";
 import { LanguageIcon } from "./LanguageIcon";
 import { MainLogoIcon } from "./MainLogoIcon";
@@ -21,8 +22,9 @@ import { SearchIcon } from "./SearchIcon";
 import { SignInIcon } from "./SignInIcon";
 import { StoreFrontIcon } from "./StorefrontIcon";
 import { ThemeIcon } from "./ThemeIcon";
+import { TrashIcon } from "./TrashIcon";
 import { UserSettingsIcon } from "./UserSettingsIcon";
-import { EditIcon } from "./EditIcon";
+import { ImageIcon } from "./ImageIcon";
 
 /**
  * Render to check if objects are accessed correctly
@@ -61,6 +63,10 @@ describe("Render once", () => {
     ));
     expect(container).toBeDefined();
   });
+  test("ImageIcon", () => {
+    const { container } = renderIntoRoot(() => <ImageIcon />);
+    expect(container).toBeDefined();
+  });
   test("LanguageIcon", () => {
     const { container } = renderIntoRoot(() => <LanguageIcon />);
     expect(container).toBeDefined();
@@ -95,6 +101,10 @@ describe("Render once", () => {
   });
   test("ThemeIcon", () => {
     const { container } = renderIntoRoot(() => <ThemeIcon theme={getNoObj} />);
+    expect(container).toBeDefined();
+  });
+  test("TrashIcon", () => {
+    const { container } = renderIntoRoot(() => <TrashIcon />);
     expect(container).toBeDefined();
   });
   test("UserSettingsIcon", () => {

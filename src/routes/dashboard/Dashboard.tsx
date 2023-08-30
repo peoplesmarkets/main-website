@@ -8,7 +8,7 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { MarketBoothService } from "../../services";
 import styles from "./Dashboard.module.scss";
 import { grpc } from "@improbable-eng/grpc-web";
-import { MarketBoothImage } from "../../components/dashboard/MarketBoothImage";
+import { MarketBoothImage } from "../../components/dashboard";
 
 export default function Dashboard() {
   const navigate = useNavigate();

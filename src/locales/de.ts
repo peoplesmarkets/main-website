@@ -40,7 +40,6 @@ export const DE: typeof TKEYS = {
     "no-description": "Keine Beschreibung vorhanden ...",
     "edit-image": "Bild bearbeiten",
     "delete-image": "Bild löschen",
-    "delete-confirmation-message": "Derzeitiges Bild wirklich löschen",
     errors: {
       "ensure-offers-deleted": "Lösche zuerst alle Angebote.",
     },
@@ -68,6 +67,9 @@ export const DE: typeof TKEYS = {
       "Updated-at": "Bearbeitet am",
     },
   },
+  image: {
+    "delete-confirmation-message": "Dieses Bild wirklich löschen?",
+  },
   "market-booths-search": {
     title: "Finde einen Marktstand",
   },
@@ -90,6 +92,7 @@ export const DE: typeof TKEYS = {
       "create-new-offer": "Neues Angebot erstellen",
       "edit-offer": "Angebot bearbeiten",
       "delete-this-offer": "Dieses Angebot löschen",
+      "add-image": "Bild hinzufügen",
     },
   },
   "main-navigation": {
