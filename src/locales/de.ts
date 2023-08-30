@@ -145,6 +145,8 @@ export const DE: typeof TKEYS = {
       address_line_1: "81371 München",
       address_line_2: "Deutschland",
     },
+    Support: "Support",
+    "support-email": EN.imprint["support-email"],
   },
   "privacy-policy": {
     title: "Datenschutzrichtlinie",
