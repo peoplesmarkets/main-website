@@ -131,7 +131,6 @@ export function Panel(props: Props) {
         <div class={styles.MainNavigation}>
           <A
             href={MARKET_BOOTHS_PATH}
-            replace
             class={styles.NavigationItem}
             classList={{
               [styles.NavigationItemActive]: Boolean(
@@ -144,7 +143,6 @@ export function Panel(props: Props) {
           </A>
           <A
             href={OFFERS_PATH}
-            replace
             class={styles.NavigationItem}
             classList={{
               [styles.NavigationItemActive]: Boolean(

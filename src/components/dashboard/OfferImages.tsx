@@ -1,16 +1,17 @@
+import { useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
+import { For, Show, createEffect, createSignal } from "solid-js";
+
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { TKEYS } from "../../locales/dev";
+import { OfferService } from "../../services";
 import {
   OfferImageResponse,
   OfferResponse,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
-import styles from "./OfferImages.module.scss";
-import { For, Show, createEffect, createSignal, useTransition } from "solid-js";
-import { TrashIcon } from "../icons";
 import { DeleteConfirmation } from "../form";
-import { TKEYS } from "../../locales/dev";
-import { useTransContext } from "@mbarzda/solid-i18next";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { OfferService } from "../../services";
+import { TrashIcon } from "../icons";
+import styles from "./OfferImages.module.scss";
 
 type Props = {
   readonly offer: () => OfferResponse;
