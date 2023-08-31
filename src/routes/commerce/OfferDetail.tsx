@@ -13,6 +13,7 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { TKEYS } from "../../locales/dev";
 import { secondsToLocaleString } from "../../lib";
 import _ from "lodash";
+import { OfferImages } from "../../components/commerce";
 
 export default function OfferDetail() {
   const { offerId } = useParams();
@@ -41,6 +42,11 @@ export default function OfferDetail() {
         </Match>
         <Match when={isResolved(offer.state)}>
           <span class={styles.Headline}>{offer()?.name}</span>
+
+          <Show when={!_.isNil(offer()) && !_.isEmpty(offer()?.images)}>
+            <OfferImages offer={() => offer()!} />
+          </Show>
+
           <Section>
             <span class={styles.Description}>
               <Show

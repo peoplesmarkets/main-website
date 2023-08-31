@@ -74,7 +74,7 @@ export default function Offers() {
           </Match>
           <Match when={isResolved(offers.state)}>
             <For each={offers()}>
-              {(offer) => <OfferListItem offer={offer} />}
+              {(offer) => <OfferListItem offer={() => offer} />}
             </For>
           </Match>
         </Switch>

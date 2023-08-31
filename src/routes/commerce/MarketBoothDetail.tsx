@@ -49,14 +49,13 @@ export default function MarketBoothDetail() {
           </Section>
         </Match>
         <Match when={isResolved(marketBooth.state)}>
-          <span class={styles.Headline}>{marketBooth()?.name}</span>
-          
           <Show when={marketBooth()?.imageUrl}>
             <div class={styles.ImageContainer}>
               <img class={styles.Image} src={marketBooth()?.imageUrl} alt="" />
             </div>
           </Show>
 
+          <span class={styles.Headline}>{marketBooth()?.name}</span>
 
           <Section>
             <span class={styles.Description}>
@@ -101,7 +100,7 @@ export default function MarketBoothDetail() {
               }
             >
               <For each={offers()}>
-                {(offer) => <OfferListItem offer={offer} />}
+                {(offer) => <OfferListItem offer={() => offer} />}
               </For>
             </Show>
           </Section>

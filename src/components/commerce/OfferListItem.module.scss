@@ -1,18 +1,18 @@
 .OfferListItem {
-  display: block;
   width: 100%;
-  margin-bottom: 0.5rem;
-  padding: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: start;
+  row-gap: 1rem;
+  column-gap: 2rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+  padding: 1rem 2rem;
+  border: var(--secondary-border);
   border-radius: 8px;
-  color: var(--primary-content-color);
-
-  user-select: none;
-  background: inherit;
-  border: none;
-  outline: inherit;
-  text-align: start;
-  text-decoration: none;
   box-sizing: border-box;
+  color: var(--primary-content-color);
+  text-decoration: none;
 }
 
 .OfferListItem:hover {
@@ -20,13 +20,47 @@
   cursor: pointer;
 }
 
-.Label {
+.Title {
   display: block;
-  font: var(--font-label);
+  font: var(--font-title);
   margin-bottom: 1rem;
 }
 
 .Detail {
   display: block;
   font: var(--font-body);
+}
+
+.ImageContainer {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Image {
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 8px;
+}
+
+.ImagePlaceholder {
+  width: 50px;
+  height: 50px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dotted var(--secondary-border-color);
+}
+
+.PlaceholderIcon {
+  fill: var(--secondary-border-color);
+  width: 30px;
+  height: 30px;
+}
+
+.Content {
+  flex-grow: 1;
+  max-width: 600px;
 }
