@@ -1,9 +1,19 @@
+$expanded-min-width: 1080px;
+
 .Headline {
   display: block;
   margin: 0 auto;
   padding: 1rem 0;
   font: var(--font-headline);
   text-align: center;
+}
+
+.ImageContainer {
+  margin-top: 0;
+
+  @media only screen and (min-width: $expanded-min-width) {
+    margin-top: 1rem;
+  }
 }
 
 .Image {
