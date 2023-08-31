@@ -24,6 +24,7 @@ import { StoreFrontIcon } from "./StorefrontIcon";
 import { ThemeIcon } from "./ThemeIcon";
 import { TrashIcon } from "./TrashIcon";
 import { UserSettingsIcon } from "./UserSettingsIcon";
+import { ImageIcon } from "./ImageIcon";
 
 /**
  * Render to check if objects are accessed correctly
@@ -60,6 +61,10 @@ describe("Render once", () => {
     const { container } = renderIntoRoot(() => (
       <GitHubIcon class="" theme={getNoObj} />
     ));
+    expect(container).toBeDefined();
+  });
+  test("ImageIcon", () => {
+    const { container } = renderIntoRoot(() => <ImageIcon />);
     expect(container).toBeDefined();
   });
   test("LanguageIcon", () => {

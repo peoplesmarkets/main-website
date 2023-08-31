@@ -1,4 +1,4 @@
 [submodule "service-apis"]
 	path = service-apis
 	url = git@github.com:peoplesmarkets/service-apis.git
-	branch = dev
+	branch = main

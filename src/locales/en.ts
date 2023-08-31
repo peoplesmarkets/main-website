@@ -145,6 +145,8 @@ export const EN: typeof TKEYS = {
       address_line_1: "81371 Munich",
       address_line_2: "Germany",
     },
+    Support: "Support",
+    "support-email": "support@peoplesmarkets.com",
   },
   "privacy-policy": {
     title: "Privacy Policy",

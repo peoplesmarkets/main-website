@@ -1,4 +1,4 @@
-import { Trans } from "@mbarzda/solid-i18next";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 
 import { Page } from "../../components/layout/Page";
 import { Section } from "../../components/layout/Section";
@@ -6,6 +6,8 @@ import { TKEYS } from "../../locales/dev";
 import styles from "./Imprint.module.scss";
 
 export default function Imprint() {
+  const [trans] = useTransContext();
+
   return (
     <>
       <Page>
@@ -27,6 +29,15 @@ export default function Imprint() {
             <Trans key={TKEYS.imprint.responsible.address_line_1} />
             <br />
             <Trans key={TKEYS.imprint.responsible.address_line_2} />
+          </address>
+
+          <h2 class={styles.SubHeading}>
+            <Trans key={TKEYS.imprint.Support} />
+          </h2>
+          <address class={styles.Address}>
+            <a href={`mailto:${trans(TKEYS.imprint["support-email"])}`}>
+              <Trans key={TKEYS.imprint["support-email"]} />
+            </a>
           </address>
         </Section>
       </Page>

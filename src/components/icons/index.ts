@@ -5,6 +5,7 @@ export * from "./CommunityIcon";
 export * from "./DashboardIcon";
 export * from "./EditIcon";
 export * from "./GitHubIcon";
+export * from "./ImageIcon";
 export * from "./LanguageIcon";
 export * from "./MainLogoIcon";
 export * from "./OpenInNewIcon";

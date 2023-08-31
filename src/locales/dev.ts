@@ -146,6 +146,8 @@ export const TKEYS = {
       address_line_1: "imprint.responsible.address_line_1",
       address_line_2: "imprint.responsible.address_line_2",
     },
+    Support: "imprint.Support",
+    "support-email": "imprint.support-email",
   },
   "privacy-policy": {
     title: "privacy-policy.title",

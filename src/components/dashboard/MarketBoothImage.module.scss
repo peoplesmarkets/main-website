@@ -17,6 +17,9 @@
   right: 0.5rem;
   width: 40px;
   height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   border-radius: 50%;
   background-color: var(--display-background-color-lighten);
 
@@ -34,6 +37,8 @@
 }
 
 .EditIcon {
+  width: 40px;
+  height: 40px;
   padding: 8px;
   fill: var(--primary-content-color);
 }
