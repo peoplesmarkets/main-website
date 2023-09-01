@@ -25,6 +25,7 @@ import { ThemeIcon } from "./ThemeIcon";
 import { TrashIcon } from "./TrashIcon";
 import { UserSettingsIcon } from "./UserSettingsIcon";
 import { ImageIcon } from "./ImageIcon";
+import Chevron from "./Chevron";
 
 /**
  * Render to check if objects are accessed correctly
@@ -39,6 +40,10 @@ describe("Render once", () => {
   });
   test("BurgerIcon", () => {
     const { container } = renderIntoRoot(() => <BurgerIcon />);
+    expect(container).toBeDefined();
+  });
+  test("Chevron", () => {
+    const { container } = renderIntoRoot(() => <Chevron direction="up" />);
     expect(container).toBeDefined();
   });
   test("CloseIcon", () => {
