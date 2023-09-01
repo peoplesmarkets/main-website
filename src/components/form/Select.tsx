@@ -1,9 +1,9 @@
 import _ from "lodash";
-import { For, Match, Show, Switch, createSignal } from "solid-js";
-import Chevron from "../icons/Chevron";
-import styles from "./Select.module.scss";
+import { For, Show, createSignal, onMount } from "solid-js";
 import { clickOutside } from "../../directives";
 import { CloseIcon } from "../icons";
+import Chevron from "../icons/Chevron";
+import styles from "./Select.module.scss";
 
 false && clickOutside;
 
@@ -30,8 +30,14 @@ type Props = {
 );
 
 export function Select(props: Props) {
-  const [selected, setSelected] = createSignal(props.initial);
+  const [selected, setSelected] = createSignal<Option | undefined>();
   const [showSuggestionList, setShowSuggestionList] = createSignal(false);
+
+  onMount(() => {
+    if (_.isNil(selected()) && !_.isNil(props.initial)) {
+      setSelected(props.initial);
+    }
+  });
 
   function anySelected() {
     return !_.isNil(selected());

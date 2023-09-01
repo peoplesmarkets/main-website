@@ -11,10 +11,9 @@ import { ActionButton } from "./ActionButton";
 import { DeleteConfirmation } from "./DeleteConfirmation";
 import { DiscardConfirmation } from "./DiscardConfirmation";
 import { Message } from "./Message";
+import { Select } from "./Select";
 import { TextArea } from "./TextArea";
 import { TextField } from "./TextField";
-import { Select } from "./Select";
-import { SuggestionList } from "./SuggestionList";
 
 /**
  * Render to check if objects are accessed correctly
@@ -59,12 +58,6 @@ describe("Render once", () => {
   test("Select", () => {
     const { container } = renderIntoRoot(() => (
       <Select label="" onValue={noOp} options={getNoObj} nullable />
-    ));
-    expect(container).toBeDefined();
-  });
-  test("SuggestionList", () => {
-    const { container } = renderIntoRoot(() => (
-      <SuggestionList onValue={noOp} options={getNoObj} />
     ));
     expect(container).toBeDefined();
   });
