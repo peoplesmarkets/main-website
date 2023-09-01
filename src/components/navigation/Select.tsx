@@ -10,7 +10,7 @@ export type Option = {
 type Props = {
   readonly label: string;
   readonly options: () => Option[];
-  readonly selected: () => string | undefined;
+  readonly selected?: () => string | undefined;
   readonly onValue: (_value: string) => void;
   readonly class?: string;
 };
@@ -27,7 +27,7 @@ export function Select(props: Props) {
   let selectElement: HTMLSelectElement | undefined;
 
   createEffect(() => {
-    props.selected();
+    props.selected?.();
     selectElement?.focus();
   });
 
@@ -42,7 +42,7 @@ export function Select(props: Props) {
         onChange={({ currentTarget }) => handleChange(currentTarget.value)}
       >
         <For each={props.options()}>
-          {(o) => option(o, o.key === props.selected())}
+          {(o) => option(o, o.key === props.selected?.())}
         </For>
       </select>
 

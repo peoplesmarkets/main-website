@@ -33,6 +33,14 @@ export const EN: typeof TKEYS = {
       "wrong-type": "Wrong file type",
     },
   },
+  query: {
+    "order-by": {
+      title: "Order by",
+      "newest-first": "Newest first",
+      "oldest-first": "Oldest first",
+      random: "Random",
+    },
+  },
   "market-booth": {
     title: "Market Booth",
     "title-plural": "Market Booths",

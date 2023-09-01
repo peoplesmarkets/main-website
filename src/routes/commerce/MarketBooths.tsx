@@ -1,4 +1,4 @@
-import { Trans } from "@mbarzda/solid-i18next";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 import _ from "lodash";
 import {
@@ -6,9 +6,9 @@ import {
   Match,
   Show,
   Switch,
-  createResource,
-  createSignal,
+  createResource
 } from "solid-js";
+import { createStore } from "solid-js/store";
 
 import { MARKET_BOOTHS_PATH } from "../../App";
 import {
@@ -17,13 +17,16 @@ import {
   isResolved,
 } from "../../components/content";
 import { Multiline } from "../../components/content/Multiline";
+import { RefreshIcon } from "../../components/icons/RefreshIcon";
 import { SearchIcon } from "../../components/icons/SearchIcon";
 import { StoreFrontIcon } from "../../components/icons/StorefrontIcon";
 import { Page, Section } from "../../components/layout";
+import { Select } from "../../components/navigation";
 import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
 import {
+  ListMarketBoothsRequest,
   MarketBoothsFilterField,
   MarketBoothsOrderByField,
 } from "../../services/peoplesmarkets/commerce/v1/market_booth";
@@ -31,36 +34,83 @@ import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
 import styles from "./MarketBooths.module.scss";
 
 export default function MarketBooths() {
+  const [trans] = useTransContext();
+
   const marketBoothService = new MarketBoothService();
 
-  const [searchInput, setSearchInput] = createSignal("");
+  const searchField =
+    MarketBoothsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME_AND_DESCRIPTION;
 
-  const [marketBooths] = createResource(searchInput, fetchMarketBooths);
+  function orderByOptions() {
+    return [
+      {
+        key: `${MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT}:${Direction.DIRECTION_DESC}`,
+        name: trans(TKEYS.query["order-by"]["newest-first"]),
+      },
+      {
+        key: `${MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT}:${Direction.DIRECTION_ASC}`,
+        name: trans(TKEYS.query["order-by"]["oldest-first"]),
+      },
+      {
+        key: `${MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_RANDOM}:${Direction.DIRECTION_ASC}`,
+        name: trans(TKEYS.query["order-by"].random),
+      },
+    ];
+  }
 
-  async function fetchMarketBooths(search: string) {
-    let response;
-    if (!_.isEmpty(search)) {
-      response = await marketBoothService.list({
-        filter: {
-          field:
-            MarketBoothsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME_AND_DESCRIPTION,
-          query: search,
-        },
-      });
-    } else {
-      response = await marketBoothService.list({
-        orderBy: {
-          field:
-            MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
-          direction: Direction.DIRECTION_ASC,
-        },
-      });
-    }
+  const [listRequest, setListRequest] = createStore<ListMarketBoothsRequest>({
+    orderBy: {
+      field: MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
+      direction: Direction.DIRECTION_DESC,
+    },
+  });
+
+  const [marketBooths, { refetch }] = createResource(
+    () => listRequest,
+    fetchMarketBooths
+  );
+
+  async function fetchMarketBooths(request: ListMarketBoothsRequest) {
+    const response = await marketBoothService.list(request);
     return response.marketBooths;
   }
 
   function handleSearchInput(value: string) {
-    setSearchInput(value);
+    const trimmed = value.trim();
+
+    if (_.isEmpty(trimmed)) {
+      if (_.isNil(listRequest.filter)) {
+        return;
+      }
+
+      setListRequest({ ...listRequest, ...{ filter: undefined } });
+      refetch();
+      return;
+    }
+
+    setListRequest({
+      ...listRequest,
+      ...{ filter: { field: searchField, query: trimmed } },
+    });
+
+    refetch();
+  }
+
+  function handleOrderByInput(value: string) {
+    const splitted = value.split(":");
+    if (!_.isArray(splitted) || splitted.length !== 2) {
+      return;
+    }
+
+    const field = Number(splitted[0]);
+    const direction = Number(splitted[1]);
+
+    if (!_.isNumber(field) || !_.isNumber(direction)) {
+      return;
+    }
+
+    setListRequest({ ...listRequest, ...{ orderBy: { field, direction } } });
+    refetch();
   }
 
   async function handleSearchSubmit(event: SubmitEvent) {
@@ -84,10 +134,21 @@ export default function MarketBooths() {
             <input
               class={styles.SearchInput}
               type="search"
-              value={searchInput()}
+              value={listRequest.filter?.query || ""}
               onInput={(event) => handleSearchInput(event.currentTarget.value)}
             />
+
+            <RefreshIcon class={styles.RefreshIcon} onClick={refetch} />
           </form>
+
+          <div class={styles.Filters}>
+            <Select
+              class={styles.Select}
+              label={trans(TKEYS.query["order-by"].title)}
+              options={orderByOptions}
+              onValue={handleOrderByInput}
+            />
+          </div>
         </div>
       </Section>
 
