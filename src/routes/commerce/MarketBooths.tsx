@@ -23,6 +23,11 @@ import { Page, Section } from "../../components/layout";
 import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
+import {
+  MarketBoothsFilterField,
+  MarketBoothsOrderByField,
+} from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
 import styles from "./MarketBooths.module.scss";
 
 export default function MarketBooths() {
@@ -35,9 +40,21 @@ export default function MarketBooths() {
   async function fetchMarketBooths(search: string) {
     let response;
     if (!_.isEmpty(search)) {
-      response = await marketBoothService.search(search);
+      response = await marketBoothService.list({
+        filter: {
+          field:
+            MarketBoothsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME_AND_DESCRIPTION,
+          query: search,
+        },
+      });
     } else {
-      response = await marketBoothService.list();
+      response = await marketBoothService.list({
+        orderBy: {
+          field:
+            MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
+          direction: Direction.DIRECTION_ASC,
+        },
+      });
     }
     return response.marketBooths;
   }
