@@ -1,3 +1,5 @@
+@import "../../components/navigation/Select.module.scss";
+
 .Headline {
   display: flex;
   justify-content: center;
@@ -9,14 +11,15 @@
 
 .HeadlineIcon {
   fill: var(--primary-content-color);
-  max-height: 2.4rem;
+  width: 2.4rem;
+  height: 2.4rem;
 }
 
 $search-height: 2rem;
 
 .Search {
   height: 4rem;
-  margin-top: 2rem;
+  margin-top: 1rem;
   box-sizing: border-box;
   padding: 0 1rem;
   border: var(--primary-border);
@@ -30,7 +33,16 @@ $search-height: 2rem;
 .SearchIcon {
   fill: var(--primary-content-color);
   stroke: var(--primary-content-color);
-  max-height: 2rem;
+  width: 2rem;
+  height: 2rem;
+}
+
+.RefreshIcon {
+  @extend .SearchIcon;
+}
+
+.RefreshIcon:hover {
+  cursor: pointer;
 }
 
 .SearchInput {
@@ -40,10 +52,37 @@ $search-height: 2rem;
   background-color: inherit;
   font: var(--font-title);
   color: var(--primary-content-color);
+  border-right: var(--secondary-border);
 }
 
 .SearchInput:focus:focus-visible {
   outline: none;
+}
+
+.Filters {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+.Select {
+  @extend .SelectField;
+  max-width: 290px;
+  height: auto;
+  margin: 0.5rem 0 0 0.5rem;
+  box-sizing: border-box;
+}
+
+.Select select {
+  height: 3rem;
+  border-radius: 40px;
+}
+
+.Select label {
+  left: 20px;
 }
 
 .ResultRow {

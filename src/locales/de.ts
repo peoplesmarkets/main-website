@@ -34,6 +34,14 @@ export const DE: typeof TKEYS = {
       "wrong-type": "Falscher Dateityp",
     },
   },
+  query: {
+    "order-by": {
+      title: "Sortieren nach",
+      "newest-first": "Neueste zuerst",
+      "oldest-first": "Älteste zuerst",
+      random: "Zufällig",
+    },
+  },
   "market-booth": {
     title: "Marktstand",
     "title-plural": "Marktstände",

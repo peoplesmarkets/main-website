@@ -1,10 +1,17 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { cleanupDOM, createDOM, noOp, renderIntoRoot } from "../../lib/testing";
+import {
+  cleanupDOM,
+  createDOM,
+  getNoObj,
+  noOp,
+  renderIntoRoot,
+} from "../../lib/testing";
 import { ActionButton } from "./ActionButton";
 import { DeleteConfirmation } from "./DeleteConfirmation";
 import { DiscardConfirmation } from "./DiscardConfirmation";
 import { Message } from "./Message";
+import { Select } from "./Select";
 import { TextArea } from "./TextArea";
 import { TextField } from "./TextField";
 
@@ -45,6 +52,12 @@ describe("Render once", () => {
       <Message title="" onClose={noOp}>
         <></>
       </Message>
+    ));
+    expect(container).toBeDefined();
+  });
+  test("Select", () => {
+    const { container } = renderIntoRoot(() => (
+      <Select label="" onValue={noOp} options={getNoObj} nullable />
     ));
     expect(container).toBeDefined();
   });

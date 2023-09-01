@@ -30,7 +30,13 @@ export default function UserSettings() {
   );
 
   async function fetchMarketBooths(userId: string) {
-    const response = await marketBoothService.list(userId);
+    const response = await marketBoothService.listDefault({
+      userId,
+      pagination: {
+        page: 1,
+        size: 100,
+      },
+    });
     return response.marketBooths;
   }
 

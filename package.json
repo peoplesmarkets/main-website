@@ -7,6 +7,7 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "gen": "buf generate service-apis/proto --template buf.gen.service-apis.yaml",
+    "prebuild": "npm run gen",
     "build": "vite build",
     "serve": "vite preview"
   },

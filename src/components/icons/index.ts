@@ -1,5 +1,6 @@
 export * from "./BurgerArrowIcon";
 export * from "./BurgerIcon";
+export * from "./Chevron";
 export * from "./CloseIcon";
 export * from "./CommunityIcon";
 export * from "./DashboardIcon";

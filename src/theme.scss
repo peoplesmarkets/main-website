@@ -180,6 +180,15 @@ html {
   scrollbar-width: none;
 }
 
+input {
+  border-radius: 0;
+  -webkit-appearance: none;
+}
+
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
 .no-scroll {
   height: 100%;
   overflow: hidden;

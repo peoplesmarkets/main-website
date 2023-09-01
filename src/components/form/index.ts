@@ -3,6 +3,6 @@ export * from "./DeleteConfirmation";
 export * from "./DiscardConfirmation";
 export * from "./FileField";
 export * from "./Message";
+export * from "./Select";
 export * from "./TextArea";
 export * from "./TextField";
-

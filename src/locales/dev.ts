@@ -31,6 +31,14 @@ export const TKEYS = {
       "wrong-type": "form.errors.wrong-type",
     },
   },
+  query: {
+    "order-by": {
+      "title": "query.order-by.title",
+      "newest-first": "query.order-by.newest-first",
+      "oldest-first": "query.order-by.oldest-first",
+      random: "query.order-by.random",
+    },
+  },
   "market-booth": {
     title: "market-booth.title",
     "title-plural": "market-booth.title-plural",
