@@ -1,14 +1,17 @@
 import { useNavigate, useParams } from "@solidjs/router";
 import { Show, createResource } from "solid-js";
+import { grpc } from "@improbable-eng/grpc-web";
 
 import { USER_SETTINGS_PATH } from "../../App";
-import { MarketBoothSettings, OfferSettings } from "../../components/dashboard";
+import {
+  MarketBoothImage,
+  MarketBoothSettings,
+  OfferSettings,
+} from "../../components/dashboard";
 import { Page } from "../../components/layout/Page";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { MarketBoothService } from "../../services";
 import styles from "./Dashboard.module.scss";
-import { grpc } from "@improbable-eng/grpc-web";
-import { MarketBoothImage } from "../../components/dashboard";
 
 export default function Dashboard() {
   const navigate = useNavigate();

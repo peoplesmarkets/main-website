@@ -1,13 +1,15 @@
 import {
   CreateMarketBoothRequest,
   GrpcWebImpl,
+  ListMarketBoothsRequest,
   MarketBoothServiceClientImpl,
-  MarketBoothsFilterField,
+  MarketBoothsOrderByField,
   UpdateImageOfMarketBoothRequest,
   UpdateMarketBoothRequest,
 } from "../peoplesmarkets/commerce/v1/market_booth";
 
 import { AccessTokenGetter, ServiceClient } from "..";
+import { Direction } from "../peoplesmarkets/ordering/v1/ordering";
 
 export class MarketBoothService extends ServiceClient {
   private readonly rpc: GrpcWebImpl;
@@ -31,29 +33,17 @@ export class MarketBoothService extends ServiceClient {
     );
   }
 
-  public async list(userId?: string | null) {
-    return this.client.ListMarketBooths(
-      { userId: userId || undefined },
-      await this.withAuthHeader()
-    );
+  public async list(request: ListMarketBoothsRequest) {
+    return this.client.ListMarketBooths(request, await this.withAuthHeader());
   }
 
-  public async search(query?: string) {
+  public async listDefault(request: ListMarketBoothsRequest) {
     return this.client.ListMarketBooths({
-      filter: {
-        field:
-          MarketBoothsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME_AND_DESCRIPTION,
-        query,
+      orderBy: {
+        field: MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
+        direction: Direction.DIRECTION_DESC,
       },
-    });
-  }
-
-  public async searchByName(query?: string) {
-    return this.client.ListMarketBooths({
-      filter: {
-        field: MarketBoothsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME,
-        query,
-      },
+      ...request,
     });
   }
 
