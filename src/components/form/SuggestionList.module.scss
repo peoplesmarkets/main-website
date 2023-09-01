@@ -1,0 +1,34 @@
+.SuggestionList {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  background-color: var(--secondary-background-color);
+  border-radius: 8px;
+}
+
+.Option {
+  // margin: 0.4rem 0;
+  font: var(--font-body);
+  width: 100%;
+  height: 100%;
+  text-align: start;
+  padding: 0.6rem;
+
+  user-select: none;
+  text-decoration: none;
+  color: var(--primary-content-color);
+  background: none;
+  border: none;
+  outline: inherit;
+  box-sizing: border-box;
+}
+
+.Option:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
+}

@@ -1,13 +1,7 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 import _ from "lodash";
-import {
-  For,
-  Match,
-  Show,
-  Switch,
-  createResource
-} from "solid-js";
+import { For, Match, Show, Switch, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { MARKET_BOOTHS_PATH } from "../../App";
@@ -21,7 +15,7 @@ import { RefreshIcon } from "../../components/icons/RefreshIcon";
 import { SearchIcon } from "../../components/icons/SearchIcon";
 import { StoreFrontIcon } from "../../components/icons/StorefrontIcon";
 import { Page, Section } from "../../components/layout";
-import { Select } from "../../components/navigation";
+import { Select } from "../../components/form";
 import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
@@ -96,7 +90,8 @@ export default function MarketBooths() {
     refetch();
   }
 
-  function handleOrderByInput(value: string) {
+  function handleOrderByInput(value: string | null) {
+    if (!value) return;
     const splitted = value.split(":");
     if (!_.isArray(splitted) || splitted.length !== 2) {
       return;
@@ -143,10 +138,10 @@ export default function MarketBooths() {
 
           <div class={styles.Filters}>
             <Select
-              class={styles.Select}
               label={trans(TKEYS.query["order-by"].title)}
               options={orderByOptions}
               onValue={handleOrderByInput}
+              initial={_.first(orderByOptions())!}
             />
           </div>
         </div>

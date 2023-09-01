@@ -185,6 +185,10 @@ input {
   -webkit-appearance: none;
 }
 
+input[type="search"] {
+  -webkit-appearance: none;
+}
+
 .no-scroll {
   height: 100%;
   overflow: hidden;

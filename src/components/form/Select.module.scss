@@ -1,0 +1,119 @@
+.SelectContainer {
+  min-width: 10rem;
+  user-select: none;
+}
+
+.SelectContainer:hover {
+  cursor: pointer;
+}
+
+.Select {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.3rem 0.3rem 0.3rem 1rem;
+  border: var(--secondary-border);
+  border-radius: 8px;
+}
+
+.Label {
+  visibility: hidden;
+  position: absolute;
+  top: 0;
+  left: 8px;
+  background-color: var(--primary-background-color);
+  pointer-events: none;
+  font: var(--font-label-small);
+  padding: 0 2px;
+  line-height: 1;
+}
+
+.LabelSelecting {
+  visibility: visible;
+  transform: translateY(-0.5rem);
+  transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.ChevronIcon {
+  width: 20px;
+  height: 20px;
+  fill: var(--primary-content-color);
+}
+
+.ListHandle {
+  position: relative;
+}
+
+.List {
+  position: absolute;
+  top: 0;
+  width: 100%;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+  justify-content: center;
+  background-color: var(--secondary-background-color);
+  border-radius: 8px;
+}
+
+.ListItem {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+}
+
+.ListItem:first-child {
+  margin-top: 8px;
+}
+.ListItem:last-child {
+  margin-bottom: 8px;
+}
+
+.Option {
+  width: 100%;
+  font: var(--font-body);
+  text-align: start;
+  padding: 0.6rem;
+
+  user-select: none;
+  text-decoration: none;
+  color: var(--primary-content-color);
+  background: none;
+  border: none;
+  outline: inherit;
+  box-sizing: border-box;
+}
+
+.Option:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.CloseIcon {
+  width: 1.4rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  fill: var(--danger-content-color);
+}
+
+.CloseIcon:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.IsSelected {
+  color: var(--active-content-color);
+  border-color: var(--active-content-color);
+  fill: var(--active-content-color);
+}
+
+.Hide {
+  visibility: hidden;
+}
