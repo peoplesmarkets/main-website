@@ -52,7 +52,7 @@ export default function MarketBooths() {
         orderBy: {
           field:
             MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
-          direction: Direction.DIRECTION_DESC,
+          direction: Direction.DIRECTION_ASC,
         },
       });
     }
