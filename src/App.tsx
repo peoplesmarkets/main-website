@@ -110,9 +110,12 @@ export default function App() {
                 </MarketBoothProvider>
               </AccessTokenProvider>
 
-              <Route path={COMMUNITY_PATH}>
-                <CommunityRoutes />
-              </Route>
+              <Route
+                path={COMMUNITY_PATH}
+                component={lazy(
+                  () => import("./routes/community/CommunityRoutes")
+                )}
+              />
 
               <Route
                 path={GET_STARTED_PATH}
