@@ -16,7 +16,7 @@ export default defineConfig({
     rollupOptions: {
       output: {
         manualChunks: {
-          "solid-js": ["solid-js", "@solidjs/meta", "@solidjs/router"],
+          "solid-js": ["solid-js", "@solidjs/router"],
           lodash: ["lodash"],
           axios: ["axios"],
           i18next: [

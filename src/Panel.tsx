@@ -101,9 +101,7 @@ export function Panel(props: Props) {
     <>
       <div class={styles.Panel}>
         <BurgerIcon class={styles.MenuIcon} onClick={toggleSlider} />
-        <Show
-          when={!import.meta.env.VITE_ENVIRONMENT?.startsWith("prod")}
-        >
+        <Show when={!import.meta.env.VITE_ENVIRONMENT?.startsWith("prod")}>
           <div class={styles.EnvironmentBanner}>
             <p>
               <Trans key={TKEYS["environment-banner"].title} />
@@ -214,14 +212,14 @@ export function Panel(props: Props) {
 
         <div class={styles.Settings}>
           <Show when={!isAuthenticated()}>
-            <a
+            <button
               class={styles.NavigationItem}
               classList={{ [styles.NavigationItemActive]: signingIn() }}
               onClick={() => signIn()}
             >
               <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
               <SignInIcon class={styles.NavigationIcon} />
-            </a>
+            </button>
           </Show>
 
           <button class={styles.NavigationItem} onClick={swichtLanguage}>
