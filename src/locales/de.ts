@@ -4,6 +4,7 @@ import { EN } from "./en";
 export const DE: typeof TKEYS = {
   "Peoples-Markets": EN["Peoples-Markets"],
   peoplesmarkets_com: EN.peoplesmarkets_com,
+  peoplesmarkets_main_link: EN.peoplesmarkets_main_link,
   fetching: {
     "content-loading": "Wird geladen ...",
     "content-error": "Unerwarteter Fehler",
@@ -165,6 +166,11 @@ export const DE: typeof TKEYS = {
   "page-not-found": {
     title: "404 Seite nicht gefunden",
     "back-to-home": "Zurück zur Startseite",
+  },
+  "environment-banner": {
+    title: "Testumgebung",
+    description:
+      "Dies ist eine Testumgebung rein für Entwicklungszwecke. Die Hauptseite findest du hier: ",
   },
   footer: {
     "main-paragraph":

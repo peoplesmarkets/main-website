@@ -41,7 +41,7 @@ type Props = {
 };
 
 export function Panel(props: Props) {
-  const [, { changeLanguage, getI18next }] = useTransContext();
+  const [trans, { changeLanguage, getI18next }] = useTransContext();
   const { isAuthenticated } = useAccessTokensContext();
 
   const location = useLocation();
@@ -101,6 +101,21 @@ export function Panel(props: Props) {
     <>
       <div class={styles.Panel}>
         <BurgerIcon class={styles.MenuIcon} onClick={toggleSlider} />
+        <Show
+          when={!import.meta.env.VITE_PRODUCTION_ENVIRONMENT.startsWith("prod")}
+        >
+          <div class={styles.EnvironmentBanner}>
+            <p>
+              <Trans key={TKEYS["environment-banner"].title} />
+            </p>
+            <span>
+              <Trans key={TKEYS["environment-banner"].description} />
+              <A href={trans(TKEYS.peoplesmarkets_main_link)}>
+                <Trans key={TKEYS.peoplesmarkets_main_link} />
+              </A>
+            </span>
+          </div>
+        </Show>
         <div class={styles.Main}>
           <A class={styles.MainLink} href={INDEX_PATH}>
             <MainLogoIcon class={styles.MainLogoIcon} />

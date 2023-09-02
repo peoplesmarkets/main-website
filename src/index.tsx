@@ -8,6 +8,12 @@ import App from "./App";
 
 const root = document.getElementById("root");
 
+if (_.isEmpty(import.meta.env.VITE_PRODUCTION_ENVIRONMENT)) {
+  throw new Error(
+    "ERROR: missing environment variable 'VITE_PRODUCTION_ENVIRONMENT'"
+  );
+}
+
 if (_.isEmpty(import.meta.env.VITE_AUTH_OAUTH_URL)) {
   throw new Error("ERROR: missing environment variable 'VITE_AUTH_OAUTH_URL'");
 }
@@ -56,6 +62,12 @@ if (_.isEmpty(import.meta.env.VITE_SERIVCE_APIS_URL)) {
 
 if (_.isEmpty(import.meta.env.VITE_IMAGE_MAX_SIZE)) {
   throw new Error("ERROR: missing environment variable 'VITE_IMAGE_MAX_SIZE'");
+}
+
+if (_.isEmpty(import.meta.env.VITE_SUPPORT_EMAIL_ADDRESS)) {
+  throw new Error(
+    "ERROR: missing environment variable 'VITE_SUPPORT_EMAIL_ADDRESS'"
+  );
 }
 
 render(() => <App />, root!);
