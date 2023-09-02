@@ -3,6 +3,7 @@ import { TKEYS } from "./dev";
 export const EN: typeof TKEYS = {
   "Peoples-Markets": "People's Markets",
   peoplesmarkets_com: "peoplesmarkets.com",
+  peoplesmarkets_main_link: "https://peoplesmarkets.com",
   fetching: {
     "content-loading": "Content loading ...",
     "content-error": "Unexpected Error",
@@ -165,6 +166,11 @@ export const EN: typeof TKEYS = {
   "page-not-found": {
     title: "404 Page Not Found",
     "back-to-home": "Back to home page",
+  },
+  "environment-banner": {
+    title: "Developement Environment",
+    description:
+      "This is a developement environment for testing purpose only. For the main site visit: ",
   },
   footer: {
     "main-paragraph":
