@@ -101,8 +101,9 @@ export function Panel(props: Props) {
     <>
       <div class={styles.Panel}>
         <BurgerIcon class={styles.MenuIcon} onClick={toggleSlider} />
-        <Show when={!import.meta.env.VITE_ENVIRONMENT?.startsWith("prod")}>
-          <div class={styles.EnvironmentBanner}>
+
+        <div class={styles.EnvironmentBanner}>
+          <Show when={!import.meta.env.VITE_ENVIRONMENT?.startsWith("prod")}>
             <p>
               <Trans key={TKEYS["environment-banner"].title} />
             </p>
@@ -112,8 +113,9 @@ export function Panel(props: Props) {
                 <Trans key={TKEYS.peoplesmarkets_main_link} />
               </A>
             </span>
-          </div>
-        </Show>
+          </Show>
+        </div>
+
         <div class={styles.Main}>
           <A class={styles.MainLink} href={INDEX_PATH}>
             <MainLogoIcon class={styles.MainLogoIcon} />
