@@ -6,15 +6,7 @@ $panel-height: 64px;
   border-bottom: var(--secondary-border);
   display: flex;
   justify-content: space-between;
-}
-
-.EnvironmentBanner {
-  color: var(--danger-content-color);
-  text-align: center;
-
-  p {
-    font: var(--font-headline);
-  }
+  align-items: center;
 }
 
 .MenuIcon {
@@ -24,6 +16,7 @@ $panel-height: 64px;
   margin: 10px;
   padding: 11px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .MenuIcon:hover {
@@ -31,42 +24,37 @@ $panel-height: 64px;
   background: var(--hovered-background);
 }
 
-.Panel .Main {
+.Main {
   display: flex;
   justify-content: end;
   align-items: center;
-  margin-right: 1rem;
+  margin-right: 0.5rem;
 }
 
-.Panel .MainLink {
+.MainLink {
   display: flex;
   justify-content: center;
   align-items: center;
   user-select: none;
   text-decoration: none;
+  padding: 0.5rem 1rem;
 }
 
-.Panel .MainLink:hover {
+.MainLink:hover {
   background-color: rgba(0, 0, 0, 0);
   background: var(--hovered-background);
   cursor: pointer;
 }
 
-.Panel .MainLogoIcon {
-  $padding: 16px;
-  padding: $padding 0;
-  height: calc($panel-height - 2 * $padding);
+.MainLogoIcon {
+  height: 32px;
   fill: var(--primary-content-color);
   stroke: transparent;
-  margin-left: 10px;
 }
 
-.Panel .MainLogo {
-  $padding: 10px;
-  padding: $padding;
-  height: calc($panel-height - 2 * $padding);
-  max-height: 44px;
-  min-height: 25px;
+.MainLogo {
+  margin-left: 10px;
+  height: 42px;
   fill: var(--primary-content-color);
 }
 
@@ -188,4 +176,18 @@ $navigation-item-height: 48px;
 .Settings .NavigationItem {
   padding: 0 2.4rem;
   justify-content: space-between;
+}
+
+.EnvironmentBanner {
+  color: var(--danger-content-color);
+  text-align: center;
+  p {
+    font: var(--font-headline);
+  }
+  span {
+    font: var(--font-label);
+  }
+  a {
+    color: var(--active-content-color);
+  }
 }

@@ -16,6 +16,7 @@ import { Section } from "../layout/Section";
 import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
 import styles from "./MarketBoothSettings.module.scss";
 import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
+import { useMarketBoothContext } from "../../contexts/MarketBoothContext";
 
 type Props = {
   marketBooth: () => MarketBoothResponse | undefined;
@@ -29,6 +30,7 @@ export function MarketBoothSettings(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
+  const { setCurrentMarketBooth } = useMarketBoothContext();
 
   const marketBoothService = new MarketBoothService(accessToken);
 
@@ -66,6 +68,7 @@ export function MarketBoothSettings(props: Props) {
   async function confirmDeleteion() {
     if (!_.isNil(props.marketBooth())) {
       try {
+        setCurrentMarketBooth();
         await marketBoothService.delete(props.marketBooth()!.marketBoothId);
       } catch (err: any) {
         if (err.code && err.code === grpc.Code.FailedPrecondition) {

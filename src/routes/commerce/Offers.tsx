@@ -56,9 +56,11 @@ export default function Offers() {
 
             <input
               class={styles.SearchInput}
+              id="search"
               type="search"
               value={searchInput()}
               onInput={(event) => handleSearchInput(event.currentTarget.value)}
+              aria-label="search"
             />
           </form>
         </div>

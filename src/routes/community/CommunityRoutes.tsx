@@ -5,9 +5,8 @@ import { Page } from "../../components/layout/Page";
 import { Section } from "../../components/layout/Section";
 import { buildPath } from "../../lib";
 import styles from "./CommunityRoutes.module.scss";
-import Home from "./Home";
-import { Posts } from "./Posts";
 import { PostsNav } from "./PostsNav";
+import { lazy } from "solid-js";
 
 function PostsHeader() {
   return (
@@ -26,11 +25,11 @@ function PostsHeader() {
 export default function CommunityRoutes() {
   return (
     <>
-      <Route path="" component={Home} />
+      <Route path="" component={lazy(() => import("./Home"))} />
       <Route path="/" element={<PostsHeader />}>
         <Route
           path={buildPath(DEVELOPMENT_POSTS_SUBPATH, ":postSlug")}
-          component={Posts}
+          component={lazy(() => import("./Posts"))}
         />
       </Route>
     </>

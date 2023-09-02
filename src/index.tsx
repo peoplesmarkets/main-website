@@ -2,6 +2,8 @@
 import _ from "lodash";
 import { render } from "solid-js/web";
 
+import "./normalize.scss";
+import "./fonts.scss";
 import "./theme.scss";
 
 import App from "./App";
@@ -9,9 +11,7 @@ import App from "./App";
 const root = document.getElementById("root");
 
 if (_.isEmpty(import.meta.env.VITE_ENVIRONMENT)) {
-  throw new Error(
-    "ERROR: missing environment variable 'VITE_ENVIRONMENT'"
-  );
+  throw new Error("ERROR: missing environment variable 'VITE_ENVIRONMENT'");
 }
 
 if (_.isEmpty(import.meta.env.VITE_AUTH_OAUTH_URL)) {

@@ -101,23 +101,13 @@ export function Panel(props: Props) {
     <>
       <div class={styles.Panel}>
         <BurgerIcon class={styles.MenuIcon} onClick={toggleSlider} />
-        <Show
-          when={!import.meta.env.VITE_ENVIRONMENT?.startsWith("prod")}
-        >
-          <div class={styles.EnvironmentBanner}>
-            <p>
-              <Trans key={TKEYS["environment-banner"].title} />
-            </p>
-            <span>
-              <Trans key={TKEYS["environment-banner"].description} />
-              <A href={trans(TKEYS.peoplesmarkets_main_link)}>
-                <Trans key={TKEYS.peoplesmarkets_main_link} />
-              </A>
-            </span>
-          </div>
-        </Show>
+
         <div class={styles.Main}>
-          <A class={styles.MainLink} href={INDEX_PATH}>
+          <A
+            class={styles.MainLink}
+            href={INDEX_PATH}
+            aria-label="Go to home page"
+          >
             <MainLogoIcon class={styles.MainLogoIcon} />
             <MainLogoText class={styles.MainLogo} />
           </A>
@@ -214,14 +204,14 @@ export function Panel(props: Props) {
 
         <div class={styles.Settings}>
           <Show when={!isAuthenticated()}>
-            <a
+            <button
               class={styles.NavigationItem}
               classList={{ [styles.NavigationItemActive]: signingIn() }}
               onClick={() => signIn()}
             >
               <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
               <SignInIcon class={styles.NavigationIcon} />
-            </a>
+            </button>
           </Show>
 
           <button class={styles.NavigationItem} onClick={swichtLanguage}>
@@ -249,6 +239,20 @@ export function Panel(props: Props) {
           </button>
         </div>
       </nav>
+
+      <div class={styles.EnvironmentBanner}>
+        <Show when={!import.meta.env.VITE_ENVIRONMENT?.startsWith("prod")}>
+          <p>
+            <Trans key={TKEYS["environment-banner"].title} />
+          </p>
+          <span>
+            <Trans key={TKEYS["environment-banner"].description} />
+            <A href={trans(TKEYS.peoplesmarkets_main_link)}>
+              <Trans key={TKEYS.peoplesmarkets_main_link} />
+            </A>
+          </span>
+        </Show>
+      </div>
     </>
   );
 }

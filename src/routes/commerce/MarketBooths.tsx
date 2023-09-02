@@ -124,9 +124,11 @@ export default function MarketBooths() {
 
             <input
               class={styles.SearchInput}
+              id="search"
               type="search"
               value={listRequest.filter?.query || ""}
               onInput={(event) => handleSearchInput(event.currentTarget.value)}
+              aria-label="search"
             />
 
             <RefreshIcon
@@ -171,7 +173,11 @@ export default function MarketBooths() {
                   )}
                 >
                   <Show when={!_.isEmpty(marketBooth.imageUrl)}>
-                    <img class={styles.Image} src={marketBooth.imageUrl} />
+                    <img
+                      class={styles.Image}
+                      src={marketBooth.imageUrl}
+                      alt=""
+                    />
                   </Show>
                   <div>
                     <span class={styles.Label}>{marketBooth.name}</span>

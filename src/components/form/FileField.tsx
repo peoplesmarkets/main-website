@@ -14,6 +14,7 @@ export function FileField(props: Props) {
   return (
     <div class={styles.FileField}>
       <input
+        id={props.label}
         type="file"
         class={styles.Input}
         classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
@@ -22,7 +23,9 @@ export function FileField(props: Props) {
         required={!!props.required}
         onInput={(event) => props.onValue(event.currentTarget.files)}
       />
-      <label class={styles.Label}>{props.label}</label>
+      <label class={styles.Label} for={props.label}>
+        {props.label}
+      </label>
       <Show when={!_.isEmpty(props.errors)}>
         <span class={styles.ErrorInfo}>{props.errors}</span>
       </Show>

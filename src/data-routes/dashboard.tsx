@@ -34,6 +34,7 @@ export function dashboardDataRoute() {
           replace: true,
         });
       } else {
+        setCurrentMarketBooth();
         navigate(USER_SETTINGS_PATH, { replace: true });
       }
     }

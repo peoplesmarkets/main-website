@@ -100,6 +100,7 @@ export function OfferSettings(props: Props) {
                       <img
                         class={styles.Image}
                         src={_.first(offer.images)?.imageUrl}
+                        alt=""
                       />
                     </Show>
 
