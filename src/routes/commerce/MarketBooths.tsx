@@ -122,7 +122,7 @@ export default function MarketBooths() {
           <form class={styles.Search} onSubmit={handleSearchSubmit}>
             <SearchIcon class={styles.SearchIcon} />
 
-            <label for="search" style={{ display: "none" }}>
+            <label for="search" hidden>
               search
             </label>
             <input

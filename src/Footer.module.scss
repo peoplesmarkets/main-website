@@ -43,7 +43,7 @@
   padding: 0.4rem 0;
   font: var(--font-label-large);
   text-decoration: none;
-  color: var(--active-content-color);
+  color: var(--secondary-active-content-color);
 }
 
 .LinkWithIcon {
@@ -54,7 +54,7 @@
 }
 
 .LinkIcon {
-  fill: var(--active-content-color);
+  fill: var(--secondary-active-content-color);
   height: 2rem;
   margin-bottom: 0.5rem;
 }
@@ -79,5 +79,5 @@
 .OpenInNew {
   width: 0.7em;
   height: 0.7em;
-  fill: var(--active-content-color);
+  fill: var(--secondary-active-content-color);
 }
