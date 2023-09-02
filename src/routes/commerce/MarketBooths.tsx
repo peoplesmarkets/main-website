@@ -122,15 +122,13 @@ export default function MarketBooths() {
           <form class={styles.Search} onSubmit={handleSearchSubmit}>
             <SearchIcon class={styles.SearchIcon} />
 
-            <label for="search" hidden>
-              search
-            </label>
             <input
               class={styles.SearchInput}
               id="search"
               type="search"
               value={listRequest.filter?.query || ""}
               onInput={(event) => handleSearchInput(event.currentTarget.value)}
+              aria-label="search"
             />
 
             <RefreshIcon
