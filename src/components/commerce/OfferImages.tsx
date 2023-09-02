@@ -75,6 +75,7 @@ export function OfferImages(props: Props) {
                       [styles.ActivePreview]: isSelectedImage(image),
                     }}
                     src={image.imageUrl}
+                    alt=""
                   />
                 </div>
               )}
