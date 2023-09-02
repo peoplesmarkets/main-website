@@ -70,6 +70,7 @@ export default function Footer(props: Props) {
           <A
             href={import.meta.env.VITE_OPEN_SOURCE_REPOSITORIES_URL}
             target="_blank"
+            aria-label="Go to our GitHub page"
           >
             <GitHubIcon class={styles.SocialIcon} theme={props.theme} />
           </A>

@@ -1,23 +1,12 @@
 $panel-height: 64px;
-$small-min-width: 340px;
 
 .Panel {
   min-height: 64px;
   background-color: var(--display-background-color);
   border-bottom: var(--secondary-border);
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
-}
-
-.EnvironmentBanner {
-  color: var(--danger-content-color);
-  text-align: center;
-  flex-grow: 100;
-
-  p {
-    font: var(--font-title);
-  }
 }
 
 .MenuIcon {
@@ -67,10 +56,6 @@ $small-min-width: 340px;
   margin-left: 10px;
   height: 42px;
   fill: var(--primary-content-color);
-
-  @media only screen and (max-width: $small-min-width) {
-    display: none;
-  }
 }
 
 $slider-width: 320px;
@@ -191,4 +176,18 @@ $navigation-item-height: 48px;
 .Settings .NavigationItem {
   padding: 0 2.4rem;
   justify-content: space-between;
+}
+
+.EnvironmentBanner {
+  color: var(--danger-content-color);
+  text-align: center;
+  p {
+    font: var(--font-headline);
+  }
+  span {
+    font: var(--font-label);
+  }
+  a {
+    color: var(--active-content-color);
+  }
 }
