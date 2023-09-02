@@ -38,6 +38,10 @@ export const IMPRINT_PATH = "/imprint";
 export const PRIVACY_POLICY_PATH = "/privacy-policy";
 export const TERMS_OF_SERVICE_PATH = "/terms-of-service";
 
+const CommunityRoutes = lazy(
+  () => import("./routes/community/CommunityRoutes")
+);
+
 export default function App() {
   const [theme, setTheme] = initializeThemeStore();
 
