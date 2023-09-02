@@ -3,7 +3,7 @@ import { afterEach, beforeEach, describe, expect, test } from "vitest";
 import { cleanupDOM, createDOM, renderIntoRoot } from "../../lib/testing";
 import CommunityRoutes from "./CommunityRoutes";
 import Home from "./Home";
-import { Posts } from "./Posts";
+import Posts from "./Posts";
 import { PostsNav } from "./PostsNav";
 
 /**

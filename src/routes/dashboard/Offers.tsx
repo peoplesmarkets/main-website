@@ -21,7 +21,7 @@ import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import styles from "./Offers.module.scss";
 
-export function Offers() {
+export default function Offers() {
   const { marketBoothId, offerId } = useParams();
   const navigate = useNavigate();
 
