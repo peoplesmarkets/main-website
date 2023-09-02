@@ -30,7 +30,7 @@
 
 .ActiveFilled {
   color: #ffffff;
-  background-color: rgb(26, 115, 232);
+  background-color: var(--active-content-color);
   border: none;
 }
 
@@ -54,7 +54,7 @@
 
 .DangerFilled {
   color: #ffffff;
-  background-color: #dc362e;
+  background-color: var(--danger-content-color);
   border: none;
 }
 
