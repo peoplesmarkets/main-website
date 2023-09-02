@@ -102,7 +102,7 @@ export function Panel(props: Props) {
       <div class={styles.Panel}>
         <BurgerIcon class={styles.MenuIcon} onClick={toggleSlider} />
         <Show
-          when={!import.meta.env.VITE_PRODUCTION_ENVIRONMENT.startsWith("prod")}
+          when={!import.meta.env.VITE_ENVIRONMENT?.startsWith("prod")}
         >
           <div class={styles.EnvironmentBanner}>
             <p>

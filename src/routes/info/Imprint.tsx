@@ -1,4 +1,4 @@
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { Trans } from "@mbarzda/solid-i18next";
 
 import { Page } from "../../components/layout/Page";
 import { Section } from "../../components/layout/Section";
@@ -6,8 +6,6 @@ import { TKEYS } from "../../locales/dev";
 import styles from "./Imprint.module.scss";
 
 export default function Imprint() {
-  const [trans] = useTransContext();
-
   return (
     <>
       <Page>
