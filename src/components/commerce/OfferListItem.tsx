@@ -31,6 +31,7 @@ export function OfferListItem(props: Props) {
           <img
             class={styles.Image}
             src={_.first(props.offer().images)?.imageUrl}
+            alt=""
           />
         </div>
       </Show>

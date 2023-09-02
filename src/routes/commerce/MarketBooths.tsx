@@ -171,7 +171,11 @@ export default function MarketBooths() {
                   )}
                 >
                   <Show when={!_.isEmpty(marketBooth.imageUrl)}>
-                    <img class={styles.Image} src={marketBooth.imageUrl} />
+                    <img
+                      class={styles.Image}
+                      src={marketBooth.imageUrl}
+                      alt=""
+                    />
                   </Show>
                   <div>
                     <span class={styles.Label}>{marketBooth.name}</span>
