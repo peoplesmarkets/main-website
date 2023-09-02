@@ -1,7 +1,7 @@
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import { onMount } from "solid-js";
 
-import { DASHBOARD_PATH } from "../App";
+import { DASHBOARD_PATH, INDEX_PATH } from "../App";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 
 export default function SignInCallback() {
@@ -10,8 +10,13 @@ export default function SignInCallback() {
   const navigate = useNavigate();
 
   onMount(async () => {
-    await startSessionWithCode(code, state);
-    navigate(DASHBOARD_PATH, { replace: true, resolve: true });
+    try {
+      await startSessionWithCode(code, state);
+      navigate(DASHBOARD_PATH, { replace: true, resolve: true });
+    } catch (err) {
+      // TODO: add error notice
+      navigate(INDEX_PATH, { replace: true });
+    }
   });
 
   return (
@@ -26,6 +31,7 @@ export default function SignInCallback() {
         opacity: "var(--blend-opacity)",
         overflow: "hidden",
       }}
+      class="no-scroll"
     />
   );
 }
