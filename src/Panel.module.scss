@@ -6,6 +6,7 @@ $panel-height: 64px;
   border-bottom: var(--secondary-border);
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .EnvironmentBanner {
@@ -24,6 +25,7 @@ $panel-height: 64px;
   margin: 10px;
   padding: 11px;
   border-radius: 50%;
+  flex-shrink: 0;
 }
 
 .MenuIcon:hover {
