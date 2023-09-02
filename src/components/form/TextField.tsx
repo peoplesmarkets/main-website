@@ -17,6 +17,7 @@ export function TextField(props: Props) {
     <div class={styles.TextField}>
       <input
         type="text"
+        id={props.label}
         class={styles.Input}
         classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
         name={props.name}
@@ -28,6 +29,7 @@ export function TextField(props: Props) {
       <label
         class={styles.Label}
         classList={{ [styles.LabelEdited]: !_.isEmpty(props.value) }}
+        for={props.label}
       >
         {props.label}
       </label>
