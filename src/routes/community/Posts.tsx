@@ -6,7 +6,7 @@ import { Markdown } from "../../components/content/Markdown";
 import { buildPath } from "../../lib";
 import styles from "./Home.module.scss";
 
-export function Posts() {
+export default function Posts() {
   const [content] = createResource(() => useParams().postSlug, fetchContent);
 
   async function fetchContent(postSlug: string) {

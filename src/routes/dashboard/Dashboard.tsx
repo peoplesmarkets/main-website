@@ -12,6 +12,7 @@ import { Page } from "../../components/layout/Page";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { MarketBoothService } from "../../services";
 import styles from "./Dashboard.module.scss";
+import { useMarketBoothContext } from "../../contexts/MarketBoothContext";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -20,6 +21,7 @@ export default function Dashboard() {
   const { accessToken } = useAccessTokensContext();
 
   const marketBoothService = new MarketBoothService(accessToken);
+  const { setCurrentMarketBooth } = useMarketBoothContext();
 
   const [marketBooth, { refetch }] = createResource(
     () => marketBoothId,
@@ -32,6 +34,7 @@ export default function Dashboard() {
       return response.marketBooth;
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
+        setCurrentMarketBooth();
         navigate(USER_SETTINGS_PATH, { replace: true });
       } else {
         throw err;
