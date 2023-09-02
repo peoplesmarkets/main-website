@@ -12,7 +12,7 @@
   --display-background-color: #f8f9fa;
   --display-background-color-lighten: #f8f9fa80;
   --primary-background-color: #f8f8f8;
-  --secondary-background-color: rgb(243, 246, 252);
+  --secondary-background-color: #dde4e9;
   --active-background-color: #c2e7ff;
   --hovered-background: linear-gradient(
     0deg,
@@ -112,7 +112,7 @@
 
   @media only screen and (min-width: $medium-min-width) and (max-width: $medium-max-width) {
     --font-display: var(--font-display-medium);
-    --font-hedline: var(--font-headline-medium);
+    --font-headline: var(--font-headline-medium);
     --font-title: var(--font-title-medium);
     --font-label: var(--font-label-large);
     --font-body: var(--font-body-medium);
@@ -121,7 +121,7 @@
 
   @media only screen and (min-width: $expanded-min-width) {
     --font-display: var(--font-display-large);
-    --font-hedline: var(--font-headline-large);
+    --font-headline: var(--font-headline-large);
     --font-title: var(--font-title-large);
     --font-label: var(--font-label-large);
     --font-body: var(--font-body-large);

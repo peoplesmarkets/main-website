@@ -5,17 +5,13 @@ import { For, Match, Show, Switch, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { MARKET_BOOTHS_PATH } from "../../App";
-import {
-  ContentError,
-  ContentLoading,
-  isResolved,
-} from "../../components/content";
+import { ContentError, ContentLoading } from "../../components/content";
 import { Multiline } from "../../components/content/Multiline";
+import { Select } from "../../components/form";
 import { RefreshIcon } from "../../components/icons/RefreshIcon";
 import { SearchIcon } from "../../components/icons/SearchIcon";
 import { StoreFrontIcon } from "../../components/icons/StorefrontIcon";
 import { Page, Section } from "../../components/layout";
-import { Select } from "../../components/form";
 import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
@@ -133,7 +129,13 @@ export default function MarketBooths() {
               onInput={(event) => handleSearchInput(event.currentTarget.value)}
             />
 
-            <RefreshIcon class={styles.RefreshIcon} onClick={refetch} />
+            <RefreshIcon
+              class={styles.RefreshIcon}
+              classList={{
+                [styles.Active]: marketBooths.state === "refreshing",
+              }}
+              onClick={refetch}
+            />
           </form>
 
           <div class={styles.Filters}>
@@ -155,7 +157,10 @@ export default function MarketBooths() {
           <Match when={marketBooths.state === "pending"}>
             <ContentLoading />
           </Match>
-          <Match when={isResolved(marketBooths.state)}>
+          <Match when={marketBooths.state === "refreshing"}>
+            <ContentLoading />
+          </Match>
+          <Match when={marketBooths.state === "ready"}>
             <For each={marketBooths()}>
               {(marketBooth) => (
                 <A

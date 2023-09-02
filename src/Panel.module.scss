@@ -1,10 +1,20 @@
 $panel-height: 64px;
 
 .Panel {
-  max-height: 64px;
+  min-height: 64px;
   background-color: var(--display-background-color);
   border-bottom: var(--secondary-border);
   display: flex;
+  justify-content: space-between;
+}
+
+.EnvironmentBanner {
+  color: var(--danger-content-color);
+  text-align: center;
+
+  p {
+    font: var(--font-headline);
+  }
 }
 
 .MenuIcon {
@@ -22,7 +32,6 @@ $panel-height: 64px;
 }
 
 .Panel .Main {
-  flex-grow: 1;
   display: flex;
   justify-content: end;
   align-items: center;
@@ -34,6 +43,7 @@ $panel-height: 64px;
   justify-content: center;
   align-items: center;
   user-select: none;
+  text-decoration: none;
 }
 
 .Panel .MainLink:hover {

@@ -1,6 +1,7 @@
 export const TKEYS = {
   "Peoples-Markets": "Peoples-Markets",
   peoplesmarkets_com: "peoplesmarkets_com",
+  peoplesmarkets_main_link: "peoplesmarkets_main_link",
   fetching: {
     "content-loading": "fetching.content-loading",
     "content-error": "fetching.content-error",
@@ -33,7 +34,7 @@ export const TKEYS = {
   },
   query: {
     "order-by": {
-      "title": "query.order-by.title",
+      title: "query.order-by.title",
       "newest-first": "query.order-by.newest-first",
       "oldest-first": "query.order-by.oldest-first",
       random: "query.order-by.random",
@@ -166,6 +167,10 @@ export const TKEYS = {
   "page-not-found": {
     title: "page-not-found.title",
     "back-to-home": "page-not-found.back-to-home",
+  },
+  "environment-banner": {
+    title: "environment-banner.title",
+    description: "environment-banner.description",
   },
   footer: {
     "main-paragraph": "footer.main-paragraph",

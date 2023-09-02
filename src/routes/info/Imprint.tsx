@@ -35,8 +35,8 @@ export default function Imprint() {
             <Trans key={TKEYS.imprint.Support} />
           </h2>
           <address class={styles.Address}>
-            <a href={`mailto:${trans(TKEYS.imprint["support-email"])}`}>
-              <Trans key={TKEYS.imprint["support-email"]} />
+            <a href={`mailto:${import.meta.env.VITE_SUPPORT_EMAIL_ADDRESS}`}>
+              {import.meta.env.VITE_SUPPORT_EMAIL_ADDRESS}
             </a>
           </address>
         </Section>

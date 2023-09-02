@@ -43,7 +43,9 @@ describe("Render once", () => {
     expect(container).toBeDefined();
   });
   test("Chevron", () => {
-    const { container } = renderIntoRoot(() => <Chevron direction="up" />);
+    const { container } = renderIntoRoot(() => (
+      <Chevron direction={() => "up"} />
+    ));
     expect(container).toBeDefined();
   });
   test("CloseIcon", () => {
