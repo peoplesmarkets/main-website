@@ -8,9 +8,9 @@ import App from "./App";
 
 const root = document.getElementById("root");
 
-if (_.isEmpty(import.meta.env.VITE_PRODUCTION_ENVIRONMENT)) {
+if (_.isEmpty(import.meta.env.VITE_ENVIRONMENT)) {
   throw new Error(
-    "ERROR: missing environment variable 'VITE_PRODUCTION_ENVIRONMENT'"
+    "ERROR: missing environment variable 'VITE_ENVIRONMENT'"
   );
 }
 
