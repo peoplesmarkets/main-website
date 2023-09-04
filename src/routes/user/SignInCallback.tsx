@@ -1,8 +1,8 @@
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import { onMount } from "solid-js";
 
-import { DASHBOARD_PATH, INDEX_PATH } from "../App";
-import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { DASHBOARD_PATH, INDEX_PATH } from "../../App";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
