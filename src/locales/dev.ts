@@ -123,6 +123,19 @@ export const TKEYS = {
   },
   "user-settings-page": {
     title: "user-settings-page.title",
+    "payment-integration": {
+      title: "user-settings-page.payment-integration.title",
+      stripe: {
+        title: "user-settings-page.payment-integration.stripe.title",
+        "start-integration":
+          "user-settings-page.payment-integration.stripe.start-integration",
+        "continue-integration":
+          "user-settings-page.payment-integration.stripe.continue-integration",
+        "remove-integration":
+          "user-settings-page.payment-integration.stripe.remove-integration",
+      },
+    },
+    "market-booths-subtitle": "user-settings-page.market-booths-subtitle",
   },
   "community-page": {
     headline: "community-page.headline",

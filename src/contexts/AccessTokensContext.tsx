@@ -142,9 +142,14 @@ function initialize() {
     }
 
     if (accessTokens.expiresAt < new Date() && accessTokens.refreshToken) {
+      refreshTokensAndSet();
+    }
+  }
+
+  async function refreshTokensAndSet() {
+    if (!_.isNil(accessTokens.refreshToken)) {
       try {
         const refreshedTokens = await refreshToken(accessTokens.refreshToken);
-
         storeAccessTokens(await refreshedTokens.json());
         fetchSessions();
       } catch (err) {
@@ -164,6 +169,7 @@ function initialize() {
       endSession();
     },
     ensureFreshTokens,
+    refreshToken: refreshTokensAndSet,
     isAuthenticated: () => {
       return (
         !_.isNil(accessTokens.accessToken) &&

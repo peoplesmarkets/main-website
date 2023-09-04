@@ -1,0 +1,57 @@
+.Headline {
+  display: block;
+  padding: 2rem 0 1rem 0;
+  font: var(--font-headline);
+  text-align: center;
+}
+
+.Title {
+  display: block;
+  font: var(--font-title);
+  margin-bottom: 1rem;
+}
+
+.Label {
+  display: block;
+  font: var(--font-label);
+}
+
+.Ok {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--green);
+  font: var(--font-label);
+  border: 2px solid var(--green);
+  border-radius: 4px;
+  user-select: none;
+}
+
+.Setting {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 0.5rem;
+  gap: 2rem;
+  padding: 0.5rem;
+  border-radius: 4px;
+}
+
+.Setting:hover {
+  background: var(--hovered-background);
+}
+
+.ActionButtons {
+  margin-top: 0.5rem;
+  text-align: right;
+}
+
+.Select {
+  width: 100%;
+  user-select: none;
+}
+
+.Select:hover {
+  cursor: pointer;
+}

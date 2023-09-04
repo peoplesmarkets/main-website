@@ -29,9 +29,9 @@
 }
 
 .ActiveFilled {
-  color: #ffffff;
   background-color: var(--active-content-color);
   border: none;
+  color: var(--primary-background-color);
 }
 
 .ActiveFilled:hover {
@@ -53,9 +53,9 @@
 }
 
 .DangerFilled {
-  color: #ffffff;
   background-color: var(--danger-content-color);
   border: none;
+  color: var(--primary-background-color);
 }
 
 .DangerFilled:hover {

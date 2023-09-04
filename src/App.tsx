@@ -19,14 +19,15 @@ export const INDEX_PATH = "/";
 export const MARKET_BOOTHS_PATH = "/";
 export const OFFERS_PATH = "/offers";
 
-export const SIGN_IN_PATH = "/sign-in";
-export const SIGN_IN_CALLBACK = "/sign-in/callback";
-
 export const DASHBOARD_PATH = "/dashboard";
 
 export const OFFERS_SUBPATH = "/offers";
 
-export const USER_SETTINGS_PATH = "/user-settings";
+export const SIGN_IN_PATH = "/user/sign-in";
+export const SIGN_IN_CALLBACK_PATH = "/user/sign-in/callback";
+export const USER_SETTINGS_PATH = "/user/settings";
+export const USER_STRIPE_REFRESH_PATH = "/user/settings";
+export const USER_STRIPE_RETURN_PATH = "/user/settings";
 
 export const COMMUNITY_PATH = "/community";
 export const DEVELOPMENT_POSTS_SUBPATH = "/development-posts";
@@ -79,12 +80,6 @@ export default function App() {
               />
 
               <AccessTokenProvider>
-                <Route path={SIGN_IN_PATH} data={signInDataRoute} />
-                <Route
-                  path={SIGN_IN_CALLBACK}
-                  component={lazy(() => import("./routes/SignInCallback"))}
-                />
-
                 <MarketBoothProvider>
                   <Route path={DASHBOARD_PATH} data={dashboardDataRoute} />
                   <Route
@@ -105,9 +100,15 @@ export default function App() {
 
                   <Route
                     path={USER_SETTINGS_PATH}
-                    component={lazy(() => import("./routes/UserSettings"))}
+                    component={lazy(() => import("./routes/user/Settings"))}
                   />
                 </MarketBoothProvider>
+
+                <Route path={SIGN_IN_PATH} data={signInDataRoute} />
+                <Route
+                  path={SIGN_IN_CALLBACK_PATH}
+                  component={lazy(() => import("./routes/user/SignInCallback"))}
+                />
               </AccessTokenProvider>
 
               <Route path={COMMUNITY_PATH}>

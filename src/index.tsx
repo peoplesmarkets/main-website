@@ -10,6 +10,10 @@ import App from "./App";
 
 const root = document.getElementById("root");
 
+if (_.isEmpty(import.meta.env.VITE_BASE_URL)) {
+  throw new Error("ERROR: missing environment variable 'VITE_BASE_URL'");
+}
+
 if (_.isEmpty(import.meta.env.VITE_ENVIRONMENT)) {
   throw new Error("ERROR: missing environment variable 'VITE_ENVIRONMENT'");
 }
@@ -27,12 +31,6 @@ if (_.isEmpty(import.meta.env.VITE_AUTH_OAUTH_CLIENT_ID)) {
 if (_.isEmpty(import.meta.env.VITE_AUTH_OAUTH_ORG_ID)) {
   throw new Error(
     "ERROR: missing environment variable 'VITE_AUTH_OAUTH_ORG_ID'"
-  );
-}
-
-if (_.isEmpty(import.meta.env.VITE_AUTH_OAUTH_REDIRECT_URL)) {
-  throw new Error(
-    "ERROR: missing environment variable 'VITE_AUTH_OAUTH_REDIRECT_URL'"
   );
 }
 
