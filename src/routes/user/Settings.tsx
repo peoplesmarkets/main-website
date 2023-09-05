@@ -18,6 +18,7 @@ import { useMarketBoothContext } from "../../contexts/MarketBoothContext";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService, StripeService } from "../../services";
 import styles from "./Settings.module.scss";
+import { Cover } from "../../components/layout/Cover";
 
 export default function Settings() {
   const navigate = useNavigate();
@@ -31,6 +32,7 @@ export default function Settings() {
   const stripeService = new StripeService(accessToken);
   const marketBoothService = new MarketBoothService(accessToken);
 
+  const [redirecting, setRedirecting] = createSignal(false);
   const [showCreateMarketBooth, setShowCreateMarketBooth] = createSignal(false);
 
   const [stripeAccount] = createResource(
@@ -109,14 +111,26 @@ export default function Settings() {
   }
 
   async function handleCreateStripeIntegration() {
-    await stripeService.createAccount();
-    await refreshToken();
-    handleContinueStripeIntegration();
+    setRedirecting(true);
+    try {
+      await stripeService.createAccount();
+      await refreshToken();
+      handleContinueStripeIntegration();
+    } catch (err) {
+      setRedirecting(false);
+      throw err;
+    }
   }
 
   async function handleContinueStripeIntegration() {
-    const { link } = await stripeService.createAccountLink();
-    window.location.href = link;
+    setRedirecting(true);
+    try {
+      const { link } = await stripeService.createAccountLink();
+      window.location.href = link;
+    } catch (err) {
+      setRedirecting(false);
+      throw err;
+    }
   }
 
   function handleMarketBoothSelected(marketBoothId: string | null) {
@@ -226,6 +240,10 @@ export default function Settings() {
           onClose={handleCloseCreateMarketBooth}
           onUpdate={handleMarketBoothUpdate}
         />
+      </Show>
+
+      <Show when={redirecting()}>
+        <Cover />
       </Show>
     </Page>
   );

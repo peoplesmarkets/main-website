@@ -3,6 +3,7 @@ import { onMount } from "solid-js";
 
 import { DASHBOARD_PATH, INDEX_PATH } from "../../App";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { Cover } from "../../components/layout/Cover";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
@@ -19,19 +20,5 @@ export default function SignInCallback() {
     }
   });
 
-  return (
-    <div
-      style={{
-        position: "absolute",
-        height: "100%",
-        width: "100%",
-        top: 0,
-        left: 0,
-        "background-color": "var(--blend-color)",
-        opacity: "var(--blend-opacity)",
-        overflow: "hidden",
-      }}
-      class="no-scroll"
-    />
-  );
+  return <Cover />;
 }
