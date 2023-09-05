@@ -2,6 +2,7 @@ import { JSX, onCleanup, onMount } from "solid-js";
 
 import { CloseIcon } from "../icons";
 import styles from "./Dialog.module.scss";
+import { Cover } from "./Cover";
 
 type Props = {
   title: string;
@@ -19,7 +20,8 @@ export function Dialog(props: Props) {
 
   return (
     <>
-      <div class={styles.Background} />
+      <Cover />
+
       <div class={styles.Container}>
         <div class={styles.Dialog}>
           <div class={styles.Header}>

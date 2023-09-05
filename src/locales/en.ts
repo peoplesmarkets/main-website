@@ -123,6 +123,16 @@ export const EN: typeof TKEYS = {
   },
   "user-settings-page": {
     title: "User Settings",
+    "payment-integration": {
+      title: "Payment Providers",
+      stripe: {
+        title: "Stripe",
+        "start-integration": "Integrate Stripe",
+        "continue-integration": "Continue Stripe integration",
+        "remove-integration": "Remove Stripe integration",
+      },
+    },
+    "market-booths-subtitle": "Configure Market Booths",
   },
   "community-page": {
     headline: "Help the project grow!",

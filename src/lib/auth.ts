@@ -3,6 +3,7 @@ import _ from "lodash";
 
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { hashCodeVerifier } from "./string-manipulation";
+import { SIGN_IN_CALLBACK_PATH } from "../App";
 
 export const CODE_CHALLENGE_STORAGE_KEY = "sign-in-code-challange";
 
@@ -19,10 +20,7 @@ export async function buildAuthorizationRequest(register?: boolean) {
     "client_id",
     import.meta.env.VITE_AUTH_OAUTH_CLIENT_ID
   );
-  requestUri.searchParams.set(
-    "redirect_uri",
-    import.meta.env.VITE_AUTH_OAUTH_REDIRECT_URL
-  );
+  requestUri.searchParams.set("redirect_uri", redirect_uri());
 
   const scope = `openid email profile offline_access urn:zitadel:iam:org:project:id:zitadel:aud urn:zitadel:iam:user:metadata urn:zitadel:iam:org:id:${
     import.meta.env.VITE_AUTH_OAUTH_ORG_ID
@@ -51,7 +49,7 @@ export async function getToken(code: string): Promise<Response> {
   const body = new URLSearchParams();
   body.set("grant_type", "authorization_code");
   body.set("code", code);
-  body.set("redirect_uri", import.meta.env.VITE_AUTH_OAUTH_REDIRECT_URL);
+  body.set("redirect_uri", redirect_uri());
   body.set("client_id", import.meta.env.VITE_AUTH_OAUTH_CLIENT_ID);
   body.set("code_verifier", codeVerifier!);
 
@@ -69,7 +67,7 @@ export async function refreshToken(refreshToken: string): Promise<Response> {
   const body = new URLSearchParams();
   body.set("grant_type", "refresh_token");
   body.set("refresh_token", refreshToken);
-  body.set("redirect_uri", import.meta.env.VITE_AUTH_OAUTH_REDIRECT_URL);
+  body.set("redirect_uri", redirect_uri());
   body.set("client_id", import.meta.env.VITE_AUTH_OAUTH_CLIENT_ID);
 
   const scope = `openid email profile offline_access urn:zitadel:iam:org:project:id:zitadel:aud urn:zitadel:iam:user:metadata urn:zitadel:iam:org:id:${
@@ -120,4 +118,8 @@ export async function authGuardRedirect(
   if (!redirectWhenAuthenticated && !isAuthenticated()) {
     navigate(path, { replace: true });
   }
+}
+
+function redirect_uri(): string {
+  return `${import.meta.env.VITE_BASE_URL}${SIGN_IN_CALLBACK_PATH}`;
 }

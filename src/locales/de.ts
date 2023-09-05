@@ -118,11 +118,21 @@ export const DE: typeof TKEYS = {
     settings: {
       "switch-to-light-mode": "Hellmodus aktivieren",
       "switch-to-dark-mode": "Dunkelmodus aktivieren",
-      "change-language": "Language / Sprache",
+      "change-language": "Sprache / Language",
     },
   },
   "user-settings-page": {
     title: "Benutzereinstellungen",
+    "payment-integration": {
+      title: "Bezahldienste",
+      stripe: {
+        title: EN["user-settings-page"]["payment-integration"].stripe.title,
+        "start-integration": "Stripe einrichten",
+        "continue-integration": "Stripe Einrichtung fortsetzen",
+        "remove-integration": "Stripe Einrichtung aufheben",
+      },
+    },
+    "market-booths-subtitle": "Marktstände verwalten",
   },
   "community-page": {
     headline: "Hilf dem Projekt zu wachsen!",
