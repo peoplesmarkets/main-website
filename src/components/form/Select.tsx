@@ -23,7 +23,6 @@ type Props = {
       readonly onValue?: (_value: string | null) => void;
     }
   | {
-      readonly initial: Option;
       readonly nullable?: false;
       readonly onValue?: (_value: string) => void;
     }
