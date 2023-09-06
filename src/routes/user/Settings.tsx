@@ -168,7 +168,7 @@ export default function Settings() {
           />
         </span>
 
-        <div class={styles.Setting}>
+        <div class={styles.SettingRow}>
           <span class={styles.Label}>
             <Trans key={stripeTkeys().title} />
           </span>
@@ -218,20 +218,21 @@ export default function Settings() {
             )}
             options={marketBoothOptions}
             onValue={handleMarketBoothSelected}
-            nullable
             initial={currentMarketBoothOption()}
           />
         </div>
 
-        <div class={styles.ActionButtons}>
-          <ActionButton
-            actionType="active-filled"
-            onClick={handleOpenCreateMarketBooth}
-          >
-            <Trans
-              key={TKEYS.dashboard["market-booth"]["create-new-market-booth"]}
-            />
-          </ActionButton>
+        <div class={styles.Setting}>
+          <div class={styles.ActionButtons}>
+            <ActionButton
+              actionType="active-filled"
+              onClick={handleOpenCreateMarketBooth}
+            >
+              <Trans
+                key={TKEYS.dashboard["market-booth"]["create-new-market-booth"]}
+              />
+            </ActionButton>
+          </div>
         </div>
       </Section>
 

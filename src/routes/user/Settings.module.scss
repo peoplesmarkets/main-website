@@ -27,23 +27,26 @@
 }
 
 .Setting {
+  width: 100%;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.SettingRow {
+  @extend .Setting;
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 100%;
-  box-sizing: border-box;
-  margin-top: 0.5rem;
-  gap: 2rem;
-  padding: 0.5rem;
   border-radius: 4px;
+  gap: 2rem;
 }
 
-.Setting:hover {
+.SettingRow:hover {
   background: var(--hovered-background);
 }
 
 .ActionButtons {
-  margin-top: 0.5rem;
   text-align: right;
 }
 
