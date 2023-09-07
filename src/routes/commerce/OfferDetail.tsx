@@ -14,6 +14,7 @@ import { TKEYS } from "../../locales/dev";
 import { secondsToLocaleString } from "../../lib";
 import _ from "lodash";
 import { OfferImages } from "../../components/commerce";
+import { OfferPrice } from "../../components/commerce/OfferPrice";
 
 export default function OfferDetail() {
   const { offerId } = useParams();
@@ -45,6 +46,12 @@ export default function OfferDetail() {
 
           <Show when={!_.isNil(offer()) && !_.isEmpty(offer()?.images)}>
             <OfferImages offer={() => offer()!} />
+          </Show>
+
+          <Show when={!_.isNil(offer()?.price)}>
+            <Section>
+              <OfferPrice offer={() => offer()} />
+            </Section>
           </Show>
 
           <Section>

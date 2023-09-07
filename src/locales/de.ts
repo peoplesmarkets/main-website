@@ -43,6 +43,9 @@ export const DE: typeof TKEYS = {
       random: "Zufällig",
     },
   },
+  price: {
+    "decimal-point": ",",
+  },
   "market-booth": {
     title: "Marktstand",
     "title-plural": "Marktstände",
@@ -68,6 +71,7 @@ export const DE: typeof TKEYS = {
     "no-offers-yet": "Derzeit noch keine Angebote ...",
     "no-description": "Keine Beschreibung vorhanden ...",
     labels: {
+      Price: "Preis",
       Name: "Name",
       name: "Name",
       Description: "Beschreibung",

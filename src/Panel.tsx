@@ -30,7 +30,7 @@ import { useAccessTokensContext } from "./contexts/AccessTokensContext";
 import { Theme } from "./contexts/ThemeStore";
 import { clickOutside } from "./directives";
 import { buildAuthorizationRequest, isSubPath } from "./lib";
-import { getNextLanguageKey } from "./locales";
+import { getNextLanguageKey, setDocumentLanguage } from "./locales";
 import { TKEYS } from "./locales/dev";
 
 false && clickOutside;
@@ -88,7 +88,9 @@ export function Panel(props: Props) {
     const currentLanguage = getI18next()?.language;
 
     if (!_.isNil(currentLanguage)) {
-      changeLanguage(getNextLanguageKey(currentLanguage));
+      const lang = getNextLanguageKey(currentLanguage);
+      changeLanguage(lang);
+      setDocumentLanguage(lang);
     }
   }
 

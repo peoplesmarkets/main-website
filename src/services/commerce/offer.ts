@@ -1,3 +1,4 @@
+import _ from "lodash";
 import {
   AddImageToOfferRequest,
   CreateOfferRequest,
@@ -6,6 +7,11 @@ import {
   OffersFilterField,
   UpdateOfferRequest,
 } from "../peoplesmarkets/commerce/v1/offer";
+import {
+  Currency,
+  currencyFromJSON,
+  currencyToJSON,
+} from "../peoplesmarkets/commerce/v1/price";
 
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
@@ -65,4 +71,22 @@ export class OfferService extends ServiceClient {
       await this.withAuthHeader()
     );
   }
+}
+
+export function listCurrencyCodes(): string[] {
+  return Object.values(Currency)
+    .filter((c) => _.isNumber(c) && c > 0)
+    .map((c) => getCurrencyCode(c as Currency));
+}
+
+export function getCurrencyCode(currency: Currency): string {
+  if (currency < 1) {
+    return "";
+  }
+
+  return currencyToJSON(currency).replace("CURRENCY_", "");
+}
+
+export function getCurrencyFromCode(code: string): Currency {
+  return currencyFromJSON("CURRENCY_" + code);
 }

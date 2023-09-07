@@ -40,6 +40,9 @@ export const TKEYS = {
       random: "query.order-by.random",
     },
   },
+  price: {
+    "decimal-point": "price.decimal-point",
+  },
   "market-booth": {
     title: "market-booth.title",
     "title-plural": "market-booth.title-plural",
@@ -65,6 +68,7 @@ export const TKEYS = {
     "no-offers-yet": "offer.no-offers-yet",
     "no-description": "offer.no-description",
     labels: {
+      Price: "offer.labels.Price",
       Name: "offer.labels.Name",
       name: "offer.labels.name",
       Description: "offer.labels.Description",

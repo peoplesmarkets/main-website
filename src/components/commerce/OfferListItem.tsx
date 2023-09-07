@@ -8,6 +8,7 @@ import styles from "./OfferListItem.module.scss";
 import { Show } from "solid-js";
 import _ from "lodash";
 import { ImageIcon } from "../icons";
+import { OfferPrice } from "./OfferPrice";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -40,6 +41,10 @@ export function OfferListItem(props: Props) {
         <span class={styles.Detail}>
           <Multiline text={() => props.offer().description} maxRows={6} />
         </span>
+
+        <Show when={!_.isNil(props.offer()?.price)}>
+          <OfferPrice offer={() => props.offer()} />
+        </Show>
       </div>
     </A>
   );

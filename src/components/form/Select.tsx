@@ -10,6 +10,7 @@ false && clickOutside;
 export type Option = {
   key: string;
   name: string;
+  [key: string]: string;
 };
 
 type Props = {
@@ -17,6 +18,7 @@ type Props = {
   readonly options: () => Option[];
   readonly class?: string;
   readonly initial?: Option;
+  readonly expandHeight?: boolean;
 } & (
   | {
       readonly nullable: true;
@@ -91,7 +93,10 @@ export function Select(props: Props) {
     >
       <div
         class={styles.Select}
-        classList={{ [styles.IsSelected]: anySelected() }}
+        classList={{
+          [styles.ExpandHeight]: props.expandHeight,
+          [styles.IsSelected]: anySelected(),
+        }}
       >
         <span
           class={styles.Label}
@@ -100,15 +105,20 @@ export function Select(props: Props) {
           {props.label}
         </span>
 
-        <span classList={{ [styles.Hide]: selecting() }}>{labelOrValue()}</span>
+        <span
+          classList={{
+            [styles.Hide]: selecting(),
+            [styles.Placeholder]: !anySelected(),
+          }}
+        >
+          {labelOrValue()}
+        </span>
 
-        {/* <Show when={!showClearIcon()}> */}
         <Chevron
           class={styles.ChevronIcon}
           classList={{ [styles.IsSelected]: !_.isNil(selected()) }}
           direction={() => (showSuggestionList() ? "up" : "down")}
         />
-        {/* </Show> */}
       </div>
 
       <div class={styles.ListHandle}>

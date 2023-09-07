@@ -19,9 +19,10 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { buildPath, secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
-import styles from "./Offers.module.scss";
+import styles from "./Offer.module.scss";
+import { OfferPrice } from "../../components/commerce/OfferPrice";
 
-export default function Offers() {
+export default function Offer() {
   const { marketBoothId, offerId } = useParams();
   const navigate = useNavigate();
 
@@ -103,6 +104,12 @@ export default function Offers() {
                 onUpdate={handleRefreshOffer}
               />
             </Show>
+
+            <Section>
+              <div class={styles.Price}>
+                <OfferPrice offer={() => offer()} />
+              </div>
+            </Section>
 
             <Section>
               <span class={styles.Label}>
