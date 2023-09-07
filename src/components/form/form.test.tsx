@@ -14,6 +14,7 @@ import { Message } from "./Message";
 import { Select } from "./Select";
 import { TextArea } from "./TextArea";
 import { TextField } from "./TextField";
+import { PriceField } from "./PriceField";
 
 /**
  * Render to check if objects are accessed correctly
@@ -55,6 +56,12 @@ describe("Render once", () => {
     ));
     expect(container).toBeDefined();
   });
+  test("PriceField", () => {
+    const { container } = renderIntoRoot(() => (
+      <PriceField name="" label="" errors={[]} onValue={noOp} />
+    ));
+    expect(container).toBeDefined();
+  });
   test("Select", () => {
     const { container } = renderIntoRoot(() => (
       <Select label="" onValue={noOp} options={getNoObj} nullable />
@@ -69,7 +76,7 @@ describe("Render once", () => {
   });
   test("TextField", () => {
     const { container } = renderIntoRoot(() => (
-      <TextField errors={[]} label="" name="" onValue={() => {}} />
+      <TextField errors={[]} label="" name="" onValue={noOp} />
     ));
     expect(container).toBeDefined();
   });

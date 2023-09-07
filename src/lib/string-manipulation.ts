@@ -99,3 +99,7 @@ export async function readFileBase64(
     };
   });
 }
+
+export function centsToDecimal(cents: number, decimalPoint: string): string {
+  return (cents / 100).toString().replace(".", decimalPoint);
+}

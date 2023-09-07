@@ -17,6 +17,11 @@
   border-radius: 8px;
 }
 
+.ExpandHeight {
+  height: 100%;
+  box-sizing: border-box;
+}
+
 .Label {
   visibility: hidden;
   position: absolute;
@@ -27,6 +32,7 @@
   font: var(--font-label-small);
   padding: 0 2px;
   line-height: 1;
+  color: var();
 }
 
 .LabelSelecting {
@@ -116,4 +122,8 @@
 
 .Hide {
   visibility: hidden;
+}
+
+.Placeholder {
+  opacity: 0.7;
 }

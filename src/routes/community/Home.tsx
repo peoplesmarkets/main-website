@@ -1,10 +1,11 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+
 import { Markdown } from "../../components/content/Markdown";
 import { Page } from "../../components/layout/Page";
+import { Section } from "../../components/layout/Section";
 import { TKEYS } from "../../locales/dev";
 import styles from "./Home.module.scss";
 import { PostsNav } from "./PostsNav";
-import { Section } from "../../components/layout/Section";
 
 export default function Home() {
   const [trans] = useTransContext();

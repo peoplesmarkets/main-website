@@ -3,6 +3,7 @@ import { Route, Router, Routes } from "@solidjs/router";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 
+import { lazy, onMount } from "solid-js";
 import styles from "./App.module.scss";
 import Footer from "./Footer";
 import { Panel } from "./Panel";
@@ -12,8 +13,7 @@ import { initializeThemeStore } from "./contexts/ThemeStore";
 import { signInDataRoute } from "./data-routes";
 import { dashboardDataRoute } from "./data-routes/dashboard";
 import { buildPath } from "./lib";
-import { LOCALES } from "./locales";
-import { lazy } from "solid-js";
+import { LOCALES, setDocumentLanguage } from "./locales";
 
 export const INDEX_PATH = "/";
 export const MARKET_BOOTHS_PATH = "/";
@@ -51,6 +51,10 @@ export default function App() {
     resources: LOCALES,
   });
   i18nextInstance.use(LanguageDetector);
+
+  onMount(() => {
+    setDocumentLanguage(i18nextInstance.language);
+  });
 
   return (
     <Router>
@@ -95,7 +99,7 @@ export default function App() {
                       OFFERS_SUBPATH,
                       ":offerId"
                     )}
-                    component={lazy(() => import("./routes/dashboard/Offers"))}
+                    component={lazy(() => import("./routes/dashboard/Offer"))}
                   />
 
                   <Route
