@@ -1,19 +1,26 @@
-.TextArea {
+.PriceField {
+  display: flex;
+  // justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.PriceInput {
   position: relative;
   background-color: var(--primary-background-color);
+  flex-grow: 1;
 }
 
 .Input {
   width: 100%;
+  height: 54px;
   padding: 13px 15px;
-  display: block;
   background-color: inherit;
   border: var(--secondary-border);
   border-radius: 4px;
   font: var(--font-body);
   color: var(--primary-content-color);
   box-sizing: border-box;
-  resize: none;
 
   ::placeholder {
     color: var(--secondary-content-color);
@@ -28,7 +35,6 @@
 
 .Input:focus::placeholder {
   opacity: 0;
-  color: var(--secondary-content-color);
   transform: translateY(-9px);
   transition: all 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
@@ -37,12 +43,10 @@
   opacity: 1;
   transform: translateY(-2.8em);
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
-  background-color: inherit;
 }
 
 .Label {
   position: absolute;
-  background-color: inherit;
   opacity: 0;
   padding: 0 6px;
   top: 2.2em;
@@ -62,10 +66,15 @@
   transition: transform 150ms cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.HasErrors {
-  border-color: var(--danger-content-color);
+.CurrencySelect {
+  min-width: 6rem;
+  height: 54px;
 }
 
-.ErrorInfo {
+.HasErrors {
+  border: var(--danger-border);
+}
+
+.Error {
   color: var(--danger-content-color);
 }

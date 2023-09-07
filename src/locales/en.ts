@@ -42,6 +42,9 @@ export const EN: typeof TKEYS = {
       random: "Random",
     },
   },
+  price: {
+    "decimal-point": ".",
+  },
   "market-booth": {
     title: "Market Booth",
     "title-plural": "Market Booths",
@@ -67,6 +70,7 @@ export const EN: typeof TKEYS = {
     "no-offers-yet": "No Offers yet ...",
     "no-description": "No description ...",
     labels: {
+      Price: "Price",
       Name: "Name",
       name: "Name",
       Description: "Description",

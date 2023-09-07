@@ -6,7 +6,11 @@ import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
-import { OfferService } from "../../services";
+import {
+  OfferService,
+  getCurrencyFromCode,
+  listCurrencyCodes,
+} from "../../services";
 import {
   OfferResponse,
   UpdateOfferRequest,
@@ -14,6 +18,8 @@ import {
 import {
   ActionButton,
   DiscardConfirmation,
+  PriceField,
+  Select,
   TextArea,
   TextField,
 } from "../form";
@@ -43,30 +49,63 @@ export function EditOfferDialog(props: Props) {
   const [errors, setErrors] = createStore({
     name: [] as string[],
     description: [] as string[],
+    price: [] as string[],
   });
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
-  function resetErrors() {
-    setErrors({ name: [], description: [] });
+  function currencyOptions() {
+    return listCurrencyCodes().map((c) => ({
+      name: c,
+      key: c,
+    }));
   }
 
-  function onNameInput(value: string) {
+  function resetErrors() {
+    setErrors({ name: [], description: [], price: [] });
+  }
+
+  function dataWasChanged() {
+    return (
+      offer.name !== initialOffer.name ||
+      offer.description !== initialOffer.description ||
+      offer.price?.unitAmont !== initialOffer.price?.unitAmont
+    );
+  }
+
+  function handleNameInput(value: string) {
     resetErrors();
     setOffer("name", value.trim());
   }
 
-  function onDescriptionInput(value: string) {
+  function handleDescriptionInput(value: string) {
     resetErrors();
     setOffer("description", value.trim());
   }
 
-  async function updateOffer(event: SubmitEvent) {
+  function handlePriceInput(value: number) {
+    resetErrors();
+    setOffer("price", {
+      ...offer.price,
+      unitAmont: value,
+    });
+  }
+
+  function handleCurrencyChange(value: string) {
+    setOffer("price", {
+      ...offer.price,
+      currency: getCurrencyFromCode(value),
+    });
+  }
+
+  async function handleUpdateOffer(event: SubmitEvent) {
     event.preventDefault();
 
     if (!dataWasChanged()) {
-      setErrors("name", [trans(TKEYS.form.errors["not-modified"])]);
-      setErrors("description", [trans(TKEYS.form.errors["not-modified"])]);
+      const notModified = trans(TKEYS.form.errors["not-modified"]);
+      setErrors("name", [notModified]);
+      setErrors("description", [notModified]);
+      setErrors("price", [notModified]);
       return;
     }
 
@@ -84,14 +123,7 @@ export function EditOfferDialog(props: Props) {
     }
   }
 
-  function dataWasChanged() {
-    return (
-      offer.name !== initialOffer.name ||
-      offer.description !== initialOffer.description
-    );
-  }
-
-  function closeDialog() {
+  function handleCloseDialog() {
     if (dataWasChanged()) {
       setDiscardConfirmation(true);
     } else {
@@ -99,12 +131,12 @@ export function EditOfferDialog(props: Props) {
     }
   }
 
-  function continueEditing() {
+  function handleContinueEditing() {
     resetErrors();
     setDiscardConfirmation(false);
   }
 
-  function confirmCloseDialog() {
+  function handleConfirmCloseDialog() {
     setDiscardConfirmation(false);
     props.onClose();
   }
@@ -114,15 +146,15 @@ export function EditOfferDialog(props: Props) {
       <Show when={!discardConfirmation()}>
         <Dialog
           title={trans(TKEYS.dashboard.offers["edit-offer"])}
-          onClose={closeDialog}
+          onClose={handleCloseDialog}
         >
-          <form class={styles.Form} onSubmit={updateOffer}>
+          <form class={styles.Form} onSubmit={handleUpdateOffer}>
             <TextField
               name="name"
               label={trans(TKEYS.offer.labels.name)}
               required
               value={offer.name}
-              onValue={onNameInput}
+              onValue={handleNameInput}
               errors={errors.name}
             />
 
@@ -131,13 +163,37 @@ export function EditOfferDialog(props: Props) {
               label={trans(TKEYS.offer.labels.description)}
               rows={8}
               value={offer.description}
-              onValue={onDescriptionInput}
+              onValue={handleDescriptionInput}
               errors={errors.description}
             />
+
+            <div class={styles.FieldSet}>
+              <div class={styles.FieldSetInput}>
+                <PriceField
+                  name="Price"
+                  label="Price"
+                  initial={offer.price?.unitAmont}
+                  onValue={handlePriceInput}
+                  errors={errors.price}
+                />
+              </div>
+
+              <Select
+                class={styles.FieldSetExtra}
+                expandHeight
+                label="currency"
+                options={currencyOptions}
+                initial={_.first(currencyOptions())}
+                onValue={handleCurrencyChange}
+              />
+            </div>
           </form>
 
           <div class={styles.DialogFooter}>
-            <ActionButton actionType="active-filled" onClick={updateOffer}>
+            <ActionButton
+              actionType="active-filled"
+              onClick={handleUpdateOffer}
+            >
               <Trans key={TKEYS.form.action.Save} />
             </ActionButton>
           </div>
@@ -146,8 +202,8 @@ export function EditOfferDialog(props: Props) {
 
       <Show when={discardConfirmation()}>
         <DiscardConfirmation
-          onCancel={continueEditing}
-          onDiscard={confirmCloseDialog}
+          onCancel={handleContinueEditing}
+          onDiscard={handleConfirmCloseDialog}
         />
       </Show>
     </>

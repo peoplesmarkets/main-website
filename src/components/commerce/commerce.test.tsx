@@ -9,6 +9,7 @@ import {
 } from "../../lib/testing";
 import { OfferListItem } from "./OfferListItem";
 import { OfferImages } from "./OfferImages";
+import { OfferPrice } from "./OfferPrice";
 
 /**
  * Render to check if objects are accessed correctly
@@ -32,6 +33,10 @@ describe("Render once", () => {
     const { container } = renderIntoRoot(() => (
       <OfferListItem offer={getNoObj} />
     ));
+    expect(container).toBeDefined();
+  });
+  test("OfferPrice", () => {
+    const { container } = renderIntoRoot(() => <OfferPrice offer={getNoObj} />);
     expect(container).toBeDefined();
   });
 });
