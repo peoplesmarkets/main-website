@@ -92,7 +92,6 @@ export const DE: typeof TKEYS = {
   dashboard: {
     "market-booth": {
       Details: "Marktstand Details",
-      "current-market-booth": "Marktstand Auswahl",
       "no-market-booth-yet": "Bisher kein Markstand",
       "create-new-market-booth": "Neuen Marktstand erstellen",
       "edit-market-booth-details": "Marktstand Details bearbeiten",
@@ -136,7 +135,8 @@ export const DE: typeof TKEYS = {
         "remove-integration": "Stripe Einrichtung aufheben",
       },
     },
-    "market-booths-subtitle": "Marktstände verwalten",
+    "market-booths-subtitle": "Marktstand auswählen",
+    "add-market-booth": "Marktstand hinzufügen",
   },
   "community-page": {
     headline: "Hilf dem Projekt zu wachsen!",

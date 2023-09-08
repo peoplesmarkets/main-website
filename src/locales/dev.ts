@@ -89,7 +89,6 @@ export const TKEYS = {
   dashboard: {
     "market-booth": {
       Details: "dashboard.market-booth.Details",
-      "current-market-booth": "dashboard.market-booth.current-market-booth",
       "no-market-booth-yet": "dashboard.market-booth.no-market-booth-yet",
       "create-new-market-booth":
         "dashboard.market-booth.create-new-market-booth",
@@ -140,6 +139,7 @@ export const TKEYS = {
       },
     },
     "market-booths-subtitle": "user-settings-page.market-booths-subtitle",
+    "add-market-booth": "user-settings-page.add-market-booth",
   },
   "community-page": {
     headline: "community-page.headline",

@@ -92,7 +92,6 @@ export const EN: typeof TKEYS = {
   dashboard: {
     "market-booth": {
       Details: "Maket Booth Details",
-      "current-market-booth": "Current Market Booth",
       "no-market-booth-yet": "No Market Booth yet",
       "create-new-market-booth": "Create a new Market Booth",
       "edit-market-booth-details": "Edit Market Booth Details",
@@ -136,7 +135,8 @@ export const EN: typeof TKEYS = {
         "remove-integration": "Remove Stripe integration",
       },
     },
-    "market-booths-subtitle": "Configure Market Booths",
+    "market-booths-subtitle": "Select Market Booth",
+    "add-market-booth": "Add a Market Booth",
   },
   "community-page": {
     headline: "Help the project grow!",
