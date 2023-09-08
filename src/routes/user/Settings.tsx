@@ -1,10 +1,8 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { useNavigate } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createResource, createSignal } from "solid-js";
+import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
-import { DASHBOARD_PATH } from "../../App";
 import {
   ContentError,
   ContentLoading,
@@ -13,20 +11,17 @@ import {
 import { CreateMarketBoothDialog } from "../../components/dashboard";
 import { ActionButton, Select } from "../../components/form";
 import { Page, Section } from "../../components/layout";
+import { Cover } from "../../components/layout/Cover";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { useMarketBoothContext } from "../../contexts/MarketBoothContext";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService, StripeService } from "../../services";
 import styles from "./Settings.module.scss";
-import { Cover } from "../../components/layout/Cover";
 
 export default function Settings() {
-  const navigate = useNavigate();
-
   const [trans] = useTransContext();
 
-  const { accessToken, currentSession, refreshToken } =
-    useAccessTokensContext();
+  const { accessToken, currentSession } = useAccessTokensContext();
   const { currentMarketBooth, setCurrentMarketBooth } = useMarketBoothContext();
 
   const stripeService = new StripeService(accessToken);
@@ -36,17 +31,21 @@ export default function Settings() {
   const [showCreateMarketBooth, setShowCreateMarketBooth] = createSignal(false);
 
   const [stripeAccount] = createResource(
-    () => currentSession()?.userId,
+    () => currentMarketBooth()?.marketBoothId,
     fetchStripeAccount
+  );
+  const [marketBooth] = createResource(
+    () => currentMarketBooth()?.marketBoothId,
+    fetchMarketBooth
   );
   const [marketBooths, { refetch }] = createResource(
     () => currentSession().userId,
     fetchMarketBooths
   );
 
-  async function fetchStripeAccount() {
+  async function fetchStripeAccount(marketBoothId: string) {
     try {
-      const response = await stripeService.getAccount();
+      const response = await stripeService.getAccountDetails(marketBoothId);
       return response;
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
@@ -54,6 +53,16 @@ export default function Settings() {
       }
 
       throw err;
+    }
+  }
+
+  async function fetchMarketBooth(marketBoothId: string) {
+    try {
+      const response = await marketBoothService.get(marketBoothId);
+      setCurrentMarketBooth(response.marketBooth);
+      return response.marketBooth;
+    } catch (err: any) {
+      setCurrentMarketBooth();
     }
   }
 
@@ -65,20 +74,32 @@ export default function Settings() {
         size: 100,
       },
     });
+    const first = _.first(response.marketBooths);
+    if (_.isNil(currentMarketBooth()) && !_.isNil(first)) {
+      setCurrentMarketBooth(first);
+    }
     return response.marketBooths;
   }
 
   function stripeAccountState() {
+    if (stripeAccount.state === "errored") {
+      return "errored";
+    }
+    if (stripeAccount.state === "pending") {
+      return "pending";
+    }
+    if (isResolved(stripeAccount.state) && !_.isNil(marketBooth())) {
     if (_.isNil(stripeAccount())) {
       return "missing";
     } else if (
-      !stripeAccount()?.chargesEnabled ||
-      !stripeAccount()?.detailsSubmitted
+        !stripeAccount()?.details?.chargesEnabled ||
+        !stripeAccount()?.details?.detailsSubmitted
     ) {
       return "in-progress";
     } else {
       return "configured";
     }
+  }
   }
 
   function stripeTkeys() {
@@ -86,19 +107,12 @@ export default function Settings() {
   }
 
   function marketBoothOptions() {
-    if (_.isEmpty(marketBooths())) {
-      return [
-        {
-          key: "",
-          name: trans(TKEYS.dashboard["market-booth"]["no-market-booth-yet"]),
-        },
-      ];
-    } else {
-      return marketBooths()!.map(({ marketBoothId, name }) => ({
+    return (
+      marketBooths()?.map(({ marketBoothId, name }) => ({
         key: marketBoothId,
         name,
-      }));
-    }
+      })) || []
+    );
   }
 
   function currentMarketBoothOption() {
@@ -111,10 +125,13 @@ export default function Settings() {
   }
 
   async function handleCreateStripeIntegration() {
+    if (_.isNil(marketBooth())) {
+      return;
+    }
+
     setRedirecting(true);
     try {
-      await stripeService.createAccount();
-      await refreshToken();
+      await stripeService.createAccount(marketBooth()!.marketBoothId);
       handleContinueStripeIntegration();
     } catch (err) {
       setRedirecting(false);
@@ -123,9 +140,15 @@ export default function Settings() {
   }
 
   async function handleContinueStripeIntegration() {
+    if (_.isNil(marketBooth())) {
+      return;
+    }
+
     setRedirecting(true);
     try {
-      const { link } = await stripeService.createAccountLink();
+      const { link } = await stripeService.createAccountLink(
+        marketBooth()!.marketBoothId
+      );
       window.location.href = link;
     } catch (err) {
       setRedirecting(false);
@@ -138,9 +161,6 @@ export default function Settings() {
       (m) => m.marketBoothId === marketBoothId
     );
     setCurrentMarketBooth(selectedMarketBooth);
-    if (!_.isNil(selectedMarketBooth)) {
-      navigate(DASHBOARD_PATH);
-    }
   }
 
   function handleOpenCreateMarketBooth() {
@@ -163,6 +183,24 @@ export default function Settings() {
 
       <Section bordered>
         <span class={styles.Title}>
+          <Trans key={TKEYS["user-settings-page"]["market-booths-subtitle"]} />
+        </span>
+
+        <div class={styles.Setting}>
+          <Select
+            label={trans(TKEYS["market-booth"].title)}
+            options={marketBoothOptions}
+            onValue={handleMarketBoothSelected}
+            value={currentMarketBoothOption}
+            emptyLabel={trans(
+              TKEYS.dashboard["market-booth"]["no-market-booth-yet"]
+            )}
+          />
+        </div>
+      </Section>
+
+      <Section bordered>
+        <span class={styles.Title}>
           <Trans
             key={TKEYS["user-settings-page"]["payment-integration"].title}
           />
@@ -173,67 +211,59 @@ export default function Settings() {
             <Trans key={stripeTkeys().title} />
           </span>
 
-          <Show when={stripeAccount.state === "errored"}>
+          <Switch
+            fallback={
+              <span>
+                <Trans
+                  key={TKEYS.dashboard["market-booth"]["no-market-booth-yet"]}
+                />
+              </span>
+            }
+          >
+            <Match when={stripeAccountState() === "errored"}>
             <ContentError />
-          </Show>
-          <Show when={stripeAccount.state === "pending"}>
+            </Match>
+            <Match when={stripeAccountState() === "pending"}>
             <ContentLoading />
-          </Show>
-          <Show when={isResolved(stripeAccount.state)}>
-            <Show when={stripeAccountState() === "missing"}>
+            </Match>
+            <Match when={stripeAccountState() === "missing"}>
               <ActionButton
                 actionType="active-filled"
                 onClick={handleCreateStripeIntegration}
               >
                 <Trans key={stripeTkeys()["start-integration"]} />
               </ActionButton>
-            </Show>
-            <Show when={stripeAccountState() === "in-progress"}>
+            </Match>
+            <Match when={stripeAccountState() === "in-progress"}>
               <ActionButton
                 actionType="active-filled"
                 onClick={handleContinueStripeIntegration}
               >
                 <Trans key={stripeTkeys()["continue-integration"]} />
               </ActionButton>
-            </Show>
-            <Show when={stripeAccountState() === "configured"}>
+            </Match>
+            <Match when={stripeAccountState() === "configured"}>
               <span class={styles.Ok}>
                 <Trans key={TKEYS.form.action.OK} />
               </span>
-            </Show>
-          </Show>
+            </Match>
+          </Switch>
         </div>
       </Section>
 
       <Section bordered>
-        <span class={styles.Title}>
-          <Trans key={TKEYS["user-settings-page"]["market-booths-subtitle"]} />
+        <div class={styles.SettingRow}>
+          <span class={styles.Label}>
+            <Trans key={TKEYS["user-settings-page"]["add-market-booth"]} />
         </span>
 
-        <div class={styles.Setting}>
-          <Select
-            class={styles.Select}
-            label={trans(
-              TKEYS.dashboard["market-booth"]["current-market-booth"]
-            )}
-            options={marketBoothOptions}
-            onValue={handleMarketBoothSelected}
-            initial={currentMarketBoothOption()}
-          />
-        </div>
-
-        <div class={styles.Setting}>
-          <div class={styles.ActionButtons}>
             <ActionButton
-              actionType="active-filled"
+            actionType="neutral"
               onClick={handleOpenCreateMarketBooth}
             >
-              <Trans
-                key={TKEYS.dashboard["market-booth"]["create-new-market-booth"]}
-              />
+            <Trans key={TKEYS.form.action.Add} />
             </ActionButton>
           </div>
-        </div>
       </Section>
 
       <Show when={showCreateMarketBooth()}>
