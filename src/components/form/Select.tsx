@@ -1,5 +1,6 @@
 import _ from "lodash";
-import { For, Show, createSignal, onMount } from "solid-js";
+import { For, Show, createEffect, createSignal } from "solid-js";
+
 import { clickOutside } from "../../directives";
 import { CloseIcon } from "../icons";
 import Chevron from "../icons/Chevron";
@@ -17,8 +18,9 @@ type Props = {
   readonly label: string;
   readonly options: () => Option[];
   readonly class?: string;
-  readonly initial?: Option;
+  readonly value?: () => Option | undefined;
   readonly expandHeight?: boolean;
+  readonly emptyLabel?: string;
 } & (
   | {
       readonly nullable: true;
@@ -34,10 +36,8 @@ export function Select(props: Props) {
   const [selected, setSelected] = createSignal<Option | undefined>();
   const [showSuggestionList, setShowSuggestionList] = createSignal(false);
 
-  onMount(() => {
-    if (_.isNil(selected()) && !_.isNil(props.initial)) {
-      setSelected(props.initial);
-    }
+  createEffect(() => {
+    setSelected(props.value?.());
   });
 
   function anySelected() {
@@ -52,7 +52,15 @@ export function Select(props: Props) {
     return selected()?.key === option.key;
   }
 
+  function isEmpty() {
+    return props.options().length <= 0;
+  }
+
   function labelOrValue() {
+    if (isEmpty() && props.emptyLabel) {
+      return props.emptyLabel;
+    }
+
     if (_.isNil(selected()?.name)) {
       return props.label;
     }
@@ -64,6 +72,9 @@ export function Select(props: Props) {
   }
 
   function handleShowSuggestionList() {
+    if (isEmpty()) {
+      return;
+    }
     setShowSuggestionList(!showSuggestionList());
   }
 
@@ -88,6 +99,7 @@ export function Select(props: Props) {
   return (
     <div
       class={props.class || styles.SelectContainer}
+      classList={{ [styles.isEmpty]: isEmpty() }}
       onClick={handleShowSuggestionList}
       use:clickOutside={handleCloseSuggestionList}
     >
@@ -114,11 +126,13 @@ export function Select(props: Props) {
           {labelOrValue()}
         </span>
 
-        <Chevron
-          class={styles.ChevronIcon}
-          classList={{ [styles.IsSelected]: !_.isNil(selected()) }}
-          direction={() => (showSuggestionList() ? "up" : "down")}
-        />
+        <Show when={!isEmpty()}>
+          <Chevron
+            class={styles.ChevronIcon}
+            classList={{ [styles.IsSelected]: !_.isNil(selected()) }}
+            direction={() => (showSuggestionList() ? "up" : "down")}
+          />
+        </Show>
       </div>
 
       <div class={styles.ListHandle}>
