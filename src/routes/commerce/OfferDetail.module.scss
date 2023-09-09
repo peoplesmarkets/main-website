@@ -1,7 +1,7 @@
 .Headline {
   display: block;
   margin: 0 auto;
-  padding: 1rem 0;
+  padding-top: 1rem;
   font: var(--font-headline);
   text-align: center;
 }
@@ -22,4 +22,18 @@
   display: block;
   font: var(--font-body);
   font-style: italic;
+}
+
+.Price {
+  min-height: 3rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+}
+
+.Buy {
+  flex: 1;
+  display: flex;
+  justify-content: end;
 }

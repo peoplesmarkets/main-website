@@ -20,6 +20,7 @@ export const EN: typeof TKEYS = {
       Delete: "Delete",
       Cancel: "Cancel",
       Discard: "Discard",
+      Buy: "Buy",
       "Are-you-sure-you-want-to-delete-the":
         'Are you sure you want to delete the {{item}}: "{{name}}"?',
       "Confirm-Deletion?": "Confirm Deletion?",
@@ -43,6 +44,8 @@ export const EN: typeof TKEYS = {
     },
   },
   price: {
+    Price: "Price",
+    Currency: "Currency",
     "decimal-point": ".",
   },
   "market-booth": {
@@ -69,6 +72,7 @@ export const EN: typeof TKEYS = {
     "title-plural": "Offers",
     "no-offers-yet": "No Offers yet ...",
     "no-description": "No description ...",
+    "currently-no-payment-method": "no payment method available",
     labels: {
       Price: "Price",
       Name: "Name",

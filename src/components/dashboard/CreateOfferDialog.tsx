@@ -6,15 +6,22 @@ import { createStore } from "solid-js/store";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
-import { OfferService } from "../../services";
+import {
+  OfferService,
+  getCurrencyFromCode,
+  listCurrencyCodes,
+} from "../../services";
 import {
   ActionButton,
   DiscardConfirmation,
+  PriceField,
+  Select,
   TextArea,
   TextField,
 } from "../form";
 import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
+import { CreateOfferRequest } from "../../services/peoplesmarkets/commerce/v1/offer";
 
 type Props = {
   marketBoothId: string;
@@ -29,28 +36,57 @@ export function CreateOfferDialog(props: Props) {
 
   const offerService = new OfferService(accessToken);
 
-  const [offer, setOffer] = createStore({
+  const [offer, setOffer] = createStore<CreateOfferRequest>({
     /* eslint-disable-next-line solid/reactivity */
     marketBoothId: props.marketBoothId,
     name: "",
     description: "",
+    price: {} as any,
   });
 
   const [errors, setErrors] = createStore({
     name: [] as string[],
     description: [] as string[],
+    price: [] as string[],
   });
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
-  function onNameInput(value: string) {
-    setErrors("name", []);
+  function resetErrors() {
+    setErrors({ name: [], description: [], price: [] });
+  }
+
+  function currencyOptions() {
+    return listCurrencyCodes().map((c) => ({
+      name: c,
+      key: c,
+    }));
+  }
+
+  function handleNameInput(value: string) {
+    resetErrors();
     setOffer("name", value);
   }
 
-  function onDescriptionInput(value: string) {
-    setErrors("description", []);
+  function handleDescriptionInput(value: string) {
+    resetErrors();
     setOffer("description", value);
+  }
+
+  function handlePriceInput(value: number) {
+    resetErrors();
+    setOffer("price", {
+      ...offer.price,
+      unitAmont: value,
+    });
+  }
+
+  function handleCurrencyChange(value: string) {
+    resetErrors();
+    setOffer("price", {
+      ...offer.price,
+      currency: getCurrencyFromCode(value),
+    });
   }
 
   async function createOffer(event: SubmitEvent) {
@@ -89,8 +125,7 @@ export function CreateOfferDialog(props: Props) {
   }
 
   function continueEditing() {
-    setErrors("name", []);
-    setErrors("description", []);
+    resetErrors();
     setDiscardConfirmation(false);
   }
 
@@ -107,7 +142,7 @@ export function CreateOfferDialog(props: Props) {
               label={trans(TKEYS.offer.labels.name)}
               required={true}
               value={offer.name}
-              onValue={onNameInput}
+              onValue={handleNameInput}
               errors={errors.name}
             />
 
@@ -117,9 +152,30 @@ export function CreateOfferDialog(props: Props) {
               rows={8}
               required={false}
               value={offer.description}
-              onValue={onDescriptionInput}
+              onValue={handleDescriptionInput}
               errors={errors.description}
             />
+
+            <div class={styles.FieldSet}>
+              <div class={styles.FieldSetInput}>
+                <PriceField
+                  name={trans(TKEYS.price.Price)}
+                  label={trans(TKEYS.price.Price)}
+                  initial={offer.price?.unitAmont}
+                  onValue={handlePriceInput}
+                  errors={errors.price}
+                />
+              </div>
+
+              <Select
+                class={styles.FieldSetExtra}
+                expandHeight
+                label={trans(TKEYS.price.Currency)}
+                options={currencyOptions}
+                value={() => _.first(currencyOptions())}
+                onValue={handleCurrencyChange}
+              />
+            </div>
           </form>
 
           <div class={styles.DialogFooter}>

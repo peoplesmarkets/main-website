@@ -8,8 +8,12 @@
   border-radius: var(--medium-border-radius);
 }
 
+.Active {
+  @extend .Bordered;
+  border-color: var(--active-content-color);
+}
+
 .Danger {
-  margin: 1rem;
+  @extend .Bordered;
   border: var(--danger-border);
-  border-radius: var(--medium-border-radius);
 }

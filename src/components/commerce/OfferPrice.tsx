@@ -29,7 +29,7 @@ export function OfferPrice(props: Props) {
 
   return (
     <div class={styles.OfferPrice}>
-      <span class={styles.Title}>
+      <span class={styles.Label}>
         <Trans key={TKEYS.offer.labels.Price} />:{" "}
       </span>
       <span class={styles.Title}>

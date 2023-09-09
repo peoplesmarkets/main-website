@@ -1,31 +1,53 @@
+import { Trans } from "@mbarzda/solid-i18next";
 import { useParams } from "@solidjs/router";
-import { Page, Section } from "../../components/layout";
-import { OfferService } from "../../services";
+import _ from "lodash";
 import { Match, Show, Switch, createResource } from "solid-js";
+
+import { OfferImages } from "../../components/commerce";
+import { OfferPrice } from "../../components/commerce/OfferPrice";
 import {
   ContentError,
   ContentLoading,
   Multiline,
   isResolved,
 } from "../../components/content";
-import styles from "./OfferDetail.module.scss";
-import { Trans } from "@mbarzda/solid-i18next";
-import { TKEYS } from "../../locales/dev";
+import { ActionButton } from "../../components/form";
+import { Page, Section } from "../../components/layout";
 import { secondsToLocaleString } from "../../lib";
-import _ from "lodash";
-import { OfferImages } from "../../components/commerce";
-import { OfferPrice } from "../../components/commerce/OfferPrice";
+import { TKEYS } from "../../locales/dev";
+import { OfferService, StripeService } from "../../services";
+import styles from "./OfferDetail.module.scss";
 
 export default function OfferDetail() {
   const { offerId } = useParams();
 
   const offerService = new OfferService();
+  const stripeService = new StripeService();
 
   const [offer] = createResource(offerId, fetchOffer);
+  const [stripeAccount] = createResource(
+    () => offer()?.marketBoothId,
+    fetchStripeAccount
+  );
 
   async function fetchOffer(offerId: string) {
     const response = await offerService.get(offerId);
     return response.offer;
+  }
+
+  async function fetchStripeAccount(marketBoothId: string) {
+    const response = await stripeService.getAccount(marketBoothId);
+    return response.account;
+  }
+
+  async function handleCheckout() {
+    try {
+      const response = await stripeService.createCheckoutSession(offerId);
+      window.location.href = response.link;
+    } catch (err: any) {
+      console.log(err);
+      throw err;
+    }
   }
 
   return (
@@ -45,12 +67,42 @@ export default function OfferDetail() {
           <span class={styles.Headline}>{offer()?.name}</span>
 
           <Show when={!_.isNil(offer()) && !_.isEmpty(offer()?.images)}>
-            <OfferImages offer={() => offer()!} />
+            <Section>
+              <OfferImages offer={() => offer()!} />
+            </Section>
           </Show>
 
           <Show when={!_.isNil(offer()?.price)}>
-            <Section>
-              <OfferPrice offer={() => offer()} />
+            <Section bordered>
+              <div class={styles.Price}>
+                <OfferPrice offer={() => offer()} />
+
+                <div class={styles.Buy}>
+                  <Show
+                    when={
+                      isResolved(stripeAccount.state) &&
+                      stripeAccount()?.enabled
+                    }
+                  >
+                    <ActionButton
+                      actionType="active-filled"
+                      onClick={handleCheckout}
+                    >
+                      <Trans key={TKEYS.form.action.Buy} />
+                    </ActionButton>
+                  </Show>
+                  <Show
+                    when={
+                      isResolved(stripeAccount.state) &&
+                      !stripeAccount()?.enabled
+                    }
+                  >
+                    <span class="font-body">
+                      <Trans key={TKEYS.offer["currently-no-payment-method"]} />
+                    </span>
+                  </Show>
+                </div>
+              </div>
             </Section>
           </Show>
 
