@@ -170,8 +170,8 @@ export function EditOfferDialog(props: Props) {
             <div class={styles.FieldSet}>
               <div class={styles.FieldSetInput}>
                 <PriceField
-                  name="Price"
-                  label="Price"
+                  name={trans(TKEYS.price.Price)}
+                  label={trans(TKEYS.price.Price)}
                   initial={offer.price?.unitAmont}
                   onValue={handlePriceInput}
                   errors={errors.price}
@@ -181,9 +181,9 @@ export function EditOfferDialog(props: Props) {
               <Select
                 class={styles.FieldSetExtra}
                 expandHeight
-                label="currency"
+                label={trans(TKEYS.price.Currency)}
                 options={currencyOptions}
-                initial={_.first(currencyOptions())}
+                value={() => _.first(currencyOptions())}
                 onValue={handleCurrencyChange}
               />
             </div>

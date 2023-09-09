@@ -5,6 +5,7 @@ import styles from "./Section.module.scss";
 type Props = JSX.HTMLAttributes<HTMLDivElement> & {
   bordered?: boolean;
   danger?: boolean;
+  active?: boolean;
 };
 
 export function Section(props: Props) {
@@ -13,6 +14,7 @@ export function Section(props: Props) {
       classList={{
         [styles.Section]: true,
         [styles.Bordered]: Boolean(props.bordered),
+        [styles.Active]: Boolean(props.active),
         [styles.Danger]: Boolean(props.danger),
       }}
       {...props}

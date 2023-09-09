@@ -21,6 +21,7 @@ export const DE: typeof TKEYS = {
       Delete: "Löschen",
       Cancel: "Abbrechen",
       Discard: "Verwerfen",
+      Buy: "Kaufen",
       "Are-you-sure-you-want-to-delete-the":
         '{{item}} namens "{{name}}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",
@@ -44,6 +45,8 @@ export const DE: typeof TKEYS = {
     },
   },
   price: {
+    Price: "Preis",
+    Currency: "Währung",
     "decimal-point": ",",
   },
   "market-booth": {
@@ -70,6 +73,7 @@ export const DE: typeof TKEYS = {
     "title-plural": "Angebote",
     "no-offers-yet": "Derzeit noch keine Angebote ...",
     "no-description": "Keine Beschreibung vorhanden ...",
+    "currently-no-payment-method": "keine Zahlungsmethode vorhanden",
     labels: {
       Price: "Preis",
       Name: "Name",

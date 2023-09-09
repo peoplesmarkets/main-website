@@ -2,9 +2,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 1rem;
 }
 
 .Title {
   font: var(--font-title);
 }
 
+.Label {
+  font: var(--font-title);
+  font-weight: 300;
+}

@@ -16,7 +16,7 @@
   --primary-background-color: #f8f8f8;
   --secondary-background-color: #dde4e9;
   --active-background-color: #c2e7ff;
-  --secondary-active-background-color: #B0CCF1;
+  --secondary-active-background-color: #b0ccf1;
   --hovered-background: linear-gradient(
     0deg,
     rgba(68, 71, 70, 0.12),
@@ -200,4 +200,24 @@ input[type="search"] {
 .no-scroll {
   height: 100%;
   overflow: hidden;
+}
+
+.font-display {
+  font: var(--font-display);
+}
+
+.font-headline {
+  font: var(--font-headline);
+}
+
+.font-title {
+  font: var(--font-title);
+}
+
+.font-label {
+  font: var(--font-label);
+}
+
+.font-body {
+  font: var(--font-body);
 }

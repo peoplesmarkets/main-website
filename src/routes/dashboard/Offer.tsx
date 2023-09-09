@@ -105,7 +105,7 @@ export default function Offer() {
               />
             </Show>
 
-            <Section>
+            <Section bordered>
               <div class={styles.Price}>
                 <OfferPrice offer={() => offer()} />
               </div>
