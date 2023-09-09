@@ -18,6 +18,7 @@ export const TKEYS = {
       Delete: "form.action.Delete",
       Cancel: "form.action.Cancel",
       Discard: "form.action.Discard",
+      Buy: "form.action.Buy",
       "Are-you-sure-you-want-to-delete-the":
         "form.action.Are-you-sure-you-want-to-delete-the",
       "Confirm-Deletion?": "form.action.Confirm-Deletion?",
@@ -41,6 +42,8 @@ export const TKEYS = {
     },
   },
   price: {
+    Price: "price.Price",
+    Currency: "price.Currency",
     "decimal-point": "price.decimal-point",
   },
   "market-booth": {
@@ -67,6 +70,7 @@ export const TKEYS = {
     "title-plural": "offer.title-plural",
     "no-offers-yet": "offer.no-offers-yet",
     "no-description": "offer.no-description",
+    "currently-no-payment-method": "offer.currently-no-payment-method",
     labels: {
       Price: "offer.labels.Price",
       Name: "offer.labels.Name",

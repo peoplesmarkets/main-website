@@ -1,12 +1,15 @@
+$expanded-min-width: 1080px;
+
 .OfferImages {
-  padding: 0 1rem;
+  display: flex;
+  flex-direction: column;
 }
 
 .MainImage {
-  min-height: 400px;
   display: flex;
   justify-content: center;
   align-items: center;
+  flex: 1;
 }
 
 .ImageContainer {
@@ -34,12 +37,19 @@
 
 .ImageGallery {
   margin-top: 2rem;
-  min-height: 102px;
   display: flex;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
   align-items: center;
+  gap: 0.5rem;
+  overflow: auto;
+  overscroll-behavior: contain;
+}
+
+.ImageRow:first-child {
+  margin-left: auto;
+}
+
+.ImageRow:last-child {
+  margin-right: auto;
 }
 
 .ImagePreview {
@@ -56,4 +66,34 @@
 
 .ActivePreview {
   border-color: var(--active-content-color);
+}
+
+@media only screen and (min-width: $expanded-min-width) {
+  .OfferImages {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 1rem;
+  }
+
+  .MainImage {
+    width: 600px;
+    min-height: 400px;
+  }
+
+  .ImageGallery {
+    max-height: 400px;
+    display: flex;
+    flex-direction: column;
+    margin-top: 0;
+    align-items: center;
+  }
+
+  .ImageRow:first-child {
+    margin: 0;
+  }
+  
+  .ImageRow:last-child {
+    margin: 0;
+  }
 }

@@ -1,4 +1,9 @@
-import { USER_STRIPE_REFRESH_PATH, USER_STRIPE_RETURN_PATH } from "../../App";
+import {
+  OFFERS_PATH,
+  USER_STRIPE_REFRESH_PATH,
+  USER_STRIPE_RETURN_PATH,
+} from "../../App";
+import { buildPath } from "../../lib";
 import {
   GrpcWebImpl,
   StripeServiceClientImpl,
@@ -47,5 +52,18 @@ export class StripeService extends ServiceClient {
       { marketBoothId },
       await this.withAuthHeader()
     );
+  }
+
+  public async createCheckoutSession(offerId: string) {
+    const offerUrl = `${import.meta.env.VITE_BASE_URL}${buildPath(
+      OFFERS_PATH,
+      offerId
+    )}`;
+
+    return this.client.CreateCheckoutSession({
+      offerId,
+      successUrl: offerUrl,
+      cancelUrl: offerUrl,
+    });
   }
 }
