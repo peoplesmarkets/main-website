@@ -3,6 +3,7 @@ import {
   AddImageToOfferRequest,
   CreateOfferRequest,
   GrpcWebImpl,
+  ListOffersRequest,
   OfferServiceClientImpl,
   OffersFilterField,
   UpdateOfferRequest,
@@ -34,23 +35,8 @@ export class OfferService extends ServiceClient {
     return this.client.GetOffer({ offerId }, await this.withAuthHeader());
   }
 
-  public async list(userId?: string | null, marketBoothId?: string | null) {
-    return this.client.ListOffers(
-      {
-        userId: userId || undefined,
-        marketBoothId: marketBoothId || undefined,
-      },
-      await this.withAuthHeader()
-    );
-  }
-
-  public async search(query?: string) {
-    return this.client.ListOffers({
-      filter: {
-        field: OffersFilterField.OFFERS_FILTER_FIELD_NAME_AND_DESCRIPTION,
-        query,
-      },
-    });
+  public async list(request: ListOffersRequest) {
+    return this.client.ListOffers(request, await this.withAuthHeader());
   }
 
   public async update(request: UpdateOfferRequest) {

@@ -1,18 +1,21 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
-import { Match, Show, Switch, createResource, createSignal } from "solid-js";
+import { createResource, createSignal, Match, Show, Switch } from "solid-js";
 
 import { DASHBOARD_PATH } from "../../App";
+import { OfferPrice } from "../../components/commerce";
 import {
   ContentError,
   ContentLoading,
   isResolved,
+  Multiline,
 } from "../../components/content";
-import { Multiline } from "../../components/content/Multiline";
-import { CreateOfferImageDialog } from "../../components/dashboard";
-import { EditOfferDialog } from "../../components/dashboard/EditOfferDialog";
-import { OfferImages } from "../../components/dashboard/OfferImages";
+import {
+  CreateOfferImageDialog,
+  EditOfferDialog,
+  OfferImages,
+} from "../../components/dashboard";
 import { ActionButton, DeleteConfirmation } from "../../components/form";
 import { Page, Section } from "../../components/layout";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
@@ -20,7 +23,6 @@ import { buildPath, secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import styles from "./Offer.module.scss";
-import { OfferPrice } from "../../components/commerce/OfferPrice";
 
 export default function Offer() {
   const { marketBoothId, offerId } = useParams();
@@ -105,11 +107,11 @@ export default function Offer() {
               />
             </Show>
 
-            <Section bordered>
-              <div class={styles.Price}>
-                <OfferPrice offer={() => offer()} />
-              </div>
-            </Section>
+            <Show when={!_.isNil(offer()?.price)}>
+              <Section>
+                <OfferPrice class={styles.Price} offer={() => offer()} />
+              </Section>
+            </Show>
 
             <Section>
               <span class={styles.Label}>

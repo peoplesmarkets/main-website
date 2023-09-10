@@ -11,6 +11,7 @@ export const DE: typeof TKEYS = {
   },
   common: {
     file: "Datei",
+    by: "Von",
   },
   form: {
     action: {
@@ -38,10 +39,19 @@ export const DE: typeof TKEYS = {
   },
   query: {
     "order-by": {
-      title: "Sortieren nach",
-      "newest-first": "Neueste zuerst",
-      "oldest-first": "Älteste zuerst",
-      random: "Zufällig",
+      "created-at": {
+        title: "Erstellt am",
+        "newest-first": "Neueste zuerst",
+        "oldest-first": "Älteste zuerst",
+      },
+      "updated-at": {
+        title: "Zuletzt bearbeitet",
+        "newest-first": "Neueste zuerst",
+        "oldest-first": "Älteste zuerst",
+      },
+      random: {
+        title: "Zufällig",
+      },
     },
   },
   price: {

@@ -15,8 +15,8 @@
 $search-height: 2rem;
 
 .Search {
-  height: 4rem;
-  margin-top: 2rem;
+  height: 3.5rem;
+  margin-top: 1rem;
   box-sizing: border-box;
   padding: 0 1rem;
   border: var(--primary-border);
@@ -30,7 +30,25 @@ $search-height: 2rem;
 .SearchIcon {
   fill: var(--primary-content-color);
   stroke: var(--primary-content-color);
-  max-height: 2rem;
+  width: 1.5rem;
+  height: 1.5rem;
+  padding: 0.5rem;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.RefreshIcon {
+  @extend .SearchIcon;
+  user-select: none;
+}
+
+.RefreshIcon:hover {
+  cursor: pointer;
+}
+
+.RefreshIcon:active {
+  fill: var(--active-content-color);
+  background: var(--hovered-background);
 }
 
 .SearchInput {
@@ -44,4 +62,37 @@ $search-height: 2rem;
 
 .SearchInput:focus:focus-visible {
   outline: none;
+}
+
+.Filters {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: 1rem;
+  gap: 0.5rem;
+}
+
+.QueryButton {
+  display: inline;
+  font: var(--font-body);
+  padding: 0.3rem 1rem;
+  border: var(--secondary-border);
+  border-radius: 8px;
+
+  user-select: none;
+  text-decoration: none;
+  color: var(--primary-content-color);
+  background: none;
+  outline: inherit;
+  box-sizing: border-box;
+}
+
+.QueryButton:hover {
+  cursor: pointer;
+}
+
+.QueryButton:active {
+  color: var(--active-content-color);
+  border-color: var(--active-content-color);
 }

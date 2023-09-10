@@ -1,39 +1,140 @@
-import { Trans } from "@mbarzda/solid-i18next";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { For, Match, Switch, createResource, createSignal } from "solid-js";
+import { Match, Switch, createResource } from "solid-js";
+import { createStore } from "solid-js/store";
 
+import { OfferList } from "../../components/commerce";
 import {
   ContentError,
   ContentLoading,
   isResolved,
 } from "../../components/content";
-import { SearchGlobalIcon } from "../../components/icons/SearchGlobalIcon";
-import { SearchIcon } from "../../components/icons/SearchIcon";
+import { Select } from "../../components/form";
+import { SearchGlobalIcon, SearchIcon } from "../../components/icons";
+import { RefreshIcon } from "../../components/icons/RefreshIcon";
 import { Page, Section } from "../../components/layout";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { OfferService } from "../../services";
+import {
+  ListOffersRequest,
+  OffersFilterField,
+  OffersOrderByField,
+} from "../../services/peoplesmarkets/commerce/v1/offer";
+import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
 import styles from "./Offers.module.scss";
-import { OfferListItem } from "../../components/commerce/OfferListItem";
 
 export default function Offers() {
+  const [trans] = useTransContext();
+
   const offerService = new OfferService();
 
-  const [searchInput, setSearchInput] = createSignal("");
+  const searchField =
+    OffersFilterField.OFFERS_FILTER_FIELD_NAME_AND_DESCRIPTION;
 
-  const [offers] = createResource(searchInput, fetchOffers);
+  const defaultRequest = {
+    orderBy: {
+      field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT,
+      direction: Direction.DIRECTION_DESC,
+    },
+  };
 
-  async function fetchOffers(search: string) {
-    let response;
-    if (!_.isEmpty(search)) {
-      response = await offerService.search(search);
-    } else {
-      response = await offerService.list();
+  function createdAtOrderByOptions() {
+    return [
+      {
+        key: Direction.DIRECTION_DESC,
+        name: trans(TKEYS.query["order-by"]["created-at"]["newest-first"]),
+      },
+      {
+        key: Direction.DIRECTION_ASC,
+        name: trans(TKEYS.query["order-by"]["created-at"]["oldest-first"]),
+      },
+    ];
+  }
+
+  function updatedAtOrderByOptions() {
+    return [
+      {
+        key: Direction.DIRECTION_DESC,
+        name: trans(TKEYS.query["order-by"]["updated-at"]["newest-first"]),
+      },
+      {
+        key: Direction.DIRECTION_ASC,
+        name: trans(TKEYS.query["order-by"]["updated-at"]["oldest-first"]),
+      },
+    ];
+  }
+
+  function selectedCreatedAtOrderByKey() {
+    if (
+      listRequest.orderBy?.field ===
+      OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT
+    ) {
+      return listRequest.orderBy?.direction;
     }
+  }
+
+  function selectedUpdatedAtOrderByKey() {
+    if (
+      listRequest.orderBy?.field ===
+      OffersOrderByField.OFFERS_ORDER_BY_FIELD_UPDATED_AT
+    ) {
+      return listRequest.orderBy?.direction;
+    }
+  }
+
+  const [listRequest, setListRequest] =
+    createStore<ListOffersRequest>(defaultRequest);
+
+  const [offers, { refetch }] = createResource(() => listRequest, fetchOffers);
+
+  async function fetchOffers(request: ListOffersRequest) {
+    const response = await offerService.list(request);
     return response.offers;
   }
 
   function handleSearchInput(value: string) {
-    setSearchInput(value);
+    const trimmed = value.trim();
+
+    if (_.isEmpty(trimmed)) {
+      if (_.isNil(listRequest.filter)) {
+        return;
+      }
+
+      setListRequest({ ...listRequest, ...{ filter: undefined } });
+    } else {
+      setListRequest({
+        ...listRequest,
+        ...{ filter: { field: searchField, query: trimmed } },
+      });
+    }
+
+    refetch();
+  }
+
+  function handleOrderByInput(
+    field: OffersOrderByField,
+    direction: string | number | null
+  ) {
+    if (!_.isNumber(direction)) {
+      return;
+    }
+
+    setListRequest({ ...listRequest, ...{ orderBy: { field, direction } } });
+    refetch();
+  }
+
+  function handleOrderByRandomInput() {
+    setListRequest({
+      ...listRequest,
+      ...{
+        orderBy: {
+          field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_RANDOM,
+          direction: Direction.DIRECTION_ASC,
+        },
+      },
+    });
+
+    refetch();
   }
 
   async function handleSearchSubmit(event: SubmitEvent) {
@@ -58,11 +159,44 @@ export default function Offers() {
               class={styles.SearchInput}
               id="search"
               type="search"
-              value={searchInput()}
+              value={listRequest.filter?.query || ""}
               onInput={(event) => handleSearchInput(event.currentTarget.value)}
               aria-label="search"
             />
+
+            <RefreshIcon class={styles.RefreshIcon} onClick={refetch} />
           </form>
+
+          <div class={styles.Filters}>
+            <Select
+              label={trans(TKEYS.query["order-by"]["created-at"].title)}
+              options={createdAtOrderByOptions}
+              onValue={(direction) =>
+                handleOrderByInput(
+                  OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT,
+                  direction
+                )
+              }
+              value={selectedCreatedAtOrderByKey}
+            />
+            <Select
+              label={trans(TKEYS.query["order-by"]["updated-at"].title)}
+              options={updatedAtOrderByOptions}
+              onValue={(direction) =>
+                handleOrderByInput(
+                  OffersOrderByField.OFFERS_ORDER_BY_FIELD_UPDATED_AT,
+                  direction
+                )
+              }
+              value={selectedUpdatedAtOrderByKey}
+            />
+            <button
+              class={styles.QueryButton}
+              onClick={handleOrderByRandomInput}
+            >
+              <Trans key={TKEYS.query["order-by"].random.title} />
+            </button>
+          </div>
         </div>
       </Section>
 
@@ -75,9 +209,7 @@ export default function Offers() {
             <ContentLoading />
           </Match>
           <Match when={isResolved(offers.state)}>
-            <For each={offers()}>
-              {(offer) => <OfferListItem offer={() => offer} />}
-            </For>
+            <OfferList offers={() => offers()!} showMarketBooth />
           </Match>
         </Switch>
       </Section>

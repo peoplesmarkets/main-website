@@ -8,6 +8,7 @@ export const TKEYS = {
   },
   common: {
     file: "common.file",
+    by: "common.by",
   },
   form: {
     action: {
@@ -35,10 +36,19 @@ export const TKEYS = {
   },
   query: {
     "order-by": {
-      title: "query.order-by.title",
-      "newest-first": "query.order-by.newest-first",
-      "oldest-first": "query.order-by.oldest-first",
-      random: "query.order-by.random",
+      "created-at": {
+        title: "query.order-by.created-at.title",
+        "newest-first": "query.order-by.created-at.newest-first",
+        "oldest-first": "query.order-by.created-at.oldest-first",
+      },
+      "updated-at": {
+        title: "query.order-by.updated-at.title",
+        "newest-first": "query.order-by.updated-at.newest-first",
+        "oldest-first": "query.order-by.updated-at.oldest-first",
+      },
+      random: {
+        title: "query.order-by.random.title",
+      },
     },
   },
   price: {
