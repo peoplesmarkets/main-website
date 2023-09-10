@@ -31,19 +31,15 @@ export default function MarketBooths() {
   const searchField =
     MarketBoothsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME_AND_DESCRIPTION;
 
-  function orderByOptions() {
+  function createdAtOrderByOptions() {
     return [
       {
-        key: `${MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT}:${Direction.DIRECTION_DESC}`,
-        name: trans(TKEYS.query["order-by"]["newest-first"]),
+        key: Direction.DIRECTION_DESC,
+        name: trans(TKEYS.query["order-by"]["created-at"]["newest-first"]),
       },
       {
-        key: `${MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT}:${Direction.DIRECTION_ASC}`,
-        name: trans(TKEYS.query["order-by"]["oldest-first"]),
-      },
-      {
-        key: `${MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_RANDOM}:${Direction.DIRECTION_ASC}`,
-        name: trans(TKEYS.query["order-by"].random),
+        key: Direction.DIRECTION_ASC,
+        name: trans(TKEYS.query["order-by"]["created-at"]["oldest-first"]),
       },
     ];
   }
@@ -63,6 +59,15 @@ export default function MarketBooths() {
   async function fetchMarketBooths(request: ListMarketBoothsRequest) {
     const response = await marketBoothService.list(request);
     return response.marketBooths;
+  }
+
+  function selectedCreatedAtOrderByKey() {
+    if (
+      listRequest.orderBy?.field ===
+      MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT
+    ) {
+      return listRequest.orderBy?.direction;
+    }
   }
 
   function handleSearchInput(value: string) {
@@ -86,17 +91,11 @@ export default function MarketBooths() {
     refetch();
   }
 
-  function handleOrderByInput(value: string | null) {
-    if (!value) return;
-    const splitted = value.split(":");
-    if (!_.isArray(splitted) || splitted.length !== 2) {
-      return;
-    }
-
-    const field = Number(splitted[0]);
-    const direction = Number(splitted[1]);
-
-    if (!_.isNumber(field) || !_.isNumber(direction)) {
+  function handleOrderByInput(
+    field: MarketBoothsOrderByField,
+    direction: string | number | null
+  ) {
+    if (!_.isNumber(direction)) {
       return;
     }
 
@@ -131,21 +130,20 @@ export default function MarketBooths() {
               aria-label="search"
             />
 
-            <RefreshIcon
-              class={styles.RefreshIcon}
-              classList={{
-                [styles.Active]: marketBooths.state === "refreshing",
-              }}
-              onClick={refetch}
-            />
+            <RefreshIcon class={styles.RefreshIcon} onClick={refetch} />
           </form>
 
           <div class={styles.Filters}>
             <Select
-              label={trans(TKEYS.query["order-by"].title)}
-              options={orderByOptions}
-              onValue={handleOrderByInput}
-              initial={_.first(orderByOptions())!}
+              label={trans(TKEYS.query["order-by"]["created-at"].title)}
+              options={createdAtOrderByOptions}
+              onValue={(direction) =>
+                handleOrderByInput(
+                  MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
+                  direction
+                )
+              }
+              value={selectedCreatedAtOrderByKey}
             />
           </div>
         </div>

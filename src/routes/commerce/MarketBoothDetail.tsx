@@ -15,6 +15,8 @@ import { secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService, OfferService } from "../../services";
 import styles from "./MarketBoothDetail.module.scss";
+import { OffersOrderByField } from "../../services/peoplesmarkets/commerce/v1/offer";
+import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
 
 export default function MarketBoothDetail() {
   const { marketBoothId } = useParams();
@@ -31,7 +33,13 @@ export default function MarketBoothDetail() {
   }
 
   async function fetchOffers(marketBoothId: string) {
-    const response = await offerService.list(null, marketBoothId);
+    const response = await offerService.list({
+      marketBoothId,
+      orderBy: {
+        field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_UPDATED_AT,
+        direction: Direction.DIRECTION_DESC,
+      },
+    });
     return response.offers;
   }
 

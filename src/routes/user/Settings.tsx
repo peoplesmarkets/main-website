@@ -156,7 +156,7 @@ export default function Settings() {
     }
   }
 
-  function handleMarketBoothSelected(marketBoothId: string | null) {
+  function handleMarketBoothSelected(marketBoothId: string | number | null) {
     const selectedMarketBooth = marketBooths()?.find(
       (m) => m.marketBoothId === marketBoothId
     );

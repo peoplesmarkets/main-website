@@ -41,7 +41,6 @@ export function CreateOfferDialog(props: Props) {
     marketBoothId: props.marketBoothId,
     name: "",
     description: "",
-    price: {} as any,
   });
 
   const [errors, setErrors] = createStore({
@@ -81,12 +80,14 @@ export function CreateOfferDialog(props: Props) {
     });
   }
 
-  function handleCurrencyChange(value: string) {
-    resetErrors();
-    setOffer("price", {
-      ...offer.price,
-      currency: getCurrencyFromCode(value),
-    });
+  function handleCurrencyChange(value: string | number) {
+    if (_.isString(value)) {
+      resetErrors();
+      setOffer("price", {
+        ...offer.price,
+        currency: getCurrencyFromCode(value),
+      });
+    }
   }
 
   async function createOffer(event: SubmitEvent) {

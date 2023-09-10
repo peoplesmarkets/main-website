@@ -38,10 +38,19 @@ export const EN: typeof TKEYS = {
   },
   query: {
     "order-by": {
-      title: "Order by",
-      "newest-first": "Newest first",
-      "oldest-first": "Oldest first",
-      random: "Random",
+      "created-at": {
+        title: "Created at",
+        "newest-first": "Newest first",
+        "oldest-first": "Oldest first",
+      },
+      "updated-at": {
+        title: "Updated at",
+        "newest-first": "Newest first",
+        "oldest-first": "Oldest first",
+      },
+      random: {
+        title: "Random",
+      },
     },
   },
   price: {
