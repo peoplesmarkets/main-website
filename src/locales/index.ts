@@ -4,6 +4,8 @@ import { DE } from "./de";
 import { TKEYS } from "./dev";
 import { EN } from "./en";
 
+export { TKEYS };
+
 export const LANGUAGES = {
   english: "en",
   german: "de",

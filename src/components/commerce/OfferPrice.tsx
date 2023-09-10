@@ -1,13 +1,15 @@
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import _ from "lodash";
+
+import { centsToDecimal } from "../../lib";
 import { TKEYS } from "../../locales/dev";
+import { getCurrencyCode } from "../../services";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferPrice.module.scss";
-import { centsToDecimal } from "../../lib";
-import _ from "lodash";
-import { getCurrencyCode } from "../../services";
 
 type Props = {
   offer: () => OfferResponse | undefined;
+  class?: string;
 };
 
 export function OfferPrice(props: Props) {
@@ -28,13 +30,8 @@ export function OfferPrice(props: Props) {
   }
 
   return (
-    <div class={styles.OfferPrice}>
-      <span class={styles.Label}>
-        <Trans key={TKEYS.offer.labels.Price} />:{" "}
-      </span>
-      <span class={styles.Title}>
-        {priceDecimal()} {currencyCode()}
-      </span>
-    </div>
+    <span class={props.class || styles.Price}>
+      {priceDecimal()} {currencyCode()}
+    </span>
   );
 }
