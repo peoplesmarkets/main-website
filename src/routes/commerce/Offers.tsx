@@ -1,19 +1,18 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { For, Match, Switch, createResource, createSignal } from "solid-js";
+import { Match, Switch, createResource, createSignal } from "solid-js";
 
+import { OfferList } from "../../components/commerce";
 import {
   ContentError,
   ContentLoading,
   isResolved,
 } from "../../components/content";
-import { SearchGlobalIcon } from "../../components/icons/SearchGlobalIcon";
-import { SearchIcon } from "../../components/icons/SearchIcon";
+import { SearchGlobalIcon, SearchIcon } from "../../components/icons";
 import { Page, Section } from "../../components/layout";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { OfferService } from "../../services";
 import styles from "./Offers.module.scss";
-import { OfferListItem } from "../../components/commerce/OfferListItem";
 
 export default function Offers() {
   const offerService = new OfferService();
@@ -75,9 +74,7 @@ export default function Offers() {
             <ContentLoading />
           </Match>
           <Match when={isResolved(offers.state)}>
-            <For each={offers()}>
-              {(offer) => <OfferListItem offer={() => offer} />}
-            </For>
+            <OfferList offers={() => offers()!} showMarketBooth />
           </Match>
         </Switch>
       </Section>

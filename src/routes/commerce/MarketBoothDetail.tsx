@@ -1,9 +1,9 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { useParams } from "@solidjs/router";
 import _ from "lodash";
-import { For, Match, Show, Switch, createResource } from "solid-js";
+import { Match, Show, Switch, createResource } from "solid-js";
 
-import { OfferListItem } from "../../components/commerce/OfferListItem";
+import { OfferList } from "../../components/commerce";
 import {
   ContentError,
   ContentLoading,
@@ -99,9 +99,7 @@ export default function MarketBoothDetail() {
                 </span>
               }
             >
-              <For each={offers()}>
-                {(offer) => <OfferListItem offer={() => offer} />}
-              </For>
+              <OfferList offers={() => offers()!} />
             </Show>
           </Section>
         </Match>
