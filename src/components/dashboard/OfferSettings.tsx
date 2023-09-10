@@ -42,10 +42,10 @@ export function OfferSettings(props: Props) {
   });
 
   async function fetchOffers() {
-    const response = await offerService.list(
-      currentSession().userId,
-      props.marketBooth().marketBoothId
-    );
+    const response = await offerService.list({
+      userId: currentSession().userId || undefined,
+      marketBoothId: props.marketBooth().marketBoothId,
+    });
 
     return response.offers;
   }

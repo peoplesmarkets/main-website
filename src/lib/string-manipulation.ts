@@ -101,5 +101,11 @@ export async function readFileBase64(
 }
 
 export function centsToDecimal(cents: number, decimalPoint: string): string {
-  return (cents / 100).toString().replace(".", decimalPoint);
+  let maybeFloat = (cents / 100).toString();
+
+  if (!maybeFloat.includes(".")) {
+    maybeFloat += ".00";
+  }
+
+  return maybeFloat.replace(".", decimalPoint);
 }

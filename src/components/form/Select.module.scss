@@ -32,7 +32,6 @@
   font: var(--font-label-small);
   padding: 0 2px;
   line-height: 1;
-  color: var();
 }
 
 .LabelSelecting {
@@ -53,6 +52,7 @@
 
 .List {
   position: absolute;
+  z-index: 10;
   top: 0;
   width: 100%;
   box-sizing: border-box;

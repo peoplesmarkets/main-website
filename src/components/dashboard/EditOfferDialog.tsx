@@ -91,11 +91,13 @@ export function EditOfferDialog(props: Props) {
     });
   }
 
-  function handleCurrencyChange(value: string) {
-    setOffer("price", {
-      ...offer.price,
-      currency: getCurrencyFromCode(value),
-    });
+  function handleCurrencyChange(value: string | number) {
+    if (_.isString(value)) {
+      setOffer("price", {
+        ...offer.price,
+        currency: getCurrencyFromCode(value),
+      });
+    }
   }
 
   async function handleUpdateOffer(event: SubmitEvent) {

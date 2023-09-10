@@ -9,26 +9,26 @@ import styles from "./Select.module.scss";
 false && clickOutside;
 
 export type Option = {
-  key: string;
+  key: string | number;
   name: string;
-  [key: string]: string;
+  [key: string]: string | number;
 };
 
 type Props = {
   readonly label: string;
   readonly options: () => Option[];
   readonly class?: string;
-  readonly value?: () => Option | undefined;
+  readonly value?: () => Option | string | number | undefined;
   readonly expandHeight?: boolean;
   readonly emptyLabel?: string;
 } & (
   | {
       readonly nullable: true;
-      readonly onValue?: (_value: string | null) => void;
+      readonly onValue?: (_value: string | number | null) => void;
     }
   | {
       readonly nullable?: false;
-      readonly onValue?: (_value: string) => void;
+      readonly onValue?: (_value: string | number) => void;
     }
 );
 
@@ -37,7 +37,12 @@ export function Select(props: Props) {
   const [showSuggestionList, setShowSuggestionList] = createSignal(false);
 
   createEffect(() => {
-    setSelected(props.value?.());
+    const value = props.value?.();
+    if (_.isString(value) || _.isNumber(value)) {
+      setSelected(_.find(props.options(), { key: value }));
+    } else {
+      setSelected(value);
+    }
   });
 
   function anySelected() {
