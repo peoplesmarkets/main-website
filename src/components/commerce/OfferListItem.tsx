@@ -3,7 +3,7 @@ import { A } from "@solidjs/router";
 import _ from "lodash";
 import { Show } from "solid-js";
 
-import { OFFERS_PATH } from "../../App";
+import { MARKET_BOOTHS_PATH, OFFERS_PATH } from "../../App";
 import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
@@ -49,7 +49,16 @@ export function OfferListItem(props: Props) {
 
           <Show when={props.showMarketBooth}>
             <span class={styles.Info}>
-              <Trans key={TKEYS.common.by} />: {props.offer().marketBoothId}
+              <Trans key={TKEYS.common.by} />:{" "}
+              <A
+                class={styles.InfoLink}
+                href={buildPath(
+                  MARKET_BOOTHS_PATH,
+                  props.offer().marketBoothId
+                )}
+              >
+                {props.offer().marketBoothName}
+              </A>
             </span>
           </Show>
 
