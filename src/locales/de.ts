@@ -84,6 +84,7 @@ export const DE: typeof TKEYS = {
     "no-offers-yet": "Derzeit noch keine Angebote ...",
     "no-description": "Keine Beschreibung vorhanden ...",
     "currently-no-payment-method": "keine Zahlungsmethode vorhanden",
+    "other-offers-by": "Weitere Angebote von ",
     labels: {
       Price: "Preis",
       Name: "Name",
@@ -105,7 +106,7 @@ export const DE: typeof TKEYS = {
   },
   dashboard: {
     "market-booth": {
-      Details: "Marktstand Details",
+      Details: "Details",
       "no-market-booth-yet": "Bisher kein Markstand",
       "create-new-market-booth": "Neuen Marktstand erstellen",
       "edit-market-booth-details": "Marktstand Details bearbeiten",
