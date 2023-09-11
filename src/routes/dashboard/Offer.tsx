@@ -24,7 +24,6 @@ import { OfferService } from "../../services";
 import styles from "./Offer.module.scss";
 
 export default function Offer() {
-  const { marketBoothId, offerId } = useParams();
   const navigate = useNavigate();
 
   const [trans] = useTransContext();
@@ -33,7 +32,10 @@ export default function Offer() {
 
   const offerService = new OfferService(accessToken);
 
-  const [offer, { refetch }] = createResource(offerId, fetchOffer);
+  const [offer, { refetch }] = createResource(
+    () => useParams().offerId,
+    fetchOffer
+  );
 
   const [showEditOffer, setShowEditOffer] = createSignal(false);
   const [showAddImage, setShowAddImage] = createSignal(false);
@@ -83,7 +85,7 @@ export default function Offer() {
       await offerService.delete(offer()!.offerId);
     }
     setShowDeleteConfirmation(false);
-    navigate(buildPath(DASHBOARD_PATH, marketBoothId));
+    navigate(buildPath(DASHBOARD_PATH, useParams().marketBoothId));
   }
 
   return (

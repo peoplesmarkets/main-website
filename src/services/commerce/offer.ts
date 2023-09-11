@@ -5,7 +5,6 @@ import {
   GrpcWebImpl,
   ListOffersRequest,
   OfferServiceClientImpl,
-  OffersFilterField,
   UpdateOfferRequest,
 } from "../peoplesmarkets/commerce/v1/offer";
 import {

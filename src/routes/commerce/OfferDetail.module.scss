@@ -4,6 +4,17 @@
   font: var(--font-title);
 }
 
+.Subtitle {
+  display: block;
+  font: var(--font-title);
+  font-weight: 300;
+  margin-bottom: 1rem;
+}
+
+.Bold {
+  font-weight: 500;
+}
+
 .Details {
   font: var(--font-body-small);
 }
@@ -25,4 +36,10 @@
   display: flex;
   justify-content: center;
   font: var(--font-title);
+}
+
+.Border {
+  width: 100%;
+  margin-top: 1rem;
+  border-bottom: var(--secondary-border);
 }

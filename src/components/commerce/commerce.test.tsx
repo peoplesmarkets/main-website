@@ -11,6 +11,7 @@ import { OfferListItem } from "./OfferListItem";
 import { OfferImages } from "./OfferImages";
 import { OfferPrice } from "./OfferPrice";
 import { OfferList } from "./OfferList";
+import { MarketBoothContext } from "./MarketBoothContext";
 
 /**
  * Render to check if objects are accessed correctly
@@ -18,6 +19,15 @@ import { OfferList } from "./OfferList";
 describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
+
+  test("MarketBoothContext", () => {
+    const { container } = renderIntoRoot(() => (
+      <MarketBoothContext marketBooth={getNoObj}>
+        <></>
+      </MarketBoothContext>
+    ));
+    expect(container).toBeDefined();
+  });
 
   test("OfferImages", () => {
     const { container } = renderIntoRoot(() => (
@@ -41,9 +51,7 @@ describe("Render once", () => {
     expect(container).toBeDefined();
   });
   test("OfferList", () => {
-    const { container } = renderIntoRoot(() => (
-      <OfferList offers={getNoObj} />
-    ));
+    const { container } = renderIntoRoot(() => <OfferList offers={getNoObj} />);
     expect(container).toBeDefined();
   });
 });

@@ -16,7 +16,6 @@ import { useMarketBoothContext } from "../../contexts/MarketBoothContext";
 
 export default function Dashboard() {
   const navigate = useNavigate();
-  const { marketBoothId } = useParams();
 
   const { accessToken } = useAccessTokensContext();
 
@@ -24,7 +23,7 @@ export default function Dashboard() {
   const { setCurrentMarketBooth } = useMarketBoothContext();
 
   const [marketBooth, { refetch }] = createResource(
-    () => marketBoothId,
+    () => useParams().marketBoothId,
     fetchMarketBooth
   );
 
