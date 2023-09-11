@@ -5,5 +5,4 @@ export * from "./EditMarketBoothDialog";
 export * from "./EditOfferDialog";
 export * from "./MarketBoothImage";
 export * from "./MarketBoothSettings";
-export * from "./OfferImages";
 export * from "./OfferSettings";

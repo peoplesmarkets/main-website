@@ -17,3 +17,7 @@
   @extend .Bordered;
   border: var(--danger-border);
 }
+
+.Flat {
+  padding: 0 1rem;
+}

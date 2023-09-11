@@ -1,8 +1,17 @@
-$expanded-min-width: 1080px;
+$medium-min-width: 600px;
 
 .OfferImages {
   display: flex;
   flex-direction: column;
+
+  user-select: none;
+
+  @media only screen and (min-width: $medium-min-width) {
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: space-between;
+    gap: 1rem;
+  }
 }
 
 .MainImage {
@@ -10,57 +19,60 @@ $expanded-min-width: 1080px;
   justify-content: center;
   align-items: center;
   flex: 1;
+  min-height: 400px;
+  max-height: 400px;
 }
 
 .ImageContainer {
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  opacity: 1;
-  transition: opacity 0.3s cubic-bezier(1, 0, 0.5, 0.5);
 }
 
 .Image {
   width: 100%;
   max-height: 400px;
   object-fit: contain;
-  border-radius: 8px;
-  opacity: 1;
-  transition: opacity 0.3s cubic-bezier(1, 0, 0.5, 0.5);
-}
-
-.FadeOut {
-  opacity: 0;
-  transition: none;
+  border-radius: 2px;
 }
 
 .ImageGallery {
-  margin-top: 2rem;
+  margin-top: 1rem;
   display: flex;
   align-items: center;
   gap: 0.5rem;
   overflow: auto;
   overscroll-behavior: contain;
+
+  @media only screen and (min-width: $medium-min-width) {
+    max-height: 400px;
+    margin-top: 0;
+    display: flex;
+    flex-direction: column;
+  }
 }
 
-.ImageRow:first-child {
+.PreviewItem:first-child {
   margin-left: auto;
+  @media only screen and (min-width: $medium-min-width) {
+    margin: 0;
+  }
 }
 
-.ImageRow:last-child {
+.PreviewItem:last-child {
   margin-right: auto;
+  @media only screen and (min-width: $medium-min-width) {
+    margin: 0;
+  }
 }
 
-.ImagePreview {
-  max-width: 100px;
-  max-height: 100px;
-  object-fit: contain;
-  border-radius: 8px;
+.PreviewImage {
+  width: 80px;
+  height: 80px;
+  object-fit: cover;
+  border-radius: 2px;
   border: 2px solid transparent;
 }
 
-.ImagePreview:hover {
+.PreviewImage:hover {
   cursor: pointer;
 }
 
@@ -68,32 +80,34 @@ $expanded-min-width: 1080px;
   border-color: var(--active-content-color);
 }
 
-@media only screen and (min-width: $expanded-min-width) {
-  .OfferImages {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1rem;
-  }
+.DeleteButton {
+  position: absolute;
+  bottom: 0.5rem;
+  right: 0.5rem;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  background-color: var(--display-background-color-lighten);
 
-  .MainImage {
-    width: 600px;
-    min-height: 400px;
-  }
+  user-select: none;
+  border: none;
+  outline: inherit;
+  text-align: start;
+  text-decoration: none;
+  box-sizing: border-box;
+}
 
-  .ImageGallery {
-    max-height: 400px;
-    display: flex;
-    flex-direction: column;
-    margin-top: 0;
-    align-items: center;
-  }
+.DeleteButton:hover {
+  cursor: pointer;
+  background-color: var(--display-background-color);
+}
 
-  .ImageRow:first-child {
-    margin: 0;
-  }
-  
-  .ImageRow:last-child {
-    margin: 0;
-  }
+.DeleteIcon {
+  width: 40px;
+  height: 40px;
+  padding: 8px;
+  fill: var(--primary-content-color);
 }

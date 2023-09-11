@@ -4,7 +4,7 @@ import _ from "lodash";
 import { createResource, createSignal, Match, Show, Switch } from "solid-js";
 
 import { DASHBOARD_PATH } from "../../App";
-import { OfferPrice } from "../../components/commerce";
+import { OfferPrice, OfferImages } from "../../components/commerce";
 import {
   ContentError,
   ContentLoading,
@@ -14,7 +14,6 @@ import {
 import {
   CreateOfferImageDialog,
   EditOfferDialog,
-  OfferImages,
 } from "../../components/dashboard";
 import { ActionButton, DeleteConfirmation } from "../../components/form";
 import { Page, Section } from "../../components/layout";
@@ -25,7 +24,6 @@ import { OfferService } from "../../services";
 import styles from "./Offer.module.scss";
 
 export default function Offer() {
-  const { marketBoothId, offerId } = useParams();
   const navigate = useNavigate();
 
   const [trans] = useTransContext();
@@ -34,7 +32,10 @@ export default function Offer() {
 
   const offerService = new OfferService(accessToken);
 
-  const [offer, { refetch }] = createResource(offerId, fetchOffer);
+  const [offer, { refetch }] = createResource(
+    () => useParams().offerId,
+    fetchOffer
+  );
 
   const [showEditOffer, setShowEditOffer] = createSignal(false);
   const [showAddImage, setShowAddImage] = createSignal(false);
@@ -84,7 +85,7 @@ export default function Offer() {
       await offerService.delete(offer()!.offerId);
     }
     setShowDeleteConfirmation(false);
-    navigate(buildPath(DASHBOARD_PATH, marketBoothId));
+    navigate(buildPath(DASHBOARD_PATH, useParams().marketBoothId));
   }
 
   return (
@@ -98,14 +99,19 @@ export default function Offer() {
             <ContentLoading />
           </Match>
           <Match when={isResolved(offer.state)}>
-            <span class={styles.Title}>{offer()?.name}</span>
-
             <Show when={!_.isNil(offer()) && !_.isEmpty(offer()?.images)}>
-              <OfferImages
-                offer={() => offer()!}
-                onUpdate={handleRefreshOffer}
-              />
+              <Section>
+                <OfferImages
+                  offer={() => offer()!}
+                  onUpdate={handleRefreshOffer}
+                  withDelete
+                />
+              </Section>
             </Show>
+
+            <Section flat>
+              <span class={styles.Title}>{offer()?.name}</span>
+            </Section>
 
             <Show when={!_.isNil(offer()?.price)}>
               <Section>

@@ -81,6 +81,7 @@ export const TKEYS = {
     "no-offers-yet": "offer.no-offers-yet",
     "no-description": "offer.no-description",
     "currently-no-payment-method": "offer.currently-no-payment-method",
+    "other-offers-by": "offer.other-offers-by",
     labels: {
       Price: "offer.labels.Price",
       Name: "offer.labels.Name",

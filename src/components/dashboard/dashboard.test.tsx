@@ -17,7 +17,6 @@ import { OfferSettings } from "./OfferSettings";
 import { CreateOfferImageDialog } from "./CreateOfferImageDialog";
 import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 import { MarketBoothImage } from "./MarketBoothImage";
-import { OfferImages } from "./OfferImages";
 
 /**
  * Render to check if objects are accessed correctly
@@ -81,13 +80,6 @@ describe("Render once", () => {
     const { container } = renderIntoRoot(() => (
       <MarketBoothSettings marketBooth={getNoObj} />
     ));
-    expect(container).toBeDefined();
-  });
-  test("OfferImages", () => {
-    const { container } = renderIntoRoot(() => (
-      <OfferImages offer={() => ({ ...noObj, images: [] })} onUpdate={noOp} />
-    ));
-
     expect(container).toBeDefined();
   });
   test("OfferSettings", () => {
