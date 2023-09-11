@@ -4,7 +4,7 @@ import _ from "lodash";
 import { createResource, createSignal, Match, Show, Switch } from "solid-js";
 
 import { DASHBOARD_PATH } from "../../App";
-import { OfferPrice } from "../../components/commerce";
+import { OfferPrice, OfferImages } from "../../components/commerce";
 import {
   ContentError,
   ContentLoading,
@@ -14,7 +14,6 @@ import {
 import {
   CreateOfferImageDialog,
   EditOfferDialog,
-  OfferImages,
 } from "../../components/dashboard";
 import { ActionButton, DeleteConfirmation } from "../../components/form";
 import { Page, Section } from "../../components/layout";
@@ -98,14 +97,19 @@ export default function Offer() {
             <ContentLoading />
           </Match>
           <Match when={isResolved(offer.state)}>
-            <span class={styles.Title}>{offer()?.name}</span>
-
             <Show when={!_.isNil(offer()) && !_.isEmpty(offer()?.images)}>
-              <OfferImages
-                offer={() => offer()!}
-                onUpdate={handleRefreshOffer}
-              />
+              <Section>
+                <OfferImages
+                  offer={() => offer()!}
+                  onUpdate={handleRefreshOffer}
+                  withDelete
+                />
+              </Section>
             </Show>
+
+            <Section flat>
+              <span class={styles.Title}>{offer()?.name}</span>
+            </Section>
 
             <Show when={!_.isNil(offer()?.price)}>
               <Section>

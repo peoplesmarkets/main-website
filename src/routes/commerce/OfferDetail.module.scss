@@ -1,20 +1,10 @@
-.Headline {
-  display: block;
-  margin: 0 auto;
-  padding-top: 1rem;
-  font: var(--font-headline);
-  text-align: center;
-}
-
 .Title {
   display: block;
   margin: 0 auto;
   font: var(--font-title);
-  text-align: center;
 }
 
 .Details {
-  display: block;
   font: var(--font-body-small);
 }
 
@@ -25,15 +15,14 @@
 }
 
 .Price {
-  min-height: 3rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 2rem;
+  width: 100%;
+  display: block;
+  font: var(--font-headline);
+  text-align: right;
 }
 
 .Buy {
-  flex: 1;
   display: flex;
-  justify-content: end;
+  justify-content: center;
+  font: var(--font-title);
 }

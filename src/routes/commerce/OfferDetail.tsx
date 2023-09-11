@@ -64,47 +64,19 @@ export default function OfferDetail() {
           </Section>
         </Match>
         <Match when={isResolved(offer.state)}>
-          <span class={styles.Headline}>{offer()?.name}</span>
-
           <Show when={!_.isNil(offer()) && !_.isEmpty(offer()?.images)}>
             <Section>
               <OfferImages offer={() => offer()!} />
             </Section>
           </Show>
 
-          <Show when={!_.isNil(offer()?.price)}>
-            <Section bordered>
-              <div class={styles.Price}>
-                <OfferPrice offer={() => offer()} />
+          <Section flat>
+            <span class={styles.Title}>{offer()?.name}</span>
+          </Section>
 
-                <div class={styles.Buy}>
-                  <Show
-                    when={
-                      isResolved(stripeAccount.state) &&
-                      stripeAccount()?.enabled
-                    }
-                  >
-                    <ActionButton
-                      actionType="active-filled"
-                      onClick={handleCheckout}
-                    >
-                      <Trans key={TKEYS.form.action.Buy} />
-                    </ActionButton>
-                  </Show>
-                  <Show
-                    when={
-                      isResolved(stripeAccount.state) &&
-                      !stripeAccount()?.enabled
-                    }
-                  >
-                    <span class="font-body">
-                      <Trans key={TKEYS.offer["currently-no-payment-method"]} />
-                    </span>
-                  </Show>
-                </div>
-              </div>
-            </Section>
-          </Show>
+          <Section>
+            <OfferPrice class={styles.Price} offer={() => offer()} />
+          </Section>
 
           <Section>
             <span class={styles.Description}>
@@ -120,15 +92,47 @@ export default function OfferDetail() {
               </Show>
             </span>
           </Section>
+
+          <Show when={!_.isNil(offer()?.price)}>
+            <Section>
+              <div class={styles.Buy}>
+                <Show
+                  when={
+                    isResolved(stripeAccount.state) && stripeAccount()?.enabled
+                  }
+                >
+                  <ActionButton
+                    actionType="active-filled"
+                    onClick={handleCheckout}
+                  >
+                    <Trans key={TKEYS.form.action.Buy} />
+                  </ActionButton>
+                </Show>
+
+                <Show
+                  when={
+                    isResolved(stripeAccount.state) && !stripeAccount()?.enabled
+                  }
+                >
+                  <span class="font-body">
+                    <Trans key={TKEYS.offer["currently-no-payment-method"]} />
+                  </span>
+                </Show>
+              </div>
+            </Section>
+          </Show>
+
           <Section>
-            <span class={styles.Details}>
-              <Trans key={TKEYS.offer.labels["Created-at"]} />:{" "}
-              {secondsToLocaleString(offer()?.createdAt)}
-            </span>
-            <span class={styles.Details}>
-              <Trans key={TKEYS.offer.labels["Updated-at"]} />:{" "}
-              {secondsToLocaleString(offer()?.updatedAt)}
-            </span>
+            <div class={styles.Details}>
+              <p>
+                <Trans key={TKEYS.offer.labels["Created-at"]} />:{" "}
+                {secondsToLocaleString(offer()?.createdAt)}
+              </p>
+              <p>
+                <Trans key={TKEYS.offer.labels["Updated-at"]} />:{" "}
+                {secondsToLocaleString(offer()?.updatedAt)}
+              </p>
+            </div>
           </Section>
         </Match>
       </Switch>

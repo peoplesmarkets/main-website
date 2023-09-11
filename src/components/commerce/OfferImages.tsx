@@ -6,18 +6,37 @@ import {
   OfferResponse,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferImages.module.scss";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { OfferService } from "../../services";
+import { TrashIcon } from "../icons";
+import { DeleteConfirmation } from "../form";
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { TKEYS } from "../../locales";
 
-type Props = {
-  readonly offer: () => OfferResponse;
-};
+type Props =
+  | {
+      readonly offer: () => OfferResponse;
+      readonly withDelete?: false;
+    }
+  | {
+      readonly offer: () => OfferResponse;
+      readonly withDelete: true;
+      readonly onUpdate: () => void;
+    };
 
 export function OfferImages(props: Props) {
+  const [trans] = useTransContext();
+
+  const { accessToken } = useAccessTokensContext();
+
+  const offerService = new OfferService(accessToken);
+
   const [selectedImage, setSelectedImage] = createSignal<
     OfferImageResponse | undefined
   >();
 
-  let imageElement: HTMLImageElement | undefined;
-  let imageContainer: HTMLDivElement | undefined;
+  const [showDeleteConfirmation, setShowDeleteConfirmation] =
+    createSignal(false);
 
   createEffect(() => {
     if (_.isNil(props.offer().images.find((i) => isSelectedImage(i)))) {
@@ -31,46 +50,59 @@ export function OfferImages(props: Props) {
     return selectedImage()?.offerImageId === offerImage?.offerImageId;
   }
 
-  function otherImages() {
+  function images() {
     return props.offer().images.sort((a, b) => a.ordering - b.ordering);
   }
 
   function handleSelectImage(offerImageId: string) {
-    imageContainer?.classList.add(styles.FadeOut);
-    imageElement?.classList.add(styles.FadeOut);
-    const image = props
-      .offer()
-      .images.find((i) => i.offerImageId === offerImageId);
-    setSelectedImage(image);
-    window.scrollTo({ top: 0 });
-    imageContainer?.classList.remove(styles.FadeOut);
-    imageElement?.classList.remove(styles.FadeOut);
+    setSelectedImage(_.find(props.offer().images, { offerImageId }));
+  }
+
+  function handleDeleteImage() {
+    if (props.withDelete) {
+      setShowDeleteConfirmation(true);
+    }
+  }
+
+  function handleContinueEditing() {
+    if (props.withDelete) {
+      setShowDeleteConfirmation(false);
+    }
+  }
+
+  async function handleConfirmDeleteImage() {
+    if (props.withDelete) {
+      await offerService.removeImage(selectedImage()!.offerImageId);
+      setShowDeleteConfirmation(false);
+      props.onUpdate();
+    }
   }
 
   return (
     <>
       <div class={styles.OfferImages}>
         <div class={styles.MainImage}>
-          <div class={styles.ImageContainer} ref={imageContainer}>
-            <img
-              ref={imageElement}
-              class={styles.Image}
-              src={selectedImage()?.imageUrl}
-              alt=""
-            />
+          <div class={styles.ImageContainer}>
+            <img class={styles.Image} src={selectedImage()?.imageUrl} alt="" />
+
+            <Show when={props.withDelete}>
+              <button class={styles.DeleteButton} onClick={handleDeleteImage}>
+                <TrashIcon class={styles.DeleteIcon} />
+              </button>
+            </Show>
           </div>
         </div>
 
-        <Show when={!_.isEmpty(otherImages())}>
+        <Show when={images()?.length > 1}>
           <div class={styles.ImageGallery}>
-            <For each={otherImages()}>
+            <For each={images()}>
               {(image) => (
                 <div
-                  class={styles.ImageRow}
+                  class={styles.PreviewItem}
                   onClick={() => handleSelectImage(image.offerImageId)}
                 >
                   <img
-                    class={styles.ImagePreview}
+                    class={styles.PreviewImage}
                     classList={{
                       [styles.ActivePreview]: isSelectedImage(image),
                     }}
@@ -83,6 +115,14 @@ export function OfferImages(props: Props) {
           </div>
         </Show>
       </div>
+
+      <Show when={props.withDelete && showDeleteConfirmation()}>
+        <DeleteConfirmation
+          message={trans(TKEYS.image["delete-confirmation-message"])}
+          onCancel={handleContinueEditing}
+          onConfirmation={handleConfirmDeleteImage}
+        />
+      </Show>
     </>
   );
 }
