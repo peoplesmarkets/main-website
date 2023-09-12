@@ -11,15 +11,15 @@ import {
   onMount,
 } from "solid-js";
 
-import { DASHBOARD_PATH, OFFERS_SUBPATH } from "../../App";
+import { DASHBOARD_MARKET_BOOTH_PATH, OFFERS_SUBPATH } from "../../App";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { ContentError, ContentLoading, isResolved } from "../content";
 import { ActionButton } from "../form";
-import { ImageIcon } from "../icons";
 import { Section } from "../layout/Section";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import styles from "./OfferSettings.module.scss";
@@ -83,7 +83,7 @@ export function OfferSettings(props: Props) {
                   <A
                     class={styles.Row}
                     href={buildPath(
-                      DASHBOARD_PATH,
+                      DASHBOARD_MARKET_BOOTH_PATH,
                       props.marketBooth().marketBoothId,
                       OFFERS_SUBPATH,
                       offer.offerId
@@ -91,11 +91,7 @@ export function OfferSettings(props: Props) {
                   >
                     <Show
                       when={!_.isEmpty(offer.images)}
-                      fallback={
-                        <div class={styles.ImagePlaceholder}>
-                          <ImageIcon class={styles.PlaceholderIcon} />
-                        </div>
-                      }
+                      fallback={<PlaceholderImage small />}
                     >
                       <img
                         class={styles.Image}

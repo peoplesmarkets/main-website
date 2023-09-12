@@ -8,10 +8,8 @@ import styles from "./App.module.scss";
 import Footer from "./Footer";
 import { Panel } from "./Panel";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
-import { MarketBoothProvider } from "./contexts/MarketBoothContext";
 import { initializeThemeStore } from "./contexts/ThemeStore";
 import { signInDataRoute } from "./data-routes";
-import { dashboardDataRoute } from "./data-routes/dashboard";
 import { buildPath } from "./lib";
 import { LOCALES, setDocumentLanguage } from "./locales";
 
@@ -20,14 +18,13 @@ export const MARKET_BOOTHS_PATH = "/";
 export const OFFERS_PATH = "/offers";
 
 export const DASHBOARD_PATH = "/dashboard";
+export const DASHBOARD_MARKET_BOOTH_PATH = DASHBOARD_PATH + "/market-booth";
 
 export const OFFERS_SUBPATH = "/offers";
 
 export const SIGN_IN_PATH = "/user/sign-in";
 export const SIGN_IN_CALLBACK_PATH = "/user/sign-in/callback";
 export const USER_SETTINGS_PATH = "/user/settings";
-export const USER_STRIPE_REFRESH_PATH = "/user/settings";
-export const USER_STRIPE_RETURN_PATH = "/user/settings";
 
 export const COMMUNITY_PATH = "/community";
 export const DEVELOPMENT_POSTS_SUBPATH = "/development-posts";
@@ -84,29 +81,34 @@ export default function App() {
               />
 
               <AccessTokenProvider>
-                <MarketBoothProvider>
-                  <Route path={DASHBOARD_PATH} data={dashboardDataRoute} />
-                  <Route
-                    path={buildPath(DASHBOARD_PATH, ":marketBoothId")}
-                    component={lazy(
-                      () => import("./routes/dashboard/Dashboard")
-                    )}
-                  />
-                  <Route
-                    path={buildPath(
-                      DASHBOARD_PATH,
-                      ":marketBoothId",
-                      OFFERS_SUBPATH,
-                      ":offerId"
-                    )}
-                    component={lazy(() => import("./routes/dashboard/Offer"))}
-                  />
+                {/* <Route path={DASHBOARD_PATH} data={dashboardDataRoute} /> */}
+                <Route
+                  path={buildPath(DASHBOARD_PATH)}
+                  component={lazy(() => import("./routes/dashboard/Dashboard"))}
+                />
+                <Route
+                  path={buildPath(
+                    DASHBOARD_MARKET_BOOTH_PATH,
+                    ":marketBoothId"
+                  )}
+                  component={lazy(
+                    () => import("./routes/dashboard/MarketBooth")
+                  )}
+                />
+                <Route
+                  path={buildPath(
+                    DASHBOARD_MARKET_BOOTH_PATH,
+                    ":marketBoothId",
+                    OFFERS_SUBPATH,
+                    ":offerId"
+                  )}
+                  component={lazy(() => import("./routes/dashboard/Offer"))}
+                />
 
-                  <Route
-                    path={USER_SETTINGS_PATH}
-                    component={lazy(() => import("./routes/user/Settings"))}
-                  />
-                </MarketBoothProvider>
+                <Route
+                  path={USER_SETTINGS_PATH}
+                  component={lazy(() => import("./routes/user/Settings"))}
+                />
 
                 <Route path={SIGN_IN_PATH} data={signInDataRoute} />
                 <Route

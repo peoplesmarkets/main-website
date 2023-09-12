@@ -22,6 +22,7 @@ import { buildPath, secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import styles from "./Offer.module.scss";
+import { PlaceholderImage } from "../../components/assets";
 
 export default function Offer() {
   const navigate = useNavigate();
@@ -99,15 +100,20 @@ export default function Offer() {
             <ContentLoading />
           </Match>
           <Match when={isResolved(offer.state)}>
-            <Show when={!_.isNil(offer()) && !_.isEmpty(offer()?.images)}>
-              <Section>
+            <Section>
+              <Show when={!_.isNil(offer()) && !_.isEmpty(offer()?.images)}>
                 <OfferImages
                   offer={() => offer()!}
                   onUpdate={handleRefreshOffer}
                   withDelete
                 />
-              </Section>
-            </Show>
+              </Show>
+              <Show when={_.isEmpty(offer()?.images)}>
+                <div class={styles.Placeholder}>
+                  <PlaceholderImage large />
+                </div>
+              </Show>
+            </Section>
 
             <Section flat>
               <span class={styles.Title}>{offer()?.name}</span>

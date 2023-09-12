@@ -1,16 +1,36 @@
-.Dashboard {
-  padding: 1rem 1rem 4rem 1rem;
+.TitleSection {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 1rem;
 }
 
 .Title {
   display: block;
-  margin: 0 auto;
-  padding: 1rem 0;
   font: var(--font-title);
-  text-align: center;
+  padding: 0;
 }
 
-.Actions {
+.Label {
+  display: block;
+  font: var(--font-label);
+}
+
+.Setting {
   width: 100%;
-  text-align: center;
+  margin-top: 0.5rem;
+  padding: 0.5rem;
+  box-sizing: border-box;
+}
+
+.SettingRow {
+  @extend .Setting;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 4px;
+  gap: 2rem;
+}
+
+.SettingRow:hover {
+  background: var(--hovered-background);
 }

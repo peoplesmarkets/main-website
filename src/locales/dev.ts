@@ -12,6 +12,7 @@ export const TKEYS = {
   },
   form: {
     action: {
+      "Create-new": "form.action.Create-new",
       Add: "form.action.Add",
       OK: "form.action.OK",
       Save: "form.action.Save",
@@ -92,6 +93,9 @@ export const TKEYS = {
       "Updated-at": "offer.labels.Updated-at",
     },
   },
+  media: {
+    Title: "media.Title",
+  },
   image: {
     "delete-confirmation-message": "image.delete-confirmation-message",
   },
@@ -104,6 +108,7 @@ export const TKEYS = {
   dashboard: {
     "market-booth": {
       Details: "dashboard.market-booth.Details",
+      "my-market-booths": "dashboard.market-booth.my-market-booths",
       "no-market-booth-yet": "dashboard.market-booth.no-market-booth-yet",
       "create-new-market-booth":
         "dashboard.market-booth.create-new-market-booth",
@@ -112,6 +117,15 @@ export const TKEYS = {
       "delete-this-market-booth":
         "dashboard.market-booth.delete-this-market-booth",
       "add-or-update-image": "dashboard.market-booth.add-or-update-image",
+      stripe: {
+        title: "dashboard.market-booth.stripe.title",
+        integration: "dashboard.market-booth.stripe.integration",
+        "start-integration": "dashboard.market-booth.stripe.start-integration",
+        "continue-integration":
+          "dashboard.market-booth.stripe.continue-integration",
+        "remove-integration":
+          "dashboard.market-booth.stripe.remove-integration",
+      },
     },
     offers: {
       Details: "dashboard.offers.Details",
@@ -120,6 +134,9 @@ export const TKEYS = {
       "edit-offer": "dashboard.offers.edit-offer",
       "delete-this-offer": "dashboard.offers.delete-this-offer",
       "add-image": "dashboard.offers.add-image",
+    },
+    media: {
+      "my-media": "dashboard.media.my-media",
     },
   },
   "main-navigation": {
@@ -141,20 +158,6 @@ export const TKEYS = {
   },
   "user-settings-page": {
     title: "user-settings-page.title",
-    "payment-integration": {
-      title: "user-settings-page.payment-integration.title",
-      stripe: {
-        title: "user-settings-page.payment-integration.stripe.title",
-        "start-integration":
-          "user-settings-page.payment-integration.stripe.start-integration",
-        "continue-integration":
-          "user-settings-page.payment-integration.stripe.continue-integration",
-        "remove-integration":
-          "user-settings-page.payment-integration.stripe.remove-integration",
-      },
-    },
-    "market-booths-subtitle": "user-settings-page.market-booths-subtitle",
-    "add-market-booth": "user-settings-page.add-market-booth",
   },
   "community-page": {
     headline: "community-page.headline",

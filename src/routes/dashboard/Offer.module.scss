@@ -17,6 +17,12 @@
   font: var(--font-body);
 }
 
+.Placeholder {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
 .Actions {
   display: flex;
   justify-content: end;

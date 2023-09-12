@@ -1,18 +1,16 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { A } from "@solidjs/router";
 import _ from "lodash";
-import { For, Match, Show, Switch, createResource } from "solid-js";
+import { Match, Switch, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { MARKET_BOOTHS_PATH } from "../../App";
-import { ContentError, ContentLoading } from "../../components/content";
-import { Multiline } from "../../components/content/Multiline";
+import { MarketBoothList } from "../../components/commerce/MarketBoothList";
+import { ContentError } from "../../components/content";
 import { Select } from "../../components/form";
 import { RefreshIcon } from "../../components/icons/RefreshIcon";
 import { SearchIcon } from "../../components/icons/SearchIcon";
 import { StoreFrontIcon } from "../../components/icons/StorefrontIcon";
 import { Page, Section } from "../../components/layout";
-import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
 import {
@@ -154,41 +152,12 @@ export default function MarketBooths() {
           <Match when={marketBooths.state === "errored"}>
             <ContentError />
           </Match>
-          <Match when={marketBooths.state === "pending"}>
-            <ContentLoading />
-          </Match>
-          <Match when={marketBooths.state === "refreshing"}>
-            <ContentLoading />
-          </Match>
           <Match when={marketBooths.state === "ready"}>
-            <For each={marketBooths()}>
-              {(marketBooth) => (
-                <A
-                  class={styles.ResultRow}
-                  href={buildPath(
-                    MARKET_BOOTHS_PATH,
-                    marketBooth.marketBoothId
-                  )}
-                >
-                  <Show when={!_.isEmpty(marketBooth.imageUrl)}>
-                    <img
-                      class={styles.Image}
-                      src={marketBooth.imageUrl}
-                      alt=""
-                    />
-                  </Show>
-                  <div>
-                    <span class={styles.Label}>{marketBooth.name}</span>
-                    <span class={styles.Detail}>
-                      <Multiline
-                        text={() => marketBooth.description}
-                        maxRows={6}
-                      />
-                    </span>
-                  </div>
-                </A>
-              )}
-            </For>
+            <MarketBoothList
+              marketBooths={() => marketBooths()!}
+              basePath={MARKET_BOOTHS_PATH}
+              withDetails
+            />
           </Match>
         </Switch>
       </Section>
