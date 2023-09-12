@@ -126,7 +126,7 @@ export const DE: typeof TKEYS = {
       },
     },
     offers: {
-      Details: "Angebot Details",
+      Details: "Details",
       "title-plural": "Angebote",
       "create-new-offer": "Neues Angebot erstellen",
       "edit-offer": "Angebot bearbeiten",

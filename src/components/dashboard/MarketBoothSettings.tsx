@@ -183,7 +183,7 @@ export function MarketBoothSettings(props: Props) {
 
       <Section>
         <span class={styles.Label}>
-          <Trans key={TKEYS.dashboard["market-booth"].Details} />
+          <Trans key={TKEYS.dashboard["market-booth"].Details} />:
         </span>
 
         <span class={styles.Details}>
