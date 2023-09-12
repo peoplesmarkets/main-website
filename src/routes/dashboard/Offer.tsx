@@ -1,9 +1,16 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
-import { createResource, createSignal, Match, Show, Switch } from "solid-js";
+import {
+  createEffect,
+  createResource,
+  createSignal,
+  Match,
+  Show,
+  Switch,
+} from "solid-js";
 
-import { DASHBOARD_PATH } from "../../App";
+import { DASHBOARD_MARKET_BOOTH_PATH } from "../../App";
 import { OfferPrice, OfferImages } from "../../components/commerce";
 import {
   ContentError,
@@ -33,15 +40,20 @@ export default function Offer() {
 
   const offerService = new OfferService(accessToken);
 
+  const [showEditOffer, setShowEditOffer] = createSignal(false);
+  const [showAddImage, setShowAddImage] = createSignal(false);
+  const [showDeleteConfirmation, setShowDeleteConfirmation] =
+    createSignal(false);
+  const [marketBoothId, setMarketBoothId] = createSignal<string>();
+
   const [offer, { refetch }] = createResource(
     () => useParams().offerId,
     fetchOffer
   );
 
-  const [showEditOffer, setShowEditOffer] = createSignal(false);
-  const [showAddImage, setShowAddImage] = createSignal(false);
-  const [showDeleteConfirmation, setShowDeleteConfirmation] =
-    createSignal(false);
+  createEffect(() => {
+    setMarketBoothId(useParams().marketBoothId);
+  });
 
   async function fetchOffer(offerId: string) {
     const response = await offerService.get(offerId);
@@ -73,7 +85,7 @@ export default function Offer() {
     refetch();
   }
 
-  function handleStartDeletetion() {
+  function handleStartDeletion() {
     setShowDeleteConfirmation(true);
   }
 
@@ -81,12 +93,12 @@ export default function Offer() {
     setShowDeleteConfirmation(false);
   }
 
-  async function handleConfirmDeleteion() {
+  async function handleConfirmDeletion() {
     if (!_.isNil(offer())) {
       await offerService.delete(offer()!.offerId);
     }
     setShowDeleteConfirmation(false);
-    navigate(buildPath(DASHBOARD_PATH, useParams().marketBoothId));
+    navigate(buildPath(DASHBOARD_MARKET_BOOTH_PATH, marketBoothId()!));
   }
 
   return (
@@ -192,10 +204,7 @@ export default function Offer() {
                 <p class={styles.Body}>
                   <Trans key={TKEYS.dashboard.offers["delete-this-offer"]} />
                 </p>
-                <ActionButton
-                  actionType="danger"
-                  onClick={handleStartDeletetion}
-                >
+                <ActionButton actionType="danger" onClick={handleStartDeletion}>
                   <Trans key={TKEYS.form.action.Delete} />
                 </ActionButton>
               </div>
@@ -226,7 +235,7 @@ export default function Offer() {
           item={trans(TKEYS.offer.title)}
           itemName={offer()?.name}
           onCancel={handleDiscardDeletion}
-          onConfirmation={handleConfirmDeleteion}
+          onConfirmation={handleConfirmDeletion}
         />
       </Show>
     </>
