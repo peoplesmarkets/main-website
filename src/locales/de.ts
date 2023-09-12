@@ -15,6 +15,7 @@ export const DE: typeof TKEYS = {
   },
   form: {
     action: {
+      "Create-new": "Erstellen",
       Add: "Hinzufügen",
       OK: "Okay",
       Save: "Speichern",
@@ -95,6 +96,9 @@ export const DE: typeof TKEYS = {
       "Updated-at": "Bearbeitet am",
     },
   },
+  media: {
+    Title: "Medien",
+  },
   image: {
     "delete-confirmation-message": "Dieses Bild wirklich löschen?",
   },
@@ -107,19 +111,30 @@ export const DE: typeof TKEYS = {
   dashboard: {
     "market-booth": {
       Details: "Details",
+      "my-market-booths": "Meine Marktstände",
       "no-market-booth-yet": "Bisher kein Markstand",
       "create-new-market-booth": "Neuen Marktstand erstellen",
       "edit-market-booth-details": "Marktstand Details bearbeiten",
       "delete-this-market-booth": "Diesen Marktstand löschen",
       "add-or-update-image": "Bild hinzufügen, oder bearbeiten",
+      stripe: {
+        title: EN.dashboard["market-booth"].stripe.title,
+        integration: "Stripe Integration",
+        "start-integration": "Stripe einrichten",
+        "continue-integration": "Stripe Einrichtung fortsetzen",
+        "remove-integration": "Stripe Einrichtung aufheben",
+      },
     },
     offers: {
-      Details: "Angebot Details",
+      Details: "Details",
       "title-plural": "Angebote",
       "create-new-offer": "Neues Angebot erstellen",
       "edit-offer": "Angebot bearbeiten",
       "delete-this-offer": "Dieses Angebot löschen",
       "add-image": "Bild hinzufügen",
+    },
+    media: {
+      "my-media": "Meine Medien",
     },
   },
   "main-navigation": {
@@ -141,17 +156,6 @@ export const DE: typeof TKEYS = {
   },
   "user-settings-page": {
     title: "Benutzereinstellungen",
-    "payment-integration": {
-      title: "Bezahldienste",
-      stripe: {
-        title: EN["user-settings-page"]["payment-integration"].stripe.title,
-        "start-integration": "Stripe einrichten",
-        "continue-integration": "Stripe Einrichtung fortsetzen",
-        "remove-integration": "Stripe Einrichtung aufheben",
-      },
-    },
-    "market-booths-subtitle": "Marktstand auswählen",
-    "add-market-booth": "Marktstand hinzufügen",
   },
   "community-page": {
     headline: "Hilf dem Projekt zu wachsen!",

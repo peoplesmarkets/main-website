@@ -1,8 +1,4 @@
-import {
-  OFFERS_PATH,
-  USER_STRIPE_REFRESH_PATH,
-  USER_STRIPE_RETURN_PATH,
-} from "../../App";
+import { OFFERS_PATH } from "../../App";
 import { buildPath } from "../../lib";
 import {
   GrpcWebImpl,
@@ -30,14 +26,12 @@ export class StripeService extends ServiceClient {
     );
   }
 
-  public async createAccountLink(marketBoothId: string) {
+  public async createAccountLink(marketBoothId: string, redirectUrl: string) {
     return this.client.CreateAccountLink(
       {
         marketBoothId,
-        refreshUrl: `${
-          import.meta.env.VITE_BASE_URL
-        }${USER_STRIPE_REFRESH_PATH}`,
-        returnUrl: `${import.meta.env.VITE_BASE_URL}${USER_STRIPE_RETURN_PATH}`,
+        refreshUrl: redirectUrl,
+        returnUrl: redirectUrl,
       },
       await this.withAuthHeader()
     );

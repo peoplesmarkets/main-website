@@ -29,7 +29,7 @@ import { StoreFrontIcon } from "./components/icons/StorefrontIcon";
 import { useAccessTokensContext } from "./contexts/AccessTokensContext";
 import { Theme } from "./contexts/ThemeStore";
 import { clickOutside } from "./directives";
-import { buildAuthorizationRequest, isSubPath } from "./lib";
+import { buildAuthorizationRequest } from "./lib";
 import { getNextLanguageKey, setDocumentLanguage } from "./locales";
 import { TKEYS } from "./locales/dev";
 
@@ -166,9 +166,8 @@ export function Panel(props: Props) {
               href={DASHBOARD_PATH}
               class={styles.NavigationItem}
               classList={{
-                [styles.NavigationItemActive]: isSubPath(
-                  DASHBOARD_PATH,
-                  location.pathname
+                [styles.NavigationItemActive]: Boolean(
+                  useMatch(() => DASHBOARD_PATH)()
                 ),
               }}
             >
@@ -194,9 +193,9 @@ export function Panel(props: Props) {
             href={COMMUNITY_PATH}
             class={styles.NavigationItem}
             classList={{
-              [styles.NavigationItemActive]:
-                isSubPath(COMMUNITY_PATH, location.pathname) ||
-                Boolean(useMatch(() => COMMUNITY_PATH)()),
+              [styles.NavigationItemActive]: Boolean(
+                useMatch(() => COMMUNITY_PATH)()
+              ),
             }}
           >
             <CommunityIcon class={styles.MainNavigationIcon} />

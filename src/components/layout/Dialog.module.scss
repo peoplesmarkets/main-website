@@ -1,3 +1,5 @@
+$expanded-min-width: 1080px;
+
 .Container {
   position: fixed;
   height: 100%;
@@ -8,6 +10,10 @@
   display: flex;
   justify-content: center;
   align-items: center;
+
+  @media only screen and (min-width: $expanded-min-width) {
+    height: 90%;
+  }
 }
 
 .Dialog {
@@ -17,6 +23,10 @@
   border: none;
   border-radius: 28px;
   background-color: var(--primary-background-color);
+
+  @media only screen and (min-width: $expanded-min-width) {
+    max-width: 600px;
+  }
 }
 
 .Header {

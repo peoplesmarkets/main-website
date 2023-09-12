@@ -21,6 +21,16 @@
   font: var(--font-body);
 }
 
+.Ok {
+  display: block;
+  padding: 0.5rem 1rem;
+  color: var(--green);
+  font: var(--font-body);
+  border: 2px solid var(--green);
+  border-radius: 4px;
+  user-select: none;
+}
+
 .EditSection {
   display: flex;
   justify-content: space-between;

@@ -1,13 +1,7 @@
-import { describe, test, expect, beforeEach, afterEach } from "vitest";
+import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import {
-  createDOM,
-  cleanupDOM,
-  getNoObj,
-  noObj,
-  noOp,
-  renderIntoRoot,
-} from "../../lib/testing";
+import { cleanupDOM, createDOM, noOp, renderIntoRoot } from "../../lib/testing";
+import { Border } from "./Border";
 import { Dialog } from "./Dialog";
 import { Page } from "./Page";
 import { Section } from "./Section";
@@ -19,6 +13,10 @@ describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
+  test("Border", () => {
+    const { container } = renderIntoRoot(() => <Border />);
+    expect(container).toBeDefined();
+  });
   test("Dialog", () => {
     const { container } = renderIntoRoot(() => (
       <Dialog onClose={noOp} title="">

@@ -1,0 +1,41 @@
+.Row {
+  user-select: none;
+  background: inherit;
+  border: none;
+  outline: inherit;
+  text-align: start;
+  text-decoration: none;
+  box-sizing: border-box;
+
+  display: block;
+  width: 100%;
+  margin-bottom: 0.5rem;
+  padding: 1rem 0.5rem;
+  color: var(--primary-content-color);
+  border: var(--secondary-border);
+  border-radius: 2px;
+}
+
+.Row:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.Image {
+  width: 100%;
+  aspect-ratio: var(--banner-image-aspect-ratio);
+  object-fit: cover;
+  object-position: center;
+  border-radius: 2px;
+}
+
+.Label {
+  display: block;
+  font: var(--font-title);
+  margin-bottom: 0.5rem;
+}
+
+.Detail {
+  display: block;
+  font: var(--font-body);
+}

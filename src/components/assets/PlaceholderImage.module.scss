@@ -1,0 +1,35 @@
+.Placeholder {
+  width: 64px;
+  height: 64px;
+  flex-shrink: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border: 2px dotted var(--secondary-border-color);
+}
+
+.Wide {
+  width: 100%;
+}
+
+.Banner {
+  width: 100%;
+  aspect-ratio: var(--banner-image-aspect-ratio);
+}
+
+.Small {
+  width: 48px;
+  height: 48px;
+}
+
+.Large {
+  width: 50%;
+  height: 50%;
+  aspect-ratio: var(--item-image-aspect-ratio);
+}
+
+.PlaceholderIcon {
+  fill: var(--secondary-border-color);
+  width: 30px;
+  height: 30px;
+}
