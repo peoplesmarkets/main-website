@@ -1,39 +1,43 @@
-import { useNavigate, useParams } from "@solidjs/router";
-import { Show, createResource } from "solid-js";
 import { grpc } from "@improbable-eng/grpc-web";
+import { Trans } from "@mbarzda/solid-i18next";
+import { useNavigate } from "@solidjs/router";
+import _ from "lodash";
+import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
-import { USER_SETTINGS_PATH } from "../../App";
-import {
-  MarketBoothImage,
-  MarketBoothSettings,
-  OfferSettings,
-} from "../../components/dashboard";
+import { DASHBOARD_MARKET_BOOTH_PATH, USER_SETTINGS_PATH } from "../../App";
+import { MarketBoothList } from "../../components/commerce/MarketBoothList";
+import { ContentError, isResolved } from "../../components/content";
+import { CreateMarketBoothDialog } from "../../components/dashboard";
+import { ActionButton } from "../../components/form";
+import { Border, Section } from "../../components/layout";
 import { Page } from "../../components/layout/Page";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { TKEYS } from "../../locales";
 import { MarketBoothService } from "../../services";
 import styles from "./Dashboard.module.scss";
-import { useMarketBoothContext } from "../../contexts/MarketBoothContext";
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  const { accessToken } = useAccessTokensContext();
+  const { accessToken, currentSession } = useAccessTokensContext();
+
+  const [showCreateMarketBooth, setShowCreateMarketBooth] = createSignal(false);
 
   const marketBoothService = new MarketBoothService(accessToken);
-  const { setCurrentMarketBooth } = useMarketBoothContext();
 
-  const [marketBooth, { refetch }] = createResource(
-    () => useParams().marketBoothId,
-    fetchMarketBooth
+  const [marketBooths, { refetch }] = createResource(
+    () => currentSession().userId || undefined,
+    fetchMarketBooths
   );
 
-  async function fetchMarketBooth(marketBoothId: string) {
+  async function fetchMarketBooths(userId: string) {
     try {
-      const response = await marketBoothService.get(marketBoothId);
-      return response.marketBooth;
+      const response = await marketBoothService.listDefault({
+        userId,
+      });
+      return response.marketBooths;
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
-        setCurrentMarketBooth();
         navigate(USER_SETTINGS_PATH, { replace: true });
       } else {
         throw err;
@@ -45,32 +49,72 @@ export default function Dashboard() {
     refetch();
   }
 
-  async function handleDeleteMarketBooth() {
-    navigate(USER_SETTINGS_PATH, { replace: true });
+  function handleOpenCreateMarketBooth() {
+    setShowCreateMarketBooth(true);
+  }
+
+  function handleCloseCreateMarketBooth() {
+    setShowCreateMarketBooth(false);
   }
 
   return (
-    <Page>
-      <div class={styles.Dashboard}>
-        <Show when={marketBooth()}>
-          <div class={styles.Settings}>
-            <MarketBoothImage
-              marketBooth={() => marketBooth()}
-              onUpdate={handleMarketBoothUpdate}
-            />
-
-            <span class={styles.Title}>{marketBooth()?.name}</span>
-
-            <OfferSettings marketBooth={() => marketBooth()!} />
-
-            <MarketBoothSettings
-              marketBooth={() => marketBooth()}
-              onUpdate={handleMarketBoothUpdate}
-              onDelete={handleDeleteMarketBooth}
-            />
+    <>
+      <Page>
+        <Section>
+          <div class={styles.TitleSection}>
+            <span class={styles.Title}>
+              <Trans
+                key={TKEYS.dashboard["market-booth"]["my-market-booths"]}
+              />
+              :
+            </span>
+            <ActionButton
+              actionType="neutral"
+              onClick={handleOpenCreateMarketBooth}
+            >
+              <Trans key={TKEYS.form.action["Create-new"]} />
+            </ActionButton>
           </div>
-        </Show>
-      </div>
-    </Page>
+
+          <Switch>
+            <Match when={marketBooths.state === "errored"}>
+              <ContentError />
+            </Match>
+            <Match
+              when={
+                isResolved(marketBooths.state) && !_.isEmpty(marketBooths())
+              }
+            >
+              <MarketBoothList
+                marketBooths={() => marketBooths()!}
+                basePath={DASHBOARD_MARKET_BOOTH_PATH}
+              />
+            </Match>
+            <Match
+              when={isResolved(marketBooths.state) && _.isEmpty(marketBooths())}
+            >
+              <Trans
+                key={TKEYS.dashboard["market-booth"]["no-market-booth-yet"]}
+              />
+            </Match>
+          </Switch>
+        </Section>
+
+        <Border />
+
+        <Section>
+          <span class={styles.Title}>
+            <Trans key={TKEYS.dashboard.media["my-media"]} />:
+          </span>
+        </Section>
+      </Page>
+
+      <Show when={showCreateMarketBooth()}>
+        <CreateMarketBoothDialog
+          onClose={handleCloseCreateMarketBooth}
+          onUpdate={handleMarketBoothUpdate}
+        />
+      </Show>
+    </>
   );
 }

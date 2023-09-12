@@ -7,9 +7,9 @@ import { MARKET_BOOTHS_PATH, OFFERS_PATH } from "../../App";
 import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
-import { ImageIcon } from "../icons";
 import styles from "./OfferListItem.module.scss";
 import { OfferPrice } from "./OfferPrice";
+import { PlaceholderImage } from "../assets/PlaceholderImage";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -33,9 +33,7 @@ export function OfferListItem(props: Props) {
           </Show>
 
           <Show when={_.isEmpty(props.offer().images)}>
-            <div class={styles.Placeholder}>
-              <ImageIcon class={styles.PlaceholderIcon} />
-            </div>
+            <PlaceholderImage />
           </Show>
         </A>
 

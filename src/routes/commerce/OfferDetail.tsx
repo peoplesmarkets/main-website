@@ -18,7 +18,7 @@ import {
 import { OfferPrice } from "../../components/commerce/OfferPrice";
 import { ContentError, Multiline, isResolved } from "../../components/content";
 import { ActionButton } from "../../components/form";
-import { Section } from "../../components/layout";
+import { Border, Section } from "../../components/layout";
 import { secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import {
@@ -162,7 +162,7 @@ export default function OfferDetail() {
         </Match>
       </Switch>
 
-      <div class={styles.Border} />
+      <Border />
 
       <Section>
         <span class={styles.Subtitle}>

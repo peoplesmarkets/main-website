@@ -5,6 +5,7 @@ import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/m
 import { EditIcon } from "../icons";
 import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 import styles from "./MarketBoothImage.module.scss";
+import { PlaceholderImage } from "../assets/PlaceholderImage";
 
 type Props = {
   marketBooth: () => MarketBoothResponse | undefined;
@@ -24,18 +25,21 @@ export function MarketBoothImage(props: Props) {
 
   return (
     <>
-      <Show when={props.marketBooth()?.imageUrl}>
-        <div class={styles.ImageContainer}>
+      <div class={styles.ImageContainer}>
+        <Show when={props.marketBooth()?.imageUrl}>
           <img
             class={styles.Image}
             src={props.marketBooth()?.imageUrl}
             alt=""
           />
-          <button class={styles.EditButton} onClick={openEditDialog}>
-            <EditIcon class={styles.EditIcon} />
-          </button>
-        </div>
-      </Show>
+        </Show>
+        <Show when={_.isEmpty(props.marketBooth()?.imageUrl)}>
+          <PlaceholderImage wide />
+        </Show>
+        <button class={styles.EditButton} onClick={openEditDialog}>
+          <EditIcon class={styles.EditIcon} />
+        </button>
+      </div>
 
       <Show when={showEditDialog() && !_.isNil(props.marketBooth())}>
         <EditMarketBoothImageDialog

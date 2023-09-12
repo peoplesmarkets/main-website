@@ -14,6 +14,7 @@ export const EN: typeof TKEYS = {
   },
   form: {
     action: {
+      "Create-new": "Create new",
       Add: "Add",
       OK: "OK",
       Save: "Save",
@@ -94,6 +95,9 @@ export const EN: typeof TKEYS = {
       "Updated-at": "Updated at",
     },
   },
+  media: {
+    Title: "Media",
+  },
   image: {
     "delete-confirmation-message":
       "Are you sure you want to delete the current image?",
@@ -107,11 +111,19 @@ export const EN: typeof TKEYS = {
   dashboard: {
     "market-booth": {
       Details: "Details",
+      "my-market-booths": "My Market Booths",
       "no-market-booth-yet": "No Market Booth yet",
       "create-new-market-booth": "Create a new Market Booth",
       "edit-market-booth-details": "Edit Market Booth Details",
       "delete-this-market-booth": "Delete this Market Booth",
       "add-or-update-image": "Add or update image",
+      stripe: {
+        title: "Stripe",
+        integration: "Stripe Integraion",
+        "start-integration": "Integrate Stripe",
+        "continue-integration": "Continue Stripe integration",
+        "remove-integration": "Remove Stripe integration",
+      },
     },
     offers: {
       Details: "Offer details",
@@ -120,6 +132,9 @@ export const EN: typeof TKEYS = {
       "edit-offer": "Edit Offer",
       "delete-this-offer": "Delete this Offer",
       "add-image": "Add image",
+    },
+    media: {
+      "my-media": "My Media",
     },
   },
   "main-navigation": {
@@ -141,17 +156,6 @@ export const EN: typeof TKEYS = {
   },
   "user-settings-page": {
     title: "User Settings",
-    "payment-integration": {
-      title: "Payment Providers",
-      stripe: {
-        title: "Stripe",
-        "start-integration": "Integrate Stripe",
-        "continue-integration": "Continue Stripe integration",
-        "remove-integration": "Remove Stripe integration",
-      },
-    },
-    "market-booths-subtitle": "Select Market Booth",
-    "add-market-booth": "Add a Market Booth",
   },
   "community-page": {
     headline: "Help the project grow!",

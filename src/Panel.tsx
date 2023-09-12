@@ -166,9 +166,9 @@ export function Panel(props: Props) {
               href={DASHBOARD_PATH}
               class={styles.NavigationItem}
               classList={{
-                [styles.NavigationItemActive]: isSubPath(
-                  DASHBOARD_PATH,
-                  location.pathname
+                [styles.NavigationItemActive]: Boolean(
+                  useMatch(() => DASHBOARD_PATH)() ||
+                    isSubPath(DASHBOARD_PATH, location.pathname)
                 ),
               }}
             >

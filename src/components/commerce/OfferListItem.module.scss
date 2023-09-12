@@ -33,22 +33,6 @@
   object-fit: cover;
 }
 
-.Placeholder {
-  width: 64px;
-  height: 64px;
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border: 2px dotted var(--secondary-border-color);
-}
-
-.PlaceholderIcon {
-  fill: var(--secondary-border-color);
-  width: 30px;
-  height: 30px;
-}
-
 .CardInfo {
   height: 40%;
   padding: 0.5rem;
