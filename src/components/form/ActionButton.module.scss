@@ -7,6 +7,7 @@
   height: 36px;
   text-decoration: none;
   outline: 0;
+  user-select: none;
 }
 
 .ActionButton:hover {
@@ -83,4 +84,5 @@
 .Disabled:hover {
   cursor: default;
   pointer-events: none;
+  filter: none;
 }
