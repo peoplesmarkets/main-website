@@ -10,6 +10,7 @@ interface ImportMetaEnv {
   readonly VITE_OPEN_SOURCE_REPOSITORIES_URL: string;
   readonly VITE_MAIN_WEBSITE_URL: string;
   readonly VITE_SERIVCE_APIS_URL: string;
+  readonly VITE_FILE_MAX_SIZE: number;
   readonly VITE_IMAGE_MAX_SIZE: number;
   readonly VITE_SUPPORT_EMAIL_ADDRESS: string;
 }

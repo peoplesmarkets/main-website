@@ -20,7 +20,7 @@ export function FileField(props: Props) {
         classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
         name={props.name}
         placeholder={props.label}
-        required={!!props.required}
+        required={Boolean(props.required)}
         onInput={(event) => props.onValue(event.currentTarget.files)}
       />
       <label class={styles.Label} for={props.label}>

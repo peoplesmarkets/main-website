@@ -5,4 +5,5 @@ export * from "./EditMarketBoothDialog";
 export * from "./EditOfferDialog";
 export * from "./MarketBoothImage";
 export * from "./MarketBoothSettings";
+export * from "./MediaSettings";
 export * from "./OfferSettings";

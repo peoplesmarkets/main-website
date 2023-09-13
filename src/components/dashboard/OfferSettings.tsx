@@ -65,9 +65,14 @@ export function OfferSettings(props: Props) {
   return (
     <>
       <Section>
-        <span class={styles.Title}>
-          <Trans key={TKEYS.dashboard.offers["title-plural"]} />
-        </span>
+        <div class={styles.TitleSection}>
+          <span class={styles.Title}>
+            <Trans key={TKEYS.dashboard.offers["title-plural"]} />:
+          </span>
+          <ActionButton actionType="neutral" onClick={handleOpenCreateOffer}>
+            <Trans key={TKEYS.dashboard.offers["create-new-offer"]} />
+          </ActionButton>
+        </div>
 
         <Switch>
           <Match when={offers.state === "errored"}>
@@ -107,15 +112,6 @@ export function OfferSettings(props: Props) {
             </div>
           </Match>
         </Switch>
-
-        <div class={styles.TableActions}>
-          <ActionButton
-            actionType="active-filled"
-            onClick={handleOpenCreateOffer}
-          >
-            <Trans key={TKEYS.dashboard.offers["create-new-offer"]} />
-          </ActionButton>
-        </div>
       </Section>
 
       <Show when={showCreateOffer()}>

@@ -10,8 +10,8 @@ export const DE: typeof TKEYS = {
     "content-error": "Unerwarteter Fehler",
   },
   common: {
-    file: "Datei",
     by: "Von",
+    more: "mehr",
   },
   form: {
     action: {
@@ -97,7 +97,15 @@ export const DE: typeof TKEYS = {
     },
   },
   media: {
-    Title: "Medien",
+    Title: "Datei",
+    "Title-plural": "Dateien",
+    errors: {
+      "still-part-of-an-offer": "Die Datei ist noch in Angeboten enhalten",
+    },
+    labels: {
+      name: "Name",
+      file: "Datei",
+    },
   },
   image: {
     "delete-confirmation-message": "Dieses Bild wirklich löschen?",
@@ -134,7 +142,9 @@ export const DE: typeof TKEYS = {
       "add-image": "Bild hinzufügen",
     },
     media: {
-      "my-media": "Meine Medien",
+      "my-media": "Meine Dateien",
+      "create-new-file": "Neue Datei hochladen",
+      "edit-file": "Datei bearbeiten",
     },
   },
   "main-navigation": {

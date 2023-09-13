@@ -58,6 +58,10 @@ if (_.isEmpty(import.meta.env.VITE_SERIVCE_APIS_URL)) {
   );
 }
 
+if (_.isEmpty(import.meta.env.VITE_FILE_MAX_SIZE)) {
+  throw new Error("ERROR: missing environment variable 'VITE_FILE_MAX_SIZE'");
+}
+
 if (_.isEmpty(import.meta.env.VITE_IMAGE_MAX_SIZE)) {
   throw new Error("ERROR: missing environment variable 'VITE_IMAGE_MAX_SIZE'");
 }

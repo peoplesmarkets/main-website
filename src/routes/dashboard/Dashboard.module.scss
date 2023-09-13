@@ -1,13 +1,13 @@
 .TitleSection {
   display: flex;
   justify-content: space-between;
+  align-items: center;
   margin-bottom: 1rem;
 }
 
 .Title {
   display: block;
   font: var(--font-title);
-  padding: 0;
 }
 
 .Label {

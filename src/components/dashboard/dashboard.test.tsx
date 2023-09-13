@@ -17,6 +17,7 @@ import { OfferSettings } from "./OfferSettings";
 import { CreateOfferImageDialog } from "./CreateOfferImageDialog";
 import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 import { MarketBoothImage } from "./MarketBoothImage";
+import { MediaSettings } from "./MediaSettings";
 
 /**
  * Render to check if objects are accessed correctly
@@ -79,6 +80,12 @@ describe("Render once", () => {
   test("MarketBoothSettings", () => {
     const { container } = renderIntoRoot(() => (
       <MarketBoothSettings marketBooth={getNoObj} />
+    ));
+    expect(container).toBeDefined();
+  });
+  test("MediaSettings", () => {
+    const { container } = renderIntoRoot(() => (
+      <MediaSettings marketBooth={getNoObj} />
     ));
     expect(container).toBeDefined();
   });

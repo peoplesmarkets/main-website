@@ -21,6 +21,7 @@ export const DASHBOARD_PATH = "/dashboard";
 export const DASHBOARD_MARKET_BOOTH_PATH = DASHBOARD_PATH + "/market-booth";
 
 export const OFFERS_SUBPATH = "/offers";
+export const MEDIAS_SUBPATH = "/medias";
 
 export const SIGN_IN_PATH = "/user/sign-in";
 export const SIGN_IN_CALLBACK_PATH = "/user/sign-in/callback";
@@ -103,6 +104,14 @@ export default function App() {
                     ":offerId"
                   )}
                   component={lazy(() => import("./routes/dashboard/Offer"))}
+                />
+                <Route
+                  path={buildPath(
+                    DASHBOARD_MARKET_BOOTH_PATH,
+                    ":marketBoothId",
+                    MEDIAS_SUBPATH
+                  )}
+                  component={lazy(() => import("./routes/dashboard/Medias"))}
                 />
 
                 <Route
