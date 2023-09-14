@@ -9,8 +9,9 @@ export const EN: typeof TKEYS = {
     "content-error": "Unexpected Error",
   },
   common: {
-    file: "file",
     by: "By",
+    more: "more",
+    file: "file",
   },
   form: {
     action: {
@@ -96,7 +97,15 @@ export const EN: typeof TKEYS = {
     },
   },
   media: {
-    Title: "Media",
+    Title: "File",
+    "Title-plural": "Files",
+    errors: {
+      "still-part-of-an-offer": "The file is still contained in some offers",
+    },
+    labels: {
+      name: "Name",
+      file: "File",
+    },
   },
   image: {
     "delete-confirmation-message":
@@ -134,7 +143,9 @@ export const EN: typeof TKEYS = {
       "add-image": "Add image",
     },
     media: {
-      "my-media": "My Media",
+      "my-media": "My Files",
+      "create-new-file": "Upload new File",
+      "edit-file": "Edit File",
     },
   },
   "main-navigation": {

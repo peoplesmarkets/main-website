@@ -7,61 +7,70 @@ import { createStore } from "solid-js/store";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales/dev";
-import { OfferService } from "../../services";
-import { ActionButton, DiscardConfirmation, FileField } from "../form";
+import { MediaService } from "../../services";
+import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
+import { ProgressBar } from "../assets/ProgressBar";
+import {
+  ActionButton,
+  DiscardConfirmation,
+  FileField,
+  TextField,
+} from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
-import { ProgressBar } from "../assets/ProgressBar";
 
 type Props = {
-  readonly offerId: string;
-  readonly lastOrdering: number;
+  readonly media: () => MediaResponse;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
 };
 
-export function CreateOfferImageDialog(props: Props) {
+export function EditMediaDialog(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
 
-  const offerService = new OfferService(accessToken);
+  const mediaService = new MediaService(accessToken);
 
   const [form, setForm] = createStore({
-    image: undefined as File | undefined,
-    ordering: undefined as number | undefined,
+    name: undefined as string | undefined,
+    file: undefined as File | undefined,
   });
   const [errors, setErrors] = createStore({
-    image: [] as string[],
+    name: [] as string[],
+    file: [] as string[],
   });
 
   const [uploading, setUploading] = createSignal(false);
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(form?.ordering)) {
-      setForm("ordering", props.lastOrdering + 1);
+    if (
+      !_.isNil(props.media().name) &&
+      !_.isEmpty(props.media().name) &&
+      _.isEmpty(form.name)
+    ) {
+      setForm("name", props.media().name);
     }
   });
 
-  async function handleAddImage(event: SubmitEvent) {
+  async function handleAddMedia(event: SubmitEvent) {
     event.preventDefault();
-
-    if (_.isNil(form.image)) {
-      setErrors("image", [trans(TKEYS.form.errors["required-field"])]);
-      return;
-    }
 
     setUploading(true);
 
     try {
-      await offerService.addImage({
-        offerId: props.offerId,
-        image: {
-          contentType: "",
-          data: await readAsUint8Array(form.image, 0, form.image.size),
-        },
-        ordering: form.ordering!,
+      const file = form.file
+        ? {
+            contentType: form.file.type,
+            data: await readAsUint8Array(form.file, 0, form.file.size),
+          }
+        : undefined;
+
+      await mediaService.update({
+        mediaId: props.media().mediaId,
+        name: form.name,
+        file,
       });
       setUploading(false);
       props.onUpdate();
@@ -69,46 +78,53 @@ export function CreateOfferImageDialog(props: Props) {
     } catch (err: any) {
       setUploading(false);
 
-      if (err.code === grpc.Code.ResourceExhausted) {
-        setErrors("image", [
+      if (
+        err.code === grpc.Code.ResourceExhausted ||
+        err.code === grpc.Code.OutOfRange
+      ) {
+        setErrors("file", [
           trans(TKEYS.form.errors["item-too-large"], {
-            item: trans(TKEYS.common.file),
+            item: trans(TKEYS.media.Title),
           }),
         ]);
       } else if (err.code === grpc.Code.InvalidArgument) {
-        setErrors("image", [trans(TKEYS.form.errors["wrong-type"])]);
+        setErrors("file", [trans(TKEYS.form.errors["wrong-type"])]);
       } else {
         throw err;
       }
     }
   }
 
-  function handleImageInput(files: FileList | null) {
+  function handleFileInput(files: FileList | null) {
     resetErrors();
     if (!_.isNil(files) && !_.isEmpty(files)) {
       const file = _.first(files)!;
-      if (file.size > import.meta.env.VITE_IMAGE_MAX_SIZE) {
-        setErrors("image", [
+      if (file.size > import.meta.env.VITE_FILE_MAX_SIZE) {
+        setErrors("file", [
           trans(TKEYS.form.errors["item-too-large"], {
-            item: trans(TKEYS.common.file),
+            item: trans(TKEYS.media.Title),
           }),
         ]);
       } else {
-        setForm("image", file);
+        setForm("file", file);
       }
     }
   }
 
   function resetErrors() {
-    setErrors({ image: [] });
+    setErrors({ file: [] });
   }
 
   function formHasErrors(): boolean {
-    return !_.isEmpty(errors.image);
+    return !_.isEmpty(errors.file);
+  }
+
+  function handleNameInput(value: string) {
+    setForm("name", value);
   }
 
   function handleCloseDialog() {
-    if (_.isNil(form.image)) {
+    if (_.isNil(form.file)) {
       props.onClose();
     } else {
       setDiscardConfirmation(true);
@@ -128,17 +144,24 @@ export function CreateOfferImageDialog(props: Props) {
     <>
       <Show when={!discardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard.offers["add-image"])}
+          title={trans(TKEYS.dashboard.media["edit-file"])}
           onClose={handleCloseDialog}
         >
-          <form class={styles.Form} onSubmit={handleAddImage}>
+          <form class={styles.Form} onSubmit={handleAddMedia}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
+              <TextField
+                name={trans(TKEYS.media.labels.name)}
+                label={trans(TKEYS.media.labels.name)}
+                value={form.name}
+                onValue={handleNameInput}
+                errors={errors.name}
+              />
+
               <FileField
-                name="image"
-                label="image"
-                required
-                errors={errors.image}
-                onValue={handleImageInput}
+                name={trans(TKEYS.media.labels.file)}
+                label={trans(TKEYS.media.labels.file)}
+                errors={errors.file}
+                onValue={handleFileInput}
               />
             </Show>
           </form>
@@ -146,7 +169,7 @@ export function CreateOfferImageDialog(props: Props) {
           <div class={styles.DialogFooter}>
             <ActionButton
               actionType="active-filled"
-              onClick={handleAddImage}
+              onClick={handleAddMedia}
               disabled={formHasErrors() || uploading()}
             >
               <Trans key={TKEYS.form.action.Save} />

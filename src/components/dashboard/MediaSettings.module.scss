@@ -30,13 +30,14 @@
   background: var(--hovered-background);
 }
 
-.Image {
-  max-width: 50px;
-  max-height: 50px;
-  flex-shrink: 0;
-  object-fit: contain;
-  border: 2px solid transparent;
-  border-radius: 4px;
+.More {
+  width: 100%;
+  display: block;
+  margin-top: 0.5rem;
+  color: var(--primary-content-color);
+  text-align: center;
+  text-decoration: underline;
+  font: var(--font-label);
 }
 
 .Name {
@@ -48,16 +49,4 @@
 
 .Name:hover {
   color: var(--active-content-color);
-}
-
-.Actions {
-  display: flex;
-  gap: 0.5em;
-}
-
-.TableActions {
-  display: flex;
-  justify-content: center;
-  margin-top: 1rem;
-  padding: 0 0.5rem;
 }

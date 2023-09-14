@@ -2,16 +2,18 @@ import { useNavigate, useParams } from "@solidjs/router";
 import { Show, createResource } from "solid-js";
 import { grpc } from "@improbable-eng/grpc-web";
 
-import { USER_SETTINGS_PATH } from "../../App";
+import { DASHBOARD_PATH } from "../../App";
 import {
   MarketBoothImage,
   MarketBoothSettings,
+  MediaSettings,
   OfferSettings,
 } from "../../components/dashboard";
 import { Page } from "../../components/layout/Page";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { MarketBoothService } from "../../services";
 import styles from "./MarketBooth.module.scss";
+import { Section } from "../../components/layout";
 
 export default function MarketBooth() {
   const navigate = useNavigate();
@@ -31,7 +33,7 @@ export default function MarketBooth() {
       return response.marketBooth;
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
-        navigate(USER_SETTINGS_PATH, { replace: true });
+        navigate(DASHBOARD_PATH, { replace: true });
       } else {
         throw err;
       }
@@ -43,7 +45,7 @@ export default function MarketBooth() {
   }
 
   async function handleDeleteMarketBooth() {
-    navigate(USER_SETTINGS_PATH, { replace: true });
+    navigate(DASHBOARD_PATH, { replace: true });
   }
 
   return (
@@ -56,9 +58,13 @@ export default function MarketBooth() {
               onUpdate={handleMarketBoothUpdate}
             />
 
-            <span class={styles.Title}>{marketBooth()?.name}</span>
+            <Section flat>
+              <span class={styles.Title}>{marketBooth()?.name}</span>
+            </Section>
 
             <OfferSettings marketBooth={() => marketBooth()!} />
+
+            <MediaSettings marketBooth={() => marketBooth()!} />
 
             <MarketBoothSettings
               marketBooth={() => marketBooth()}

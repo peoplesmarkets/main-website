@@ -7,8 +7,9 @@ export const TKEYS = {
     "content-error": "fetching.content-error",
   },
   common: {
-    file: "common.file",
     by: "common.by",
+    more: "common.more",
+    file: "common.file"
   },
   form: {
     action: {
@@ -95,6 +96,14 @@ export const TKEYS = {
   },
   media: {
     Title: "media.Title",
+    "Title-plural": "media.Title-plural",
+    errors: {
+      "still-part-of-an-offer": "media.errors.still-part-of-an-offer",
+    },
+    labels: {
+      name: "media.labels.name",
+      file: "media.labels.file",
+    },
   },
   image: {
     "delete-confirmation-message": "image.delete-confirmation-message",
@@ -137,6 +146,8 @@ export const TKEYS = {
     },
     media: {
       "my-media": "dashboard.media.my-media",
+      "create-new-file": "dashboard.media.create-new-file",
+      "edit-file": "dashboard.media.edit-file",
     },
   },
   "main-navigation": {

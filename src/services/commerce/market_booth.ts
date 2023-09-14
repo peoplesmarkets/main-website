@@ -8,7 +8,7 @@ import {
   UpdateMarketBoothRequest,
 } from "../peoplesmarkets/commerce/v1/market_booth";
 
-import { AccessTokenGetter, ServiceClient } from "..";
+import { AccessTokenGetter, ServiceClient } from "../service-client";
 import { Direction } from "../peoplesmarkets/ordering/v1/ordering";
 
 export class MarketBoothService extends ServiceClient {
