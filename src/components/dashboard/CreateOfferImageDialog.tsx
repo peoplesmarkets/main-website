@@ -5,14 +5,13 @@ import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { readFileBase64 } from "../../lib";
+import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
-import { MediaUploadEncoding } from "../../services/peoplesmarkets/media/v1/media";
 import { ActionButton, DiscardConfirmation, FileField } from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
-import { LoadingBar } from "../assets/LoadingBar";
+import { ProgressBar } from "../assets/ProgressBar";
 
 type Props = {
   readonly offerId: string;
@@ -59,9 +58,8 @@ export function CreateOfferImageDialog(props: Props) {
       await offerService.addImage({
         offerId: props.offerId,
         image: {
-          name: form.image.name,
-          encoding: MediaUploadEncoding.MEDIA_UPLOAD_ENCODING_BASE64,
-          data: await readFileBase64(form.image, 0, form.image.size),
+          contentType: "",
+          data: await readAsUint8Array(form.image, 0, form.image.size),
         },
         ordering: form.ordering!,
       });
@@ -134,7 +132,7 @@ export function CreateOfferImageDialog(props: Props) {
           onClose={handleCloseDialog}
         >
           <form class={styles.Form} onSubmit={handleAddImage}>
-            <Show when={!uploading()} fallback={<LoadingBar />}>
+            <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
                 name="image"
                 label="image"

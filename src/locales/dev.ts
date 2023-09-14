@@ -9,6 +9,7 @@ export const TKEYS = {
   common: {
     by: "common.by",
     more: "common.more",
+    file: "common.file"
   },
   form: {
     action: {

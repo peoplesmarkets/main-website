@@ -75,28 +75,29 @@ export function addHtmlLinebreaks(text?: string): string {
   return text.replace("\n", "\\");
 }
 
-export async function readFileBase64(
+export async function readAsUint8Array(
   file: File,
   start: number,
   end: number
-): Promise<string> {
+): Promise<Uint8Array> {
   const fileChunk = file.slice(start, end);
 
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    reader.readAsDataURL(fileChunk);
 
-    reader.onload = () => {
-      if (_.isString(reader.result)) {
-        resolve(reader.result.split("base64,")[1]);
+    reader.onload = function () {
+      if (_.isArrayBuffer(reader.result)) {
+        resolve(new Uint8Array(reader.result));
       } else {
-        reject("Expected string got ArrayBuffer");
+        reject("Expected ArrayBuffer got string or null");
       }
     };
 
-    reader.onerror = (err) => {
+    reader.onerror = function (err) {
       reject(err);
     };
+
+    reader.readAsArrayBuffer(fileChunk);
   });
 }
 

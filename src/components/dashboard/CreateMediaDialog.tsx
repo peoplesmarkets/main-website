@@ -5,11 +5,11 @@ import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { readFileBase64 } from "../../lib";
+import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MediaService } from "../../services";
-import { MediaUploadEncoding } from "../../services/peoplesmarkets/media/v1/media";
-import { LoadingBar } from "../assets/LoadingBar";
+import { Part } from "../../services/peoplesmarkets/media/v1/media";
+import { ProgressBar } from "../assets/ProgressBar";
 import {
   ActionButton,
   DiscardConfirmation,
@@ -18,6 +18,8 @@ import {
 } from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
+
+const CHUNKSIZE = 1024 * 1024 * 5;
 
 type Props = {
   readonly marketBoothId: string;
@@ -42,34 +44,31 @@ export function CreateMediaDialog(props: Props) {
   });
 
   const [uploading, setUploading] = createSignal(false);
+  const [uploadedBytes, setUploadedBytes] = createSignal<number>();
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
   async function handleAddMedia(event: SubmitEvent) {
     event.preventDefault();
+
+    setUploading(true);
 
     if (_.isNil(form.file)) {
       setErrors("file", [trans(TKEYS.form.errors["required-field"])]);
       return;
     }
 
-    setUploading(true);
-
     try {
-      await mediaService.create({
-        marketBoothId: props.marketBoothId,
-        name: form.name || form.file.name,
-        data: {
-          name: form.file.name,
-          encoding: MediaUploadEncoding.MEDIA_UPLOAD_ENCODING_BASE64,
-          data: await readFileBase64(form.file, 0, form.file.size),
-        },
-      });
+      if (form.file.size < CHUNKSIZE) {
+        await uploadSimple();
+      } else {
+        await uploadMultipart();
+      }
       setUploading(false);
       props.onUpdate();
       props.onClose();
     } catch (err: any) {
       setUploading(false);
-
+      console.error(err);
       if (
         err.code === grpc.Code.ResourceExhausted ||
         err.code === grpc.Code.OutOfRange
@@ -85,6 +84,71 @@ export function CreateMediaDialog(props: Props) {
         throw err;
       }
     }
+  }
+
+  async function uploadSimple() {
+    if (_.isNil(form.file)) {
+      setErrors("file", [trans(TKEYS.form.errors["required-field"])]);
+      return;
+    }
+
+    await mediaService.create({
+      marketBoothId: props.marketBoothId,
+      name: form.name || form.file.name,
+      file: {
+        contentType: form.file.type,
+        data: await readAsUint8Array(form.file, 0, form.file.size),
+      },
+    });
+  }
+
+  async function uploadMultipart() {
+    if (_.isNil(form.file)) {
+      setErrors("file", [trans(TKEYS.form.errors["required-field"])]);
+      return;
+    }
+
+    const media = (
+      await mediaService.create({
+        marketBoothId: props.marketBoothId,
+        name: form.name || form.file.name,
+      })
+    ).media;
+
+    if (_.isNil(media)) {
+      setUploading(false);
+      return;
+    }
+
+    const initialized = await mediaService.initiateMultipartUpload({
+      mediaId: media.mediaId,
+      contentType: form.file.type,
+    });
+
+    let totalRead = 0;
+    let partNumber = 1;
+    const parts: Part[] = [];
+
+    for (let i = 0; i <= form.file.size; i += CHUNKSIZE) {
+      const end = i + CHUNKSIZE;
+      const chunk = await readAsUint8Array(form.file, i, end);
+      totalRead += chunk.length;
+      const part = await mediaService.putMultipartChunk({
+        mediaId: media.mediaId,
+        uploadId: initialized.uploadId,
+        partNumber,
+        chunk,
+      });
+      partNumber += 1;
+      parts.push(part.part!);
+      setUploadedBytes(totalRead);
+    }
+
+    await mediaService.completeMultipartUpload({
+      mediaId: media.mediaId,
+      uploadId: initialized.uploadId,
+      parts,
+    });
   }
 
   function handleFileInput(files: FileList | null) {
@@ -140,7 +204,15 @@ export function CreateMediaDialog(props: Props) {
           onClose={handleCloseDialog}
         >
           <form class={styles.Form} onSubmit={handleAddMedia}>
-            <Show when={!uploading()} fallback={<LoadingBar />}>
+            <Show
+              when={!uploading()}
+              fallback={
+                <ProgressBar
+                  total={form.file?.size}
+                  current={() => uploadedBytes()}
+                />
+              }
+            >
               <TextField
                 name={trans(TKEYS.media.labels.name)}
                 label={trans(TKEYS.media.labels.name)}
