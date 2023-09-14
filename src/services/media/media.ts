@@ -1,8 +1,11 @@
 import {
+  CompleteMultipartUploadRequest,
   CreateMediaRequest,
   GrpcWebImpl,
+  InitiateMultipartUploadRequest,
   ListMediaRequest,
   MediaServiceClientImpl,
+  PutMultipartChunkRequest,
   UpdateMediaRequest,
 } from "../peoplesmarkets/media/v1/media";
 
@@ -37,5 +40,27 @@ export class MediaService extends ServiceClient {
 
   public async delete(mediaId: string) {
     return this.client.DeleteMedia({ mediaId }, await this.withAuthHeader());
+  }
+
+  public async initiateMultipartUpload(
+    request: InitiateMultipartUploadRequest
+  ) {
+    return this.client.InitiateMultipartUpload(
+      request,
+      await this.withAuthHeader()
+    );
+  }
+
+  public async putMultipartChunk(request: PutMultipartChunkRequest) {
+    return this.client.PutMultipartChunk(request, await this.withAuthHeader());
+  }
+
+  public async completeMultipartUpload(
+    request: CompleteMultipartUploadRequest
+  ) {
+    return this.client.CompleteMultipartUpload(
+      request,
+      await this.withAuthHeader()
+    );
   }
 }

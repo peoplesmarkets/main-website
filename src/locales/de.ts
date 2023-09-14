@@ -12,6 +12,7 @@ export const DE: typeof TKEYS = {
   common: {
     by: "Von",
     more: "mehr",
+    file: "Datei",
   },
   form: {
     action: {

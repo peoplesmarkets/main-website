@@ -5,10 +5,9 @@ import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { readFileBase64 } from "../../lib";
+import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService } from "../../services";
-import { MediaUploadEncoding } from "../../services/peoplesmarkets/media/v1/media";
 import {
   ActionButton,
   DeleteConfirmation,
@@ -17,6 +16,7 @@ import {
 } from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
+import { ProgressBar } from "../assets";
 
 type Props = {
   readonly marketBoothId: string;
@@ -38,6 +38,7 @@ export function EditMarketBoothImageDialog(props: Props) {
     image: [] as string[],
   });
 
+  const [uploading, setUploading] = createSignal(false);
   const [showDiscardConfirmation, setShowDiscardConfirmation] =
     createSignal(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
@@ -51,18 +52,22 @@ export function EditMarketBoothImageDialog(props: Props) {
       return;
     }
 
+    setUploading(true);
+
     try {
       await marketBoothService.updateImage({
         marketBoothId: props.marketBoothId,
         image: {
-          name: form.image.name,
-          encoding: MediaUploadEncoding.MEDIA_UPLOAD_ENCODING_BASE64,
-          data: await readFileBase64(form.image, 0, form.image.size),
+          contentType: "",
+          data: await readAsUint8Array(form.image, 0, form.image.size),
         },
       });
+      setUploading(false);
       props.onUpdate();
       props.onClose();
     } catch (err: any) {
+      setUploading(false);
+
       if (err.code) {
         if (err.code === grpc.Code.ResourceExhausted) {
           setErrors("image", [
@@ -129,13 +134,15 @@ export function EditMarketBoothImageDialog(props: Props) {
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={updateImage}>
-            <FileField
-              name="image"
-              label="image"
-              required
-              errors={errors.image}
-              onValue={handleImageInput}
-            />
+            <Show when={!uploading()} fallback={<ProgressBar />}>
+              <FileField
+                name="image"
+                label="image"
+                required
+                errors={errors.image}
+                onValue={handleImageInput}
+              />
+            </Show>
           </form>
 
           <div class={styles.DialogFooter}>

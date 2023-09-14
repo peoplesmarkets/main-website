@@ -22,7 +22,7 @@
 
 // from: https://github.com/jgthms/bulma/blob/master/sass/elements/progress.sass (09/13/23)
 
-.LoadingBar {
+.ProgressBar {
   -moz-appearance: none;
   -webkit-appearance: none;
   border: none;
@@ -33,29 +33,46 @@
   padding: 0;
   width: 100%;
 
-  animation-duration: 1.5s;
-  animation-iteration-count: infinite;
-  animation-name: moveIndeterminate;
-  animation-timing-function: linear;
-  background-color: var(--primary-background-color);
-  background-image: linear-gradient(
-    to right,
-    var(--active-content-color) 30%,
-    var(--primary-background-color) 30%
-  );
-  background-position: top left;
-  background-repeat: no-repeat;
-  background-size: 150% 150%;
-}
+  &::-webkit-progress-bar {
+    background-color: var(--primary-background-color);
+  }
+  &::-webkit-progress-value {
+    background-color: var(--active-content-color);
+  }
+  &::-moz-progress-bar {
+    background-color: var(--active-content-color);
+  }
+  &::-ms-fill {
+    background-color: var(--active-content-color);
+    border: none;
+  }
 
-::-webkit-progress-bar {
-  background-color: transparent;
-}
-::-moz-progress-bar {
-  background-color: transparent;
-}
-::-ms-fill {
-  animation-name: none;
+  &:indeterminate {
+    animation-duration: 1.5s;
+    animation-iteration-count: infinite;
+    animation-name: moveIndeterminate;
+    animation-timing-function: linear;
+
+    background-color: var(--primary-background-color);
+    background-image: linear-gradient(
+      to right,
+      var(--active-content-color) 30%,
+      var(--primary-background-color) 30%
+    );
+    background-position: top left;
+    background-repeat: no-repeat;
+    background-size: 150% 150%;
+
+    &::-webkit-progress-bar {
+      background-color: transparent;
+    }
+    &::-moz-progress-bar {
+      background-color: transparent;
+    }
+    &::-ms-fill {
+      animation-name: none;
+    }
+  }
 }
 
 @keyframes moveIndeterminate {

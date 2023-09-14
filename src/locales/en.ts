@@ -11,6 +11,7 @@ export const EN: typeof TKEYS = {
   common: {
     by: "By",
     more: "more",
+    file: "file",
   },
   form: {
     action: {

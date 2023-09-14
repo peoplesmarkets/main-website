@@ -5,14 +5,11 @@ import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { readFileBase64 } from "../../lib";
+import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MediaService } from "../../services";
-import {
-  MediaResponse,
-  MediaUploadEncoding,
-} from "../../services/peoplesmarkets/media/v1/media";
-import { LoadingBar } from "../assets/LoadingBar";
+import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
+import { ProgressBar } from "../assets/ProgressBar";
 import {
   ActionButton,
   DiscardConfirmation,
@@ -63,18 +60,17 @@ export function EditMediaDialog(props: Props) {
     setUploading(true);
 
     try {
-      const data = form.file
+      const file = form.file
         ? {
-            name: form.file.name,
-            encoding: MediaUploadEncoding.MEDIA_UPLOAD_ENCODING_BASE64,
-            data: await readFileBase64(form.file, 0, form.file.size),
+            contentType: form.file.type,
+            data: await readAsUint8Array(form.file, 0, form.file.size),
           }
         : undefined;
 
       await mediaService.update({
         mediaId: props.media().mediaId,
         name: form.name,
-        data,
+        file,
       });
       setUploading(false);
       props.onUpdate();
@@ -152,7 +148,7 @@ export function EditMediaDialog(props: Props) {
           onClose={handleCloseDialog}
         >
           <form class={styles.Form} onSubmit={handleAddMedia}>
-            <Show when={!uploading()} fallback={<LoadingBar />}>
+            <Show when={!uploading()} fallback={<ProgressBar />}>
               <TextField
                 name={trans(TKEYS.media.labels.name)}
                 label={trans(TKEYS.media.labels.name)}
