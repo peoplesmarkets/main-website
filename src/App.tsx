@@ -2,6 +2,7 @@ import { TransProvider } from "@mbarzda/solid-i18next";
 import { Route, Router, Routes } from "@solidjs/router";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
+import ICU from 'i18next-icu';
 
 import { lazy, onMount } from "solid-js";
 import styles from "./App.module.scss";
@@ -49,6 +50,7 @@ export default function App() {
     resources: LOCALES,
   });
   i18nextInstance.use(LanguageDetector);
+  i18nextInstance.use(ICU);
 
   onMount(() => {
     setDocumentLanguage(i18nextInstance.language);

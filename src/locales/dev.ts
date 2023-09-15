@@ -1,3 +1,12 @@
+import {
+  Currency,
+  PriceType,
+  RecurringInterval,
+  currencyToJSON,
+  priceTypeToJSON,
+  recurringIntervalToJSON,
+} from "../services/peoplesmarkets/commerce/v1/price";
+
 export const TKEYS = {
   "Peoples-Markets": "Peoples-Markets",
   peoplesmarkets_com: "peoplesmarkets_com",
@@ -9,7 +18,10 @@ export const TKEYS = {
   common: {
     by: "common.by",
     more: "common.more",
-    file: "common.file"
+    file: "common.file",
+    per: "common.per",
+    every: "common.every",
+    "per-or-every": "common.per-or-every",
   },
   form: {
     action: {
@@ -22,8 +34,8 @@ export const TKEYS = {
       Cancel: "form.action.Cancel",
       Discard: "form.action.Discard",
       Buy: "form.action.Buy",
-      "Are-you-sure-you-want-to-delete-the":
-        "form.action.Are-you-sure-you-want-to-delete-the",
+      "Are-you-sure-you-want-to-delete-the-item":
+        "form.action.Are-you-sure-you-want-to-delete-the-item",
       "Confirm-Deletion?": "form.action.Confirm-Deletion?",
     },
     "danger-zone": "form.danger-zone",
@@ -55,8 +67,45 @@ export const TKEYS = {
   },
   price: {
     Price: "price.Price",
-    Currency: "price.Currency",
     "decimal-point": "price.decimal-point",
+    "billing-period": "price.billing-period",
+    currency: {
+      title: "price.currency.title",
+      [currencyToJSON(Currency.CURRENCY_EUR)]: `price.currency.${currencyToJSON(
+        Currency.CURRENCY_EUR
+      )}`,
+    },
+    "price-type": {
+      title: "price.price-type.title",
+      [priceTypeToJSON(
+        PriceType.PRICE_TYPE_ONE_TIME
+      )]: `price.price-type.${priceTypeToJSON(PriceType.PRICE_TYPE_ONE_TIME)}`,
+      [priceTypeToJSON(
+        PriceType.PRICE_TYPE_RECURRING
+      )]: `price.price-type.${priceTypeToJSON(PriceType.PRICE_TYPE_RECURRING)}`,
+    },
+    "recurring-interval": {
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_DAY
+      )]: `price.recurring-interval.${recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_DAY
+      )}`,
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_WEEK
+      )]: `price.recurring-interval.${recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_WEEK
+      )}`,
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_MONTH
+      )]: `price.recurring-interval.${recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_MONTH
+      )}`,
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_YEAR
+      )]: `price.recurring-interval.${recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_YEAR
+      )}`,
+    },
   },
   "market-booth": {
     title: "market-booth.title",
@@ -143,6 +192,7 @@ export const TKEYS = {
       "edit-offer": "dashboard.offers.edit-offer",
       "delete-this-offer": "dashboard.offers.delete-this-offer",
       "add-image": "dashboard.offers.add-image",
+      "edit-price": "dashboard.offers.edit-price",
     },
     media: {
       "my-media": "dashboard.media.my-media",

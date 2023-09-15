@@ -68,7 +68,7 @@ export function CreateMediaDialog(props: Props) {
       props.onClose();
     } catch (err: any) {
       setUploading(false);
-      console.error(err);
+
       if (
         err.code === grpc.Code.ResourceExhausted ||
         err.code === grpc.Code.OutOfRange
@@ -229,17 +229,18 @@ export function CreateMediaDialog(props: Props) {
                 onValue={handleFileInput}
               />
             </Show>
-          </form>
 
-          <div class={styles.DialogFooter}>
-            <ActionButton
-              actionType="active-filled"
-              onClick={handleAddMedia}
-              disabled={formHasErrors() || uploading()}
-            >
-              <Trans key={TKEYS.form.action.Save} />
-            </ActionButton>
-          </div>
+            <div class={styles.DialogFooter}>
+              <ActionButton
+                actionType="active-filled"
+                submit
+                onClick={handleAddMedia}
+                disabled={formHasErrors() || uploading()}
+              >
+                <Trans key={TKEYS.form.action.Save} />
+              </ActionButton>
+            </div>
+          </form>
         </Dialog>
       </Show>
 
