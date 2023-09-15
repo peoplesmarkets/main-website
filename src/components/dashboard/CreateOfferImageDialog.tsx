@@ -141,17 +141,18 @@ export function CreateOfferImageDialog(props: Props) {
                 onValue={handleImageInput}
               />
             </Show>
-          </form>
 
-          <div class={styles.DialogFooter}>
-            <ActionButton
-              actionType="active-filled"
-              onClick={handleAddImage}
-              disabled={formHasErrors() || uploading()}
-            >
-              <Trans key={TKEYS.form.action.Save} />
-            </ActionButton>
-          </div>
+            <div class={styles.DialogFooter}>
+              <ActionButton
+                actionType="active-filled"
+                submit
+                onClick={handleAddImage}
+                disabled={formHasErrors() || uploading()}
+              >
+                <Trans key={TKEYS.form.action.Save} />
+              </ActionButton>
+            </div>
+          </form>
         </Dialog>
       </Show>
 

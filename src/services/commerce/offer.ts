@@ -1,18 +1,23 @@
 import _ from "lodash";
+
 import {
   AddImageToOfferRequest,
   CreateOfferRequest,
   GrpcWebImpl,
   ListOffersRequest,
   OfferServiceClientImpl,
+  PutPriceToOfferRequest,
+  RemovePriceFromOfferRequest,
   UpdateOfferRequest,
 } from "../peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
-  currencyFromJSON,
+  PriceType,
+  RecurringInterval,
   currencyToJSON,
+  priceTypeToJSON,
+  recurringIntervalToJSON,
 } from "../peoplesmarkets/commerce/v1/price";
-
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
 export class OfferService extends ServiceClient {
@@ -56,22 +61,33 @@ export class OfferService extends ServiceClient {
       await this.withAuthHeader()
     );
   }
+
+  public async putPrice(request: PutPriceToOfferRequest) {
+    return this.client.PutPriceToOffer(request, await this.withAuthHeader());
+  }
+
+  public async removePrice(request: RemovePriceFromOfferRequest) {
+    return this.client.RemovePriceFromOffer(
+      request,
+      await this.withAuthHeader()
+    );
+  }
 }
 
 export function listCurrencyCodes(): string[] {
   return Object.values(Currency)
     .filter((c) => _.isNumber(c) && c > 0)
-    .map((c) => getCurrencyCode(c as Currency));
+    .map((c) => currencyToJSON(c as Currency));
 }
 
-export function getCurrencyCode(currency: Currency): string {
-  if (currency < 1) {
-    return "";
-  }
-
-  return currencyToJSON(currency).replace("CURRENCY_", "");
+export function listPriceTypeCodes(): string[] {
+  return Object.values(PriceType)
+    .filter((t) => _.isNumber(t) && t > 0)
+    .map((t) => priceTypeToJSON(t as PriceType));
 }
 
-export function getCurrencyFromCode(code: string): Currency {
-  return currencyFromJSON("CURRENCY_" + code);
+export function listRecurringIntervalCodes(): string[] {
+  return Object.values(RecurringInterval)
+    .filter((i) => _.isNumber(i) && i > 0)
+    .map((i) => recurringIntervalToJSON(i as RecurringInterval));
 }

@@ -1,5 +1,5 @@
 import _ from "lodash";
-import { For, Show, createEffect, createSignal } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 
 import { clickOutside } from "../../directives";
 import { CloseIcon } from "../icons";
@@ -17,8 +17,8 @@ export type Option = {
 type Props = {
   readonly label: string;
   readonly options: () => Option[];
+  readonly value: () => Option | string | number | undefined;
   readonly class?: string;
-  readonly value?: () => Option | string | number | undefined;
   readonly expandHeight?: boolean;
   readonly emptyLabel?: string;
 } & (
@@ -33,20 +33,20 @@ type Props = {
 );
 
 export function Select(props: Props) {
-  const [selected, setSelected] = createSignal<Option | undefined>();
+  // const [selected, setSelected] = createSignal<Option | undefined>();
   const [showSuggestionList, setShowSuggestionList] = createSignal(false);
 
-  createEffect(() => {
-    const value = props.value?.();
-    if (_.isString(value) || _.isNumber(value)) {
-      setSelected(_.find(props.options(), { key: value }));
-    } else {
-      setSelected(value);
-    }
-  });
+  // createEffect(() => {
+  //   const value = props.value?.();
+  //   if (_.isString(value) || _.isNumber(value)) {
+  //     setSelected(_.find(props.options(), { key: value }));
+  //   } else {
+  //     setSelected(value);
+  //   }
+  // });
 
   function anySelected() {
-    return !_.isNil(selected());
+    return !_.isNil(props.value());
   }
 
   function selecting() {
@@ -54,7 +54,12 @@ export function Select(props: Props) {
   }
 
   function isSelected(option: Option) {
-    return selected()?.key === option.key;
+    const value = props.value();
+
+    if (_.isString(value) || _.isNumber(value)) {
+      return value === option.key;
+    }
+    return value?.key === option.key;
   }
 
   function isEmpty() {
@@ -66,14 +71,17 @@ export function Select(props: Props) {
       return props.emptyLabel;
     }
 
-    if (_.isNil(selected()?.name)) {
+    const value = props.value();
+
+    if (_.isNil(value) || _.isString(value) || _.isNumber(value)) {
       return props.label;
     }
-    return selected()?.name;
+
+    return value.name;
   }
 
   function showClearIcon() {
-    return selecting() && selected() && props.nullable;
+    return selecting() && !_.isNil(props.value()) && props.nullable;
   }
 
   function handleShowSuggestionList() {
@@ -88,14 +96,14 @@ export function Select(props: Props) {
   }
 
   function handleSelect(option: Option) {
-    setSelected(option as Option);
+    // setSelected(option as Option);
     props.onValue?.(option.key);
     setShowSuggestionList(false);
   }
 
   function handleRemoveSelection() {
     if (props.nullable) {
-      setSelected();
+      // setSelected();
       props.onValue?.(null);
       setShowSuggestionList(false);
     }
@@ -134,7 +142,7 @@ export function Select(props: Props) {
         <Show when={!isEmpty()}>
           <Chevron
             class={styles.ChevronIcon}
-            classList={{ [styles.IsSelected]: !_.isNil(selected()) }}
+            classList={{ [styles.IsSelected]: !_.isNil(props.value()) }}
             direction={() => (showSuggestionList() ? "up" : "down")}
           />
         </Show>

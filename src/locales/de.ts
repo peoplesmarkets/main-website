@@ -1,3 +1,9 @@
+import {
+  PriceType,
+  RecurringInterval,
+  priceTypeToJSON,
+  recurringIntervalToJSON,
+} from "../services/peoplesmarkets/commerce/v1/price";
 import { TKEYS } from "./dev";
 import { EN } from "./en";
 
@@ -13,6 +19,9 @@ export const DE: typeof TKEYS = {
     by: "Von",
     more: "mehr",
     file: "Datei",
+    per: "pro",
+    every: "alle",
+    "per-or-every": "{count, plural, =1 {pro} other {alle}}"
   },
   form: {
     action: {
@@ -25,7 +34,7 @@ export const DE: typeof TKEYS = {
       Cancel: "Abbrechen",
       Discard: "Verwerfen",
       Buy: "Kaufen",
-      "Are-you-sure-you-want-to-delete-the":
+      "Are-you-sure-you-want-to-delete-the-item":
         '{{item}} namens "{{name}}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",
     },
@@ -58,8 +67,31 @@ export const DE: typeof TKEYS = {
   },
   price: {
     Price: "Preis",
-    Currency: "Währung",
     "decimal-point": ",",
+    "billing-period": "Abrechnungszeitraum",
+    currency: {
+      ...EN.price.currency,
+      title: "Währung",
+    },
+    "price-type": {
+      title: "Typ",
+      [priceTypeToJSON(PriceType.PRICE_TYPE_ONE_TIME)]: "Einmalig",
+      [priceTypeToJSON(PriceType.PRICE_TYPE_RECURRING)]: "Wiederkehrend",
+    },
+    "recurring-interval": {
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_DAY
+      )]: `{intervalCount, plural, =1 {Tag} other {Tage}}`,
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_WEEK
+      )]: `{intervalCount, plural, =1 {Woche} other {Wochen}}`,
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_MONTH
+      )]: `{intervalCount, plural, =1 {Monat} other {Monate}}`,
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_YEAR
+      )]: `{intervalCount, plural, =1 {Jahr} other {Jahre}}`,
+    },
   },
   "market-booth": {
     title: "Marktstand",
@@ -141,6 +173,7 @@ export const DE: typeof TKEYS = {
       "edit-offer": "Angebot bearbeiten",
       "delete-this-offer": "Dieses Angebot löschen",
       "add-image": "Bild hinzufügen",
+      "edit-price": "Preis bearbeiten",
     },
     media: {
       "my-media": "Meine Dateien",

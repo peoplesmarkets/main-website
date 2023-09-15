@@ -1,4 +1,20 @@
+.OfferPrice {
+  text-align: end;
+}
+
 .Price {
   display: block;
+  font: var(--font-headline);
+}
+
+.PriceSmall {
+  font: var(--font-title);
+}
+
+.Recurring {
   font: var(--font-label);
+}
+
+.RecurringSmall {
+  font: var(--font-body);
 }

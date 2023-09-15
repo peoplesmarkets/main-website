@@ -64,7 +64,13 @@ describe("Render once", () => {
   });
   test("Select", () => {
     const { container } = renderIntoRoot(() => (
-      <Select label="" onValue={noOp} options={getNoObj} nullable />
+      <Select
+        label=""
+        value={getNoObj}
+        onValue={noOp}
+        options={getNoObj}
+        nullable
+      />
     ));
     expect(container).toBeDefined();
   });

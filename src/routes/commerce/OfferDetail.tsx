@@ -100,7 +100,7 @@ export default function OfferDetail() {
           </Section>
 
           <Section>
-            <OfferPrice class={styles.Price} offer={() => offer()} />
+            <OfferPrice offer={() => offer()} />
           </Section>
 
           <Section>

@@ -30,6 +30,7 @@ import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import styles from "./Offer.module.scss";
 import { PlaceholderImage } from "../../components/assets";
+import { EditOfferPriceDialog } from "../../components/dashboard/EditOfferPriceDialog";
 
 export default function Offer() {
   const navigate = useNavigate();
@@ -42,8 +43,10 @@ export default function Offer() {
 
   const [showEditOffer, setShowEditOffer] = createSignal(false);
   const [showAddImage, setShowAddImage] = createSignal(false);
+  const [showEditPrice, setShowEditPrice] = createSignal(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     createSignal(false);
+
   const [marketBoothId, setMarketBoothId] = createSignal<string>();
 
   const [offer, { refetch }] = createResource(
@@ -57,7 +60,6 @@ export default function Offer() {
 
   async function fetchOffer(offerId: string) {
     const response = await offerService.get(offerId);
-
     return response.offer;
   }
 
@@ -79,6 +81,14 @@ export default function Offer() {
 
   function handleCloseAddImage() {
     setShowAddImage(false);
+  }
+
+  function handleOpenEditPrice() {
+    setShowEditPrice(true);
+  }
+
+  function handleCloseEditPrice() {
+    setShowEditPrice(false);
   }
 
   function handleRefreshOffer() {
@@ -133,7 +143,7 @@ export default function Offer() {
 
             <Show when={!_.isNil(offer()?.price)}>
               <Section>
-                <OfferPrice class={styles.Price} offer={() => offer()} />
+                <OfferPrice offer={() => offer()} />
               </Section>
             </Show>
 
@@ -185,11 +195,24 @@ export default function Offer() {
                   <Trans key={TKEYS.form.action.Edit} />
                 </ActionButton>
               </div>
+
               <div class={styles.EditSection}>
                 <p class={styles.Body}>
                   <Trans key={TKEYS.dashboard.offers["add-image"]} />
                 </p>
                 <ActionButton actionType="neutral" onClick={handleOpenAddImage}>
+                  <Trans key={TKEYS.form.action.Edit} />
+                </ActionButton>
+              </div>
+
+              <div class={styles.EditSection}>
+                <p class={styles.Body}>
+                  <Trans key={TKEYS.dashboard.offers["edit-price"]} />
+                </p>
+                <ActionButton
+                  actionType="neutral"
+                  onClick={handleOpenEditPrice}
+                >
                   <Trans key={TKEYS.form.action.Edit} />
                 </ActionButton>
               </div>
@@ -226,6 +249,14 @@ export default function Offer() {
           offerId={offer()!.offerId}
           lastOrdering={lastImageOrdering()}
           onClose={handleCloseAddImage}
+          onUpdate={handleRefreshOffer}
+        />
+      </Show>
+
+      <Show when={showEditPrice()}>
+        <EditOfferPriceDialog
+          offer={() => offer()!}
+          onClose={handleCloseEditPrice}
           onUpdate={handleRefreshOffer}
         />
       </Show>
