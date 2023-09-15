@@ -1,3 +1,11 @@
+import {
+  Currency,
+  PriceType,
+  RecurringInterval,
+  currencyToJSON,
+  priceTypeToJSON,
+  recurringIntervalToJSON,
+} from "../services/peoplesmarkets/commerce/v1/price";
 import { TKEYS } from "./dev";
 
 export const EN: typeof TKEYS = {
@@ -12,6 +20,9 @@ export const EN: typeof TKEYS = {
     by: "By",
     more: "more",
     file: "file",
+    per: "per",
+    every: "every",
+    "per-or-every": "{count, plural, =1 {per} other {every}}",
   },
   form: {
     action: {
@@ -24,7 +35,7 @@ export const EN: typeof TKEYS = {
       Cancel: "Cancel",
       Discard: "Discard",
       Buy: "Buy",
-      "Are-you-sure-you-want-to-delete-the":
+      "Are-you-sure-you-want-to-delete-the-item":
         'Are you sure you want to delete the {{item}}: "{{name}}"?',
       "Confirm-Deletion?": "Confirm Deletion?",
     },
@@ -57,8 +68,31 @@ export const EN: typeof TKEYS = {
   },
   price: {
     Price: "Price",
-    Currency: "Currency",
     "decimal-point": ".",
+    "billing-period": "Billing period",
+    currency: {
+      title: "Currency",
+      [currencyToJSON(Currency.CURRENCY_EUR)]: `EUR`,
+    },
+    "price-type": {
+      title: "Type",
+      [priceTypeToJSON(PriceType.PRICE_TYPE_ONE_TIME)]: `One time`,
+      [priceTypeToJSON(PriceType.PRICE_TYPE_RECURRING)]: `Recurring`,
+    },
+    "recurring-interval": {
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_DAY
+      )]: `{intervalCount, plural, =1 {day} other {days}}`,
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_WEEK
+      )]: `{intervalCount, plural, =1 {week} other {weeks}}`,
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_MONTH
+      )]: `{intervalCount, plural, =1 {month} other {months}}`,
+      [recurringIntervalToJSON(
+        RecurringInterval.RECURRING_INTERVAL_YEAR
+      )]: `{intervalCount, plural, =1 {year} other {years}}`,
+    },
   },
   "market-booth": {
     title: "Market Booth",
@@ -141,6 +175,7 @@ export const EN: typeof TKEYS = {
       "edit-offer": "Edit Offer",
       "delete-this-offer": "Delete this Offer",
       "add-image": "Add image",
+      "edit-price": "Edit Price",
     },
     media: {
       "my-media": "My Files",

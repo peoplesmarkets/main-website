@@ -19,6 +19,7 @@
     "axios": "^1.4.0",
     "i18next": "^23.4.4",
     "i18next-browser-languagedetector": "^7.1.0",
+    "i18next-icu": "^2.3.0",
     "lodash": "^4.17.21",
     "markdown-it": "^13.0.1",
     "markdown-it-image-figures": "^2.1.1",

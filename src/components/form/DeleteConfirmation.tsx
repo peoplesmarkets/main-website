@@ -27,7 +27,7 @@ export function DeleteConfirmation(props: Props) {
         <p>
           <Show when={_.isNil(props.message)} fallback={props.message}>
             <Trans
-              key={TKEYS.form.action["Are-you-sure-you-want-to-delete-the"]}
+              key={TKEYS.form.action["Are-you-sure-you-want-to-delete-the-item"]}
               options={{
                 item: props.item,
                 name: props.itemName,

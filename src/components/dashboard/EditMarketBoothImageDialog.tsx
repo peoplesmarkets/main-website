@@ -143,16 +143,20 @@ export function EditMarketBoothImageDialog(props: Props) {
                 onValue={handleImageInput}
               />
             </Show>
-          </form>
 
-          <div class={styles.DialogFooter}>
-            <ActionButton actionType="danger" onClick={removeImage}>
-              <Trans key={TKEYS["market-booth"]["delete-image"]} />
-            </ActionButton>
-            <ActionButton actionType="active-filled" onClick={updateImage}>
-              <Trans key={TKEYS.form.action.Save} />
-            </ActionButton>
-          </div>
+            <div class={styles.DialogFooter}>
+              <ActionButton actionType="danger" onClick={removeImage}>
+                <Trans key={TKEYS["market-booth"]["delete-image"]} />
+              </ActionButton>
+              <ActionButton
+                actionType="active-filled"
+                onClick={updateImage}
+                submit
+              >
+                <Trans key={TKEYS.form.action.Save} />
+              </ActionButton>
+            </div>
+          </form>
         </Dialog>
       </Show>
 

@@ -120,16 +120,17 @@ export function CreateMarketBoothDialog(props: Props) {
               onValue={onDescriptionInput}
               errors={errors.description}
             />
-          </form>
 
-          <div class={styles.DialogFooter}>
-            <ActionButton
-              actionType="active-filled"
-              onClick={(e) => createMarketBooth(e)}
-            >
-              <Trans key={TKEYS.form.action.Save} />
-            </ActionButton>
-          </div>
+            <div class={styles.DialogFooter}>
+              <ActionButton
+                actionType="active-filled"
+                submit
+                onClick={(e) => createMarketBooth(e)}
+              >
+                <Trans key={TKEYS.form.action.Save} />
+              </ActionButton>
+            </div>
+          </form>
         </Dialog>
       </Show>
 

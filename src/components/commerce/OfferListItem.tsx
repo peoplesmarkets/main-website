@@ -62,7 +62,7 @@ export function OfferListItem(props: Props) {
 
           <div class={styles.Price}>
             <Show when={!_.isNil(props.offer()?.price)}>
-              <OfferPrice offer={() => props.offer()} />
+              <OfferPrice offer={() => props.offer()} small />
             </Show>
           </div>
         </div>
