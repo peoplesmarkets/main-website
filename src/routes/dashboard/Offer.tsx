@@ -21,6 +21,7 @@ import {
 import {
   CreateOfferImageDialog,
   EditOfferDialog,
+  MediaSettings,
 } from "../../components/dashboard";
 import { ActionButton, DeleteConfirmation } from "../../components/form";
 import { Page, Section } from "../../components/layout";
@@ -31,6 +32,7 @@ import { OfferService } from "../../services";
 import styles from "./Offer.module.scss";
 import { PlaceholderImage } from "../../components/assets";
 import { EditOfferPriceDialog } from "../../components/dashboard/EditOfferPriceDialog";
+import { OfferType } from "../../services/peoplesmarkets/commerce/v1/offer";
 
 export default function Offer() {
   const navigate = useNavigate();
@@ -144,6 +146,12 @@ export default function Offer() {
             <Show when={!_.isNil(offer()?.price)}>
               <Section>
                 <OfferPrice offer={() => offer()} />
+
+                <p class={styles.Annotation}>
+                  <Show when={offer()?.type == OfferType.OFFER_TYPE_DIGITAL}>
+                    <Trans key={TKEYS.offer["downloadable-content"]} />
+                  </Show>
+                </p>
               </Section>
             </Show>
 
@@ -178,6 +186,10 @@ export default function Offer() {
                 {secondsToLocaleString(offer()?.updatedAt)}
               </span>
             </Section>
+
+            <Show when={offer()?.type === OfferType.OFFER_TYPE_DIGITAL}>
+              <MediaSettings offer={() => offer()!} />
+            </Show>
 
             <Section bordered>
               <span class={styles.Label}>

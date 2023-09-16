@@ -26,7 +26,10 @@ import {
   OfferService,
   StripeService,
 } from "../../services";
-import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
+import {
+  OfferResponse,
+  OfferType,
+} from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferDetail.module.scss";
 
 export default function OfferDetail() {
@@ -101,6 +104,12 @@ export default function OfferDetail() {
 
           <Section>
             <OfferPrice offer={() => offer()} />
+
+            <p class={styles.Annotation}>
+              <Show when={offer()?.type == OfferType.OFFER_TYPE_DIGITAL}>
+                <Trans key={TKEYS.offer["downloadable-content"]} />
+              </Show>
+            </p>
           </Section>
 
           <Section>

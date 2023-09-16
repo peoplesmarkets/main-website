@@ -1,4 +1,5 @@
 import {
+  AddMediaToOfferRequest,
   CompleteMultipartUploadRequest,
   CreateMediaRequest,
   GrpcWebImpl,
@@ -6,6 +7,7 @@ import {
   ListMediaRequest,
   MediaServiceClientImpl,
   PutMultipartChunkRequest,
+  RemoveMediaFromOfferRequest,
   UpdateMediaRequest,
 } from "../peoplesmarkets/media/v1/media";
 
@@ -59,6 +61,17 @@ export class MediaService extends ServiceClient {
     request: CompleteMultipartUploadRequest
   ) {
     return this.client.CompleteMultipartUpload(
+      request,
+      await this.withAuthHeader()
+    );
+  }
+
+  public async addMediaToOffer(request: AddMediaToOfferRequest) {
+    return this.client.AddMediaToOffer(request, await this.withAuthHeader());
+  }
+
+  public async removeMediaFromOffer(request: RemoveMediaFromOfferRequest) {
+    return this.client.RemoveMediaFromOffer(
       request,
       await this.withAuthHeader()
     );
