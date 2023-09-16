@@ -1,19 +1,22 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { Show, createSignal } from "solid-js";
+import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
-import { OfferService } from "../../services";
+import { OfferService, listOfferTypeCodes } from "../../services";
 import {
   OfferResponse,
   UpdateOfferRequest,
+  offerTypeFromJSON,
+  offerTypeToJSON,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import {
   ActionButton,
   DiscardConfirmation,
+  Select,
   TextArea,
   TextField,
 } from "../form";
@@ -33,11 +36,8 @@ export function EditOfferDialog(props: Props) {
 
   const offerService = new OfferService(accessToken);
 
-  /* eslint-disable-next-line solid/reactivity */
-  const initialOffer = _.cloneDeep(props.offer());
-
   const [offer, setOffer] = createStore<UpdateOfferRequest>(
-    _.cloneDeep(initialOffer)
+    UpdateOfferRequest.create()
   );
 
   const [errors, setErrors] = createStore({
@@ -47,15 +47,33 @@ export function EditOfferDialog(props: Props) {
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
+  createEffect(() => {
+    if (_.isNil(offer.offerId) || _.isEmpty(offer.offerId)) {
+      setOffer(_.clone(props.offer()));
+    }
+  });
+
+  function offerTypeOptions() {
+    return listOfferTypeCodes().map((c) => ({
+      name: trans(TKEYS.offer.types[c]),
+      key: c,
+    }));
+  }
+
+  function selectedOfferType() {
+    if (!_.isNil(offer.type)) {
+      return _.find(offerTypeOptions(), {
+        key: offerTypeToJSON(offer.type),
+      });
+    }
+  }
+
   function resetErrors() {
     setErrors({ name: [], description: [] });
   }
 
   function dataWasChanged() {
-    return (
-      offer.name !== initialOffer.name ||
-      offer.description !== initialOffer.description
-    );
+    return !_.isEqual(props.offer(), offer);
   }
 
   function handleNameInput(value: string) {
@@ -66,6 +84,12 @@ export function EditOfferDialog(props: Props) {
   function handleDescriptionInput(value: string) {
     resetErrors();
     setOffer("description", value.trim());
+  }
+
+  function handleOfferTypeChange(value: string | number) {
+    if (_.isString(value)) {
+      setOffer("type", offerTypeFromJSON(value));
+    }
   }
 
   async function handleUpdateOffer(event: SubmitEvent) {
@@ -118,6 +142,12 @@ export function EditOfferDialog(props: Props) {
           onClose={handleCloseDialog}
         >
           <form class={styles.Form} onSubmit={handleUpdateOffer}>
+            <Select
+              label={trans(TKEYS.price["price-type"].title)}
+              value={selectedOfferType}
+              options={offerTypeOptions}
+              onValue={handleOfferTypeChange}
+            />
             <TextField
               name="name"
               label={trans(TKEYS.offer.labels.name)}
@@ -126,7 +156,6 @@ export function EditOfferDialog(props: Props) {
               onValue={handleNameInput}
               errors={errors.name}
             />
-
             <TextArea
               name="description"
               label={trans(TKEYS.offer.labels.description)}
@@ -135,7 +164,6 @@ export function EditOfferDialog(props: Props) {
               onValue={handleDescriptionInput}
               errors={errors.description}
             />
-
             <div class={styles.DialogFooter}>
               <ActionButton
                 actionType="active-filled"

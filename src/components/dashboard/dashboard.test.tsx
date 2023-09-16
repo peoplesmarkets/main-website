@@ -85,7 +85,7 @@ describe("Render once", () => {
   });
   test("MediaSettings", () => {
     const { container } = renderIntoRoot(() => (
-      <MediaSettings marketBooth={getNoObj} />
+      <MediaSettings offer={getNoObj} />
     ));
     expect(container).toBeDefined();
   });

@@ -1,19 +1,18 @@
+import { grpc } from "@improbable-eng/grpc-web";
 import { useNavigate, useParams } from "@solidjs/router";
 import { Show, createResource } from "solid-js";
-import { grpc } from "@improbable-eng/grpc-web";
 
 import { DASHBOARD_PATH } from "../../App";
 import {
   MarketBoothImage,
   MarketBoothSettings,
-  MediaSettings,
   OfferSettings,
 } from "../../components/dashboard";
+import { Section } from "../../components/layout";
 import { Page } from "../../components/layout/Page";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { MarketBoothService } from "../../services";
 import styles from "./MarketBooth.module.scss";
-import { Section } from "../../components/layout";
 
 export default function MarketBooth() {
   const navigate = useNavigate();
@@ -63,8 +62,6 @@ export default function MarketBooth() {
             </Section>
 
             <OfferSettings marketBooth={() => marketBooth()!} />
-
-            <MediaSettings marketBooth={() => marketBooth()!} />
 
             <MarketBoothSettings
               marketBooth={() => marketBooth()}

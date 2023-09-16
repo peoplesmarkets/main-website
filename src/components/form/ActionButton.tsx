@@ -16,6 +16,7 @@ type Props = {
   onClick: (_event?: any) => void;
   submit?: boolean;
   disabled?: boolean;
+  small?: boolean;
 };
 
 export function ActionButton(props: Props) {
@@ -31,9 +32,10 @@ export function ActionButton(props: Props) {
         [styles.DangerFilled]: props.actionType === "danger-filled",
         [styles.Neutral]: props.actionType === "neutral",
         [styles.NetrealBorderless]: props.actionType === "neutral-borderless",
-        [styles.Disabled]: !!props.disabled,
+        [styles.Disabled]: Boolean(props.disabled),
+        [styles.Small]: Boolean(props.small),
       }}
-      disabled={!!props.disabled}
+      disabled={Boolean(props.disabled)}
       type={props.submit ? "submit" : "button"}
       onClick={(e) => props.onClick(e)}
     >

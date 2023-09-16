@@ -1,4 +1,8 @@
 import {
+  OfferType,
+  offerTypeToJSON,
+} from "../services/peoplesmarkets/commerce/v1/offer";
+import {
   Currency,
   PriceType,
   RecurringInterval,
@@ -120,6 +124,7 @@ export const EN: typeof TKEYS = {
     "no-description": "No description ...",
     "currently-no-payment-method": "no payment method available",
     "other-offers-by": "Other Offers by ",
+    "downloadable-content": "downloadable content",
     labels: {
       Price: "Price",
       Name: "Name",
@@ -128,6 +133,11 @@ export const EN: typeof TKEYS = {
       description: "Description",
       "Created-at": "Created at",
       "Updated-at": "Updated at",
+    },
+    types: {
+      [offerTypeToJSON(OfferType.OFFER_TYPE_PHYSICAL)]: `physical`,
+      [offerTypeToJSON(OfferType.OFFER_TYPE_DIGITAL)]: `digital`,
+      [offerTypeToJSON(OfferType.OFFER_TYPE_SERVICE)]: `service`,
     },
   },
   media: {

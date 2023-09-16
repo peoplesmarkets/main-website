@@ -25,6 +25,13 @@
   font-style: italic;
 }
 
+.Annotation {
+  display: block;
+  font: var(--font-body);
+  text-align: end;
+  color: var(--active-content-color);
+}
+
 .Buy {
   display: flex;
   justify-content: center;

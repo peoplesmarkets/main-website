@@ -3,7 +3,7 @@
   border-radius: 4px;
   background-color: inherit;
   color: var(--active-content-color);
-  padding: 0 23px 0 23px;
+  padding: 0 23px;
   height: 36px;
   text-decoration: none;
   outline: 0;
@@ -85,4 +85,9 @@
   cursor: default;
   pointer-events: none;
   filter: none;
+}
+
+.Small {
+  height: 28px;
+  padding: 0 14px;
 }

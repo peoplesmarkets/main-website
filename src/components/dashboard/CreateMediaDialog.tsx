@@ -8,7 +8,10 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MediaService } from "../../services";
-import { Part } from "../../services/peoplesmarkets/media/v1/media";
+import {
+  MediaResponse,
+  Part,
+} from "../../services/peoplesmarkets/media/v1/media";
 import { ProgressBar } from "../assets/ProgressBar";
 import {
   ActionButton,
@@ -23,6 +26,7 @@ const CHUNKSIZE = 1024 * 1024 * 5;
 
 type Props = {
   readonly marketBoothId: string;
+  readonly offerId: string;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
 };
@@ -58,11 +62,17 @@ export function CreateMediaDialog(props: Props) {
     }
 
     try {
+      let media: MediaResponse;
       if (form.file.size < CHUNKSIZE) {
-        await uploadSimple();
+        media = await uploadSimple();
       } else {
-        await uploadMultipart();
+        media = await uploadMultipart();
       }
+
+      await mediaService.addMediaToOffer({
+        mediaId: media.mediaId,
+        offerId: props.offerId,
+      });
       setUploading(false);
       props.onUpdate();
       props.onClose();
@@ -86,13 +96,13 @@ export function CreateMediaDialog(props: Props) {
     }
   }
 
-  async function uploadSimple() {
+  async function uploadSimple(): Promise<MediaResponse> {
     if (_.isNil(form.file)) {
       setErrors("file", [trans(TKEYS.form.errors["required-field"])]);
-      return;
+      throw new Error();
     }
 
-    await mediaService.create({
+    const response = await mediaService.create({
       marketBoothId: props.marketBoothId,
       name: form.name || form.file.name,
       file: {
@@ -100,28 +110,28 @@ export function CreateMediaDialog(props: Props) {
         data: await readAsUint8Array(form.file, 0, form.file.size),
       },
     });
+
+    return response.media!;
   }
 
-  async function uploadMultipart() {
+  async function uploadMultipart(): Promise<MediaResponse> {
     if (_.isNil(form.file)) {
       setErrors("file", [trans(TKEYS.form.errors["required-field"])]);
-      return;
+      throw new Error();
     }
 
-    const media = (
-      await mediaService.create({
-        marketBoothId: props.marketBoothId,
-        name: form.name || form.file.name,
-      })
-    ).media;
+    const response = await mediaService.create({
+      marketBoothId: props.marketBoothId,
+      name: form.name || form.file.name,
+    });
 
-    if (_.isNil(media)) {
+    if (_.isNil(response.media)) {
       setUploading(false);
-      return;
+      throw new Error();
     }
 
     const initialized = await mediaService.initiateMultipartUpload({
-      mediaId: media.mediaId,
+      mediaId: response.media.mediaId,
       contentType: form.file.type,
     });
 
@@ -134,7 +144,7 @@ export function CreateMediaDialog(props: Props) {
       const chunk = await readAsUint8Array(form.file, i, end);
       totalRead += chunk.length;
       const part = await mediaService.putMultipartChunk({
-        mediaId: media.mediaId,
+        mediaId: response.media.mediaId,
         uploadId: initialized.uploadId,
         partNumber,
         chunk,
@@ -145,10 +155,12 @@ export function CreateMediaDialog(props: Props) {
     }
 
     await mediaService.completeMultipartUpload({
-      mediaId: media.mediaId,
+      mediaId: response.media.mediaId,
       uploadId: initialized.uploadId,
       parts,
     });
+
+    return response.media;
   }
 
   function handleFileInput(files: FileList | null) {

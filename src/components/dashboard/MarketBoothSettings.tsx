@@ -1,11 +1,12 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { useLocation } from "@solidjs/router";
+import { useLocation, useNavigate } from "@solidjs/router";
 import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
+import { DASHBOARD_MARKET_BOOTH_PATH, MEDIAS_SUBPATH } from "../../App";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildUrl, secondsToLocaleString } from "../../lib";
+import { buildPath, buildUrl, secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { MarketBoothService, StripeService } from "../../services";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
@@ -30,6 +31,7 @@ type DIALOG = "none" | "delete" | "message" | "add-image";
 
 export function MarketBoothSettings(props: Props) {
   const location = useLocation();
+  const navigate = useNavigate();
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
@@ -110,6 +112,15 @@ export function MarketBoothSettings(props: Props) {
 
   function handleCloseAddImage() {
     setShowDialog("none");
+  }
+
+  function handleEditMedias() {
+    const marketBoothId = props.marketBooth()?.marketBoothId;
+    if (!_.isNil(marketBoothId)) {
+      navigate(
+        buildPath(DASHBOARD_MARKET_BOOTH_PATH, marketBoothId, MEDIAS_SUBPATH)
+      );
+    }
   }
 
   async function confirmDeleteion() {
@@ -265,6 +276,15 @@ export function MarketBoothSettings(props: Props) {
               </span>
             </Match>
           </Switch>
+        </div>
+
+        <div class={styles.EditSection}>
+          <p class={styles.Body}>
+            <Trans key={TKEYS.media["Title-plural"]} />
+          </p>
+          <ActionButton actionType="neutral" onClick={handleEditMedias}>
+            <Trans key={TKEYS.form.action.Edit} />
+          </ActionButton>
         </div>
       </Section>
 
