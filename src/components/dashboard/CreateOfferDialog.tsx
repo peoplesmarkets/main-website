@@ -1,16 +1,22 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import _ from "lodash";
-import { Show, createSignal } from "solid-js";
+import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
-import { OfferService } from "../../services";
-import { CreateOfferRequest } from "../../services/peoplesmarkets/commerce/v1/offer";
+import { OfferService, listOfferTypeCodes } from "../../services";
+import {
+  CreateOfferRequest,
+  OfferType,
+  offerTypeFromJSON,
+  offerTypeToJSON,
+} from "../../services/peoplesmarkets/commerce/v1/offer";
 import {
   ActionButton,
   DiscardConfirmation,
+  Select,
   TextArea,
   TextField,
 } from "../form";
@@ -31,10 +37,10 @@ export function CreateOfferDialog(props: Props) {
   const offerService = new OfferService(accessToken);
 
   const [offer, setOffer] = createStore<CreateOfferRequest>({
-    /* eslint-disable-next-line solid/reactivity */
-    marketBoothId: props.marketBoothId,
+    marketBoothId: "",
     name: "",
     description: "",
+    type: OfferType.OFFER_TYPE_PHYSICAL,
   });
 
   const [errors, setErrors] = createStore({
@@ -43,6 +49,27 @@ export function CreateOfferDialog(props: Props) {
   });
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
+
+  createEffect(() => {
+    if (_.isNil(offer.marketBoothId) || _.isEmpty(offer.marketBoothId)) {
+      setOffer("marketBoothId", props.marketBoothId);
+    }
+  });
+
+  function offerTypeOptions() {
+    return listOfferTypeCodes().map((c) => ({
+      name: trans(TKEYS.offer.types[c]),
+      key: c,
+    }));
+  }
+
+  function selectedOfferType() {
+    if (!_.isNil(offer.type)) {
+      return _.find(offerTypeOptions(), {
+        key: offerTypeToJSON(offer.type),
+      });
+    }
+  }
 
   function resetErrors() {
     setErrors({ name: [], description: [] });
@@ -58,7 +85,13 @@ export function CreateOfferDialog(props: Props) {
     setOffer("description", value);
   }
 
-  async function createOffer(event: SubmitEvent) {
+  function handleOfferTypeChange(value: string | number) {
+    if (_.isString(value)) {
+      setOffer("type", offerTypeFromJSON(value));
+    }
+  }
+
+  async function handleCreateOffer(event: SubmitEvent) {
     event.preventDefault();
 
     if (_.isEmpty(offer.name)) {
@@ -80,7 +113,7 @@ export function CreateOfferDialog(props: Props) {
     }
   }
 
-  function closeDialog() {
+  function handleCloseDialog() {
     if (!_.isEmpty(offer.name) || !_.isEmpty(offer.description)) {
       setDiscardConfirmation(true);
     } else {
@@ -88,12 +121,12 @@ export function CreateOfferDialog(props: Props) {
     }
   }
 
-  function confirmCloseDialog() {
+  function handleConfirmCloseDialog() {
     setDiscardConfirmation(false);
     props.onClose();
   }
 
-  function continueEditing() {
+  function handleContinueEditing() {
     resetErrors();
     setDiscardConfirmation(false);
   }
@@ -103,9 +136,16 @@ export function CreateOfferDialog(props: Props) {
       <Show when={!discardConfirmation()}>
         <Dialog
           title={trans(TKEYS.dashboard.offers["create-new-offer"])}
-          onClose={closeDialog}
+          onClose={handleCloseDialog}
         >
-          <form class={styles.Form} onSubmit={createOffer}>
+          <form class={styles.Form} onSubmit={handleCreateOffer}>
+            <Select
+              label={trans(TKEYS.price["price-type"].title)}
+              value={selectedOfferType}
+              options={offerTypeOptions}
+              onValue={handleOfferTypeChange}
+            />
+
             <TextField
               name="name"
               label={trans(TKEYS.offer.labels.name)}
@@ -129,7 +169,7 @@ export function CreateOfferDialog(props: Props) {
               <ActionButton
                 actionType="active-filled"
                 submit
-                onClick={(e) => createOffer(e)}
+                onClick={(e) => handleCreateOffer(e)}
               >
                 <Trans key={TKEYS.form.action.Save} />
               </ActionButton>
@@ -140,8 +180,8 @@ export function CreateOfferDialog(props: Props) {
 
       <Show when={discardConfirmation()}>
         <DiscardConfirmation
-          onCancel={continueEditing}
-          onDiscard={confirmCloseDialog}
+          onCancel={handleContinueEditing}
+          onDiscard={handleConfirmCloseDialog}
         />
       </Show>
     </>

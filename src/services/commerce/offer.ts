@@ -6,9 +6,11 @@ import {
   GrpcWebImpl,
   ListOffersRequest,
   OfferServiceClientImpl,
+  OfferType,
   PutPriceToOfferRequest,
   RemovePriceFromOfferRequest,
   UpdateOfferRequest,
+  offerTypeToJSON,
 } from "../peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
@@ -72,6 +74,12 @@ export class OfferService extends ServiceClient {
       await this.withAuthHeader()
     );
   }
+}
+
+export function listOfferTypeCodes(): string[] {
+  return Object.values(OfferType)
+    .filter((t) => _.isNumber(t) && t > 0)
+    .map((t) => offerTypeToJSON(t as OfferType));
 }
 
 export function listCurrencyCodes(): string[] {

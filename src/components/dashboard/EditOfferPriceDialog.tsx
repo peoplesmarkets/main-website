@@ -17,6 +17,7 @@ import {
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
+  PriceBillingScheme,
   PriceType,
   Recurring,
   RecurringInterval,
@@ -81,6 +82,7 @@ export function EditOfferPriceDialog(props: Props) {
           unitAmount: 0.0,
           priceType: PriceType.PRICE_TYPE_ONE_TIME,
           currency: Currency.CURRENCY_EUR,
+          billingScheme: PriceBillingScheme.PRICE_BILLING_SCHEME_PER_UNIT,
         });
       }
     }

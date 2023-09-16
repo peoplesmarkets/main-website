@@ -6,41 +6,7 @@
   font: var(--font-title);
 }
 
-.Label {
-  display: block;
-  font: var(--font-label);
-}
-
-.Table {
-  border-top: var(--secondary-border);
-  display: flex;
-  flex-direction: column;
-}
-
-.Row {
-  padding: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  border-bottom: var(--secondary-border);
-  gap: 0.5rem;
-}
-
-.Row:hover {
-  background: var(--hovered-background);
-}
-
-.RowActions {
-  display: flex;
-  gap: 0.5rem;
-}
-
 .TableActions {
   margin-top: 1rem;
   text-align: center;
-}
-
-.Errors {
-  color: var(--danger-content-color);
-  font: var(--font-body);
 }

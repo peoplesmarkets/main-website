@@ -1,4 +1,8 @@
 import {
+  OfferType,
+  offerTypeToJSON,
+} from "../services/peoplesmarkets/commerce/v1/offer";
+import {
   PriceType,
   RecurringInterval,
   priceTypeToJSON,
@@ -21,7 +25,7 @@ export const DE: typeof TKEYS = {
     file: "Datei",
     per: "pro",
     every: "alle",
-    "per-or-every": "{count, plural, =1 {pro} other {alle}}"
+    "per-or-every": "{count, plural, =1 {pro} other {alle}}",
   },
   form: {
     action: {
@@ -119,6 +123,7 @@ export const DE: typeof TKEYS = {
     "no-description": "Keine Beschreibung vorhanden ...",
     "currently-no-payment-method": "keine Zahlungsmethode vorhanden",
     "other-offers-by": "Weitere Angebote von ",
+    "downloadable-content": "downloadbarer Inhalt",
     labels: {
       Price: "Preis",
       Name: "Name",
@@ -127,6 +132,11 @@ export const DE: typeof TKEYS = {
       description: "Beschreibung",
       "Created-at": "Erstellt am",
       "Updated-at": "Bearbeitet am",
+    },
+    types: {
+      [offerTypeToJSON(OfferType.OFFER_TYPE_PHYSICAL)]: `Gegenstand`,
+      [offerTypeToJSON(OfferType.OFFER_TYPE_DIGITAL)]: `Digital`,
+      [offerTypeToJSON(OfferType.OFFER_TYPE_SERVICE)]: `Dienstleistung`,
     },
   },
   media: {
