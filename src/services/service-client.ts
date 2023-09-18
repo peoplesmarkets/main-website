@@ -1,5 +1,6 @@
 import { AxiosRequestConfig } from "axios";
 import { grpc } from "@improbable-eng/grpc-web";
+import _ from "lodash";
 
 export type AccessTokenGetter = () => Promise<string | null>;
 
@@ -17,9 +18,10 @@ export class ServiceClient implements WithAuthHeader {
   }
 
   public async withAuthHeader(): Promise<grpc.Metadata | undefined> {
-    if (this.accessToken) {
+    const token = await this.accessToken?.();
+    if (!_.isNil(token)) {
       return new grpc.Metadata({
-        authorization: `Bearer ${await this.accessToken()}`,
+        authorization: `Bearer ${token}`,
       });
     }
   }
