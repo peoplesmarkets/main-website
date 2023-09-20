@@ -25,7 +25,7 @@ export const DE: typeof TKEYS = {
     file: "Datei",
     per: "pro",
     every: "alle",
-    "per-or-every": "{count, plural, =1 {pro} other {alle}}",
+    "per-or-every": "{count, plural, =1 {pro} other {alle} }",
   },
   form: {
     action: {
@@ -39,7 +39,7 @@ export const DE: typeof TKEYS = {
       Discard: "Verwerfen",
       Buy: "Kaufen",
       "Are-you-sure-you-want-to-delete-the-item":
-        '{{item}} namens "{{name}}" wirklich löschen?',
+        '{item} namens "{name}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",
     },
     "danger-zone": "Gefahrenzone",
@@ -48,7 +48,7 @@ export const DE: typeof TKEYS = {
       "required-field": "Eingabe erforderlich",
       "not-modified": "Kein Änderrung",
       "already-exists": "Bereits vergeben",
-      "item-too-large": "{{item}} ist zu groß",
+      "item-too-large": "{item} ist zu groß",
       "wrong-type": "Falscher Dateityp",
     },
   },
@@ -85,16 +85,16 @@ export const DE: typeof TKEYS = {
     "recurring-interval": {
       [recurringIntervalToJSON(
         RecurringInterval.RECURRING_INTERVAL_DAY
-      )]: `{intervalCount, plural, =1 {Tag} other {Tage}}`,
+      )]: `{intervalCount, plural, =1 {Tag} other {Tage} }`,
       [recurringIntervalToJSON(
         RecurringInterval.RECURRING_INTERVAL_WEEK
-      )]: `{intervalCount, plural, =1 {Woche} other {Wochen}}`,
+      )]: `{intervalCount, plural, =1 {Woche} other {Wochen} }`,
       [recurringIntervalToJSON(
         RecurringInterval.RECURRING_INTERVAL_MONTH
-      )]: `{intervalCount, plural, =1 {Monat} other {Monate}}`,
+      )]: `{intervalCount, plural, =1 {Monat} other {Monate} }`,
       [recurringIntervalToJSON(
         RecurringInterval.RECURRING_INTERVAL_YEAR
-      )]: `{intervalCount, plural, =1 {Jahr} other {Jahre}}`,
+      )]: `{intervalCount, plural, =1 {Jahr} other {Jahre} }`,
     },
   },
   "market-booth": {
@@ -142,6 +142,9 @@ export const DE: typeof TKEYS = {
   media: {
     Title: "Datei",
     "Title-plural": "Dateien",
+    Download: "Download",
+    "Download-now": "Jetzt herrunterladen",
+    "download-file": 'Datei "{item}" herunterladen',
     errors: {
       "still-part-of-an-offer": "Die Datei ist noch in Angeboten enhalten",
     },

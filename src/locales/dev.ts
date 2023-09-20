@@ -162,6 +162,9 @@ export const TKEYS = {
   media: {
     Title: "media.Title",
     "Title-plural": "media.Title-plural",
+    Download: "media.Download",
+    "Download-now": "media.Download-now",
+    "download-file": "media.download-file",
     errors: {
       "still-part-of-an-offer": "media.errors.still-part-of-an-offer",
     },

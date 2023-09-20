@@ -28,14 +28,11 @@ export function MediaSettings(props: Props) {
 
   const [showCreateMedia, setShowCreateMedia] = createSignal(false);
 
-  const [medias, { refetch }] = createResource(
-    () => props.offer().marketBoothId,
-    fetchMedias
-  );
+  const [medias, { refetch }] = createResource(fetchMedias);
 
-  async function fetchMedias(marketBoothId: string) {
+  async function fetchMedias() {
     const response = await mediaService.list({
-      marketBoothId,
+      marketBoothId: props.offer().marketBoothId,
       filter: {
         field: MediaFilterField.MEDIA_FILTER_FIELD_OFFER_ID,
         query: props.offer().offerId,

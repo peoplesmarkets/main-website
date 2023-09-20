@@ -12,6 +12,8 @@ import { OfferImages } from "./OfferImages";
 import { OfferPrice } from "./OfferPrice";
 import { OfferList } from "./OfferList";
 import { MarketBoothContext } from "./MarketBoothContext";
+import { MarketBoothList } from "./MarketBoothList";
+import { MediaList } from "./MediaList";
 
 /**
  * Render to check if objects are accessed correctly
@@ -26,6 +28,18 @@ describe("Render once", () => {
         <></>
       </MarketBoothContext>
     ));
+    expect(container).toBeDefined();
+  });
+
+  test("MarketBoothList", () => {
+    const { container } = renderIntoRoot(() => (
+      <MarketBoothList marketBooths={getNoObj} basePath="" />
+    ));
+    expect(container).toBeDefined();
+  });
+
+  test("MediaList", () => {
+    const { container } = renderIntoRoot(() => <MediaList medias={getNoObj} />);
     expect(container).toBeDefined();
   });
 
