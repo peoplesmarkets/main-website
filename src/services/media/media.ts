@@ -4,6 +4,7 @@ import {
   CreateMediaRequest,
   GrpcWebImpl,
   InitiateMultipartUploadRequest,
+  ListAccessibleMediaRequest,
   ListMediaRequest,
   MediaServiceClientImpl,
   PutMultipartChunkRequest,
@@ -32,8 +33,19 @@ export class MediaService extends ServiceClient {
     return this.client.GetMedia({ mediaId }, await this.withAuthHeader());
   }
 
+  public async downloadMedia(mediaId: string) {
+    return this.client.DownloadMedia({ mediaId }, await this.withAuthHeader());
+  }
+
   public async list(request: ListMediaRequest) {
     return this.client.ListMedia(request, await this.withAuthHeader());
+  }
+
+  public async listAccessible(request: ListAccessibleMediaRequest) {
+    return this.client.ListAccessibleMedia(
+      request,
+      await this.withAuthHeader()
+    );
   }
 
   public async update(request: UpdateMediaRequest) {

@@ -26,7 +26,7 @@ export const EN: typeof TKEYS = {
     file: "file",
     per: "per",
     every: "every",
-    "per-or-every": "{count, plural, =1 {per} other {every}}",
+    "per-or-every": "{count, plural, =1 {per} other {every} }",
   },
   form: {
     action: {
@@ -40,7 +40,7 @@ export const EN: typeof TKEYS = {
       Discard: "Discard",
       Buy: "Buy",
       "Are-you-sure-you-want-to-delete-the-item":
-        'Are you sure you want to delete the {{item}}: "{{name}}"?',
+        'Are you sure you want to delete the {item}: "{name}"?',
       "Confirm-Deletion?": "Confirm Deletion?",
     },
     "danger-zone": "Danger Zone",
@@ -49,7 +49,7 @@ export const EN: typeof TKEYS = {
       "required-field": "Required field",
       "not-modified": "Not modified",
       "already-exists": "Already exists",
-      "item-too-large": "{{item}} is too large",
+      "item-too-large": "{item} is too large",
       "wrong-type": "Wrong file type",
     },
   },
@@ -86,16 +86,16 @@ export const EN: typeof TKEYS = {
     "recurring-interval": {
       [recurringIntervalToJSON(
         RecurringInterval.RECURRING_INTERVAL_DAY
-      )]: `{intervalCount, plural, =1 {day} other {days}}`,
+      )]: `{intervalCount, plural, =1 {day} other {days} }`,
       [recurringIntervalToJSON(
         RecurringInterval.RECURRING_INTERVAL_WEEK
-      )]: `{intervalCount, plural, =1 {week} other {weeks}}`,
+      )]: `{intervalCount, plural, =1 {week} other {weeks} }`,
       [recurringIntervalToJSON(
         RecurringInterval.RECURRING_INTERVAL_MONTH
-      )]: `{intervalCount, plural, =1 {month} other {months}}`,
+      )]: `{intervalCount, plural, =1 {month} other {months} }`,
       [recurringIntervalToJSON(
         RecurringInterval.RECURRING_INTERVAL_YEAR
-      )]: `{intervalCount, plural, =1 {year} other {years}}`,
+      )]: `{intervalCount, plural, =1 {year} other {years} }`,
     },
   },
   "market-booth": {
@@ -143,6 +143,9 @@ export const EN: typeof TKEYS = {
   media: {
     Title: "File",
     "Title-plural": "Files",
+    Download: "Download",
+    "Download-now": "Download now",
+    "download-file": 'Download the file "{item}"',
     errors: {
       "still-part-of-an-offer": "The file is still contained in some offers",
     },
