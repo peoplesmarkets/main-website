@@ -54,10 +54,13 @@ export class StripeService extends ServiceClient {
       offerId
     )}`;
 
-    return this.client.CreateCheckoutSession({
-      offerId,
-      successUrl: offerUrl,
-      cancelUrl: offerUrl,
-    });
+    return this.client.CreateCheckoutSession(
+      {
+        offerId,
+        successUrl: offerUrl,
+        cancelUrl: offerUrl,
+      },
+      await this.withAuthHeader()
+    );
   }
 }

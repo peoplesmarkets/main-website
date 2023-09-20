@@ -5,6 +5,7 @@ import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
 import { DASHBOARD_MARKET_BOOTH_PATH, USER_SETTINGS_PATH } from "../../App";
+import { MediaList } from "../../components/commerce";
 import { MarketBoothList } from "../../components/commerce/MarketBoothList";
 import { ContentError, isResolved } from "../../components/content";
 import { CreateMarketBoothDialog } from "../../components/dashboard";
@@ -13,7 +14,7 @@ import { Border, Section } from "../../components/layout";
 import { Page } from "../../components/layout/Page";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales";
-import { MarketBoothService } from "../../services";
+import { MarketBoothService, MediaService } from "../../services";
 import styles from "./Dashboard.module.scss";
 
 export default function Dashboard() {
@@ -24,10 +25,15 @@ export default function Dashboard() {
   const [showCreateMarketBooth, setShowCreateMarketBooth] = createSignal(false);
 
   const marketBoothService = new MarketBoothService(accessToken);
+  const mediaService = new MediaService(accessToken);
 
   const [marketBooths, { refetch }] = createResource(
     () => currentSession().userId || undefined,
     fetchMarketBooths
+  );
+  const [medias] = createResource(
+    () => currentSession().userId || undefined,
+    fetchMedias
   );
 
   async function fetchMarketBooths(userId: string) {
@@ -43,6 +49,11 @@ export default function Dashboard() {
         throw err;
       }
     }
+  }
+
+  async function fetchMedias() {
+    const response = await mediaService.listAccessible({});
+    return response.medias;
   }
 
   async function handleMarketBoothUpdate() {
@@ -106,6 +117,7 @@ export default function Dashboard() {
           <span class={styles.Title}>
             <Trans key={TKEYS.dashboard.media["my-media"]} />:
           </span>
+          <MediaList medias={() => medias()!} />
         </Section>
       </Page>
 

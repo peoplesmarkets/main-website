@@ -1,0 +1,20 @@
+.Form {
+  padding: 0 2rem;
+}
+
+.Form > * {
+  margin-bottom: 1rem;
+}
+
+.DialogFooter {
+  padding: 0.5rem 0;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ButtonLink {
+  color: var(--active-content-color);
+  text-decoration: none;
+}
