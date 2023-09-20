@@ -1,7 +1,7 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { A, useLocation, useMatch } from "@solidjs/router";
 import _ from "lodash";
-import { Accessor, Setter, Show, createEffect, createSignal } from "solid-js";
+import { Show, createEffect, createSignal } from "solid-js";
 
 import {
   COMMUNITY_PATH,
@@ -27,7 +27,7 @@ import CommunityIcon from "./components/icons/CommunityIcon";
 import { SearchGlobalIcon } from "./components/icons/SearchGlobalIcon";
 import { StoreFrontIcon } from "./components/icons/StorefrontIcon";
 import { useAccessTokensContext } from "./contexts/AccessTokensContext";
-import { Theme } from "./contexts/ThemeStore";
+import { Theme, useThemeContext } from "./contexts/ThemeContext";
 import { clickOutside } from "./directives";
 import { buildAuthorizationRequest } from "./lib";
 import { getNextLanguageKey, setDocumentLanguage } from "./locales";
@@ -35,13 +35,9 @@ import { TKEYS } from "./locales/dev";
 
 false && clickOutside;
 
-type Props = {
-  theme: Accessor<Theme>;
-  setTheme: Setter<Theme>;
-};
-
-export function Panel(props: Props) {
+export function Panel() {
   const [trans, { changeLanguage, getI18next }] = useTransContext();
+  const { theme, setTheme } = useThemeContext();
   const { isAuthenticated } = useAccessTokensContext();
 
   const location = useLocation();
@@ -62,17 +58,10 @@ export function Panel(props: Props) {
   });
 
   function switchTheme() {
-    switch (props.theme()) {
-      case Theme.Dark:
-      case Theme.DefaultDark:
-        props.setTheme(Theme.DefaultLight);
-        break;
-      case Theme.Light:
-      case Theme.DefaultLight:
-        props.setTheme(Theme.DefaultDark);
-        break;
-      default:
-        break;
+    if (theme() === Theme.DefaultDark) {
+      setTheme(Theme.DefaultLight);
+    } else {
+      setTheme(Theme.DefaultDark);
     }
   }
 
@@ -222,10 +211,7 @@ export function Panel(props: Props) {
 
           <button class={styles.NavigationItem} onClick={() => switchTheme()}>
             <Show
-              when={
-                props.theme() === Theme.Dark ||
-                props.theme() === Theme.DefaultDark
-              }
+              when={theme() === Theme.DefaultDark}
               fallback={
                 <Trans
                   key={TKEYS["main-navigation"].settings["switch-to-dark-mode"]}
@@ -236,7 +222,7 @@ export function Panel(props: Props) {
                 key={TKEYS["main-navigation"].settings["switch-to-light-mode"]}
               />
             </Show>
-            <ThemeIcon class={styles.NavigationIcon} theme={props.theme} />
+            <ThemeIcon class={styles.NavigationIcon} />
           </button>
         </div>
       </nav>

@@ -263,6 +263,7 @@ export const DE: typeof TKEYS = {
       "Dies ist eine Testumgebung rein für Entwicklungszwecke. Die Hauptseite findest du hier: ",
   },
   footer: {
+    "powered-by": EN.footer["powered-by"],
     "main-paragraph":
       "People's Markets ist eine online Platform auf der Menschen ihre Waren anbieten und ihren Online-Auftritt ausbauen können.",
     "community-paragraph": "Gestalte jeden Aspekt des Projekts mit.",

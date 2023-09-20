@@ -2,7 +2,6 @@ import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
 import Footer from "./Footer";
 import { Panel } from "./Panel";
-import { Theme } from "./contexts/ThemeStore";
 import { cleanupDOM, createDOM, noOp, renderIntoRoot } from "./lib/testing";
 
 /**
@@ -13,15 +12,11 @@ describe("Render once", () => {
   afterEach(cleanupDOM);
 
   test("Footer", () => {
-    const { container } = renderIntoRoot(() => (
-      <Footer theme={() => Theme.Light} />
-    ));
+    const { container } = renderIntoRoot(() => <Footer />);
     expect(container).toBeDefined();
   });
   test("Panel", () => {
-    const { container } = renderIntoRoot(() => (
-      <Panel theme={() => Theme.Dark} setTheme={noOp} />
-    ));
+    const { container } = renderIntoRoot(() => <Panel />);
     expect(container).toBeDefined();
   });
 });

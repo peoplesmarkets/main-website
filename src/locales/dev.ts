@@ -288,6 +288,7 @@ export const TKEYS = {
     description: "environment-banner.description",
   },
   footer: {
+    "powered-by": "footer.powered-by",
     "main-paragraph": "footer.main-paragraph",
     "community-paragraph": "footer.community-paragraph",
   },
