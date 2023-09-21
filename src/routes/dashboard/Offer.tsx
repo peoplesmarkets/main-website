@@ -10,7 +10,6 @@ import {
   Switch,
 } from "solid-js";
 
-import { DASHBOARD_MARKET_BOOTH_PATH } from "../../App";
 import { OfferPrice, OfferImages } from "../../components/commerce";
 import {
   ContentError,
@@ -26,13 +25,14 @@ import {
 import { ActionButton, DeleteConfirmation } from "../../components/form";
 import { Page, Section } from "../../components/layout";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildPath, secondsToLocaleString } from "../../lib";
+import { secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import styles from "./Offer.module.scss";
 import { PlaceholderImage } from "../../components/assets";
 import { EditOfferPriceDialog } from "../../components/dashboard/EditOfferPriceDialog";
 import { OfferType } from "../../services/peoplesmarkets/commerce/v1/offer";
+import { buildDashboardMarketBoothPath } from "./DashboardRoutes";
 
 export default function Offer() {
   const navigate = useNavigate();
@@ -110,7 +110,7 @@ export default function Offer() {
       await offerService.delete(offer()!.offerId);
     }
     setShowDeleteConfirmation(false);
-    navigate(buildPath(DASHBOARD_MARKET_BOOTH_PATH, marketBoothId()!));
+    navigate(buildDashboardMarketBoothPath(marketBoothId()!));
   }
 
   return (

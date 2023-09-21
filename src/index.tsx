@@ -2,8 +2,8 @@
 import _ from "lodash";
 import { render } from "solid-js/web";
 
-import "./normalize.scss";
 import "./fonts.scss";
+import "./normalize.scss";
 import "./theme.scss";
 
 import App from "./App";

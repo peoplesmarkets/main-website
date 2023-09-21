@@ -2,8 +2,8 @@ import { useNavigate } from "@solidjs/router";
 import _ from "lodash";
 
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { buildSignInCallbackPath } from "../routes/user/UserRoutes";
 import { hashCodeVerifier } from "./string-manipulation";
-import { SIGN_IN_CALLBACK_PATH } from "../App";
 
 export const CODE_CHALLENGE_STORAGE_KEY = "sign-in-code-challange";
 
@@ -121,5 +121,5 @@ export async function authGuardRedirect(
 }
 
 function redirect_uri(): string {
-  return `${import.meta.env.VITE_BASE_URL}${SIGN_IN_CALLBACK_PATH}`;
+  return `${import.meta.env.VITE_BASE_URL}${buildSignInCallbackPath()}`;
 }

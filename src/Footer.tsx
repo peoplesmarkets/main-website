@@ -1,22 +1,20 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 
-import {
-  COMMUNITY_PATH,
-  GET_STARTED_PATH,
-  IMPRINT_PATH,
-  INDEX_PATH,
-  INFO_PATH,
-  PRIVACY_POLICY_PATH,
-  TERMS_OF_SERVICE_PATH,
-} from "./App";
 import styles from "./Footer.module.scss";
 import { MainLogoText } from "./components/assets";
 import { GitHubIcon, MainLogoIcon } from "./components/icons";
 import { RocketLaunchIcon } from "./components/icons/RocketLaunchIcon";
 import { useThemeContext } from "./contexts/ThemeContext";
-import { buildPath } from "./lib";
 import { TKEYS } from "./locales/dev";
+import { buildMarketBoothsPath } from "./routes/MainRoutes";
+import { buildCommunityPath } from "./routes/community/CommunityRoutes";
+import {
+  buildGetStartedPath,
+  buildImprintPath,
+  buildPrivacyPolicyPath,
+  buildTermsOfServicePath,
+} from "./routes/info/InfoRoutes";
 
 export default function Footer() {
   const { theme } = useThemeContext();
@@ -31,7 +29,7 @@ export default function Footer() {
           <div class={styles.Logo}>
             <A
               class={styles.LogoLink}
-              href={INDEX_PATH}
+              href={buildMarketBoothsPath()}
               aria-label="Go to home page"
             >
               <MainLogoIcon class={styles.MainLogoIcon} />
@@ -46,20 +44,17 @@ export default function Footer() {
           </div>
 
           <div class={styles.SiteLinks}>
-            <A
-              href={buildPath(INFO_PATH, GET_STARTED_PATH)}
-              class={styles.LinkWithIcon}
-            >
+            <A href={buildGetStartedPath()} class={styles.LinkWithIcon}>
               <Trans key={TKEYS["landing-page"]["get-started"]} />
               <RocketLaunchIcon class={styles.LinkIcon} />
             </A>
-            <A href={buildPath(INFO_PATH, IMPRINT_PATH)}>
+            <A href={buildImprintPath()}>
               <Trans key={TKEYS.imprint.title} />
             </A>
-            <A href={buildPath(INFO_PATH, PRIVACY_POLICY_PATH)}>
+            <A href={buildPrivacyPolicyPath()}>
               <Trans key={TKEYS["privacy-policy"].title} />
             </A>
-            <A href={buildPath(INFO_PATH, TERMS_OF_SERVICE_PATH)}>
+            <A href={buildTermsOfServicePath()}>
               <Trans key={TKEYS["terms-of-service"].title} />
             </A>
           </div>
@@ -71,7 +66,7 @@ export default function Footer() {
           </div>
 
           <div class={styles.SiteLinks}>
-            <A href={COMMUNITY_PATH}>
+            <A href={buildCommunityPath()}>
               <Trans key={TKEYS["main-navigation"].links.community} />{" "}
             </A>
           </div>

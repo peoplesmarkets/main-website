@@ -3,14 +3,6 @@ import { A, useLocation, useMatch } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 
-import {
-  COMMUNITY_PATH,
-  DASHBOARD_PATH,
-  INDEX_PATH,
-  MARKET_BOOTHS_PATH,
-  OFFERS_PATH,
-  USER_SETTINGS_PATH,
-} from "./App";
 import styles from "./Panel.module.scss";
 import { MainLogoText } from "./components/assets";
 import {
@@ -32,10 +24,20 @@ import { clickOutside } from "./directives";
 import { buildAuthorizationRequest } from "./lib";
 import { getNextLanguageKey, setDocumentLanguage } from "./locales";
 import { TKEYS } from "./locales/dev";
+import { buildMarketBoothsPath, buildOffersPath } from "./routes/MainRoutes";
+import { buildCommunityPath } from "./routes/community/CommunityRoutes";
+import { buildDashboardPath } from "./routes/dashboard/DashboardRoutes";
+import { buildMarketBoothPath } from "./routes/store/StoreRoutes";
+import { buildUserSettingsPath } from "./routes/user/UserRoutes";
+import { MarketBoothResponse } from "./services/peoplesmarkets/commerce/v1/market_booth";
 
 false && clickOutside;
 
-export function Panel() {
+type Props = {
+  store?: () => MarketBoothResponse | undefined;
+};
+
+export function Panel(props: Props) {
   const [trans, { changeLanguage, getI18next }] = useTransContext();
   const { theme, setTheme } = useThemeContext();
   const { isAuthenticated } = useAccessTokensContext();
@@ -94,14 +96,26 @@ export function Panel() {
         <BurgerIcon class={styles.MenuIcon} onClick={toggleSlider} />
 
         <div class={styles.Main}>
-          <A
-            class={styles.MainLink}
-            href={INDEX_PATH}
-            aria-label="Go to home page"
+          <Show
+            when={!_.isNil(props.store?.())}
+            fallback={
+              <A
+                class={styles.MainLink}
+                href={buildMarketBoothsPath()}
+                aria-label="Go to home page"
+              >
+                <MainLogoIcon class={styles.MainLogoIcon} />
+                <MainLogoText class={styles.MainLogo} />
+              </A>
+            }
           >
-            <MainLogoIcon class={styles.MainLogoIcon} />
-            <MainLogoText class={styles.MainLogo} />
-          </A>
+            <A
+              class={styles.MainLink}
+              href={buildMarketBoothPath(props.store!()!.marketBoothId)}
+            >
+              {props.store?.()?.name}
+            </A>
+          </Show>
         </div>
       </div>
 
@@ -126,11 +140,11 @@ export function Panel() {
 
         <div class={styles.MainNavigation}>
           <A
-            href={MARKET_BOOTHS_PATH}
+            href={buildMarketBoothsPath()}
             class={styles.NavigationItem}
             classList={{
               [styles.NavigationItemActive]: Boolean(
-                useMatch(() => MARKET_BOOTHS_PATH)()
+                useMatch(buildMarketBoothsPath)()
               ),
             }}
           >
@@ -138,11 +152,11 @@ export function Panel() {
             <Trans key={TKEYS["main-navigation"].links["market-booths"]} />
           </A>
           <A
-            href={OFFERS_PATH}
+            href={buildOffersPath()}
             class={styles.NavigationItem}
             classList={{
               [styles.NavigationItemActive]: Boolean(
-                useMatch(() => OFFERS_PATH)()
+                useMatch(buildOffersPath)()
               ),
             }}
           >
@@ -152,11 +166,11 @@ export function Panel() {
 
           <Show when={isAuthenticated()}>
             <A
-              href={DASHBOARD_PATH}
+              href={buildDashboardPath()}
               class={styles.NavigationItem}
               classList={{
                 [styles.NavigationItemActive]: Boolean(
-                  useMatch(() => DASHBOARD_PATH)()
+                  useMatch(buildDashboardPath)()
                 ),
               }}
             >
@@ -165,11 +179,11 @@ export function Panel() {
             </A>
 
             <A
-              href={USER_SETTINGS_PATH}
+              href={buildUserSettingsPath()}
               class={styles.NavigationItem}
               classList={{
                 [styles.NavigationItemActive]: Boolean(
-                  useMatch(() => USER_SETTINGS_PATH)()
+                  useMatch(buildUserSettingsPath)()
                 ),
               }}
             >
@@ -179,11 +193,11 @@ export function Panel() {
           </Show>
 
           <A
-            href={COMMUNITY_PATH}
+            href={buildCommunityPath()}
             class={styles.NavigationItem}
             classList={{
               [styles.NavigationItemActive]: Boolean(
-                useMatch(() => COMMUNITY_PATH)()
+                useMatch(buildCommunityPath)()
               ),
             }}
           >

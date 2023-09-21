@@ -2,7 +2,6 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { useNavigate, useParams } from "@solidjs/router";
 import { Show, createResource } from "solid-js";
 
-import { DASHBOARD_PATH } from "../../App";
 import {
   MarketBoothImage,
   MarketBoothSettings,
@@ -13,6 +12,7 @@ import { Page } from "../../components/layout/Page";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { MarketBoothService } from "../../services";
 import styles from "./MarketBooth.module.scss";
+import { buildDashboardPath } from "./DashboardRoutes";
 
 export default function MarketBooth() {
   const navigate = useNavigate();
@@ -32,7 +32,7 @@ export default function MarketBooth() {
       return response.marketBooth;
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
-        navigate(DASHBOARD_PATH, { replace: true });
+        navigate(buildDashboardPath(), { replace: true });
       } else {
         throw err;
       }
@@ -44,7 +44,7 @@ export default function MarketBooth() {
   }
 
   async function handleDeleteMarketBooth() {
-    navigate(DASHBOARD_PATH, { replace: true });
+    navigate(buildDashboardPath(), { replace: true });
   }
 
   return (

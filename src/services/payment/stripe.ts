@@ -1,5 +1,4 @@
-import { OFFERS_PATH } from "../../App";
-import { buildPath } from "../../lib";
+import { buildOfferPath } from "../../routes/store/StoreRoutes";
 import {
   GrpcWebImpl,
   StripeServiceClientImpl,
@@ -48,9 +47,9 @@ export class StripeService extends ServiceClient {
     );
   }
 
-  public async createCheckoutSession(offerId: string) {
-    const offerUrl = `${import.meta.env.VITE_BASE_URL}${buildPath(
-      OFFERS_PATH,
+  public async createCheckoutSession(marketBoothId: string, offerId: string) {
+    const offerUrl = `${import.meta.env.VITE_BASE_URL}${buildOfferPath(
+      marketBoothId,
       offerId
     )}`;
 

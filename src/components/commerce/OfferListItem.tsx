@@ -3,13 +3,15 @@ import { A } from "@solidjs/router";
 import _ from "lodash";
 import { Show } from "solid-js";
 
-import { MARKET_BOOTHS_PATH, OFFERS_PATH } from "../../App";
-import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferListItem.module.scss";
 import { OfferPrice } from "./OfferPrice";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
+import {
+  buildMarketBoothPath,
+  buildOfferPath,
+} from "../../routes/store/StoreRoutes";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -22,7 +24,10 @@ export function OfferListItem(props: Props) {
       <div class={styles.Card}>
         <A
           class={styles.CardImage}
-          href={buildPath(OFFERS_PATH, props.offer().offerId)}
+          href={buildOfferPath(
+            props.offer().marketBoothId,
+            props.offer().offerId
+          )}
         >
           <Show when={!_.isEmpty(props.offer().images)}>
             <img
@@ -40,7 +45,10 @@ export function OfferListItem(props: Props) {
         <div class={styles.CardInfo}>
           <A
             class={styles.Name}
-            href={buildPath(OFFERS_PATH, props.offer().offerId)}
+            href={buildOfferPath(
+              props.offer().marketBoothId,
+              props.offer().offerId
+            )}
           >
             {props.offer().name}
           </A>
@@ -50,10 +58,7 @@ export function OfferListItem(props: Props) {
               <Trans key={TKEYS.common.by} />:{" "}
               <A
                 class={styles.InfoLink}
-                href={buildPath(
-                  MARKET_BOOTHS_PATH,
-                  props.offer().marketBoothId
-                )}
+                href={buildMarketBoothPath(props.offer().marketBoothId)}
               >
                 {props.offer().marketBoothName}
               </A>

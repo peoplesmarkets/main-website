@@ -1,4 +1,5 @@
 .Page {
   max-width: var(--expanded-min-width);
+  min-height: var(--fill-height);
   margin: 0 auto;
 }

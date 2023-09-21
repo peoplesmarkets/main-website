@@ -2,9 +2,7 @@ import _ from "lodash";
 import {
   Context,
   ParentProps,
-  Setter,
   createContext,
-  createEffect,
   createSignal,
   useContext,
 } from "solid-js";

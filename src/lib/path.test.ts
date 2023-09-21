@@ -19,6 +19,14 @@ describe("buildPath", () => {
     return res;
   }
 
+  test("empty string", () => {
+    const res = testBuildPathHappy("/", "");
+    expect(res).toEqual("/");
+  });
+  test("empty string segment", () => {
+    const res = testBuildPathHappy("first", "", "second");
+    expect(res).toEqual("/first/second");
+  });
   test("'/'", () => {
     const res = testBuildPathHappy("/");
     expect(res).toEqual("/");

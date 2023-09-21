@@ -80,8 +80,11 @@ export default function OfferDetail() {
 
   async function handleCheckout() {
     const offerId_ = offerId();
-    if (!_.isNil(offerId_) && !_.isEmpty(offerId_)) {
-      const response = await stripeService.createCheckoutSession(offerId_);
+    if (!_.isNil(offerId_) && !_.isEmpty(offerId_) && !_.isNil(marketBooth)) {
+      const response = await stripeService.createCheckoutSession(
+        marketBooth()!.marketBoothId,
+        offerId_
+      );
       window.location.href = response.link;
     }
   }

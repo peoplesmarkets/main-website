@@ -3,24 +3,24 @@ import _ from "lodash";
 import { Match, Switch, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { OfferList } from "../../components/commerce";
+import { OfferList } from "../components/commerce";
 import {
   ContentError,
   ContentLoading,
   isResolved,
-} from "../../components/content";
-import { Select } from "../../components/form";
-import { SearchGlobalIcon, SearchIcon } from "../../components/icons";
-import { RefreshIcon } from "../../components/icons/RefreshIcon";
-import { Page, Section } from "../../components/layout";
-import { TKEYS } from "../../locales";
-import { OfferService } from "../../services";
+} from "../components/content";
+import { Select } from "../components/form";
+import { SearchGlobalIcon, SearchIcon } from "../components/icons";
+import { RefreshIcon } from "../components/icons/RefreshIcon";
+import { Page, Section } from "../components/layout";
+import { TKEYS } from "../locales";
+import { OfferService } from "../services";
 import {
   ListOffersRequest,
   OffersFilterField,
   OffersOrderByField,
-} from "../../services/peoplesmarkets/commerce/v1/offer";
-import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
+} from "../services/peoplesmarkets/commerce/v1/offer";
+import { Direction } from "../services/peoplesmarkets/ordering/v1/ordering";
 import styles from "./Offers.module.scss";
 
 export default function Offers() {
