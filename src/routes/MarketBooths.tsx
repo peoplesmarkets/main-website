@@ -4,7 +4,7 @@ import { Match, Switch, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { MarketBoothList } from "../components/commerce/MarketBoothList";
-import { ContentError } from "../components/content";
+import { ContentError, ContentLoading } from "../components/content";
 import { Select } from "../components/form";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
 import { SearchIcon } from "../components/icons/SearchIcon";
@@ -150,6 +150,9 @@ export default function MarketBooths() {
         <Switch>
           <Match when={marketBooths.state === "errored"}>
             <ContentError />
+          </Match>
+          <Match when={marketBooths.state === "pending"}>
+            <ContentLoading />
           </Match>
           <Match when={marketBooths.state === "ready"}>
             <MarketBoothList marketBooths={() => marketBooths()!} />

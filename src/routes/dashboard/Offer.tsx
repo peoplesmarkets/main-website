@@ -1,38 +1,34 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
-import {
-  createEffect,
-  createResource,
-  createSignal,
-  Match,
-  Show,
-  Switch,
-} from "solid-js";
+import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
-import { OfferPrice, OfferImages } from "../../components/commerce";
+import { PlaceholderImage } from "../../components/assets";
+import { OfferImages, OfferPrice } from "../../components/commerce";
 import {
   ContentError,
   ContentLoading,
-  isResolved,
   Multiline,
+  isResolved,
 } from "../../components/content";
 import {
   CreateOfferImageDialog,
   EditOfferDialog,
   MediaSettings,
 } from "../../components/dashboard";
+import { EditOfferPriceDialog } from "../../components/dashboard/EditOfferPriceDialog";
 import { ActionButton, DeleteConfirmation } from "../../components/form";
 import { Page, Section } from "../../components/layout";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
-import styles from "./Offer.module.scss";
-import { PlaceholderImage } from "../../components/assets";
-import { EditOfferPriceDialog } from "../../components/dashboard/EditOfferPriceDialog";
 import { OfferType } from "../../services/peoplesmarkets/commerce/v1/offer";
-import { buildDashboardMarketBoothPath } from "./DashboardRoutes";
+import {
+  buildDashboardMarketBoothPath,
+  buildDashboardPath,
+} from "./DashboardRoutes";
+import styles from "./Offer.module.scss";
 
 export default function Offer() {
   const navigate = useNavigate();
@@ -49,16 +45,10 @@ export default function Offer() {
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     createSignal(false);
 
-  const [marketBoothId, setMarketBoothId] = createSignal<string>();
-
   const [offer, { refetch }] = createResource(
     () => useParams().offerId,
     fetchOffer
   );
-
-  createEffect(() => {
-    setMarketBoothId(useParams().marketBoothId);
-  });
 
   async function fetchOffer(offerId: string) {
     const response = await offerService.get(offerId);
@@ -110,7 +100,12 @@ export default function Offer() {
       await offerService.delete(offer()!.offerId);
     }
     setShowDeleteConfirmation(false);
-    navigate(buildDashboardMarketBoothPath(marketBoothId()!));
+    const shopSlug = offer()?.shopSlug;
+    if (!_.isNil(shopSlug)) {
+      navigate(buildDashboardMarketBoothPath(shopSlug), { replace: true });
+    } else {
+      navigate(buildDashboardPath(), { replace: true });
+    }
   }
 
   return (

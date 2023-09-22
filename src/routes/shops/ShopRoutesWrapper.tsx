@@ -15,25 +15,27 @@ import styles from "./ShopRoutesWrapper.module.scss";
 export default function ShopRoutesWrapper() {
   const [trans] = useTransContext();
 
-  const { shop } = useRouteData<typeof ShopData>();
+  const shopData = useRouteData<typeof ShopData>();
 
   return (
     <>
-      <Show when={isResolved(shop.state)}>
+      <Show when={isResolved(shopData.shop.data.state)}>
         <Panel>
           <Slot name="logo">
             <A
               class={styles.MainLink}
-              href={buildShopDetailPath(shop()!.marketBoothId)}
+              href={buildShopDetailPath(shopData.shop.data()!.slug)}
             >
-              {shop()?.name}
+              {shopData.shop.data()?.name}
             </A>
           </Slot>
 
           <Slot name="items">
             <PanelItem
               Icon={StoreFrontIcon}
-              path={() => buildShopDetailPath(shop()!.marketBoothId)}
+              path={() =>
+                buildShopDetailPath(shopData.shop.data()!.slug)
+              }
               label={() => trans(TKEYS["main-navigation"].links.home)}
             />
           </Slot>

@@ -111,6 +111,8 @@ export const DE: typeof TKEYS = {
       Details: "Details",
       Name: "Name",
       name: "Name",
+      Slug: "Pfad",
+      slug: "Pfad",
       Description: "Beschreibung",
       description: "Beschreibung",
       "Created-at": "Erstellt am",

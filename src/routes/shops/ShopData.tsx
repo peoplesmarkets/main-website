@@ -1,9 +1,9 @@
 import { RouteDataFuncArgs } from "@solidjs/router";
+import _ from "lodash";
 import { createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { MarketBoothService, StripeService } from "../../services";
-import _ from "lodash";
 import { StripeAccount } from "../../services/peoplesmarkets/payment/v1/stripe";
 
 export function ShopData({ params }: RouteDataFuncArgs) {
@@ -12,20 +12,28 @@ export function ShopData({ params }: RouteDataFuncArgs) {
   const marketBoothService = new MarketBoothService(accessToken);
   const stripeService = new StripeService(accessToken);
 
-  const [shop] = createResource(() => params.marketBoothId, fetchMarketBooth);
-  const [stripeAccount] = createResource(
-    () => params.marketBoothId,
+  const [shop, shopActions] = createResource(
+    () => params.shopSlug,
+    fetchMarketBooth
+  );
+
+  const [stripeAccount, stripeAccountActions] = createResource(
+    () => shop?.()?.marketBoothId,
     fetchStripeAccount
   );
 
-  async function fetchMarketBooth(marketBoothId: string) {
-    const response = await marketBoothService.get(marketBoothId);
+  async function fetchMarketBooth(idOrName: string) {
+    try {
+      const response = await marketBoothService.getBySlug(idOrName);
 
-    if (_.isNil(response.marketBooth)) {
+      if (_.isNil(response.marketBooth)) {
+        throw new Error("Not Found");
+      }
+
+      return response.marketBooth;
+    } catch (err) {
       throw new Error("Not Found");
     }
-
-    return response.marketBooth;
   }
 
   async function fetchStripeAccount(marketBoothId: string) {
@@ -47,5 +55,14 @@ export function ShopData({ params }: RouteDataFuncArgs) {
     }
   }
 
-  return { shop, stripeAccount };
+  return {
+    shop: {
+      data: shop,
+      refetch: shopActions.refetch,
+    },
+    stripeAccount: {
+      data: stripeAccount,
+      refetch: stripeAccountActions.refetch,
+    },
+  };
 }

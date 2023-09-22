@@ -17,7 +17,7 @@ export function MarketBoothList(props: Props) {
       {(marketBooth) => (
         <A
           class={styles.Row}
-          href={buildDashboardMarketBoothPath(marketBooth.marketBoothId)}
+          href={buildDashboardMarketBoothPath(marketBooth.slug)}
         >
           <Show when={!_.isEmpty(marketBooth.imageUrl)}>
             <img class={styles.Image} src={marketBooth.imageUrl} alt="" />

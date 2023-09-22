@@ -9,7 +9,6 @@ import {
 } from "../../lib/testing";
 import { OfferImages } from "./OfferImages";
 import { OfferPrice } from "./OfferPrice";
-import { MarketBoothContext } from "./MarketBoothContext";
 import { MarketBoothList } from "./MarketBoothList";
 import { MediaList } from "./MediaList";
 
@@ -19,15 +18,6 @@ import { MediaList } from "./MediaList";
 describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
-
-  test("MarketBoothContext", () => {
-    const { container } = renderIntoRoot(() => (
-      <MarketBoothContext marketBooth={getNoObj}>
-        <></>
-      </MarketBoothContext>
-    ));
-    expect(container).toBeDefined();
-  });
 
   test("MarketBoothList", () => {
     const { container } = renderIntoRoot(() => (

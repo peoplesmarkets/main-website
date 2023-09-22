@@ -13,12 +13,14 @@ import {
 } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import {
   ActionButton,
+  Anotation,
   DiscardConfirmation,
   TextArea,
   TextField,
 } from "../form";
 import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
+import { buildShopDetailPath } from "../../routes/shops/ShopRoutes";
 
 type Props = {
   marketBooth: () => MarketBoothResponse;
@@ -41,6 +43,7 @@ export function EditMarketBoothDialog(props: Props) {
   const [errors, setErrors] = createStore({
     name: [] as string[],
     description: [] as string[],
+    slug: [] as string[],
   });
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
@@ -55,25 +58,32 @@ export function EditMarketBoothDialog(props: Props) {
   });
 
   function resetErrors() {
-    setErrors({ name: [], description: [] });
+    setErrors({ name: [], description: [], slug: [] });
   }
 
-  function onNameInput(value: string) {
+  function handleNameInput(value: string) {
     resetErrors();
     setMarketBooth("name", value.trim());
   }
 
-  function onDescriptionInput(value: string) {
+  function handleDescriptionInput(value: string) {
     resetErrors();
     setMarketBooth("description", value.trim());
+  }
+
+  function handleSlugInput(value: string) {
+    resetErrors();
+    setMarketBooth("slug", value);
   }
 
   async function updateMarketBooth(event: SubmitEvent) {
     event.preventDefault();
 
     if (!dataWasChanged()) {
-      setErrors("name", [trans(TKEYS.form.errors["not-modified"])]);
-      setErrors("description", [trans(TKEYS.form.errors["not-modified"])]);
+      const notModified = trans(TKEYS.form.errors["not-modified"]);
+      setErrors("name", [notModified]);
+      setErrors("description", [notModified]);
+      setErrors("slug", [notModified]);
       return;
     }
 
@@ -84,7 +94,7 @@ export function EditMarketBoothDialog(props: Props) {
       props.onClose();
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.AlreadyExists) {
-        setErrors("name", [trans(TKEYS.form.errors["already-exists"])]);
+        setErrors("slug", [trans(TKEYS.form.errors["already-exists"])]);
       } else {
         throw err;
       }
@@ -128,7 +138,7 @@ export function EditMarketBoothDialog(props: Props) {
               label={trans(TKEYS["market-booth"].labels.name)}
               required
               value={marketBooth.name}
-              onValue={onNameInput}
+              onValue={handleNameInput}
               errors={errors.name}
             />
 
@@ -137,9 +147,23 @@ export function EditMarketBoothDialog(props: Props) {
               label={trans(TKEYS["market-booth"].labels.description)}
               rows={8}
               value={marketBooth.description}
-              onValue={onDescriptionInput}
+              onValue={handleDescriptionInput}
               errors={errors.description}
             />
+
+            <TextField
+              name="slug"
+              label={trans(TKEYS["market-booth"].labels.slug)}
+              required
+              small
+              value={marketBooth.slug}
+              onValue={handleSlugInput}
+              errors={errors.slug}
+            />
+            <Anotation>
+              {import.meta.env.VITE_BASE_URL}
+              {buildShopDetailPath(marketBooth.slug!)}
+            </Anotation>
 
             <div class={styles.DialogFooter}>
               <ActionButton

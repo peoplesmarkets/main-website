@@ -26,7 +26,7 @@ const CHUNKSIZE = 1024 * 1024 * 5;
 
 type Props = {
   readonly marketBoothId: string;
-  readonly offerId: string;
+  readonly offerId?: string;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
 };
@@ -69,10 +69,13 @@ export function CreateMediaDialog(props: Props) {
         media = await uploadMultipart();
       }
 
-      await mediaService.addMediaToOffer({
-        mediaId: media.mediaId,
-        offerId: props.offerId,
-      });
+      if (!_.isNil(props.offerId)) {
+        await mediaService.addMediaToOffer({
+          mediaId: media.mediaId,
+          offerId: props.offerId,
+        });
+      }
+
       setUploading(false);
       props.onUpdate();
       props.onClose();
