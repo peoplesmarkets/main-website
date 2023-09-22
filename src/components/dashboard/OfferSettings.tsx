@@ -11,10 +11,9 @@ import {
   onMount,
 } from "solid-js";
 
-import { DASHBOARD_MARKET_BOOTH_PATH, OFFERS_SUBPATH } from "../../App";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
+import { buildDashboardOfferPath } from "../../routes/dashboard/DashboardRoutes";
 import { OfferService } from "../../services";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
@@ -87,10 +86,8 @@ export function OfferSettings(props: Props) {
                 {(offer) => (
                   <A
                     class={styles.Row}
-                    href={buildPath(
-                      DASHBOARD_MARKET_BOOTH_PATH,
-                      props.marketBooth().marketBoothId,
-                      OFFERS_SUBPATH,
+                    href={buildDashboardOfferPath(
+                      offer.marketBoothId,
                       offer.offerId
                     )}
                   >

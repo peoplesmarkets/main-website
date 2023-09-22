@@ -1,4 +1,4 @@
-import { Theme } from "../../contexts/ThemeStore";
+import { Theme } from "../../contexts/ThemeContext";
 
 type Props = {
   class: string;

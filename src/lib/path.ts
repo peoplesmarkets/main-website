@@ -8,7 +8,7 @@ export function buildPath(...paths: string[]): string {
   return (
     "/" +
     paths
-      .filter((p) => p !== "/")
+      .filter((p) => p !== "/" && !_.isEmpty(p))
       .map((p) => removeLeadingSlash(p))
       .map((p) => removeTralingSlash(p))
       .join("/")

@@ -38,6 +38,7 @@ export const TKEYS = {
       Cancel: "form.action.Cancel",
       Discard: "form.action.Discard",
       Buy: "form.action.Buy",
+      Subscribe: "form.action.Subscribe",
       "Are-you-sure-you-want-to-delete-the-item":
         "form.action.Are-you-sure-you-want-to-delete-the-item",
       "Confirm-Deletion?": "form.action.Confirm-Deletion?",
@@ -135,8 +136,9 @@ export const TKEYS = {
     "title-plural": "offer.title-plural",
     "no-offers-yet": "offer.no-offers-yet",
     "no-description": "offer.no-description",
-    "currently-no-payment-method": "offer.currently-no-payment-method",
-    "other-offers-by": "offer.other-offers-by",
+    "currently-not-available": "offer.currently-not-available",
+    "sign-in-to-subscribe": "offer.sign-in-to-subscribe",
+    "other-offers": "offer.other-offers",
     "downloadable-content": "offer.downloadable-content",
     labels: {
       Price: "offer.labels.Price",
@@ -224,6 +226,7 @@ export const TKEYS = {
       "sign-in": "main-navigation.actions.sign-in",
     },
     links: {
+      home: "main-navigation.links.home",
       "market-booths": "main-navigation.links.market-booths",
       offers: "main-navigation.links.offers",
       dashboard: "main-navigation.links.dashboard",
@@ -288,6 +291,7 @@ export const TKEYS = {
     description: "environment-banner.description",
   },
   footer: {
+    "powered-by": "footer.powered-by",
     "main-paragraph": "footer.main-paragraph",
     "community-paragraph": "footer.community-paragraph",
   },

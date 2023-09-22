@@ -39,6 +39,7 @@ export const EN: typeof TKEYS = {
       Cancel: "Cancel",
       Discard: "Discard",
       Buy: "Buy",
+      Subscribe: "Subscribe",
       "Are-you-sure-you-want-to-delete-the-item":
         'Are you sure you want to delete the {item}: "{name}"?',
       "Confirm-Deletion?": "Confirm Deletion?",
@@ -122,8 +123,9 @@ export const EN: typeof TKEYS = {
     "title-plural": "Offers",
     "no-offers-yet": "No Offers yet ...",
     "no-description": "No description ...",
-    "currently-no-payment-method": "no payment method available",
-    "other-offers-by": "Other Offers by ",
+    "currently-not-available": "Currently not available",
+    "sign-in-to-subscribe": "Sign in to subscribe",
+    "other-offers": "Other Offers",
     "downloadable-content": "downloadable content",
     labels: {
       Price: "Price",
@@ -201,6 +203,7 @@ export const EN: typeof TKEYS = {
       "sign-in": "Sign In",
     },
     links: {
+      home: "Home",
       "market-booths": "Market Booths",
       offers: "Offers",
       dashboard: "Dashboard",
@@ -265,6 +268,7 @@ export const EN: typeof TKEYS = {
       "This is a developement environment for testing purpose only. For the main site visit: ",
   },
   footer: {
+    "powered-by": "Powered by",
     "main-paragraph":
       "People's Markets is an online platform where businesses and people can offer their goods while building their brand and market appearance.",
     "community-paragraph": "Get involved in any aspect of the project.",

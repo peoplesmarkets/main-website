@@ -3,22 +3,21 @@ import _ from "lodash";
 import { Match, Switch, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { MARKET_BOOTHS_PATH } from "../../App";
-import { MarketBoothList } from "../../components/commerce/MarketBoothList";
-import { ContentError } from "../../components/content";
-import { Select } from "../../components/form";
-import { RefreshIcon } from "../../components/icons/RefreshIcon";
-import { SearchIcon } from "../../components/icons/SearchIcon";
-import { StoreFrontIcon } from "../../components/icons/StorefrontIcon";
-import { Page, Section } from "../../components/layout";
-import { TKEYS } from "../../locales/dev";
-import { MarketBoothService } from "../../services";
+import { MarketBoothList } from "../components/commerce/MarketBoothList";
+import { ContentError } from "../components/content";
+import { Select } from "../components/form";
+import { RefreshIcon } from "../components/icons/RefreshIcon";
+import { SearchIcon } from "../components/icons/SearchIcon";
+import { StoreFrontIcon } from "../components/icons/StorefrontIcon";
+import { Page, Section } from "../components/layout";
+import { TKEYS } from "../locales/dev";
+import { MarketBoothService } from "../services";
 import {
   ListMarketBoothsRequest,
   MarketBoothsFilterField,
   MarketBoothsOrderByField,
-} from "../../services/peoplesmarkets/commerce/v1/market_booth";
-import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
+} from "../services/peoplesmarkets/commerce/v1/market_booth";
+import { Direction } from "../services/peoplesmarkets/ordering/v1/ordering";
 import styles from "./MarketBooths.module.scss";
 
 export default function MarketBooths() {
@@ -153,11 +152,7 @@ export default function MarketBooths() {
             <ContentError />
           </Match>
           <Match when={marketBooths.state === "ready"}>
-            <MarketBoothList
-              marketBooths={() => marketBooths()!}
-              basePath={MARKET_BOOTHS_PATH}
-              withDetails
-            />
+            <MarketBoothList marketBooths={() => marketBooths()!} />
           </Match>
         </Switch>
       </Section>

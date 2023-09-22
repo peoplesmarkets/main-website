@@ -1,0 +1,26 @@
+.MainLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  user-select: none;
+  text-decoration: none;
+  padding: 0.5rem 1rem;
+}
+
+.MainLink:hover {
+  background-color: rgba(0, 0, 0, 0);
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.MainLogoIcon {
+  height: 32px;
+  fill: var(--primary-content-color);
+  stroke: transparent;
+}
+
+.MainLogo {
+  margin-left: 10px;
+  height: 42px;
+  fill: var(--primary-content-color);
+}

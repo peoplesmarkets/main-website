@@ -1,0 +1,17 @@
+$expanded-min-width: 1080px;
+
+.ShopBanner {
+  margin-top: 0;
+
+  @media only screen and (min-width: $expanded-min-width) {
+    margin-top: 1rem;
+  }
+}
+
+.Image {
+  width: 100%;
+  display: block;
+  aspect-ratio: var(--banner-image-aspect-ratio);
+  object-fit: cover;
+  border: none;
+}

@@ -13,6 +13,7 @@ import styles from "./OfferPrice.module.scss";
 
 type Props = {
   readonly offer: () => OfferResponse | undefined;
+  readonly class?: string;
   readonly small?: boolean;
 };
 
@@ -60,7 +61,7 @@ export function OfferPrice(props: Props) {
 
   return (
     <>
-      <div class={styles.OfferPrice}>
+      <div class={props.class || styles.OfferPrice}>
         <span
           class={styles.Price}
           classList={{ [styles.PriceSmall]: Boolean(props.small) }}

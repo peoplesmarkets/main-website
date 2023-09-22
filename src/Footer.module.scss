@@ -9,27 +9,46 @@
 }
 
 .Title {
-  height: 48px;
-  padding: 2rem;
-  display: flex;
-  align-items: center;
+  font: var(--font-body);
+  padding: 2rem 2rem 0 2rem;
 }
 
+.Logo {
+  margin: 1rem 0 1rem 2rem;
+}
+
+.LogoLink {
+  width: fit-content;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.LogoLink:hover {
+  background-color: rgba(0, 0, 0, 0);
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+
 .MainLogoIcon {
-  height: 36px;
+  height: 32px;
   fill: var(--primary-content-color);
+  user-select: none;
 }
 
 .MainLogoText {
+  max-width: 100%;
   height: 44px;
   fill: var(--primary-content-color);
-  margin-left: 1rem;
+  user-select: none;
 }
 
 .Content {
   max-width: 600px;
   padding: 0 2rem 1rem 2rem;
-  font: var(--font-label);
+  font: var(--font-body);
 }
 
 .SiteLinks {

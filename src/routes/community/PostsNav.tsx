@@ -2,9 +2,8 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { A, useParams } from "@solidjs/router";
 import { For, JSX } from "solid-js";
 
-import { COMMUNITY_DEVELOPMENT_POSTS_PATH } from "../../App";
-import { buildPath } from "../../lib";
 import { TKEYS } from "../../locales/dev";
+import { buildDevelopementPostPath } from "./CommunityRoutes";
 import styles from "./PostsNav.module.scss";
 
 const POSTS = [
@@ -37,9 +36,7 @@ function PostLink(props: { path: string; children: JSX.Element }) {
 
   return (
     <li classList={{ [styles.Active]: active() }}>
-      <A href={buildPath(COMMUNITY_DEVELOPMENT_POSTS_PATH, props.path)}>
-        {props.children}
-      </A>
+      <A href={buildDevelopementPostPath(props.path)}>{props.children}</A>
     </li>
   );
 }

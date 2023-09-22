@@ -4,10 +4,10 @@ import { useLocation, useNavigate } from "@solidjs/router";
 import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
-import { DASHBOARD_MARKET_BOOTH_PATH, MEDIAS_SUBPATH } from "../../App";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildPath, buildUrl, secondsToLocaleString } from "../../lib";
+import { buildUrl, secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
+import { buildDashboardMediaPath } from "../../routes/dashboard/DashboardRoutes";
 import { MarketBoothService, StripeService } from "../../services";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import { ContentError, ContentLoading, isResolved } from "../content";
@@ -117,9 +117,7 @@ export function MarketBoothSettings(props: Props) {
   function handleEditMedias() {
     const marketBoothId = props.marketBooth()?.marketBoothId;
     if (!_.isNil(marketBoothId)) {
-      navigate(
-        buildPath(DASHBOARD_MARKET_BOOTH_PATH, marketBoothId, MEDIAS_SUBPATH)
-      );
+      navigate(buildDashboardMediaPath(marketBoothId));
     }
   }
 
@@ -307,7 +305,7 @@ export function MarketBoothSettings(props: Props) {
 
       <Show when={showEditMarketBooth() && !_.isNil(props.marketBooth())}>
         <EditMarketBoothDialog
-          marketBooth={props.marketBooth()!}
+          marketBooth={() => props.marketBooth()!}
           class={styles.EditMarketBooth}
           onClose={handleCloseEditMarketBooth}
           onUpdate={() => props.onUpdate?.()}

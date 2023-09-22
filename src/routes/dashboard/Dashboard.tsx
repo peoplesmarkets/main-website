@@ -4,9 +4,8 @@ import { useNavigate } from "@solidjs/router";
 import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
-import { DASHBOARD_MARKET_BOOTH_PATH, USER_SETTINGS_PATH } from "../../App";
 import { MediaList } from "../../components/commerce";
-import { MarketBoothList } from "../../components/commerce/MarketBoothList";
+import { MarketBoothList } from "../../components/dashboard";
 import { ContentError, isResolved } from "../../components/content";
 import { CreateMarketBoothDialog } from "../../components/dashboard";
 import { ActionButton } from "../../components/form";
@@ -16,6 +15,7 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales";
 import { MarketBoothService, MediaService } from "../../services";
 import styles from "./Dashboard.module.scss";
+import { buildUserSettingsPath } from "../user/UserRoutes";
 
 export default function Dashboard() {
   const navigate = useNavigate();
@@ -44,7 +44,7 @@ export default function Dashboard() {
       return response.marketBooths;
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
-        navigate(USER_SETTINGS_PATH, { replace: true });
+        navigate(buildUserSettingsPath(), { replace: true });
       } else {
         throw err;
       }
@@ -96,10 +96,7 @@ export default function Dashboard() {
                 isResolved(marketBooths.state) && !_.isEmpty(marketBooths())
               }
             >
-              <MarketBoothList
-                marketBooths={() => marketBooths()!}
-                basePath={DASHBOARD_MARKET_BOOTH_PATH}
-              />
+              <MarketBoothList marketBooths={() => marketBooths()!} />
             </Match>
             <Match
               when={isResolved(marketBooths.state) && _.isEmpty(marketBooths())}

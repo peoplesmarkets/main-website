@@ -24,6 +24,18 @@ export function encodeArrayBufferToBase64Url(arrayBuffer: ArrayBuffer): string {
   return base64;
 }
 
+export function base64ToUtf8(base64: string): string {
+  const binString = atob(base64);
+  const bytes = Uint8Array.from(binString, (m) => m.codePointAt(0)!);
+  return new TextDecoder().decode(bytes);
+}
+
+export function utf8ToBase64(utf8: string): string {
+  const bytes = new TextEncoder().encode(utf8);
+  const binString = Array.from(bytes, (x) => String.fromCodePoint(x)).join("");
+  return btoa(binString);
+}
+
 export function parseJwtPayload(token: string) {
   const base64Url = token.split(".")[1];
   const base64 = base64Url.replace(/-/g, "+").replace(/_/g, "/");

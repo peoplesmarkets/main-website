@@ -7,6 +7,7 @@ type Props = JSX.HTMLAttributes<HTMLDivElement> & {
   danger?: boolean;
   active?: boolean;
   flat?: boolean;
+  padded?: boolean;
 };
 
 export function Section(props: Props) {
@@ -18,6 +19,7 @@ export function Section(props: Props) {
         [styles.Active]: Boolean(props.active),
         [styles.Danger]: Boolean(props.danger),
         [styles.Flat]: Boolean(props.flat),
+        [styles.Padded]: Boolean(props.padded),
       }}
       {...props}
     >
