@@ -21,9 +21,12 @@ import {
   OfferType,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferDetail.module.scss";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 
 export default function OfferDetail() {
-  const offerService = new OfferService();
+  const { accessToken } = useAccessTokensContext();
+
+  const offerService = new OfferService(accessToken);
 
   const [offerId, setOfferId] = createSignal<string>();
   const [offer] = createResource(offerId, fetchOffer);

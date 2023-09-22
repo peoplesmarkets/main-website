@@ -50,3 +50,15 @@
 .EditSection:hover {
   background: var(--hovered-background);
 }
+
+.Active {
+  font: var(--font-body);
+  font-weight: 500;
+  color: var(--active-content-color);
+}
+
+.Warning {
+  font: var(--font-body);
+  font-weight: 500;
+  color: var(--warning-content-color);
+}

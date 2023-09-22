@@ -18,9 +18,12 @@ import { OffersOrderByField } from "../../services/peoplesmarkets/commerce/v1/of
 import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
 import { ShopData } from "./ShopData";
 import styles from "./ShopDetail.module.scss";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 
 export default function ShopDetail() {
-  const offerService = new OfferService();
+  const { accessToken } = useAccessTokensContext();
+
+  const offerService = new OfferService(accessToken);
 
   const shopData = useRouteData<typeof ShopData>();
   const [offers] = createResource(
