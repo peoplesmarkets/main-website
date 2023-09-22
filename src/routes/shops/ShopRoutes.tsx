@@ -4,7 +4,7 @@ import { lazy } from "solid-js";
 import { buildPath } from "../../lib";
 import { ShopData } from "./ShopData";
 
-const ROOT_PATH = "/store";
+const ROOT_PATH = "/shops";
 const MARKET_BOOTH_PATH = "/:marketBoothId";
 const OFFER_PATH = MARKET_BOOTH_PATH + "/offer/:offerId";
 
