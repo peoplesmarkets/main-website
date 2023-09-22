@@ -17,6 +17,7 @@ import {
   ActionButton,
   DiscardConfirmation,
   Select,
+  SelectKey,
   TextArea,
   TextField,
 } from "../form";
@@ -68,6 +69,19 @@ export function EditOfferDialog(props: Props) {
     }
   }
 
+  function visibilityOptions() {
+    return [
+      { name: trans(TKEYS.offer.visibility.visible), key: true },
+      { name: trans(TKEYS.offer.visibility["not-visible"]), key: false },
+    ];
+  }
+
+  function selectedVisibility() {
+    return _.find(visibilityOptions(), {
+      key: offer.isActive,
+    });
+  }
+
   function resetErrors() {
     setErrors({ name: [], description: [] });
   }
@@ -86,9 +100,15 @@ export function EditOfferDialog(props: Props) {
     setOffer("description", value.trim());
   }
 
-  function handleOfferTypeChange(value: string | number) {
+  function handleOfferTypeChange(value: SelectKey) {
     if (_.isString(value)) {
       setOffer("type", offerTypeFromJSON(value));
+    }
+  }
+
+  function handleVisibilityChange(value: SelectKey) {
+    if (_.isBoolean(value)) {
+      setOffer("isActive", value);
     }
   }
 
@@ -148,6 +168,7 @@ export function EditOfferDialog(props: Props) {
               options={offerTypeOptions}
               onValue={handleOfferTypeChange}
             />
+
             <TextField
               name="name"
               label={trans(TKEYS.offer.labels.name)}
@@ -156,6 +177,7 @@ export function EditOfferDialog(props: Props) {
               onValue={handleNameInput}
               errors={errors.name}
             />
+
             <TextArea
               name="description"
               label={trans(TKEYS.offer.labels.description)}
@@ -164,6 +186,14 @@ export function EditOfferDialog(props: Props) {
               onValue={handleDescriptionInput}
               errors={errors.description}
             />
+
+            <Select
+              label="Visibility"
+              value={selectedVisibility}
+              options={visibilityOptions}
+              onValue={handleVisibilityChange}
+            />
+
             <div class={styles.DialogFooter}>
               <ActionButton
                 actionType="active-filled"

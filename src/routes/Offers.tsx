@@ -22,11 +22,14 @@ import {
 } from "../services/peoplesmarkets/commerce/v1/offer";
 import { Direction } from "../services/peoplesmarkets/ordering/v1/ordering";
 import styles from "./Offers.module.scss";
+import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 
 export default function Offers() {
   const [trans] = useTransContext();
 
-  const offerService = new OfferService();
+  const { accessToken } = useAccessTokensContext();
+
+  const offerService = new OfferService(accessToken);
 
   const searchField =
     OffersFilterField.OFFERS_FILTER_FIELD_NAME_AND_DESCRIPTION;

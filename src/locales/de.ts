@@ -128,6 +128,11 @@ export const DE: typeof TKEYS = {
     "sign-in-to-subscribe": "Anmelden um zu abonnieren",
     "other-offers": "Weitere Angebote",
     "downloadable-content": "downloadbarer Inhalt",
+    visibility: {
+      title: "Sichtbarkeit",
+      visible: "Öffentlich sichtbar",
+      "not-visible": "Nicht öffentlich sichtbar",
+    },
     labels: {
       Price: "Preis",
       Name: "Name",

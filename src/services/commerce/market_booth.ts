@@ -15,7 +15,7 @@ export class MarketBoothService extends ServiceClient {
   private readonly rpc: GrpcWebImpl;
   private readonly client: MarketBoothServiceClientImpl;
 
-  constructor(accessToken?: AccessTokenGetter) {
+  constructor(accessToken: AccessTokenGetter) {
     super(accessToken);
 
     this.rpc = new GrpcWebImpl(import.meta.env.VITE_SERIVCE_APIS_URL, {});
@@ -34,9 +34,12 @@ export class MarketBoothService extends ServiceClient {
   }
 
   public async getBySlug(slug: string) {
-    return await this.client.GetShopBySlug({
-      slug,
-    });
+    return await this.client.GetShopBySlug(
+      {
+        slug,
+      },
+      await this.withAuthHeader()
+    );
   }
 
   public async list(request: ListMarketBoothsRequest) {
@@ -44,13 +47,17 @@ export class MarketBoothService extends ServiceClient {
   }
 
   public async listDefault(request: ListMarketBoothsRequest) {
-    return this.client.ListMarketBooths({
-      orderBy: {
-        field: MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
-        direction: Direction.DIRECTION_DESC,
+    return this.client.ListMarketBooths(
+      {
+        orderBy: {
+          field:
+            MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
+          direction: Direction.DIRECTION_DESC,
+        },
+        ...request,
       },
-      ...request,
-    });
+      await this.withAuthHeader()
+    );
   }
 
   public async update(request: UpdateMarketBoothRequest) {

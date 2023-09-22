@@ -13,7 +13,7 @@ export interface WithAuthHeader {
 export class ServiceClient implements WithAuthHeader {
   accessToken?: AccessTokenGetter;
 
-  constructor(accessToken?: AccessTokenGetter) {
+  constructor(accessToken: AccessTokenGetter) {
     this.accessToken = accessToken;
   }
 

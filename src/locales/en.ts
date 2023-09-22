@@ -129,6 +129,11 @@ export const EN: typeof TKEYS = {
     "sign-in-to-subscribe": "Sign in to subscribe",
     "other-offers": "Other Offers",
     "downloadable-content": "downloadable content",
+    visibility: {
+      title: "Visibility",
+      visible: "Publicly visible",
+      "not-visible": "Not publicly visible",
+    },
     labels: {
       Price: "Price",
       Name: "Name",
