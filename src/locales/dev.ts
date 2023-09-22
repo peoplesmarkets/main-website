@@ -125,6 +125,8 @@ export const TKEYS = {
       Details: "market-booth.labels.Details",
       Name: "market-booth.labels.Name",
       name: "market-booth.labels.name",
+      Slug: "market-booth.labels.Slug",
+      slug: "market-booth.labels.slug",
       Description: "market-booth.labels.Description",
       description: "market-booth.labels.description",
       "Created-at": "market-booth.labels.Created-at",

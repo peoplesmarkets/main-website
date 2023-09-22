@@ -1,6 +1,5 @@
-import { grpc } from "@improbable-eng/grpc-web";
-import { useNavigate, useParams } from "@solidjs/router";
-import { Show, createResource } from "solid-js";
+import { useNavigate, useRouteData } from "@solidjs/router";
+import { Show } from "solid-js";
 
 import {
   MarketBoothImage,
@@ -9,38 +8,17 @@ import {
 } from "../../components/dashboard";
 import { Section } from "../../components/layout";
 import { Page } from "../../components/layout/Page";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { MarketBoothService } from "../../services";
-import styles from "./MarketBooth.module.scss";
+import { ShopData } from "../shops/ShopData";
 import { buildDashboardPath } from "./DashboardRoutes";
+import styles from "./MarketBooth.module.scss";
 
 export default function MarketBooth() {
   const navigate = useNavigate();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const marketBoothService = new MarketBoothService(accessToken);
-
-  const [marketBooth, { refetch }] = createResource(
-    () => useParams().marketBoothId,
-    fetchMarketBooth
-  );
-
-  async function fetchMarketBooth(marketBoothId: string) {
-    try {
-      const response = await marketBoothService.get(marketBoothId);
-      return response.marketBooth;
-    } catch (err: any) {
-      if (err.code && err.code === grpc.Code.NotFound) {
-        navigate(buildDashboardPath(), { replace: true });
-      } else {
-        throw err;
-      }
-    }
-  }
+  const shopData = useRouteData<typeof ShopData>();
 
   async function handleMarketBoothUpdate() {
-    refetch();
+    shopData.shop.refetch();
   }
 
   async function handleDeleteMarketBooth() {
@@ -50,21 +28,21 @@ export default function MarketBooth() {
   return (
     <Page>
       <div class={styles.MarketBooth}>
-        <Show when={marketBooth()}>
+        <Show when={shopData?.shop?.data()}>
           <div class={styles.Settings}>
             <MarketBoothImage
-              marketBooth={() => marketBooth()}
+              marketBooth={() => shopData.shop.data()}
               onUpdate={handleMarketBoothUpdate}
             />
 
             <Section flat>
-              <span class={styles.Title}>{marketBooth()?.name}</span>
+              <span class={styles.Title}>{shopData.shop.data()?.name}</span>
             </Section>
 
-            <OfferSettings marketBooth={() => marketBooth()!} />
+            <OfferSettings marketBooth={() => shopData.shop.data()!} />
 
             <MarketBoothSettings
-              marketBooth={() => marketBooth()}
+              marketBooth={() => shopData.shop.data()}
               onUpdate={handleMarketBoothUpdate}
               onDelete={handleDeleteMarketBooth}
             />

@@ -33,7 +33,7 @@ export default function InfoRoutes() {
   }
 
   return (
-    <Route path={ROOT_PATH} element={<MainRoutesWrapper />}>
+    <Route path={ROOT_PATH} component={MainRoutesWrapper}>
       <Route path="" element={<InfoRedirect />} />
       <Route
         path={GET_STARTED_PATH}

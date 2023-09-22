@@ -87,7 +87,7 @@ export function OfferSettings(props: Props) {
                   <A
                     class={styles.Row}
                     href={buildDashboardOfferPath(
-                      offer.marketBoothId,
+                      offer.shopSlug,
                       offer.offerId
                     )}
                   >

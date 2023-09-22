@@ -1,0 +1,12 @@
+.Anotation {
+  display: block;
+  width: 100%;
+  margin-top: -1rem;
+  padding: 0.2rem 1rem;
+  box-sizing: border-box;
+  font: var(--font-body);
+  font-weight: 300;
+  border: var(--secondary-border);
+  border-radius: 4px;
+  user-select: none;
+}

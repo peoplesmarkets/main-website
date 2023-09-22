@@ -1,5 +1,5 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { useParams, useRouteData } from "@solidjs/router";
+import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import { Match, Show, Switch, createResource } from "solid-js";
 
@@ -23,7 +23,10 @@ export default function ShopDetail() {
   const offerService = new OfferService();
 
   const shopData = useRouteData<typeof ShopData>();
-  const [offers] = createResource(() => useParams().marketBoothId, fetchOffers);
+  const [offers] = createResource(
+    () => shopData?.shop?.data?.()?.marketBoothId,
+    fetchOffers
+  );
 
   async function fetchOffers(marketBoothId: string) {
     const response = await offerService.list({
@@ -37,12 +40,12 @@ export default function ShopDetail() {
   }
 
   return (
-    <Show when={isResolved(shopData?.shop?.state)}>
-      <ShopBanner shop={() => shopData.shop()!} />
+    <Show when={isResolved(shopData?.shop?.data?.state)}>
+      <ShopBanner shop={() => shopData.shop.data()!} />
 
       <Section>
         <span class={styles.Description}>
-          <Multiline text={() => shopData.shop()?.description} />
+          <Multiline text={() => shopData.shop.data()?.description} />
         </span>
       </Section>
 

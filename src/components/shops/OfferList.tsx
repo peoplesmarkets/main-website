@@ -17,7 +17,7 @@ export function OfferList(props: Props) {
       <For each={props.offers()}>
         {(offer) => (
           <div class={styles.ListItem}>
-            <A href={buildOfferPath(offer.marketBoothId, offer.offerId)}>
+            <A href={buildOfferPath(offer.shopSlug, offer.offerId)}>
               <div class={styles.Card}>
                 <Show when={!_.isEmpty(offer.images)}>
                   <div class={styles.CardImage}>
@@ -32,7 +32,7 @@ export function OfferList(props: Props) {
                 <div class={styles.CardInfo}>
                   <A
                     class={styles.Name}
-                    href={buildOfferPath(offer.marketBoothId, offer.offerId)}
+                    href={buildOfferPath(offer.shopSlug, offer.offerId)}
                   >
                     {offer.name}
                   </A>

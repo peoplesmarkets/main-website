@@ -15,6 +15,7 @@ import { Select } from "./Select";
 import { TextArea } from "./TextArea";
 import { TextField } from "./TextField";
 import { PriceField } from "./PriceField";
+import { Anotation } from "./Anotation";
 
 /**
  * Render to check if objects are accessed correctly
@@ -29,6 +30,10 @@ describe("Render once", () => {
         <></>
       </ActionButton>
     ));
+    expect(container).toBeDefined();
+  });
+  test("Anotation", () => {
+    const { container } = renderIntoRoot(() => <Anotation>sl</Anotation>);
     expect(container).toBeDefined();
   });
   test("DeleteConfirmation", () => {

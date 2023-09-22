@@ -26,7 +26,7 @@ export function OfferList(props: Props) {
             <div class={styles.Card}>
               <A
                 class={styles.CardImage}
-                href={buildOfferPath(offer.marketBoothId, offer.offerId)}
+                href={buildOfferPath(offer.shopSlug, offer.offerId)}
               >
                 <Show when={!_.isEmpty(offer.images)}>
                   <img
@@ -44,7 +44,7 @@ export function OfferList(props: Props) {
               <div class={styles.CardInfo}>
                 <A
                   class={styles.Name}
-                  href={buildOfferPath(offer.marketBoothId, offer.offerId)}
+                  href={buildOfferPath(offer.shopSlug, offer.offerId)}
                 >
                   {offer.name}
                 </A>
@@ -53,7 +53,7 @@ export function OfferList(props: Props) {
                   <Trans key={TKEYS.common.by} />:{" "}
                   <A
                     class={styles.InfoLink}
-                    href={buildShopDetailPath(offer.marketBoothId)}
+                    href={buildShopDetailPath(offer.shopSlug)}
                   >
                     {offer.marketBoothName}
                   </A>
