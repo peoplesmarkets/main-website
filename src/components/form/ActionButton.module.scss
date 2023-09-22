@@ -4,7 +4,7 @@
   background-color: inherit;
   color: var(--active-content-color);
   padding: 0 23px;
-  height: 36px;
+  min-height: 36px;
   text-decoration: none;
   outline: 0;
   user-select: none;
@@ -72,13 +72,19 @@
   background: var(--hovered-background);
 }
 
-.NetrealBorderless {
+.NeutralBorderless {
   @extend .Neutral;
   border: none;
 }
 
+.NeutralFilled {
+  background-color: var(--primary-content-color);
+  color: var(--primary-background-color);
+  border: none;
+}
+
 .Disabled {
-  opacity: 38%;
+  opacity: 48%;
 }
 
 .Disabled:hover {
@@ -90,4 +96,8 @@
 .Small {
   height: 28px;
   padding: 0 14px;
+}
+
+.Wide {
+  width: 100%;
 }

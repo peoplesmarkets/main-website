@@ -38,6 +38,7 @@ export const DE: typeof TKEYS = {
       Cancel: "Abbrechen",
       Discard: "Verwerfen",
       Buy: "Kaufen",
+      Subscribe: "Abonnieren",
       "Are-you-sure-you-want-to-delete-the-item":
         '{item} namens "{name}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",
@@ -121,8 +122,9 @@ export const DE: typeof TKEYS = {
     "title-plural": "Angebote",
     "no-offers-yet": "Derzeit noch keine Angebote ...",
     "no-description": "Keine Beschreibung vorhanden ...",
-    "currently-no-payment-method": "keine Zahlungsmethode vorhanden",
-    "other-offers-by": "Weitere Angebote von ",
+    "currently-not-available": "Derzeit nicht verfügbar",
+    "sign-in-to-subscribe": "Anmelden um zu abonnieren",
+    "other-offers": "Weitere Angebote",
     "downloadable-content": "downloadbarer Inhalt",
     labels: {
       Price: "Preis",
@@ -199,6 +201,7 @@ export const DE: typeof TKEYS = {
       "sign-in": "Login",
     },
     links: {
+      home: EN["main-navigation"].links.home,
       "market-booths": "Marktstände",
       offers: "Angebote",
       dashboard: EN["main-navigation"].links.dashboard,

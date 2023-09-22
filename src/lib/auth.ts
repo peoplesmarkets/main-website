@@ -3,11 +3,14 @@ import _ from "lodash";
 
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { buildSignInCallbackPath } from "../routes/user/UserRoutes";
-import { hashCodeVerifier } from "./string-manipulation";
+import { hashCodeVerifier, utf8ToBase64 } from "./string-manipulation";
 
 export const CODE_CHALLENGE_STORAGE_KEY = "sign-in-code-challange";
 
-export async function buildAuthorizationRequest(register?: boolean) {
+export async function buildAuthorizationRequest(
+  prompt?: "create" | "select_account" | "login",
+  state?: string
+) {
   // sha256 hash of random string in base64 encoded
   const codeVerifier = crypto.randomUUID();
   sessionStorage.setItem(CODE_CHALLENGE_STORAGE_KEY, codeVerifier);
@@ -26,13 +29,15 @@ export async function buildAuthorizationRequest(register?: boolean) {
     import.meta.env.VITE_AUTH_OAUTH_ORG_ID
   }`;
 
-  // requestUri.searchParams.set("state", ""); // TODO
   requestUri.searchParams.set("scope", scope);
   requestUri.searchParams.set("response_type", "code");
   requestUri.searchParams.set("code_challenge", codeChallenge);
   requestUri.searchParams.set("code_challenge_method", "S256");
-  if (register) {
-    requestUri.searchParams.set("prompt", "create");
+  if (prompt) {
+    requestUri.searchParams.set("prompt", prompt);
+  }
+  if (state) {
+    requestUri.searchParams.set("state", utf8ToBase64(state));
   }
 
   return requestUri;
@@ -51,7 +56,7 @@ export async function getToken(code: string): Promise<Response> {
   body.set("code", code);
   body.set("redirect_uri", redirect_uri());
   body.set("client_id", import.meta.env.VITE_AUTH_OAUTH_CLIENT_ID);
-  body.set("code_verifier", codeVerifier!);
+  body.set("code_verifier", codeVerifier);
 
   return fetch(`${import.meta.env.VITE_AUTH_OAUTH_URL}/oauth/v2/token`, {
     method: "POST",

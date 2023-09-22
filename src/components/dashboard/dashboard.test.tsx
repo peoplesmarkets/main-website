@@ -51,7 +51,10 @@ describe("Render once", () => {
   });
   test("EditMarketBoothDialog", () => {
     const { container } = renderIntoRoot(() => (
-      <EditMarketBoothDialog marketBooth={noObj} onClose={noOp} />
+      <EditMarketBoothDialog
+        marketBooth={() => ({ marketBoothId: "" } as any)}
+        onClose={noOp}
+      />
     ));
     expect(container).toBeDefined();
   });

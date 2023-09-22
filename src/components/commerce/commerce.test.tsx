@@ -7,10 +7,8 @@ import {
   noObj,
   renderIntoRoot,
 } from "../../lib/testing";
-import { OfferListItem } from "./OfferListItem";
 import { OfferImages } from "./OfferImages";
 import { OfferPrice } from "./OfferPrice";
-import { OfferList } from "./OfferList";
 import { MarketBoothContext } from "./MarketBoothContext";
 import { MarketBoothList } from "./MarketBoothList";
 import { MediaList } from "./MediaList";
@@ -33,7 +31,7 @@ describe("Render once", () => {
 
   test("MarketBoothList", () => {
     const { container } = renderIntoRoot(() => (
-      <MarketBoothList marketBooths={getNoObj} basePath="" />
+      <MarketBoothList marketBooths={getNoObj} />
     ));
     expect(container).toBeDefined();
   });
@@ -54,18 +52,8 @@ describe("Render once", () => {
     ));
     expect(container).toBeDefined();
   });
-  test("OfferListItem", () => {
-    const { container } = renderIntoRoot(() => (
-      <OfferListItem offer={getNoObj} />
-    ));
-    expect(container).toBeDefined();
-  });
   test("OfferPrice", () => {
     const { container } = renderIntoRoot(() => <OfferPrice offer={getNoObj} />);
-    expect(container).toBeDefined();
-  });
-  test("OfferList", () => {
-    const { container } = renderIntoRoot(() => <OfferList offers={getNoObj} />);
     expect(container).toBeDefined();
   });
 });

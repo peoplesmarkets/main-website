@@ -1,0 +1,78 @@
+$medium-min-width: 900px;
+
+.OfferDetail {
+  display: grid;
+  gap: 0.5rem;
+
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  @media only screen and (min-width: $medium-min-width) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.Images {
+  @media only screen and (min-width: $medium-min-width) {
+    grid-column: 1 / 2;
+  }
+}
+
+.Summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  @media only screen and (min-width: $medium-min-width) {
+    grid-column: 2 / 3;
+  }
+}
+
+.Information {
+  @media only screen and (min-width: $medium-min-width) {
+    grid-column: 1 / 3;
+  }
+}
+
+.OtherOffers {
+  @media only screen and (min-width: $medium-min-width) {
+    grid-column: 1 / 3;
+  }
+}
+
+.Title {
+  display: block;
+  margin: 1rem 0;
+  font: var(--font-title);
+}
+
+.Subtitle {
+  display: block;
+  margin-bottom: 1rem;
+  font: var(--font-title);
+  font-weight: 300;
+}
+
+.Bold {
+  font-weight: 500;
+}
+
+.Details {
+  font: var(--font-body-small);
+}
+
+.Body {
+  display: block;
+  font: var(--font-body);
+  font-style: italic;
+}
+
+.Price {
+  text-align: start;
+}
+
+.Annotation {
+  display: block;
+  font: var(--font-body);
+  text-align: start;
+  color: var(--active-content-color);
+}

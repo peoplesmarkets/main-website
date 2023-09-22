@@ -3,7 +3,6 @@ import _ from "lodash";
 import { Match, Switch, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { OfferList } from "../components/commerce";
 import {
   ContentError,
   ContentLoading,
@@ -13,6 +12,7 @@ import { Select } from "../components/form";
 import { SearchGlobalIcon, SearchIcon } from "../components/icons";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
 import { Page, Section } from "../components/layout";
+import { OfferList } from "../components/main";
 import { TKEYS } from "../locales";
 import { OfferService } from "../services";
 import {
@@ -209,7 +209,7 @@ export default function Offers() {
             <ContentLoading />
           </Match>
           <Match when={isResolved(offers.state)}>
-            <OfferList offers={() => offers()!} showMarketBooth />
+            <OfferList offers={() => offers()!} />
           </Match>
         </Switch>
       </Section>

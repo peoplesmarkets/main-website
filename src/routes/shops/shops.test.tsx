@@ -1,7 +1,12 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { cleanupDOM, createDOM, renderIntoRoot } from "../../lib/testing";
-import MarketBoothDetail from "./MarketBoothDetail";
+import {
+  cleanupDOM,
+  createDOM,
+  getNoObj,
+  renderIntoRoot,
+} from "../../lib/testing";
+import ShopDetail from "./ShopDetail";
 import OfferDetail from "./OfferDetail";
 
 /**
@@ -11,8 +16,8 @@ describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
-  test("MarketBoothDetail", () => {
-    const { container } = renderIntoRoot(() => <MarketBoothDetail />);
+  test("ShopDetail", () => {
+    const { container } = renderIntoRoot(() => <ShopDetail />);
     expect(container).toBeDefined();
   });
   test("OfferDetail", () => {

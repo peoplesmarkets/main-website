@@ -1,7 +1,7 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { Show, createSignal } from "solid-js";
+import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
@@ -21,7 +21,7 @@ import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
-  marketBooth: MarketBoothResponse;
+  marketBooth: () => MarketBoothResponse;
   class?: string;
   onClose: () => void;
   onUpdate?: () => void;
@@ -34,11 +34,8 @@ export function EditMarketBoothDialog(props: Props) {
 
   const marketBoothService = new MarketBoothService(accessToken);
 
-  /* eslint-disable-next-line solid/reactivity */
-  const initialMarketBooth = _.cloneDeep(props.marketBooth);
-
   const [marketBooth, setMarketBooth] = createStore<UpdateMarketBoothRequest>(
-    _.cloneDeep(initialMarketBooth)
+    UpdateMarketBoothRequest.create()
   );
 
   const [errors, setErrors] = createStore({
@@ -47,6 +44,15 @@ export function EditMarketBoothDialog(props: Props) {
   });
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
+
+  createEffect(() => {
+    if (
+      _.isNil(marketBooth.marketBoothId) ||
+      _.isEmpty(marketBooth.marketBoothId)
+    ) {
+      setMarketBooth(_.clone(props.marketBooth()));
+    }
+  });
 
   function resetErrors() {
     setErrors({ name: [], description: [] });
@@ -86,10 +92,7 @@ export function EditMarketBoothDialog(props: Props) {
   }
 
   function dataWasChanged() {
-    return (
-      marketBooth.name !== initialMarketBooth.name ||
-      marketBooth.description !== initialMarketBooth.description
-    );
+    return !_.isEqual(props.marketBooth(), marketBooth);
   }
 
   function closeDialog() {

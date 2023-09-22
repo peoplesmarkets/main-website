@@ -14,7 +14,7 @@ import MainRoutes from "./routes/MainRoutes";
 import CommunityRoutes from "./routes/community/CommunityRoutes";
 import DashboardRoutes from "./routes/dashboard/DashboardRoutes";
 import InfoRoutes from "./routes/info/InfoRoutes";
-import { StoreRoutes } from "./routes/store/StoreRoutes";
+import { ShopRoutes } from "./routes/shops/ShopRoutes";
 import { UserRoutes } from "./routes/user/UserRoutes";
 
 export default function App() {
@@ -38,7 +38,7 @@ export default function App() {
               <Routes>
                 <MainRoutes />
 
-                <StoreRoutes />
+                <ShopRoutes />
 
                 <DashboardRoutes />
 

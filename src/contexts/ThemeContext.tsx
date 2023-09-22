@@ -49,7 +49,7 @@ function initialize() {
       initialTheme = Theme.DefaultLight;
   }
 
-  if (!_.isNil(window?.matchMedia)) {
+  if (_.isNil(initialTheme) && !_.isNil(window?.matchMedia)) {
     if (window.matchMedia("(prefers-color-scheme: dark)").matches) {
       initialTheme = Theme.DefaultDark;
     }

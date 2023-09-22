@@ -1,4 +1,4 @@
-import { buildOfferPath } from "../../routes/store/StoreRoutes";
+import { buildOfferPath } from "../../routes/shops/ShopRoutes";
 import {
   GrpcWebImpl,
   StripeServiceClientImpl,

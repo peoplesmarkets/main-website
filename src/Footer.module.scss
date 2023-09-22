@@ -14,7 +14,6 @@
 }
 
 .Logo {
-  width: 100%;
   margin: 1rem 0 1rem 2rem;
 }
 
@@ -40,6 +39,7 @@
 }
 
 .MainLogoText {
+  max-width: 100%;
   height: 44px;
   fill: var(--primary-content-color);
   user-select: none;

@@ -2,7 +2,7 @@ import { A } from "@solidjs/router";
 import { JSX, Show } from "solid-js";
 import _ from "lodash";
 
-import { buildMarketBoothPath } from "../../routes/store/StoreRoutes";
+import { buildShopDetailPath } from "../../routes/shops/ShopRoutes";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import { Page } from "../layout";
 import styles from "./MarketBoothContext.module.scss";
@@ -38,7 +38,7 @@ export function MarketBoothContext(props: Props) {
           >
             <A
               class={styles.Link}
-              href={buildMarketBoothPath(props.marketBooth()!.marketBoothId)}
+              href={buildShopDetailPath(props.marketBooth()!.marketBoothId)}
             >
               {props.marketBooth()!.name}
             </A>

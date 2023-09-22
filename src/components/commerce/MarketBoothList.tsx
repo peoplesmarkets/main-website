@@ -1,7 +1,7 @@
 import { A } from "@solidjs/router";
 import _ from "lodash";
 import { For, Show } from "solid-js";
-import { buildMarketBoothPath } from "../../routes/store/StoreRoutes";
+import { buildShopDetailPath } from "../../routes/shops/ShopRoutes";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { Multiline } from "../content";
@@ -17,7 +17,7 @@ export function MarketBoothList(props: Props) {
       {(marketBooth) => (
         <A
           class={styles.Row}
-          href={buildMarketBoothPath(marketBooth.marketBoothId)}
+          href={buildShopDetailPath(marketBooth.marketBoothId)}
         >
           <Show when={!_.isEmpty(marketBooth.imageUrl)}>
             <img class={styles.Image} src={marketBooth.imageUrl} alt="" />

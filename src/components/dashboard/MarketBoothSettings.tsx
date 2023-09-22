@@ -305,7 +305,7 @@ export function MarketBoothSettings(props: Props) {
 
       <Show when={showEditMarketBooth() && !_.isNil(props.marketBooth())}>
         <EditMarketBoothDialog
-          marketBooth={props.marketBooth()!}
+          marketBooth={() => props.marketBooth()!}
           class={styles.EditMarketBooth}
           onClose={handleCloseEditMarketBooth}
           onUpdate={() => props.onUpdate?.()}
