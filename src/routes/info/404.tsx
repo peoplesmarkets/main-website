@@ -1,9 +1,9 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 
-import { INDEX_PATH } from "../../App";
 import { Page } from "../../components/layout/Page";
 import { TKEYS } from "../../locales/dev";
+import { buildIndexPath } from "../MainRoutes";
 
 export default function NotFound() {
   return (
@@ -27,7 +27,7 @@ export default function NotFound() {
             color: "var(--active-content-color)",
             "text-decoration": "underline",
           }}
-          href={INDEX_PATH}
+          href={buildIndexPath()}
         >
           <Trans key={TKEYS["page-not-found"]["back-to-home"]} />
         </A>

@@ -2,8 +2,8 @@ import { useNavigate } from "@solidjs/router";
 import { onMount } from "solid-js";
 
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { INDEX_PATH } from "../App";
 import { buildAuthorizationRequest } from "../lib";
+import { buildIndexPath } from "../routes/MainRoutes";
 
 export function signInDataRoute() {
   const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();
@@ -13,7 +13,7 @@ export function signInDataRoute() {
     await ensureFreshTokens();
 
     if (isAuthenticated()) {
-      navigate(INDEX_PATH);
+      navigate(buildIndexPath());
     } else {
       window.location.href = (await buildAuthorizationRequest()).toString();
     }

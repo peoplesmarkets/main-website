@@ -66,9 +66,11 @@
   --footer-height: 128px;
   --fill-height: calc(100vh - var(--top-app-bar-height));
 
+  $small-min-width: 330px;
   $medium-min-width: 600px;
   $expanded-min-width: 1080px;
   $medium-max-width: $expanded-min-width - 1px;
+  --small-min-width: 330px;
   --medium-min-width: 600px;
   --expanded-min-width: 1080px;
 
@@ -97,9 +99,9 @@
   --font-headline-medium: normal normal 400 28px /1.2857 "Noto Sans";
   --font-headline-large: normal normal 400 32px /1.25 "Noto Sans";
 
-  --font-title-small: normal normal 500 14px /1.4285 "Noto Sans";
-  --font-title-medium: normal normal 500 18px /1.5 "Noto Sans";
-  --font-title-large: normal normal 500 22px /1.2727 "Noto Sans";
+  --font-title-small: normal normal 400 14px /1.4285 "Noto Sans";
+  --font-title-medium: normal normal 400 18px /1.5 "Noto Sans";
+  --font-title-large: normal normal 400 22px /1.2727 "Noto Sans";
 
   --font-label-small: normal normal 500 12px /1.3333 "Roboto";
   --font-label-medium: normal normal 500 14px /1.4285 "Roboto";
@@ -160,14 +162,6 @@
   // Images
   --item-image-aspect-ratio: 4 / 3;
   --banner-image-aspect-ratio: 4 / 1;
-
-  @media only screen and (min-width: $medium-min-width) and (max-width: $medium-max-width) {
-    --banner-image-aspect-ratio: 5 / 1;
-  }
-
-  @media only screen and (min-width: $expanded-min-width) {
-    --banner-image-aspect-ratio: 6 / 1;
-  }
 }
 
 * {

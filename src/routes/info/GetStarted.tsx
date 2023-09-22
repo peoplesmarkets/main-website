@@ -6,7 +6,9 @@ import styles from "./GetStarted.module.scss";
 
 export default function GetStarted() {
   async function getStarted() {
-    window.location.href = (await buildAuthorizationRequest(true)).toString();
+    window.location.href = (
+      await buildAuthorizationRequest("create")
+    ).toString();
   }
 
   return (

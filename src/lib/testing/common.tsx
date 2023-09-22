@@ -5,6 +5,7 @@ import { Component, JSX } from "solid-js";
 import { expect } from "vitest";
 
 import { AccessTokenProvider } from "../../contexts/AccessTokensContext";
+import { ThemeProvider } from "../../contexts/ThemeContext";
 import { LOCALES } from "../../locales";
 
 export const SEPARATOR =
@@ -58,7 +59,9 @@ export function renderIntoRoot(
   const App = () => (
     <Router>
       <TransProvider options={{ load: "all", resources: LOCALES }}>
-        <AccessTokenProvider>{ui()}</AccessTokenProvider>
+        <ThemeProvider>
+          <AccessTokenProvider>{ui()}</AccessTokenProvider>
+        </ThemeProvider>
       </TransProvider>
     </Router>
   );

@@ -11,12 +11,14 @@ type Props = {
     | "danger-borderless"
     | "danger-filled"
     | "neutral"
-    | "neutral-borderless";
+    | "neutral-borderless"
+    | "neutral-filled";
   children: JSX.Element;
   onClick: (_event?: any) => void;
   submit?: boolean;
   disabled?: boolean;
   small?: boolean;
+  wide?: boolean;
 };
 
 export function ActionButton(props: Props) {
@@ -31,9 +33,11 @@ export function ActionButton(props: Props) {
         [styles.DangerBorderless]: props.actionType === "danger-borderless",
         [styles.DangerFilled]: props.actionType === "danger-filled",
         [styles.Neutral]: props.actionType === "neutral",
-        [styles.NetrealBorderless]: props.actionType === "neutral-borderless",
+        [styles.NeutralBorderless]: props.actionType === "neutral-borderless",
+        [styles.NeutralFilled]: props.actionType === "neutral-filled",
         [styles.Disabled]: Boolean(props.disabled),
         [styles.Small]: Boolean(props.small),
+        [styles.Wide]: Boolean(props.wide),
       }}
       disabled={Boolean(props.disabled)}
       type={props.submit ? "submit" : "button"}

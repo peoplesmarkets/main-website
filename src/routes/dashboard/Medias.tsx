@@ -3,7 +3,6 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { useNavigate, useParams } from "@solidjs/router";
 import { Show, createResource, createSignal } from "solid-js";
 
-import { DASHBOARD_PATH } from "../../App";
 import { MarketBoothContext } from "../../components/commerce";
 import { isResolved } from "../../components/content";
 import { CreateMediaDialog } from "../../components/dashboard/CreateMediaDialog";
@@ -13,6 +12,7 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales";
 import { MarketBoothService, MediaService } from "../../services";
 import styles from "./Medias.module.scss";
+import { buildDashboardPath } from "./DashboardRoutes";
 
 export default function Medias() {
   const navigate = useNavigate();
@@ -39,7 +39,7 @@ export default function Medias() {
       return response.marketBooth;
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
-        navigate(DASHBOARD_PATH, { replace: true });
+        navigate(buildDashboardPath(), { replace: true });
       } else {
         throw err;
       }

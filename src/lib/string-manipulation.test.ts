@@ -1,11 +1,13 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import { cleanupDOM, createDOM, expectNoError } from "./testing";
 import {
+  base64ToUtf8,
   encodeArrayBufferToBase64Url,
   getInitials,
   parseJwtPayload,
+  utf8ToBase64,
 } from "./string-manipulation";
+import { cleanupDOM, createDOM, expectNoError } from "./testing";
 
 describe("string-manipulation", () => {
   beforeEach(createDOM);
@@ -21,6 +23,32 @@ describe("string-manipulation", () => {
         expectNoError(err);
       }
       expect(res).toEqual("");
+    });
+  });
+
+  describe("base64ToUtf8", () => {
+    test("decode symbols : ok", () => {
+      const base64 = "YSDEgCDwkICAIOaWhyDwn6aE";
+      let res;
+      try {
+        res = base64ToUtf8(base64);
+      } catch (err) {
+        expectNoError(err);
+      }
+      expect(res).toEqual("a Ā 𐀀 文 🦄");
+    });
+  });
+
+  describe("utf8ToBase64", () => {
+    test("encode symbols : ok", () => {
+      const utf8 = "a Ā 𐀀 文 🦄";
+      let res;
+      try {
+        res = utf8ToBase64(utf8);
+      } catch (err) {
+        expectNoError(err);
+      }
+      expect(res).toEqual("YSDEgCDwkICAIOaWhyDwn6aE");
     });
   });
 
