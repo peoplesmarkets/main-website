@@ -41,6 +41,7 @@ export function CreateOfferDialog(props: Props) {
     name: "",
     description: "",
     type: OfferType.OFFER_TYPE_PHYSICAL,
+    isFeatured: false,
   });
 
   const [errors, setErrors] = createStore({

@@ -8,42 +8,34 @@ import styles from "./Select.module.scss";
 
 false && clickOutside;
 
+export type SelectKey = string | number | boolean;
+
 export type Option = {
-  key: string | number;
+  key: SelectKey;
   name: string;
-  [key: string]: string | number;
+  [key: string]: SelectKey;
 };
 
 type Props = {
   readonly label: string;
   readonly options: () => Option[];
-  readonly value: () => Option | string | number | undefined;
+  readonly value: () => Option | SelectKey | undefined;
   readonly class?: string;
   readonly expandHeight?: boolean;
   readonly emptyLabel?: string;
 } & (
   | {
       readonly nullable: true;
-      readonly onValue?: (_value: string | number | null) => void;
+      readonly onValue?: (_value: SelectKey | null) => void;
     }
   | {
       readonly nullable?: false;
-      readonly onValue?: (_value: string | number) => void;
+      readonly onValue?: (_value: SelectKey) => void;
     }
 );
 
 export function Select(props: Props) {
-  // const [selected, setSelected] = createSignal<Option | undefined>();
   const [showSuggestionList, setShowSuggestionList] = createSignal(false);
-
-  // createEffect(() => {
-  //   const value = props.value?.();
-  //   if (_.isString(value) || _.isNumber(value)) {
-  //     setSelected(_.find(props.options(), { key: value }));
-  //   } else {
-  //     setSelected(value);
-  //   }
-  // });
 
   function anySelected() {
     return !_.isNil(props.value());
@@ -56,7 +48,7 @@ export function Select(props: Props) {
   function isSelected(option: Option) {
     const value = props.value();
 
-    if (_.isString(value) || _.isNumber(value)) {
+    if (_.isString(value) || _.isNumber(value) || _.isBoolean(value)) {
       return value === option.key;
     }
     return value?.key === option.key;
@@ -73,7 +65,12 @@ export function Select(props: Props) {
 
     const value = props.value();
 
-    if (_.isNil(value) || _.isString(value) || _.isNumber(value)) {
+    if (
+      _.isNil(value) ||
+      _.isString(value) ||
+      _.isNumber(value) ||
+      _.isBoolean(value)
+    ) {
       return props.label;
     }
 

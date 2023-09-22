@@ -172,6 +172,22 @@ export default function Offer() {
               </span>
 
               <span class={styles.Details}>
+                <Trans key={TKEYS.offer.visibility.title} />:{" "}
+                <Show
+                  when={!offer()?.isActive}
+                  fallback={
+                    <span class={styles.Active}>
+                      <Trans key={TKEYS.offer.visibility.visible} />
+                    </span>
+                  }
+                >
+                  <span class={styles.Warning}>
+                    <Trans key={TKEYS.offer.visibility["not-visible"]} />
+                  </span>
+                </Show>
+              </span>
+
+              <span class={styles.Details}>
                 <Trans key={TKEYS.offer.labels["Created-at"]} />:{" "}
                 {secondsToLocaleString(offer()?.createdAt)}
               </span>

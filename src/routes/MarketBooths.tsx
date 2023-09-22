@@ -19,11 +19,14 @@ import {
 } from "../services/peoplesmarkets/commerce/v1/market_booth";
 import { Direction } from "../services/peoplesmarkets/ordering/v1/ordering";
 import styles from "./MarketBooths.module.scss";
+import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 
 export default function MarketBooths() {
   const [trans] = useTransContext();
 
-  const marketBoothService = new MarketBoothService();
+  const { accessToken } = useAccessTokensContext();
+
+  const marketBoothService = new MarketBoothService(accessToken);
 
   const searchField =
     MarketBoothsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME_AND_DESCRIPTION;
