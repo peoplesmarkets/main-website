@@ -10,6 +10,7 @@ type Props = {
   readonly required?: boolean;
   readonly value?: string;
   readonly onValue: (_value: string) => void;
+  readonly small?: boolean;
 };
 
 export function TextField(props: Props) {
@@ -19,7 +20,10 @@ export function TextField(props: Props) {
         type="text"
         id={props.label}
         class={styles.Input}
-        classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
+        classList={{
+          [styles.Small]: Boolean(props.small),
+          [styles.HasErrors]: !_.isEmpty(props.errors),
+        }}
         name={props.name}
         placeholder={props.label}
         required={!!props.required}

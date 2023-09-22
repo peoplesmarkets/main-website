@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { SLUG_CHARS_REGEX } from "../services";
 
 const chars =
   "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789-_";
@@ -121,4 +122,11 @@ export function centsToDecimal(cents: number, decimalPoint: string): string {
   }
 
   return maybeFloat.replace(".", decimalPoint);
+}
+
+export function slugify(value: string): string {
+  let res = _.deburr(value);
+  res = res.replaceAll(" ", "-");
+  res = res.replace(SLUG_CHARS_REGEX, "-");
+  return _.trim(res, " -");
 }

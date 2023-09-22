@@ -30,8 +30,8 @@ export function OfferBuy(props: Props) {
   const shopData = useRouteData<typeof ShopData>();
 
   function actionState() {
-    if (isResolved(shopData.stripeAccount.state)) {
-      if (!shopData.stripeAccount()?.enabled) {
+    if (isResolved(shopData.stripeAccount.data.state)) {
+      if (!shopData.stripeAccount.data()?.enabled) {
         return "no-payment-method";
       } else if (
         props.offer().price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
@@ -46,7 +46,7 @@ export function OfferBuy(props: Props) {
       } else {
         return "buy";
       }
-    } else if (shopData.stripeAccount.state === "errored") {
+    } else if (shopData.stripeAccount.data.state === "errored") {
       return "no-payment-method";
     }
 
@@ -55,7 +55,7 @@ export function OfferBuy(props: Props) {
 
   async function handleCheckout() {
     const response = await stripeService.createCheckoutSession(
-      props.offer().marketBoothId,
+      props.offer().shopSlug,
       props.offer().offerId
     );
     window.location.href = response.link;
@@ -65,7 +65,10 @@ export function OfferBuy(props: Props) {
     window.location.href = (
       await buildAuthorizationRequest(
         "login",
-        buildOfferPath(shopData.shop()!.marketBoothId, props.offer().offerId)
+        buildOfferPath(
+          shopData.shop.data()!.slug,
+          props.offer().offerId
+        )
       )
     ).toString();
   }

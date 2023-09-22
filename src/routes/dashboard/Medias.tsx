@@ -1,50 +1,32 @@
-import { grpc } from "@improbable-eng/grpc-web";
 import { Trans } from "@mbarzda/solid-i18next";
-import { useNavigate, useParams } from "@solidjs/router";
+import { useParams, useRouteData } from "@solidjs/router";
 import { Show, createResource, createSignal } from "solid-js";
 
-import { MarketBoothContext } from "../../components/commerce";
 import { isResolved } from "../../components/content";
 import { CreateMediaDialog } from "../../components/dashboard/CreateMediaDialog";
 import { ActionButton } from "../../components/form";
 import { MediaList } from "../../components/media";
+import { ShopBanner } from "../../components/shops";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales";
-import { MarketBoothService, MediaService } from "../../services";
+import { MediaService } from "../../services";
+import { ShopData } from "../shops/ShopData";
 import styles from "./Medias.module.scss";
-import { buildDashboardPath } from "./DashboardRoutes";
+import { Section } from "../../components/layout";
 
 export default function Medias() {
-  const navigate = useNavigate();
-
   const { accessToken } = useAccessTokensContext();
 
-  const marketBoothService = new MarketBoothService(accessToken);
+  const shopData = useRouteData<typeof ShopData>();
+
   const mediaService = new MediaService(accessToken);
 
-  const [marketBooth] = createResource(
-    () => useParams().marketBoothId,
-    fetchMarketBooth
-  );
   const [medias, mediasActions] = createResource(
-    () => useParams().marketBoothId,
+    () => shopData?.shop?.data()?.marketBoothId,
     fetchMedias
   );
 
   const [showCreateMedia, setShowCreateMedia] = createSignal(false);
-
-  async function fetchMarketBooth(marketBoothId: string) {
-    try {
-      const response = await marketBoothService.get(marketBoothId);
-      return response.marketBooth;
-    } catch (err: any) {
-      if (err.code && err.code === grpc.Code.NotFound) {
-        navigate(buildDashboardPath(), { replace: true });
-      } else {
-        throw err;
-      }
-    }
-  }
 
   async function fetchMedias(marketBoothId: string) {
     const response = await mediaService.list({ marketBoothId });
@@ -65,8 +47,10 @@ export default function Medias() {
 
   return (
     <>
-      <Show when={isResolved(marketBooth.state)}>
-        <MarketBoothContext marketBooth={() => marketBooth()!}>
+      <ShopBanner shop={() => shopData.shop.data()!} />
+
+      <Section>
+        <Show when={isResolved(shopData.shop.data.state)}>
           <span class={styles.Title}>
             <Trans key={TKEYS.media["Title-plural"]} />
           </span>
@@ -83,13 +67,12 @@ export default function Medias() {
               <Trans key={TKEYS.dashboard.media["create-new-file"]} />
             </ActionButton>
           </div>
-        </MarketBoothContext>
-      </Show>
+        </Show>
+      </Section>
 
       <Show when={showCreateMedia()}>
         <CreateMediaDialog
-          marketBoothId={marketBooth()?.marketBoothId!}
-          offerId=""
+          marketBoothId={shopData.shop.data()?.marketBoothId!}
           onClose={handleCancelEdit}
           onUpdate={handleRefreshMedias}
         />

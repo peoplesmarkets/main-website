@@ -2,30 +2,28 @@ import { Route } from "@solidjs/router";
 import MainRoutesWrapper from "../MainRoutesWrapper";
 import { lazy } from "solid-js";
 import { buildPath } from "../../lib";
+import { ShopData } from "../shops/ShopData";
 
 const ROOT_PATH = "/dashboard";
 const DASHBOARD_PATH = "/";
-const MARKET_BOOTH_PATH = "/:marketBoothId";
-const OFFER_PATH = MARKET_BOOTH_PATH + "/offer/:offerId";
-const MEDIAS_PATH = MARKET_BOOTH_PATH + "/medias";
+const SHOP_PATH = "/:shopSlug";
+const OFFER_PATH = SHOP_PATH + "/offer/:offerId";
+const MEDIAS_PATH = SHOP_PATH + "/medias";
 
 export function buildDashboardPath() {
   return buildPath(ROOT_PATH, DASHBOARD_PATH);
 }
 
-export function buildDashboardMarketBoothPath(marketBoothId: string) {
-  return buildPath(ROOT_PATH, marketBoothId);
+export function buildDashboardMarketBoothPath(slug: string) {
+  return buildPath(ROOT_PATH, slug);
 }
 
-export function buildDashboardOfferPath(
-  marketBoothId: string,
-  offerId: string
-) {
-  return buildPath(ROOT_PATH, marketBoothId, "offer", offerId);
+export function buildDashboardOfferPath(slug: string, offerId: string) {
+  return buildPath(ROOT_PATH, slug, "offer", offerId);
 }
 
-export function buildDashboardMediaPath(marketBoothId: string) {
-  return buildPath(ROOT_PATH, marketBoothId, "medias");
+export function buildDashboardMediaPath(slug: string) {
+  return buildPath(ROOT_PATH, slug, "medias");
 }
 
 export default function DashboardRoutes() {
@@ -37,13 +35,22 @@ export default function DashboardRoutes() {
       />
 
       <Route
-        path={MARKET_BOOTH_PATH}
+        path={SHOP_PATH}
+        data={ShopData}
         component={lazy(() => import("./MarketBooth"))}
       />
 
-      <Route path={OFFER_PATH} component={lazy(() => import("./Offer"))} />
+      <Route
+        path={OFFER_PATH}
+        data={ShopData}
+        component={lazy(() => import("./Offer"))}
+      />
 
-      <Route path={MEDIAS_PATH} component={lazy(() => import("./Medias"))} />
+      <Route
+        path={MEDIAS_PATH}
+        data={ShopData}
+        component={lazy(() => import("./Medias"))}
+      />
     </Route>
   );
 }

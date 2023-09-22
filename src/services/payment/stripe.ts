@@ -47,9 +47,9 @@ export class StripeService extends ServiceClient {
     );
   }
 
-  public async createCheckoutSession(marketBoothId: string, offerId: string) {
+  public async createCheckoutSession(shopSlug: string, offerId: string) {
     const offerUrl = `${import.meta.env.VITE_BASE_URL}${buildOfferPath(
-      marketBoothId,
+      shopSlug,
       offerId
     )}`;
 

@@ -5,15 +5,15 @@ import { buildPath } from "../../lib";
 import { ShopData } from "./ShopData";
 
 const ROOT_PATH = "/shops";
-const MARKET_BOOTH_PATH = "/:marketBoothId";
-const OFFER_PATH = MARKET_BOOTH_PATH + "/offer/:offerId";
+const SHOP_PATH = "/:shopSlug";
+const OFFER_PATH = SHOP_PATH + "/offer/:offerId";
 
-export function buildShopDetailPath(shopId: string): string {
-  return buildPath(ROOT_PATH, shopId);
+export function buildShopDetailPath(slug: string): string {
+  return buildPath(ROOT_PATH, slug);
 }
 
-export function buildOfferPath(shopId: string, offerId: string): string {
-  return buildPath(buildShopDetailPath(shopId), "offer", offerId);
+export function buildOfferPath(slug: string, offerId: string): string {
+  return buildPath(buildShopDetailPath(slug), "offer", offerId);
 }
 
 export function ShopRoutes() {
@@ -25,7 +25,7 @@ export function ShopRoutes() {
         component={lazy(() => import("./ShopRoutesWrapper"))}
       >
         <Route
-          path={MARKET_BOOTH_PATH}
+          path={SHOP_PATH}
           component={lazy(() => import("./ShopDetail"))}
         />
 

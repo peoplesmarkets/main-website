@@ -115,9 +115,9 @@ export function MarketBoothSettings(props: Props) {
   }
 
   function handleEditMedias() {
-    const marketBoothId = props.marketBooth()?.marketBoothId;
-    if (!_.isNil(marketBoothId)) {
-      navigate(buildDashboardMediaPath(marketBoothId));
+    const slug = props.marketBooth()?.slug;
+    if (!_.isNil(slug)) {
+      navigate(buildDashboardMediaPath(slug));
     }
   }
 

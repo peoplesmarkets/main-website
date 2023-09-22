@@ -10,12 +10,15 @@ import { MarketBoothService } from "../../services";
 import { CreateMarketBoothRequest } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import {
   ActionButton,
+  Anotation,
   DiscardConfirmation,
   TextArea,
   TextField,
 } from "../form";
 import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
+import { buildShopDetailPath } from "../../routes/shops/ShopRoutes";
+import { slugify } from "../../lib";
 
 type Props = {
   onClose: () => void;
@@ -31,23 +34,36 @@ export function CreateMarketBoothDialog(props: Props) {
 
   const [marketBooth, setMarketBooth] = createStore<CreateMarketBoothRequest>({
     name: "",
+    slug: "",
     description: "",
   });
 
   const [errors, setErrors] = createStore({
     name: [] as string[],
+    slug: [] as string[],
     description: [] as string[],
   });
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
-  function onNameInput(value: string) {
-    setErrors("name", []);
+  function resetErrors() {
+    setErrors({ name: [], slug: [], description: [] });
+  }
+
+  function handleNameInput(value: string) {
+    resetErrors();
+    if (slugify(marketBooth.name) === marketBooth.slug) {
+      setMarketBooth("slug", slugify(value));
+    }
     setMarketBooth("name", value);
   }
 
-  function onDescriptionInput(value: string) {
-    setErrors("description", []);
+  function handleSlugInput(value: string) {
+    resetErrors();
+    setMarketBooth("slug", value);
+  }
+  function handleDescriptionInput(value: string) {
+    resetErrors();
     setMarketBooth("description", value);
   }
 
@@ -66,7 +82,7 @@ export function CreateMarketBoothDialog(props: Props) {
       props.onClose();
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.AlreadyExists) {
-        setErrors("name", [trans(TKEYS.form.errors["already-exists"])]);
+        setErrors("slug", [trans(TKEYS.form.errors["already-exists"])]);
       } else {
         throw err;
       }
@@ -87,8 +103,7 @@ export function CreateMarketBoothDialog(props: Props) {
   }
 
   function continueEditing() {
-    setErrors("name", []);
-    setErrors("description", []);
+    resetErrors();
     setDiscardConfirmation(false);
   }
 
@@ -105,9 +120,9 @@ export function CreateMarketBoothDialog(props: Props) {
             <TextField
               name="name"
               label={trans(TKEYS["market-booth"].labels.name)}
-              required={true}
+              required
               value={marketBooth.name}
-              onValue={onNameInput}
+              onValue={handleNameInput}
               errors={errors.name}
             />
 
@@ -115,11 +130,25 @@ export function CreateMarketBoothDialog(props: Props) {
               name="description"
               label={trans(TKEYS["market-booth"].labels.description)}
               rows={8}
-              required={false}
+              required
               value={marketBooth.description}
-              onValue={onDescriptionInput}
+              onValue={handleDescriptionInput}
               errors={errors.description}
             />
+
+            <TextField
+              name="slug"
+              label={trans(TKEYS["market-booth"].labels.slug)}
+              required
+              small
+              value={marketBooth.slug}
+              onValue={handleSlugInput}
+              errors={errors.slug}
+            />
+            <Anotation>
+              {import.meta.env.VITE_BASE_URL}
+              {buildShopDetailPath(marketBooth.slug || "")}
+            </Anotation>
 
             <div class={styles.DialogFooter}>
               <ActionButton
