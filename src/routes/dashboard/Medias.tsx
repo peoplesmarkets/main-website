@@ -1,10 +1,11 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { useParams, useRouteData } from "@solidjs/router";
+import { useRouteData } from "@solidjs/router";
 import { Show, createResource, createSignal } from "solid-js";
 
 import { isResolved } from "../../components/content";
 import { CreateMediaDialog } from "../../components/dashboard/CreateMediaDialog";
 import { ActionButton } from "../../components/form";
+import { Section } from "../../components/layout";
 import { MediaList } from "../../components/media";
 import { ShopBanner } from "../../components/shops";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
@@ -12,7 +13,6 @@ import { TKEYS } from "../../locales";
 import { MediaService } from "../../services";
 import { ShopData } from "../shops/ShopData";
 import styles from "./Medias.module.scss";
-import { Section } from "../../components/layout";
 
 export default function Medias() {
   const { accessToken } = useAccessTokensContext();
