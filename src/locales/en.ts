@@ -134,6 +134,11 @@ export const EN: typeof TKEYS = {
       visible: "Publicly visible",
       "not-visible": "Not publicly visible",
     },
+    "is-featured": {
+      title: "Featured",
+      featured: "Featured",
+      "not-featured": "Not featured",
+    },
     labels: {
       Price: "Price",
       Name: "Name",
@@ -218,8 +223,8 @@ export const EN: typeof TKEYS = {
       community: "Community",
     },
     settings: {
-      "switch-to-light-mode": "Switch to light mode",
-      "switch-to-dark-mode": "Switch to dark mode",
+      "switch-to-light-mode": "Switch to light theme",
+      "switch-to-dark-mode": "Switch to dark theme",
       "change-language": "Language / Sprache",
     },
   },

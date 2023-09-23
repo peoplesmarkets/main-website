@@ -9,7 +9,7 @@ import {
 import { BurgerArrowIcon } from "./BurgerArrowIcon";
 import { BurgerIcon } from "./BurgerIcon";
 import { CloseIcon } from "./CloseIcon";
-import CommunityIcon from "./CommunityIcon";
+import { CommunityIcon } from "./CommunityIcon";
 import { DashboardIcon } from "./DashboardIcon";
 import { EditIcon } from "./EditIcon";
 import { GitHubIcon } from "./GitHubIcon";
@@ -66,7 +66,7 @@ describe("Render once", () => {
   });
   test("GitHubIcon", () => {
     const { container } = renderIntoRoot(() => (
-      <GitHubIcon class="" theme={getNoObj} />
+      <GitHubIcon class="" />
     ));
     expect(container).toBeDefined();
   });
@@ -107,7 +107,7 @@ describe("Render once", () => {
     expect(container).toBeDefined();
   });
   test("ThemeIcon", () => {
-    const { container } = renderIntoRoot(() => <ThemeIcon theme={getNoObj} />);
+    const { container } = renderIntoRoot(() => <ThemeIcon />);
     expect(container).toBeDefined();
   });
   test("TrashIcon", () => {

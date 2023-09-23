@@ -4,7 +4,7 @@ type Props = {
   class?: string;
 };
 
-export default function CommunityIcon(props: Props) {
+export function CommunityIcon(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

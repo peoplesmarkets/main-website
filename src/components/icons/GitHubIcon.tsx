@@ -1,13 +1,14 @@
-import { Theme } from "../../contexts/ThemeContext";
+import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 
 type Props = {
   class: string;
-  theme: () => Theme;
 };
 
 export function GitHubIcon(props: Props) {
+  const { theme } = useThemeContext();
+
   function fill() {
-    if (props.theme() === Theme.Dark || props.theme() === Theme.DefaultDark) {
+    if (theme() === Theme.DefaultDark) {
       return "#fff";
     } else {
       return "#24292f";

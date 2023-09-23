@@ -1,0 +1,22 @@
+.Anotation {
+  display: block;
+  font: var(--font-body);
+  text-align: start;
+  color: var(--primary-content-color);
+}
+
+.Start {
+  text-align: start;
+}
+
+.Center {
+  text-align: center;
+}
+
+.End {
+  text-align: end;
+}
+
+.Active {
+  color: var(--active-content-color);
+}

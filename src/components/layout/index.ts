@@ -1,4 +1,5 @@
 export * from "./Border";
+export * from "./Cover";
 export * from "./Dialog";
 export * from "./Page";
 export * from "./Section";

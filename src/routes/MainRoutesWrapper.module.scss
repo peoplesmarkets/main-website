@@ -5,6 +5,7 @@
   user-select: none;
   text-decoration: none;
   padding: 0.5rem 1rem;
+  box-sizing: border-box;
 }
 
 .MainLink:hover {
@@ -20,7 +21,8 @@
 }
 
 .MainLogo {
-  margin-left: 10px;
+  max-width: 100%;
   height: 42px;
+  margin-left: 10px;
   fill: var(--primary-content-color);
 }

@@ -142,10 +142,15 @@ export const TKEYS = {
     "sign-in-to-subscribe": "offer.sign-in-to-subscribe",
     "other-offers": "offer.other-offers",
     "downloadable-content": "offer.downloadable-content",
-    "visibility": {
+    visibility: {
       title: "offer.visibility.title",
-      "visible": "offer.visibility.visible",
+      visible: "offer.visibility.visible",
       "not-visible": "offer.visibility.not-visible",
+    },
+    "is-featured": {
+      title: "offer.is-featured.title",
+      featured: "offer.is-featured.featured",
+      "not-featured": "offer.is-featured.not-featured",
     },
     labels: {
       Price: "offer.labels.Price",
