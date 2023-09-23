@@ -3,9 +3,7 @@ import { A } from "@solidjs/router";
 
 import styles from "./Footer.module.scss";
 import { MainLogoText } from "./components/assets";
-import { GitHubIcon, MainLogoIcon } from "./components/icons";
-import { RocketLaunchIcon } from "./components/icons/RocketLaunchIcon";
-import { useThemeContext } from "./contexts/ThemeContext";
+import { GitHubIcon, MainLogoIcon, RocketLaunchIcon } from "./components/icons";
 import { TKEYS } from "./locales/dev";
 import { buildMarketBoothsPath } from "./routes/MainRoutes";
 import { buildCommunityPath } from "./routes/community/CommunityRoutes";
@@ -17,8 +15,6 @@ import {
 } from "./routes/info/InfoRoutes";
 
 export default function Footer() {
-  const { theme } = useThemeContext();
-
   return (
     <>
       <footer class={styles.FooterContainer}>
@@ -79,7 +75,7 @@ export default function Footer() {
             target="_blank"
             aria-label="Go to our GitHub page"
           >
-            <GitHubIcon class={styles.SocialIcon} theme={() => theme()} />
+            <GitHubIcon class={styles.SocialIcon} />
           </A>
         </div>
       </div>

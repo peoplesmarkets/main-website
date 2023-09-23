@@ -1,5 +1,8 @@
 $medium-min-width: 600px;
 
+$medium-max-height: 200px;
+$expanded-max-height: 400px;
+
 .OfferImages {
   display: flex;
   flex-direction: column;
@@ -19,8 +22,13 @@ $medium-min-width: 600px;
   justify-content: center;
   align-items: center;
   flex: 1;
-  min-height: 400px;
-  max-height: 400px;
+  min-height: $medium-max-height;
+  max-height: $medium-max-height;
+
+  @media only screen and (min-width: $medium-min-width) {
+    min-height: $expanded-max-height;
+    max-height: $expanded-max-height;
+  }
 }
 
 .ImageContainer {
@@ -29,10 +37,14 @@ $medium-min-width: 600px;
 
 .Image {
   width: 100%;
-  max-height: 400px;
   display: block;
   object-fit: contain;
   border-radius: 2px;
+  max-height: $medium-max-height;
+
+  @media only screen and (min-width: $medium-min-width) {
+    max-height: $expanded-max-height;
+  }
 }
 
 .ImageGallery {
@@ -40,13 +52,19 @@ $medium-min-width: 600px;
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  overflow: auto;
+  overflow-x: scroll;
   overscroll-behavior: contain;
 
+  scrollbar-width: thin;
+
+  max-height: $medium-max-height;
+
   @media only screen and (min-width: $medium-min-width) {
-    max-height: 400px;
+    max-height: $expanded-max-height;
     margin-top: 0;
     display: flex;
+    overflow-x: hidden;
+    overflow-y: scroll;
     flex-direction: column;
   }
 }

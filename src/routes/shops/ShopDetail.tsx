@@ -1,7 +1,6 @@
-import { Trans } from "@mbarzda/solid-i18next";
 import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Match, Show, Switch, createResource } from "solid-js";
+import { For, Match, Show, Switch, createResource } from "solid-js";
 
 import {
   ContentError,
@@ -10,15 +9,16 @@ import {
   isResolved,
 } from "../../components/content";
 import { Section } from "../../components/layout";
-import { OfferList } from "../../components/shops";
-import { ShopBanner } from "../../components/shops/ShopBanner";
-import { TKEYS } from "../../locales/dev";
+import { OfferDetailView, OfferList, ShopBanner } from "../../components/shops";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { OfferService } from "../../services";
-import { OffersOrderByField } from "../../services/peoplesmarkets/commerce/v1/offer";
+import {
+  OffersFilterField,
+  OffersOrderByField,
+} from "../../services/peoplesmarkets/commerce/v1/offer";
 import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
 import { ShopData } from "./ShopData";
 import styles from "./ShopDetail.module.scss";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 
 export default function ShopDetail() {
   const { accessToken } = useAccessTokensContext();
@@ -26,17 +26,32 @@ export default function ShopDetail() {
   const offerService = new OfferService(accessToken);
 
   const shopData = useRouteData<typeof ShopData>();
-  const [offers] = createResource(
-    () => shopData?.shop?.data?.()?.marketBoothId,
-    fetchOffers
-  );
 
-  async function fetchOffers(marketBoothId: string) {
+  function marketBoothId() {
+    return shopData?.shop?.data?.()?.marketBoothId;
+  }
+
+  const [featuredOffers] = createResource(marketBoothId, fetchFeaturedOffers);
+  const [offers] = createResource(marketBoothId, fetchNotFeaturedOffers);
+
+  async function fetchNotFeaturedOffers(marketBoothId: string) {
+    return fetchOffers(marketBoothId, "false");
+  }
+
+  async function fetchFeaturedOffers(marketBoothId: string) {
+    return fetchOffers(marketBoothId, "true");
+  }
+
+  async function fetchOffers(marketBoothId: string, isFeatured: string) {
     const response = await offerService.list({
       marketBoothId,
       orderBy: {
         field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_UPDATED_AT,
         direction: Direction.DIRECTION_DESC,
+      },
+      filter: {
+        field: OffersFilterField.OFFERS_FILTER_FIELD_IS_FEATURED,
+        query: isFeatured,
       },
     });
     return response.offers;
@@ -46,34 +61,37 @@ export default function ShopDetail() {
     <Show when={isResolved(shopData?.shop?.data?.state)}>
       <ShopBanner shop={() => shopData.shop.data()!} />
 
-      <Section>
-        <span class={styles.Description}>
-          <Multiline text={() => shopData.shop.data()?.description} />
-        </span>
-      </Section>
+      <Show when={!_.isEmpty(shopData?.shop?.data()?.description)}>
+        <Section>
+          <span class={styles.Description}>
+            <Multiline text={() => shopData.shop.data()?.description} />
+          </span>
+        </Section>
+      </Show>
 
-      <Section>
-        <Switch>
-          <Match when={offers.state === "errored"}>
-            <ContentError />
-          </Match>
-          <Match when={offers.state === "pending"}>
-            <ContentLoading />
-          </Match>
-          <Match when={isResolved(offers.state)}>
-            <Show
-              when={!_.isEmpty(offers())}
-              fallback={
-                <span class={styles.Body}>
-                  <Trans key={TKEYS.offer["no-offers-yet"]} />
-                </span>
-              }
-            >
+      <Show when={!_.isEmpty(featuredOffers())}>
+        <Section>
+          <For each={featuredOffers()}>
+            {(offer) => <OfferDetailView offer={() => offer} />}
+          </For>
+        </Section>
+      </Show>
+
+      <Switch>
+        <Match when={offers.state === "errored"}>
+          <ContentError />
+        </Match>
+        <Match when={offers.state === "pending"}>
+          <ContentLoading />
+        </Match>
+        <Match when={isResolved(offers.state)}>
+          <Show when={!_.isEmpty(offers())}>
+            <Section>
               <OfferList offers={() => offers()!} />
-            </Show>
-          </Match>
-        </Switch>
-      </Section>
+            </Section>
+          </Show>
+        </Match>
+      </Switch>
     </Show>
   );
 }

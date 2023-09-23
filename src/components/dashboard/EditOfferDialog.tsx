@@ -82,6 +82,17 @@ export function EditOfferDialog(props: Props) {
     });
   }
 
+  function featuredOptions() {
+    return [
+      { name: trans(TKEYS.offer["is-featured"].featured), key: true },
+      { name: trans(TKEYS.offer["is-featured"]["not-featured"]), key: false },
+    ];
+  }
+
+  function selectedFeatured() {
+    return _.find(featuredOptions(), { key: offer.isFeatured });
+  }
+
   function resetErrors() {
     setErrors({ name: [], description: [] });
   }
@@ -109,6 +120,12 @@ export function EditOfferDialog(props: Props) {
   function handleVisibilityChange(value: SelectKey) {
     if (_.isBoolean(value)) {
       setOffer("isActive", value);
+    }
+  }
+
+  function handleFeaturedChange(value: SelectKey) {
+    if (_.isBoolean(value)) {
+      setOffer("isFeatured", value);
     }
   }
 
@@ -188,10 +205,17 @@ export function EditOfferDialog(props: Props) {
             />
 
             <Select
-              label="Visibility"
+              label={trans(TKEYS.offer.visibility.title)}
               value={selectedVisibility}
               options={visibilityOptions}
               onValue={handleVisibilityChange}
+            />
+
+            <Select
+              label={trans(TKEYS.offer["is-featured"].title)}
+              value={selectedFeatured}
+              options={featuredOptions}
+              onValue={handleFeaturedChange}
             />
 
             <div class={styles.DialogFooter}>

@@ -1,4 +1,4 @@
-import { useNavigate, useRouteData } from "@solidjs/router";
+import { A, useNavigate, useRouteData } from "@solidjs/router";
 import { Show } from "solid-js";
 
 import {
@@ -11,6 +11,7 @@ import { Page } from "../../components/layout/Page";
 import { ShopData } from "../shops/ShopData";
 import { buildDashboardPath } from "./DashboardRoutes";
 import styles from "./MarketBooth.module.scss";
+import { buildShopDetailPath } from "../shops/ShopRoutes";
 
 export default function MarketBooth() {
   const navigate = useNavigate();
@@ -36,7 +37,12 @@ export default function MarketBooth() {
             />
 
             <Section flat>
-              <span class={styles.Title}>{shopData.shop.data()?.name}</span>
+              <A
+                class={styles.Title}
+                href={buildShopDetailPath(shopData.shop.data()!.slug)}
+              >
+                {shopData.shop.data()?.name}
+              </A>
             </Section>
 
             <OfferSettings marketBooth={() => shopData.shop.data()!} />

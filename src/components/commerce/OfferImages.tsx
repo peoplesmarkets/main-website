@@ -13,16 +13,11 @@ import { DeleteConfirmation } from "../form";
 import { useTransContext } from "@mbarzda/solid-i18next";
 import { TKEYS } from "../../locales";
 
-type Props =
-  | {
-      readonly offer: () => OfferResponse;
-      readonly withDelete?: false;
-    }
-  | {
-      readonly offer: () => OfferResponse;
-      readonly withDelete: true;
-      readonly onUpdate: () => void;
-    };
+type Props = {
+  readonly offer: () => OfferResponse;
+  readonly withDelete?: boolean;
+  readonly onUpdate?: () => void;
+};
 
 export function OfferImages(props: Props) {
   const [trans] = useTransContext();
@@ -74,7 +69,7 @@ export function OfferImages(props: Props) {
     if (props.withDelete) {
       await offerService.removeImage(selectedImage()!.offerImageId);
       setShowDeleteConfirmation(false);
-      props.onUpdate();
+      props.onUpdate?.();
     }
   }
 

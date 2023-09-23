@@ -175,10 +175,10 @@ html {
   font: var(--font-body);
   color: var(--primary-content-color);
 
-  ::-webkit-scrollbar {
-    display: none;
-  }
-  -ms-overflow-style: none;
+  // ::-webkit-scrollbar {
+  //   display: none;
+  // }
+  // -ms-overflow-style: none;
   scrollbar-width: none;
 }
 

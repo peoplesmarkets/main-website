@@ -6,6 +6,7 @@ import {
   getNoObj,
   renderIntoRoot,
 } from "../../lib/testing";
+import { Anotation } from "./Anotaion";
 import { ContentError } from "./ContentError";
 import { ContentLoading } from "./ContentLoading";
 import { Markdown } from "./Markdown";
@@ -18,6 +19,10 @@ describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
+  test("Anotation", () => {
+    const { container } = renderIntoRoot(() => <Anotation />);
+    expect(container).toBeDefined();
+  });
   test("ContentError", () => {
     const { container } = renderIntoRoot(() => <ContentError />);
     expect(container).toBeDefined();

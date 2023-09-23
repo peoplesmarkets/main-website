@@ -6,6 +6,7 @@ import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 import { PlaceholderImage } from "../../components/assets";
 import { OfferImages, OfferPrice } from "../../components/commerce";
 import {
+  Anotation,
   ContentError,
   ContentLoading,
   Multiline,
@@ -142,11 +143,11 @@ export default function Offer() {
               <Section>
                 <OfferPrice offer={() => offer()} />
 
-                <p class={styles.Annotation}>
-                  <Show when={offer()?.type == OfferType.OFFER_TYPE_DIGITAL}>
+                <Show when={offer()?.type == OfferType.OFFER_TYPE_DIGITAL}>
+                  <Anotation active end>
                     <Trans key={TKEYS.offer["downloadable-content"]} />
-                  </Show>
-                </p>
+                  </Anotation>
+                </Show>
               </Section>
             </Show>
 
