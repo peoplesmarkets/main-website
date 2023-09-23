@@ -1,36 +1,72 @@
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { A, Outlet } from "@solidjs/router";
+import _ from "lodash";
+import { Show, createSignal } from "solid-js";
 
-import { useTransContext } from "@mbarzda/solid-i18next";
-import { Show } from "solid-js";
 import { MainLogoText } from "../components/assets";
 import {
+  CommunityIcon,
   DashboardIcon,
+  LanguageIcon,
   MainLogoIcon,
   SearchGlobalIcon,
+  SignInIcon,
   StoreFrontIcon,
+  ThemeIcon,
   UserSettingsIcon,
 } from "../components/icons";
-import CommunityIcon from "../components/icons/CommunityIcon";
-import { Page } from "../components/layout";
-import { Slot } from "../components/layout/Slot";
-import { Panel } from "../components/navigation/Panel";
-import { PanelItem } from "../components/navigation/PanelItem";
+import { Cover, Page, Slot } from "../components/layout";
+import { Panel, PanelItem, PanelSettingsItem } from "../components/navigation";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { TKEYS } from "../locales";
+import { Theme, useThemeContext } from "../contexts/ThemeContext";
+import { clickOutside } from "../directives";
+import { buildAuthorizationRequest } from "../lib";
+import { TKEYS, getNextLanguageKey, setDocumentLanguage } from "../locales";
 import { buildMarketBoothsPath, buildOffersPath } from "./MainRoutes";
 import styles from "./MainRoutesWrapper.module.scss";
 import { buildCommunityPath } from "./community/CommunityRoutes";
 import { buildDashboardPath } from "./dashboard/DashboardRoutes";
 import { buildUserSettingsPath } from "./user/UserRoutes";
 
-export default function MainRoutesWrapper() {
-  const [trans] = useTransContext();
+false && clickOutside;
 
+export default function MainRoutesWrapper() {
+  const [trans, { changeLanguage, getI18next }] = useTransContext();
+  const { theme, setTheme } = useThemeContext();
   const { isAuthenticated } = useAccessTokensContext();
+
+  const [signingIn, setSigningIn] = createSignal(false);
+
+  async function handleSignIn() {
+    setSigningIn(true);
+    window.location.href = (await buildAuthorizationRequest()).toString();
+  }
+
+  function handleSwichtLanguage() {
+    const currentLanguage = getI18next()?.language;
+
+    if (!_.isNil(currentLanguage)) {
+      const lang = getNextLanguageKey(currentLanguage);
+      changeLanguage(lang);
+      setDocumentLanguage(lang);
+    }
+  }
+
+  function handleSwitchTheme() {
+    if (theme() === Theme.DefaultDark) {
+      setTheme(Theme.DefaultLight);
+    } else {
+      setTheme(Theme.DefaultDark);
+    }
+  }
 
   return (
     <>
-      <Panel>
+      <Show when={signingIn()}>
+        <Cover />
+      </Show>
+
+      <Panel close={signingIn}>
         <Slot name="logo">
           <A
             class={styles.MainLink}
@@ -76,6 +112,31 @@ export default function MainRoutesWrapper() {
             path={buildCommunityPath}
             label={() => trans(TKEYS["main-navigation"].links.community)}
           />
+        </Slot>
+
+        <Slot name="settings">
+          <Show when={!isAuthenticated()}>
+            <PanelSettingsItem Icon={SignInIcon} onClick={handleSignIn}>
+              <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
+            </PanelSettingsItem>
+          </Show>
+
+          <PanelSettingsItem Icon={LanguageIcon} onClick={handleSwichtLanguage}>
+            <Trans key={TKEYS["main-navigation"].settings["change-language"]} />
+          </PanelSettingsItem>
+
+          <PanelSettingsItem Icon={ThemeIcon} onClick={handleSwitchTheme}>
+            <Show when={theme() === Theme.DefaultDark}>
+              <Trans
+                key={TKEYS["main-navigation"].settings["switch-to-light-mode"]}
+              />
+            </Show>
+            <Show when={theme() !== Theme.DefaultDark}>
+              <Trans
+                key={TKEYS["main-navigation"].settings["switch-to-dark-mode"]}
+              />
+            </Show>
+          </PanelSettingsItem>
         </Slot>
       </Panel>
 

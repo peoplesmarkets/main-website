@@ -1,0 +1,50 @@
+$medium-min-width: 900px;
+
+.OfferDetailView {
+  display: grid;
+
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  @media only screen and (min-width: $medium-min-width) {
+    grid-template-columns: repeat(5, minmax(0, 1fr));
+  }
+}
+
+.Title {
+  display: block;
+  margin: 1rem 0;
+  font: var(--font-title);
+}
+
+.Subtitle {
+  display: block;
+  margin-bottom: 1rem;
+  font: var(--font-title);
+  font-weight: 300;
+}
+
+.Images {
+  @media only screen and (min-width: $medium-min-width) {
+    grid-column: 1 / 4;
+  }
+}
+
+.Summary {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-evenly;
+
+  @media only screen and (min-width: $medium-min-width) {
+    grid-column: 4 / 6;
+  }
+}
+
+.Information {
+  @media only screen and (min-width: $medium-min-width) {
+    grid-column: 1 / 6;
+  }
+}
+
+.Price {
+  text-align: start;
+}

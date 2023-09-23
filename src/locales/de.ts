@@ -133,6 +133,7 @@ export const DE: typeof TKEYS = {
       visible: "Öffentlich sichtbar",
       "not-visible": "Nicht öffentlich sichtbar",
     },
+    "is-featured": EN.offer["is-featured"],
     labels: {
       Price: "Preis",
       Name: "Name",

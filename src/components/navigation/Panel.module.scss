@@ -28,7 +28,6 @@ $panel-height: 64px;
   display: flex;
   justify-content: end;
   align-items: center;
-  margin-right: 0.5rem;
 }
 
 $slider-width: 320px;
@@ -39,6 +38,7 @@ $slider-width: 320px;
   top: 0;
   left: -$slider-width;
   width: $slider-width;
+  max-width: 100%;
   min-height: 100vh;
   min-height: -webkit-fill-available;
   display: flex;
@@ -100,44 +100,6 @@ $slider-width: 320px;
   fill: var(--primary-content-color);
 }
 
-$navigation-item-height: 48px;
-
-.NavigationItem {
-  width: $slider-width - 32px;
-  height: $navigation-item-height;
-  border-radius: calc($navigation-item-height / 2);
-  display: flex;
-  justify-content: start;
-  align-items: center;
-  user-select: none;
-  font: var(--font-label);
-  text-decoration: none;
-  color: var(--primary-content-color);
-  background: none;
-  border: none;
-  outline: inherit;
-  box-sizing: border-box;
-}
-
-.NavigationItem:hover {
-  background: var(--hovered-background);
-  cursor: pointer;
-}
-
-.NavigationItemActive {
-  background-color: var(--secondary-active-background-color);
-}
-
-.NavigationItemActive:hover {
-  @extend .NavigationItemActive;
-}
-
-.NavigationIcon {
-  width: calc($navigation-item-height / 2.2);
-  height: calc($navigation-item-height / 2.2);
-  fill: var(--primary-content-color);
-}
-
 .Settings {
   width: 100%;
   display: flex;
@@ -146,14 +108,19 @@ $navigation-item-height: 48px;
   margin-bottom: 1rem;
 }
 
-.Settings .NavigationItem {
-  padding: 0 2.4rem;
-  justify-content: space-between;
-}
-
 .EnvironmentBanner {
+  position: relative;
   color: var(--danger-content-color);
+  background-color: var(--secondary-background-color);
+  padding: 1rem 0;
   text-align: center;
+  svg {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+  }
   p {
     font: var(--font-headline);
   }
