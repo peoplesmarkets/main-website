@@ -1,4 +1,3 @@
-import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
@@ -35,14 +34,13 @@ export function EditMarketBoothDialog(props: Props) {
   const marketBoothService = new MarketBoothService(accessToken);
 
   const emptyUpdateRequest = UpdateMarketBoothRequest.create();
-
+  const updateFields = ["marketBoothId", "name", "description"];
   const [marketBooth, setMarketBooth] =
     createStore<UpdateMarketBoothRequest>(emptyUpdateRequest);
 
   const [errors, setErrors] = createStore({
     name: [] as string[],
     description: [] as string[],
-    slug: [] as string[],
   });
 
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
@@ -52,12 +50,12 @@ export function EditMarketBoothDialog(props: Props) {
       _.isNil(marketBooth.marketBoothId) ||
       _.isEmpty(marketBooth.marketBoothId)
     ) {
-      setMarketBooth(_.clone(props.marketBooth()));
+      setMarketBooth(_.clone(_.pick(props.marketBooth(), updateFields)));
     }
   });
 
   function resetErrors() {
-    setErrors({ name: [], description: [], slug: [] });
+    setErrors({ name: [], description: [] });
   }
 
   function handleNameInput(value: string) {
@@ -80,24 +78,16 @@ export function EditMarketBoothDialog(props: Props) {
       return;
     }
 
-    try {
-      await marketBoothService.update(marketBooth);
+    await marketBoothService.update(marketBooth);
 
-      props.onUpdate?.();
-      props.onClose();
-    } catch (err: any) {
-      if (err.code && err.code === grpc.Code.AlreadyExists) {
-        setErrors("slug", [trans(TKEYS.form.errors["already-exists"])]);
-      } else {
-        throw err;
-      }
-    }
+    props.onUpdate?.();
+    props.onClose();
   }
 
   function dataWasChanged() {
     return !_.isEqual(
-      _.pick(props.marketBooth(), _.keys(emptyUpdateRequest)),
-      _.pick(marketBooth, _.keys(emptyUpdateRequest))
+      _.pick(props.marketBooth(), updateFields),
+      _.pick(marketBooth, updateFields)
     );
   }
 

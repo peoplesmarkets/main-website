@@ -48,7 +48,9 @@ export function ShopData({ params }: RouteDataFuncArgs) {
       const response = await shopCustomizationService.get(shopId);
 
       return response.shopCustomization;
-    } catch (_) {}
+    } catch (_) {
+      return;
+    }
   }
 
   async function fetchStripeAccount(marketBoothId: string) {
