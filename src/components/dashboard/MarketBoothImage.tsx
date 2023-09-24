@@ -6,13 +6,16 @@ import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { EditIcon } from "../icons";
 import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 import styles from "./MarketBoothImage.module.scss";
+import { useRouteData } from "@solidjs/router";
+import { ShopData } from "../../routes/shops/ShopData";
 
 type Props = {
-  shopCustomization: () => ShopCustomizationResponse | undefined;
   onUpdate: () => void;
 };
 
 export function MarketBoothImage(props: Props) {
+  const shopData = useRouteData<typeof ShopData>();
+
   const [showEditDialog, setShowEditDialog] = createSignal(false);
 
   function openEditDialog() {
@@ -26,14 +29,18 @@ export function MarketBoothImage(props: Props) {
   return (
     <>
       <div class={styles.ImageContainer}>
-        <Show when={!_.isEmpty(props.shopCustomization()?.bannerImageUrl)}>
+        <Show
+          when={!_.isEmpty(shopData.shopCustomization.data()?.bannerImageUrl)}
+        >
           <img
             class={styles.Image}
-            src={props.shopCustomization()?.bannerImageUrl}
+            src={shopData.shopCustomization.data()?.bannerImageUrl}
             alt=""
           />
         </Show>
-        <Show when={_.isEmpty(props.shopCustomization()?.bannerImageUrl)}>
+        <Show
+          when={_.isEmpty(shopData.shopCustomization.data()?.bannerImageUrl)}
+        >
           <PlaceholderImage wide />
         </Show>
         <button class={styles.EditButton} onClick={openEditDialog}>
@@ -41,9 +48,9 @@ export function MarketBoothImage(props: Props) {
         </button>
       </div>
 
-      <Show when={showEditDialog() && !_.isNil(props.shopCustomization())}>
+      <Show when={showEditDialog() && !_.isNil(shopData.shop.data())}>
         <EditMarketBoothImageDialog
-          marketBoothId={props.shopCustomization()!.shopId}
+          marketBoothId={shopData.shop.data()!.marketBoothId}
           onUpdate={props.onUpdate}
           onClose={handleCloseEditDialog}
         />
