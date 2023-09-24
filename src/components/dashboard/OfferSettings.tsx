@@ -14,15 +14,14 @@ import {
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
 import { buildDashboardOfferPath } from "../../routes/dashboard/DashboardRoutes";
+import { ShopData } from "../../routes/shops/ShopData";
 import { OfferService } from "../../services";
-import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { ContentError, ContentLoading, isResolved } from "../content";
 import { ActionButton } from "../form";
 import { Section } from "../layout/Section";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import styles from "./OfferSettings.module.scss";
-import { ShopData } from "../../routes/shops/ShopData";
 
 export function OfferSettings() {
   const shopData = useRouteData<typeof ShopData>();

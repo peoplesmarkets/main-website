@@ -33,8 +33,9 @@ export function EditShopSlugDialog(props: Props) {
   const shopData = useRouteData<typeof ShopData>();
   const { accessToken } = useAccessTokensContext();
   const marketBoothService = new MarketBoothService(accessToken);
-  const emptyUpdateRequest = UpdateMarketBoothRequest.create();
 
+  const emptyUpdateRequest = UpdateMarketBoothRequest.create();
+  const updateFields = ["marketBoothId", "slug"];
   const [marketBooth, setMarketBooth] =
     createStore<UpdateMarketBoothRequest>(emptyUpdateRequest);
 
@@ -48,7 +49,7 @@ export function EditShopSlugDialog(props: Props) {
       _.isNil(marketBooth.marketBoothId) ||
       _.isEmpty(marketBooth.marketBoothId)
     ) {
-      setMarketBooth(_.clone(shopData.shop.data()!));
+      setMarketBooth(_.clone(_.pick(shopData.shop.data(), updateFields)));
     }
   });
 
@@ -94,8 +95,8 @@ export function EditShopSlugDialog(props: Props) {
 
   function dataWasChanged() {
     return !_.isEqual(
-      _.pick(shopData.shop.data(), _.keys(emptyUpdateRequest)),
-      _.pick(marketBooth, _.keys(emptyUpdateRequest))
+      _.pick(shopData.shop.data(), updateFields),
+      _.pick(marketBooth, updateFields)
     );
   }
 

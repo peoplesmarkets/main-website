@@ -76,7 +76,7 @@ describe("Render once", () => {
   });
   test("MarketBoothImage", () => {
     const { container } = renderIntoRoot(() => (
-      <MarketBoothImage shopCustomization={getNoObj} onUpdate={noOp} />
+      <MarketBoothImage onUpdate={noOp} />
     ));
     expect(container).toBeDefined();
   });
@@ -93,9 +93,7 @@ describe("Render once", () => {
     expect(container).toBeDefined();
   });
   test("OfferSettings", () => {
-    const { container } = renderIntoRoot(() => (
-      <OfferSettings marketBooth={getNoObj} />
-    ));
+    const { container } = renderIntoRoot(() => <OfferSettings />);
     expect(container).toBeDefined();
   });
 });
