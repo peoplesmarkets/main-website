@@ -25,11 +25,9 @@ import { secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import { OfferType } from "../../services/peoplesmarkets/commerce/v1/offer";
-import {
-  buildDashboardMarketBoothPath,
-  buildDashboardPath,
-} from "./DashboardRoutes";
+import { buildDashboardPath } from "./DashboardRoutes";
 import styles from "./Offer.module.scss";
+import { buildShopSettingsPath } from "../shops/ShopRoutes";
 
 export default function Offer() {
   const navigate = useNavigate();
@@ -103,7 +101,7 @@ export default function Offer() {
     setShowDeleteConfirmation(false);
     const shopSlug = offer()?.shopSlug;
     if (!_.isNil(shopSlug)) {
-      navigate(buildDashboardMarketBoothPath(shopSlug), { replace: true });
+      navigate(buildShopSettingsPath(shopSlug), { replace: true });
     } else {
       navigate(buildDashboardPath(), { replace: true });
     }

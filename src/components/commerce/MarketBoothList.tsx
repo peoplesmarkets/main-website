@@ -4,29 +4,29 @@ import { For, Show } from "solid-js";
 
 import { buildShopDetailPath } from "../../routes/shops/ShopRoutes";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
-import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { Multiline } from "../content";
 import styles from "./MarketBoothList.module.scss";
 
 type Props = {
-  readonly marketBooths: () => MarketBoothResponse[];
+  readonly shops: () => MarketBoothResponse[];
 };
 
 export function MarketBoothList(props: Props) {
   return (
-    <For each={props.marketBooths()}>
-      {(marketBooth) => (
-        <A class={styles.Row} href={buildShopDetailPath(marketBooth.slug)}>
-          <Show when={!_.isEmpty(marketBooth.imageUrl)}>
-            <img class={styles.Image} src={marketBooth.imageUrl} alt="" />
-          </Show>
-          <Show when={_.isEmpty(marketBooth.imageUrl)}>
-            <PlaceholderImage wide />
+    <For each={props.shops()}>
+      {(shop) => (
+        <A class={styles.Row} href={buildShopDetailPath(shop.slug)}>
+          <Show when={!_.isEmpty(shop?.customization?.bannerImageUrl)}>
+            <img
+              class={styles.Image}
+              src={shop.customization!.bannerImageUrl}
+              alt=""
+            />
           </Show>
           <div>
-            <span class={styles.Label}>{marketBooth.name}</span>
+            <span class={styles.Label}>{shop.name}</span>
             <span class={styles.Detail}>
-              <Multiline text={() => marketBooth.description} maxRows={6} />
+              <Multiline text={() => shop.description} maxRows={6} />
             </span>
           </div>
         </A>

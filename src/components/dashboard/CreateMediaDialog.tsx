@@ -228,7 +228,6 @@ export function CreateMediaDialog(props: Props) {
               }
             >
               <TextField
-                name={trans(TKEYS.media.labels.name)}
                 label={trans(TKEYS.media.labels.name)}
                 value={form.name}
                 onValue={handleNameInput}
@@ -236,7 +235,6 @@ export function CreateMediaDialog(props: Props) {
               />
 
               <FileField
-                name={trans(TKEYS.media.labels.file)}
                 label={trans(TKEYS.media.labels.file)}
                 required
                 errors={errors.file}

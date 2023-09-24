@@ -9,7 +9,7 @@ export class StripeService extends ServiceClient {
   private readonly rpc: GrpcWebImpl;
   private readonly client: StripeServiceClientImpl;
 
-  constructor(accessToken?: AccessTokenGetter) {
+  constructor(accessToken: AccessTokenGetter) {
     super(accessToken);
 
     this.rpc = new GrpcWebImpl(import.meta.env.VITE_SERIVCE_APIS_URL, {});

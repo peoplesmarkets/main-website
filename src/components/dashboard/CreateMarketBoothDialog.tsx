@@ -118,7 +118,6 @@ export function CreateMarketBoothDialog(props: Props) {
         >
           <form class={styles.Form} onSubmit={(e) => createMarketBooth(e)}>
             <TextField
-              name="name"
               label={trans(TKEYS["market-booth"].labels.name)}
               required
               value={marketBooth.name}
@@ -127,7 +126,6 @@ export function CreateMarketBoothDialog(props: Props) {
             />
 
             <TextArea
-              name="description"
               label={trans(TKEYS["market-booth"].labels.description)}
               rows={8}
               required
@@ -137,7 +135,6 @@ export function CreateMarketBoothDialog(props: Props) {
             />
 
             <TextField
-              name="slug"
               label={trans(TKEYS["market-booth"].labels.slug)}
               required
               small

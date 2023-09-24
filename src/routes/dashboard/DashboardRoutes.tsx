@@ -14,10 +14,6 @@ export function buildDashboardPath() {
   return buildPath(ROOT_PATH, DASHBOARD_PATH);
 }
 
-export function buildDashboardMarketBoothPath(slug: string) {
-  return buildPath(ROOT_PATH, slug);
-}
-
 export function buildDashboardOfferPath(slug: string, offerId: string) {
   return buildPath(ROOT_PATH, slug, "offer", offerId);
 }
@@ -32,12 +28,6 @@ export default function DashboardRoutes() {
       <Route
         path={DASHBOARD_PATH}
         component={lazy(() => import("./Dashboard"))}
-      />
-
-      <Route
-        path={SHOP_PATH}
-        data={ShopData}
-        component={lazy(() => import("./MarketBooth"))}
       />
 
       <Route

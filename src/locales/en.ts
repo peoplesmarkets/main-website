@@ -52,6 +52,7 @@ export const EN: typeof TKEYS = {
       "already-exists": "Already exists",
       "item-too-large": "{item} is too large",
       "wrong-type": "Wrong file type",
+      "invalid-css-color": "Invalid CSS color",
     },
   },
   query: {
@@ -103,8 +104,9 @@ export const EN: typeof TKEYS = {
     title: "Market Booth",
     "title-plural": "Market Booths",
     "no-description": "No description ...",
-    "edit-image": "Edit image",
-    "delete-image": "Delete image",
+    settings: {
+      title: "Settings",
+    },
     errors: {
       "ensure-offers-deleted": "Ensure all Offers are deleted first.",
     },
@@ -118,6 +120,18 @@ export const EN: typeof TKEYS = {
       description: "description",
       "Created-at": "Created at",
       "Updated-at": "Updated at",
+    },
+  },
+  "shop-customization": {
+    labels: {
+      headerBackgroundColorLight: "Header background color (light theme)",
+      headerBackgroundColorDark: "Header background color (dark theme)",
+      headerContentColorLight: "Header content color (light theme)",
+      headerContentColorDark: "Header content color (dark theme)",
+      secondaryBackgroundColorLight: "Secondary background color (light theme)",
+      secondaryBackgroundColorDark: "Secondary background color (dark theme)",
+      secondaryContentColorLight: "Secondary content color (light theme)",
+      secondaryContentColorDark: "Secondary content color (dark theme)",
     },
   },
   offer: {
@@ -184,9 +198,15 @@ export const EN: typeof TKEYS = {
       "my-market-booths": "My Market Booths",
       "no-market-booth-yet": "No Market Booth yet",
       "create-new-market-booth": "Create a new Market Booth",
-      "edit-market-booth-details": "Edit Market Booth Details",
+      "edit-name-and-description": "Edit Name and Description",
+      "edit-image": "Edit Image",
+      "delete-image": "Delete Image",
+      "edit-logo": "Edit Logo",
+      "delete-logo": "Delete Logo",
+      "edit-theme": "Edit Theme",
+      "edit-path-and-domain": "Edit Path and Domain",
       "delete-this-market-booth": "Delete this Market Booth",
-      "add-or-update-image": "Add or update image",
+      "resulting-url": "Resulting URL",
       stripe: {
         title: "Stripe",
         integration: "Stripe Integraion",

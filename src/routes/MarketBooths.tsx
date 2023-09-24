@@ -5,7 +5,7 @@ import { createStore } from "solid-js/store";
 
 import { MarketBoothList } from "../components/commerce/MarketBoothList";
 import { ContentError, ContentLoading } from "../components/content";
-import { Select } from "../components/form";
+import { Select, SelectKey } from "../components/form";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
 import { SearchIcon } from "../components/icons/SearchIcon";
 import { StoreFrontIcon } from "../components/icons/StorefrontIcon";
@@ -13,7 +13,7 @@ import { Page, Section } from "../components/layout";
 import { TKEYS } from "../locales/dev";
 import { MarketBoothService } from "../services";
 import {
-  ListMarketBoothsRequest,
+  ListShopsRequest,
   MarketBoothsFilterField,
   MarketBoothsOrderByField,
 } from "../services/peoplesmarkets/commerce/v1/market_booth";
@@ -44,20 +44,21 @@ export default function MarketBooths() {
     ];
   }
 
-  const [listRequest, setListRequest] = createStore<ListMarketBoothsRequest>({
+  const [listRequest, setListRequest] = createStore<ListShopsRequest>({
     orderBy: {
       field: MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
       direction: Direction.DIRECTION_DESC,
     },
+    extended: true,
   });
 
-  const [marketBooths, { refetch }] = createResource(
+  const [shops, { refetch }] = createResource(
     () => listRequest,
     fetchMarketBooths
   );
 
-  async function fetchMarketBooths(request: ListMarketBoothsRequest) {
-    const response = await marketBoothService.list(request);
+  async function fetchMarketBooths(request: ListShopsRequest) {
+    const response = await marketBoothService.list(request);    
     return response.marketBooths;
   }
 
@@ -93,7 +94,7 @@ export default function MarketBooths() {
 
   function handleOrderByInput(
     field: MarketBoothsOrderByField,
-    direction: string | number | null
+    direction: SelectKey
   ) {
     if (!_.isNumber(direction)) {
       return;
@@ -151,14 +152,14 @@ export default function MarketBooths() {
 
       <Section>
         <Switch>
-          <Match when={marketBooths.state === "errored"}>
+          <Match when={shops.state === "errored"}>
             <ContentError />
           </Match>
-          <Match when={marketBooths.state === "pending"}>
+          <Match when={shops.state === "pending"}>
             <ContentLoading />
           </Match>
-          <Match when={marketBooths.state === "ready"}>
-            <MarketBoothList marketBooths={() => marketBooths()!} />
+          <Match when={shops.state === "ready"}>
+            <MarketBoothList shops={() => shops()!} />
           </Match>
         </Switch>
       </Section>
