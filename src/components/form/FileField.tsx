@@ -1,9 +1,9 @@
 import _ from "lodash";
 import styles from "./FileField.module.scss";
 import { Show } from "solid-js";
+import { slugify } from "../../lib";
 
 type Props = {
-  readonly name: string;
   readonly label: string;
   readonly errors: string[];
   readonly required?: boolean;
@@ -14,16 +14,16 @@ export function FileField(props: Props) {
   return (
     <div class={styles.FileField}>
       <input
-        id={props.label}
+        id={slugify(props.label)}
         type="file"
         class={styles.Input}
         classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
-        name={props.name}
+        name={slugify(props.label)}
         placeholder={props.label}
         required={Boolean(props.required)}
         onInput={(event) => props.onValue(event.currentTarget.files)}
       />
-      <label class={styles.Label} for={props.label}>
+      <label class={styles.Label} for={slugify(props.label)}>
         {props.label}
       </label>
       <Show when={!_.isEmpty(props.errors)}>

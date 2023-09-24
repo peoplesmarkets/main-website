@@ -2,9 +2,9 @@ import _ from "lodash";
 
 import styles from "./TextArea.module.scss";
 import { Show } from "solid-js";
+import { slugify } from "../../lib";
 
 type Props = {
-  readonly name: string;
   readonly label: string;
   readonly rows: number;
   readonly errors: string[];
@@ -22,7 +22,8 @@ export function TextArea(props: Props) {
         }}
         class={styles.Input}
         classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
-        name={props.name}
+        id={slugify(props.label)}
+        name={slugify(props.label)}
         placeholder={props.label}
         required={!!props.required}
         value={props.value}
@@ -33,6 +34,7 @@ export function TextArea(props: Props) {
       <label
         class={styles.Label}
         classList={{ [styles.LabelEdited]: !_.isEmpty(props.value) }}
+        for={slugify(props.label)}
       >
         {props.label}
       </label>

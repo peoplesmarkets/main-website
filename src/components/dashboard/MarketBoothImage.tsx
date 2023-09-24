@@ -1,14 +1,14 @@
 import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 
-import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { ShopCustomizationResponse } from "../../services/peoplesmarkets/commerce/v1/shop_customization";
+import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { EditIcon } from "../icons";
 import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 import styles from "./MarketBoothImage.module.scss";
-import { PlaceholderImage } from "../assets/PlaceholderImage";
 
 type Props = {
-  marketBooth: () => MarketBoothResponse | undefined;
+  shopCustomization: () => ShopCustomizationResponse | undefined;
   onUpdate: () => void;
 };
 
@@ -26,14 +26,14 @@ export function MarketBoothImage(props: Props) {
   return (
     <>
       <div class={styles.ImageContainer}>
-        <Show when={props.marketBooth()?.imageUrl}>
+        <Show when={!_.isEmpty(props.shopCustomization()?.bannerImageUrl)}>
           <img
             class={styles.Image}
-            src={props.marketBooth()?.imageUrl}
+            src={props.shopCustomization()?.bannerImageUrl}
             alt=""
           />
         </Show>
-        <Show when={_.isEmpty(props.marketBooth()?.imageUrl)}>
+        <Show when={_.isEmpty(props.shopCustomization()?.bannerImageUrl)}>
           <PlaceholderImage wide />
         </Show>
         <button class={styles.EditButton} onClick={openEditDialog}>
@@ -41,9 +41,9 @@ export function MarketBoothImage(props: Props) {
         </button>
       </div>
 
-      <Show when={showEditDialog() && !_.isNil(props.marketBooth())}>
+      <Show when={showEditDialog() && !_.isNil(props.shopCustomization())}>
         <EditMarketBoothImageDialog
-          marketBoothId={props.marketBooth()!.marketBoothId}
+          marketBoothId={props.shopCustomization()!.shopId}
           onUpdate={props.onUpdate}
           onClose={handleCloseEditDialog}
         />

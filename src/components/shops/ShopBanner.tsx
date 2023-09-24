@@ -1,17 +1,22 @@
-import { Show } from "solid-js";
-import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
-import styles from "./ShopBanner.module.scss";
 import _ from "lodash";
+import { Show } from "solid-js";
+
+import { ShopCustomizationResponse } from "../../services/peoplesmarkets/commerce/v1/shop_customization";
+import styles from "./ShopBanner.module.scss";
 
 type Props = {
-  shop: () => MarketBoothResponse;
+  shopCustomization: () => ShopCustomizationResponse;
 };
 
 export function ShopBanner(props: Props) {
   return (
-    <Show when={!_.isEmpty(props.shop()?.imageUrl)}>
+    <Show when={!_.isEmpty(props.shopCustomization()?.bannerImageUrl)}>
       <div class={styles.ShopBanner}>
-        <img class={styles.Image} src={props.shop()!.imageUrl} alt="" />
+        <img
+          class={styles.Image}
+          src={props.shopCustomization()!.bannerImageUrl}
+          alt=""
+        />
       </div>
     </Show>
   );

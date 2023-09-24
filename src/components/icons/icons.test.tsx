@@ -1,31 +1,27 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
-import {
-  cleanupDOM,
-  createDOM,
-  getNoObj,
-  renderIntoRoot,
-} from "../../lib/testing";
+import { cleanupDOM, createDOM, renderIntoRoot } from "../../lib/testing";
 import { BurgerArrowIcon } from "./BurgerArrowIcon";
 import { BurgerIcon } from "./BurgerIcon";
+import Chevron from "./Chevron";
 import { CloseIcon } from "./CloseIcon";
 import { CommunityIcon } from "./CommunityIcon";
 import { DashboardIcon } from "./DashboardIcon";
 import { EditIcon } from "./EditIcon";
 import { GitHubIcon } from "./GitHubIcon";
+import { ImageIcon } from "./ImageIcon";
 import { LanguageIcon } from "./LanguageIcon";
 import { MainLogoIcon } from "./MainLogoIcon";
 import { OpenInNewIcon } from "./OpenInNewIcon";
 import { RocketLaunchIcon } from "./RocketLaunchIcon";
 import { SearchGlobalIcon } from "./SearchGlobalIcon";
 import { SearchIcon } from "./SearchIcon";
+import { SettingsIcon } from "./SettingsIcon";
 import { SignInIcon } from "./SignInIcon";
 import { StoreFrontIcon } from "./StorefrontIcon";
 import { ThemeIcon } from "./ThemeIcon";
 import { TrashIcon } from "./TrashIcon";
 import { UserSettingsIcon } from "./UserSettingsIcon";
-import { ImageIcon } from "./ImageIcon";
-import Chevron from "./Chevron";
 
 /**
  * Render to check if objects are accessed correctly
@@ -65,9 +61,7 @@ describe("Render once", () => {
     expect(container).toBeDefined();
   });
   test("GitHubIcon", () => {
-    const { container } = renderIntoRoot(() => (
-      <GitHubIcon class="" />
-    ));
+    const { container } = renderIntoRoot(() => <GitHubIcon class="" />);
     expect(container).toBeDefined();
   });
   test("ImageIcon", () => {
@@ -96,6 +90,10 @@ describe("Render once", () => {
   });
   test("SearchIcon", () => {
     const { container } = renderIntoRoot(() => <SearchIcon />);
+    expect(container).toBeDefined();
+  });
+  test("SettingsIcon", () => {
+    const { container } = renderIntoRoot(() => <SettingsIcon />);
     expect(container).toBeDefined();
   });
   test("SignInIcon", () => {

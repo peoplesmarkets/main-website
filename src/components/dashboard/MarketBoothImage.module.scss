@@ -22,7 +22,7 @@
   justify-content: center;
   align-items: center;
   border-radius: 50%;
-  background-color: var(--display-background-color-lighten);
+  background-color: var(--primary-background-color-lighten);
 
   user-select: none;
   border: none;
@@ -34,7 +34,6 @@
 
 .EditButton:hover {
   cursor: pointer;
-  background-color: var(--display-background-color);
 }
 
 .EditIcon {

@@ -8,7 +8,7 @@ import {
   ContentLoading,
   isResolved,
 } from "../components/content";
-import { Select } from "../components/form";
+import { Select, SelectKey } from "../components/form";
 import { SearchGlobalIcon, SearchIcon } from "../components/icons";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
 import { Page, Section } from "../components/layout";
@@ -114,10 +114,7 @@ export default function Offers() {
     refetch();
   }
 
-  function handleOrderByInput(
-    field: OffersOrderByField,
-    direction: string | number | null
-  ) {
+  function handleOrderByInput(field: OffersOrderByField, direction: SelectKey) {
     if (!_.isNumber(direction)) {
       return;
     }

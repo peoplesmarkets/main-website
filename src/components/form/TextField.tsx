@@ -2,9 +2,9 @@ import _ from "lodash";
 
 import styles from "./TextField.module.scss";
 import { Show } from "solid-js";
+import { slugify } from "../../lib";
 
 type Props = {
-  readonly name: string;
   readonly label: string;
   readonly errors: string[];
   readonly required?: boolean;
@@ -18,22 +18,22 @@ export function TextField(props: Props) {
     <div class={styles.TextField}>
       <input
         type="text"
-        id={props.label}
+        id={slugify(props.label)}
         class={styles.Input}
         classList={{
           [styles.Small]: Boolean(props.small),
           [styles.HasErrors]: !_.isEmpty(props.errors),
         }}
-        name={props.name}
+        name={slugify(props.label)}
         placeholder={props.label}
         required={!!props.required}
-        value={props.value}
+        value={props.value || ""}
         onInput={(event) => props.onValue(event.currentTarget.value)}
       />
       <label
         class={styles.Label}
         classList={{ [styles.LabelEdited]: !_.isEmpty(props.value) }}
-        for={props.label}
+        for={slugify(props.label)}
       >
         {props.label}
       </label>

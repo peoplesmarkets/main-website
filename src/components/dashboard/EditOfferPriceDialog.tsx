@@ -34,6 +34,7 @@ import {
   DiscardConfirmation,
   PriceField,
   Select,
+  SelectKey,
 } from "../form";
 import { NumberField } from "../form/NumberField";
 import { Dialog } from "../layout";
@@ -156,7 +157,7 @@ export function EditOfferPriceDialog(props: Props) {
     });
   }
 
-  function handleCurrencyChange(value: string | number) {
+  function handleCurrencyChange(value: SelectKey) {
     if (_.isString(value)) {
       setOfferPrice("price", {
         ...offerPrice.price,
@@ -165,7 +166,7 @@ export function EditOfferPriceDialog(props: Props) {
     }
   }
 
-  function handlePriceTypeChange(value: string | number) {
+  function handlePriceTypeChange(value: SelectKey) {
     if (_.isString(value)) {
       const priceType = priceTypeFromJSON(value);
       let price = {
@@ -202,7 +203,7 @@ export function EditOfferPriceDialog(props: Props) {
     });
   }
 
-  function handleRecurringIntervalChange(value: string | number) {
+  function handleRecurringIntervalChange(value: SelectKey) {
     if (_.isString(value)) {
       setOfferPrice("price", {
         ...offerPrice.price,
@@ -254,7 +255,6 @@ export function EditOfferPriceDialog(props: Props) {
             <div class={styles.FieldSet}>
               <div class={styles.FieldSetInput}>
                 <PriceField
-                  name={trans(TKEYS.price.Price)}
                   label={trans(TKEYS.price.Price)}
                   initial={offerPrice.price?.unitAmount}
                   onValue={handlePriceInput}
@@ -292,7 +292,6 @@ export function EditOfferPriceDialog(props: Props) {
                 </span>
                 <div class={styles.FieldSetInput}>
                   <NumberField
-                    name=""
                     label=""
                     value={offerPrice.price?.recurring?.intervalCount}
                     onValue={handleRecurringIntervalCountInput}

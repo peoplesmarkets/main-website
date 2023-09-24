@@ -51,6 +51,7 @@ export const TKEYS = {
       "already-exists": "form.errors.already-exists",
       "item-too-large": "form.errors.item-too-large",
       "wrong-type": "form.errors.wrong-type",
+      "invalid-css-color": "form.errors.invalid-css-color",
     },
   },
   query: {
@@ -116,8 +117,9 @@ export const TKEYS = {
     title: "market-booth.title",
     "title-plural": "market-booth.title-plural",
     "no-description": "market-booth.no-description",
-    "edit-image": "market-booth.edit-image",
-    "delete-image": "market-booth.delete-image",
+    settings: {
+      title: "market-booth.settings.title",
+    },
     errors: {
       "ensure-offers-deleted": "market-booth.errors.ensure-offers-deleted",
     },
@@ -131,6 +133,26 @@ export const TKEYS = {
       description: "market-booth.labels.description",
       "Created-at": "market-booth.labels.Created-at",
       "Updated-at": "market-booth.labels.Updated-at",
+    },
+  },
+  "shop-customization": {
+    labels: {
+      headerBackgroundColorLight:
+        "shop-customization.labels.headerBackgroundColorLight",
+      headerBackgroundColorDark:
+        "shop-customization.labels.headerBackgroundColorDark",
+      headerContentColorLight:
+        "shop-customization.labels.headerContentColorLight",
+      headerContentColorDark:
+        "shop-customization.labels.headerContentColorDark",
+      secondaryBackgroundColorLight:
+        "shop-customization.labels.secondaryBackgroundColorLight",
+      secondaryBackgroundColorDark:
+        "shop-customization.labels.secondaryBackgroundColorDark",
+      secondaryContentColorLight:
+        "shop-customization.labels.secondaryContentColorLight",
+      secondaryContentColorDark:
+        "shop-customization.labels.secondaryContentColorDark",
     },
   },
   offer: {
@@ -203,11 +225,17 @@ export const TKEYS = {
       "no-market-booth-yet": "dashboard.market-booth.no-market-booth-yet",
       "create-new-market-booth":
         "dashboard.market-booth.create-new-market-booth",
-      "edit-market-booth-details":
-        "dashboard.market-booth.edit-market-booth-details",
+      "edit-name-and-description":
+        "dashboard.market-booth.edit-name-and-description",
+      "edit-image": "dashboard.market-booth.edit-image",
+      "delete-image": "dashboard.market-booth.delete-image",
+      "edit-logo": "dashboard.market-booth.edit-logo",
+      "delete-logo": "dashboard.market-booth.delete-logo",
+      "edit-theme": "dashboard.market-booth.edit-theme",
+      "edit-path-and-domain": "dashboard.market-booth.edit-path-and-domain",
       "delete-this-market-booth":
         "dashboard.market-booth.delete-this-market-booth",
-      "add-or-update-image": "dashboard.market-booth.add-or-update-image",
+      "resulting-url": "dashboard.market-booth.resulting-url",
       stripe: {
         title: "dashboard.market-booth.stripe.title",
         integration: "dashboard.market-booth.stripe.integration",

@@ -130,3 +130,7 @@ export function slugify(value: string): string {
   res = res.replace(SLUG_CHARS_REGEX, "-");
   return _.trim(res, " -");
 }
+
+export function isCssColor(value: any): boolean {
+  return !_.isNil(value) && !_.isEmpty(value) && CSS.supports("color", value);
+}

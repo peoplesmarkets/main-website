@@ -134,7 +134,6 @@ export function CreateOfferImageDialog(props: Props) {
           <form class={styles.Form} onSubmit={handleAddImage}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
-                name="image"
                 label="image"
                 required
                 errors={errors.image}

@@ -14,7 +14,6 @@ describe("<TextArea />", () => {
   test("Render default", () => {
     const { container } = renderIntoRoot(() => (
       <TextArea
-        name="textArea"
         label="text area"
         rows={10}
         errors={[]}

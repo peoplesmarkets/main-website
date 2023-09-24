@@ -58,40 +58,46 @@ export default function ShopDetail() {
   }
 
   return (
-    <Show when={isResolved(shopData?.shop?.data?.state)}>
-      <ShopBanner shop={() => shopData.shop.data()!} />
-
-      <Show when={!_.isEmpty(shopData?.shop?.data()?.description)}>
-        <Section>
-          <span class={styles.Description}>
-            <Multiline text={() => shopData.shop.data()?.description} />
-          </span>
-        </Section>
+    <>
+      <Show when={isResolved(shopData?.shopCustomization?.data?.state)}>
+        <ShopBanner
+          shopCustomization={() => shopData.shopCustomization.data()!}
+        />
       </Show>
 
-      <Show when={!_.isEmpty(featuredOffers())}>
-        <Section>
-          <For each={featuredOffers()}>
-            {(offer) => <OfferDetailView offer={() => offer} />}
-          </For>
-        </Section>
-      </Show>
+      <Show when={isResolved(shopData?.shop?.data?.state)}>
+        <Show when={!_.isEmpty(shopData?.shop?.data()?.description)}>
+          <Section>
+            <span class={styles.Description}>
+              <Multiline text={() => shopData.shop.data()?.description} />
+            </span>
+          </Section>
+        </Show>
 
-      <Switch>
-        <Match when={offers.state === "errored"}>
-          <ContentError />
-        </Match>
-        <Match when={offers.state === "pending"}>
-          <ContentLoading />
-        </Match>
-        <Match when={isResolved(offers.state)}>
-          <Show when={!_.isEmpty(offers())}>
-            <Section>
-              <OfferList offers={() => offers()!} />
-            </Section>
-          </Show>
-        </Match>
-      </Switch>
-    </Show>
+        <Show when={!_.isEmpty(featuredOffers())}>
+          <Section>
+            <For each={featuredOffers()}>
+              {(offer) => <OfferDetailView offer={() => offer} />}
+            </For>
+          </Section>
+        </Show>
+
+        <Switch>
+          <Match when={offers.state === "errored"}>
+            <ContentError />
+          </Match>
+          <Match when={offers.state === "pending"}>
+            <ContentLoading />
+          </Match>
+          <Match when={isResolved(offers.state)}>
+            <Show when={!_.isEmpty(offers())}>
+              <Section>
+                <OfferList offers={() => offers()!} />
+              </Section>
+            </Show>
+          </Match>
+        </Switch>
+      </Show>
+    </>
   );
 }

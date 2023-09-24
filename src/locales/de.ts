@@ -51,6 +51,7 @@ export const DE: typeof TKEYS = {
       "already-exists": "Bereits vergeben",
       "item-too-large": "{item} ist zu groß",
       "wrong-type": "Falscher Dateityp",
+      "invalid-css-color": "Ungültige CSS Farbe",
     },
   },
   query: {
@@ -102,8 +103,9 @@ export const DE: typeof TKEYS = {
     title: "Marktstand",
     "title-plural": "Marktstände",
     "no-description": "Keine Beschreibung vorhanden ...",
-    "edit-image": "Bild bearbeiten",
-    "delete-image": "Bild löschen",
+    settings: {
+      title: "Einstellungen",
+    },
     errors: {
       "ensure-offers-deleted": "Lösche zuerst alle Angebote.",
     },
@@ -117,6 +119,18 @@ export const DE: typeof TKEYS = {
       description: "Beschreibung",
       "Created-at": "Erstellt am",
       "Updated-at": "Bearbeitet am",
+    },
+  },
+  "shop-customization": {
+    labels: {
+      headerBackgroundColorLight: "Header Hintergrundfarbe (Hellmodus)",
+      headerBackgroundColorDark: "Header Hintergrundfarbe (Dunkelmodus)",
+      headerContentColorLight: "Header Farbe (Hellmodus)",
+      headerContentColorDark: "Header Farbe (Dunkelmodus)",
+      secondaryBackgroundColorLight: "Sekundär Hintergrundfarbe (Hellmodus)",
+      secondaryBackgroundColorDark: "Sekundär Hintergrundfarbe (Dunkelmodus)",
+      secondaryContentColorLight: "Sekundär Farbe (Hellmodus)",
+      secondaryContentColorDark: "Sekundär Farbe (Dunkelmodus)",
     },
   },
   offer: {
@@ -133,7 +147,11 @@ export const DE: typeof TKEYS = {
       visible: "Öffentlich sichtbar",
       "not-visible": "Nicht öffentlich sichtbar",
     },
-    "is-featured": EN.offer["is-featured"],
+    "is-featured": {
+      title: "Featured",
+      featured: "Featured",
+      "not-featured": "Nicht featured",
+    },
     labels: {
       Price: "Preis",
       Name: "Name",
@@ -178,9 +196,15 @@ export const DE: typeof TKEYS = {
       "my-market-booths": "Meine Marktstände",
       "no-market-booth-yet": "Bisher kein Markstand",
       "create-new-market-booth": "Neuen Marktstand erstellen",
-      "edit-market-booth-details": "Marktstand Details bearbeiten",
+      "edit-name-and-description": "Name und Beschreibung bearbeiten",
+      "edit-image": "Bild bearbeiten",
+      "delete-image": "Bild löschen",
+      "edit-logo": "Logo bearbeiten",
+      "delete-logo": "Logo löschen",
+      "edit-theme": "Erscheinungsbild anpassen",
+      "edit-path-and-domain": "Pfad und Domain einstellen",
       "delete-this-market-booth": "Diesen Marktstand löschen",
-      "add-or-update-image": "Bild hinzufügen, oder bearbeiten",
+      "resulting-url": "Resultierende URL",
       stripe: {
         title: EN.dashboard["market-booth"].stripe.title,
         integration: "Stripe Integration",

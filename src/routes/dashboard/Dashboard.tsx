@@ -27,7 +27,7 @@ export default function Dashboard() {
   const marketBoothService = new MarketBoothService(accessToken);
   const mediaService = new MediaService(accessToken);
 
-  const [marketBooths, { refetch }] = createResource(
+  const [shops, { refetch }] = createResource(
     () => currentSession().userId || undefined,
     fetchMarketBooths
   );
@@ -40,6 +40,7 @@ export default function Dashboard() {
     try {
       const response = await marketBoothService.listDefault({
         userId,
+        extended: true,
       });
       return response.marketBooths;
     } catch (err: any) {
@@ -88,19 +89,13 @@ export default function Dashboard() {
           </div>
 
           <Switch>
-            <Match when={marketBooths.state === "errored"}>
+            <Match when={shops.state === "errored"}>
               <ContentError />
             </Match>
-            <Match
-              when={
-                isResolved(marketBooths.state) && !_.isEmpty(marketBooths())
-              }
-            >
-              <MarketBoothList marketBooths={() => marketBooths()!} />
+            <Match when={isResolved(shops.state) && !_.isEmpty(shops())}>
+              <MarketBoothList shops={() => shops()!} />
             </Match>
-            <Match
-              when={isResolved(marketBooths.state) && _.isEmpty(marketBooths())}
-            >
+            <Match when={isResolved(shops.state) && _.isEmpty(shops())}>
               <Trans
                 key={TKEYS.dashboard["market-booth"]["no-market-booth-yet"]}
               />

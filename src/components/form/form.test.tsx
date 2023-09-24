@@ -63,7 +63,7 @@ describe("Render once", () => {
   });
   test("PriceField", () => {
     const { container } = renderIntoRoot(() => (
-      <PriceField name="" label="" errors={[]} onValue={noOp} />
+      <PriceField label="" errors={[]} onValue={noOp} />
     ));
     expect(container).toBeDefined();
   });
@@ -81,13 +81,13 @@ describe("Render once", () => {
   });
   test("TextArea", () => {
     const { container } = renderIntoRoot(() => (
-      <TextArea errors={[]} label="" name="" onValue={noOp} rows={3} />
+      <TextArea errors={[]} label="" onValue={noOp} rows={3} />
     ));
     expect(container).toBeDefined();
   });
   test("TextField", () => {
     const { container } = renderIntoRoot(() => (
-      <TextField errors={[]} label="" name="" onValue={noOp} />
+      <TextField errors={[]} label="" onValue={noOp} />
     ));
     expect(container).toBeDefined();
   });

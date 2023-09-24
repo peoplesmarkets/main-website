@@ -9,3 +9,25 @@
   background: var(--hovered-background);
   cursor: pointer;
 }
+
+.LogoLink {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-right: 0.5rem;
+  padding: 0.5rem 1rem;
+  user-select: none;
+  text-decoration: none;
+  box-sizing: border-box;
+}
+
+.LogoLink:hover {
+  background-color: rgba(0, 0, 0, 0);
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.Logo {
+  max-width: 100%;
+  height: 42px;
+}

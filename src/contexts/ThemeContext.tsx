@@ -55,7 +55,9 @@ function initialize() {
     }
   }
 
-  const [theme, _setTheme] = createSignal(initialTheme);
+  setThemeHtmlRoot(initialTheme);
+
+  const [theme, setTheme] = createSignal(initialTheme);
 
   function setThemeHtmlRoot(theme: Theme.DefaultDark | Theme.DefaultLight) {
     const root = document.documentElement;
@@ -65,12 +67,11 @@ function initialize() {
     localStorage.setItem("theme", theme);
   }
 
-  function setTheme(theme: Theme.DefaultDark | Theme.DefaultLight) {
-    setThemeHtmlRoot(theme);
-    _setTheme(theme);
-  }
-
-  setThemeHtmlRoot(initialTheme);
-
-  return { theme, setTheme };
+  return {
+    theme,
+    setTheme: (theme: Theme.DefaultDark | Theme.DefaultLight) => {
+      setThemeHtmlRoot(theme);
+      setTheme(theme);
+    },
+  };
 }

@@ -150,7 +150,6 @@ export function EditMediaDialog(props: Props) {
           <form class={styles.Form} onSubmit={handleAddMedia}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <TextField
-                name={trans(TKEYS.media.labels.name)}
                 label={trans(TKEYS.media.labels.name)}
                 value={form.name}
                 onValue={handleNameInput}
@@ -158,7 +157,6 @@ export function EditMediaDialog(props: Props) {
               />
 
               <FileField
-                name={trans(TKEYS.media.labels.file)}
                 label={trans(TKEYS.media.labels.file)}
                 errors={errors.file}
                 onValue={handleFileInput}

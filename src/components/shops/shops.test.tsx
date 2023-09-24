@@ -28,7 +28,7 @@ describe("Render once", () => {
   });
 
   test("ShopBanner", () => {
-    const { container } = renderIntoRoot(() => <ShopBanner shop={getNoObj} />);
+    const { container } = renderIntoRoot(() => <ShopBanner shopCustomization={getNoObj} />);
     expect(container).toBeDefined();
   });
 });

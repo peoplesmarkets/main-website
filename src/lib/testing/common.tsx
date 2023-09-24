@@ -77,3 +77,5 @@ export function getNoObj() {
   return noObj;
 }
 export function noOp() {}
+
+export async function asyncNoOp() {}

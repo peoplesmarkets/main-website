@@ -47,7 +47,7 @@ export default function Medias() {
 
   return (
     <>
-      <ShopBanner shop={() => shopData.shop.data()!} />
+      <ShopBanner shopCustomization={() => shopData.shopCustomization.data()!} />
 
       <Section>
         <Show when={isResolved(shopData.shop.data.state)}>

@@ -1,6 +1,6 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { useLocation, useNavigate } from "@solidjs/router";
+import { useLocation, useNavigate, useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
@@ -8,8 +8,8 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { buildUrl, secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { buildDashboardMediaPath } from "../../routes/dashboard/DashboardRoutes";
+import { ShopData } from "../../routes/shops/ShopData";
 import { MarketBoothService, StripeService } from "../../services";
-import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import { ContentError, ContentLoading, isResolved } from "../content";
 import { Multiline } from "../content/Multiline";
 import { ActionButton } from "../form";
@@ -19,15 +19,24 @@ import { Cover } from "../layout/Cover";
 import { Section } from "../layout/Section";
 import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
 import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
+import { EditShopThemeDialog } from "./EditShopThemeDialog";
 import styles from "./MarketBoothSettings.module.scss";
+import { EditShopSlugDialog } from "./EditShopSlugDialog";
 
 type Props = {
-  marketBooth: () => MarketBoothResponse | undefined;
-  onUpdate?: () => Promise<void>;
-  onDelete?: () => void;
+  onUpdate: () => Promise<void>;
+  onDelete: () => void;
 };
 
-type DIALOG = "none" | "delete" | "message" | "add-image";
+type DIALOG =
+  | "none"
+  | "delete"
+  | "message"
+  | "edit-shop"
+  | "edit-image"
+  | "edit-logo"
+  | "edit-theme"
+  | "edit-slug";
 
 export function MarketBoothSettings(props: Props) {
   const location = useLocation();
@@ -36,19 +45,20 @@ export function MarketBoothSettings(props: Props) {
 
   const { accessToken } = useAccessTokensContext();
 
+  const shopData = useRouteData<typeof ShopData>();
+
   const marketBoothService = new MarketBoothService(accessToken);
   const stripeService = new StripeService(accessToken);
 
-  const [showEditMarketBooth, setShowEditMarketBooth] = createSignal(false);
   const [showDialog, setShowDialog] = createSignal<DIALOG>("none");
   const [redirecting, setRedirecting] = createSignal(false);
 
-  const [stripeAccount] = createResource(
-    () => props.marketBooth()?.marketBoothId,
-    fetchStripeAccount
+  const [stripeAccountDetails] = createResource(
+    () => shopData?.shop?.data()?.marketBoothId,
+    fetchStripeAccountDetails
   );
 
-  async function fetchStripeAccount(marketBoothId: string) {
+  async function fetchStripeAccountDetails(marketBoothId: string) {
     try {
       const response = await stripeService.getAccountDetails(marketBoothId);
       return response;
@@ -66,18 +76,21 @@ export function MarketBoothSettings(props: Props) {
   }
 
   function stripeAccountState() {
-    if (stripeAccount.state === "errored") {
+    if (stripeAccountDetails.state === "errored") {
       return "errored";
     }
-    if (stripeAccount.state === "pending") {
+    if (stripeAccountDetails.state === "pending") {
       return "pending";
     }
-    if (isResolved(stripeAccount.state) && !_.isNil(props.marketBooth())) {
-      if (_.isNil(stripeAccount())) {
+    if (
+      isResolved(stripeAccountDetails.state) &&
+      !_.isNil(shopData.shop.data())
+    ) {
+      if (_.isNil(stripeAccountDetails())) {
         return "missing";
       } else if (
-        !stripeAccount()?.details?.chargesEnabled ||
-        !stripeAccount()?.details?.detailsSubmitted
+        !stripeAccountDetails()?.details?.chargesEnabled ||
+        !stripeAccountDetails()?.details?.detailsSubmitted
       ) {
         return "in-progress";
       } else {
@@ -86,45 +99,25 @@ export function MarketBoothSettings(props: Props) {
     }
   }
 
-  function handleEditMarketBooth() {
-    setShowEditMarketBooth(true);
+  function handleOpenDialog(dialog: DIALOG) {
+    setShowDialog(dialog);
   }
 
-  function handleCloseEditMarketBooth() {
-    setShowEditMarketBooth(false);
-  }
-
-  function startDeletetion() {
-    setShowDialog("delete");
-  }
-
-  function discardDeletion() {
-    setShowDialog("none");
-  }
-
-  function handleCloseMessage() {
-    setShowDialog("none");
-  }
-
-  function openAddImageDialog() {
-    setShowDialog("add-image");
-  }
-
-  function handleCloseAddImage() {
+  function handleCloseDialog() {
     setShowDialog("none");
   }
 
   function handleEditMedias() {
-    const slug = props.marketBooth()?.slug;
+    const slug = shopData?.shop?.data()?.slug;
     if (!_.isNil(slug)) {
       navigate(buildDashboardMediaPath(slug));
     }
   }
 
   async function confirmDeleteion() {
-    if (!_.isNil(props.marketBooth())) {
+    if (!_.isNil(shopData?.shop?.data())) {
       try {
-        await marketBoothService.delete(props.marketBooth()!.marketBoothId);
+        await marketBoothService.delete(shopData?.shop?.data()!.marketBoothId);
       } catch (err: any) {
         if (err.code && err.code === grpc.Code.FailedPrecondition) {
           setShowDialog("message");
@@ -134,18 +127,18 @@ export function MarketBoothSettings(props: Props) {
         }
       }
     }
-    props.onDelete?.();
+    props.onDelete();
     setShowDialog("none");
   }
 
   async function handleCreateStripeIntegration() {
-    if (_.isNil(props.marketBooth())) {
+    if (_.isNil(shopData?.shop?.data())) {
       return;
     }
 
     setRedirecting(true);
     try {
-      await stripeService.createAccount(props.marketBooth()!.marketBoothId);
+      await stripeService.createAccount(shopData?.shop?.data()!.marketBoothId);
       handleContinueStripeIntegration();
     } catch (err) {
       setRedirecting(false);
@@ -154,14 +147,14 @@ export function MarketBoothSettings(props: Props) {
   }
 
   async function handleContinueStripeIntegration() {
-    if (_.isNil(props.marketBooth())) {
+    if (_.isNil(shopData?.shop?.data())) {
       return;
     }
 
     setRedirecting(true);
     try {
       const { link } = await stripeService.createAccountLink(
-        props.marketBooth()!.marketBoothId,
+        shopData?.shop?.data()!.marketBoothId,
         buildUrl(location.pathname)
       );
       window.location.href = link;
@@ -179,14 +172,14 @@ export function MarketBoothSettings(props: Props) {
         </span>
 
         <Show
-          when={!_.isEmpty(props.marketBooth()?.description)}
+          when={!_.isEmpty(shopData?.shop?.data()?.description)}
           fallback={
             <span class={styles.Details}>
               <Trans key={TKEYS["market-booth"]["no-description"]} />
             </span>
           }
         >
-          <Multiline text={() => props.marketBooth()?.description} />
+          <Multiline text={() => shopData?.shop?.data()?.description} />
         </Show>
       </Section>
 
@@ -197,12 +190,12 @@ export function MarketBoothSettings(props: Props) {
 
         <span class={styles.Details}>
           <Trans key={TKEYS["market-booth"].labels["Created-at"]} />:{" "}
-          {secondsToLocaleString(props.marketBooth()?.createdAt)}
+          {secondsToLocaleString(shopData?.shop?.data()?.createdAt)}
         </span>
 
         <span class={styles.Details}>
           <Trans key={TKEYS["market-booth"].labels["Updated-at"]} />:{" "}
-          {secondsToLocaleString(props.marketBooth()?.updatedAt)}
+          {secondsToLocaleString(shopData?.shop?.data()?.updatedAt)}
         </span>
       </Section>
 
@@ -214,10 +207,49 @@ export function MarketBoothSettings(props: Props) {
         <div class={styles.EditSection}>
           <p class={styles.Body}>
             <Trans
-              key={TKEYS.dashboard["market-booth"]["edit-market-booth-details"]}
+              key={TKEYS.dashboard["market-booth"]["edit-name-and-description"]}
             />
           </p>
-          <ActionButton actionType="neutral" onClick={handleEditMarketBooth}>
+          <ActionButton
+            actionType="neutral"
+            onClick={() => handleOpenDialog("edit-shop")}
+          >
+            <Trans key={TKEYS.form.action.Edit} />
+          </ActionButton>
+        </div>
+
+        <div class={styles.EditSection}>
+          <p class={styles.Body}>
+            <Trans key={TKEYS.dashboard["market-booth"]["edit-image"]} />
+          </p>
+          <ActionButton
+            actionType="neutral"
+            onClick={() => handleOpenDialog("edit-image")}
+          >
+            <Trans key={TKEYS.form.action.Edit} />
+          </ActionButton>
+        </div>
+
+        <div class={styles.EditSection}>
+          <p class={styles.Body}>
+            <Trans key={TKEYS.dashboard["market-booth"]["edit-logo"]} />
+          </p>
+          <ActionButton
+            actionType="neutral"
+            onClick={() => handleOpenDialog("edit-logo")}
+          >
+            <Trans key={TKEYS.form.action.Edit} />
+          </ActionButton>
+        </div>
+
+        <div class={styles.EditSection}>
+          <p class={styles.Body}>
+            <Trans key={TKEYS.dashboard["market-booth"]["edit-theme"]} />
+          </p>
+          <ActionButton
+            actionType="neutral"
+            onClick={() => handleOpenDialog("edit-theme")}
+          >
             <Trans key={TKEYS.form.action.Edit} />
           </ActionButton>
         </div>
@@ -225,10 +257,13 @@ export function MarketBoothSettings(props: Props) {
         <div class={styles.EditSection}>
           <p class={styles.Body}>
             <Trans
-              key={TKEYS.dashboard["market-booth"]["add-or-update-image"]}
+              key={TKEYS.dashboard["market-booth"]["edit-path-and-domain"]}
             />
           </p>
-          <ActionButton actionType="neutral" onClick={openAddImageDialog}>
+          <ActionButton
+            actionType="neutral"
+            onClick={() => handleOpenDialog("edit-slug")}
+          >
             <Trans key={TKEYS.form.action.Edit} />
           </ActionButton>
         </div>
@@ -297,44 +332,72 @@ export function MarketBoothSettings(props: Props) {
               key={TKEYS.dashboard["market-booth"]["delete-this-market-booth"]}
             />
           </p>
-          <ActionButton actionType="danger" onClick={startDeletetion}>
+          <ActionButton
+            actionType="danger"
+            onClick={() => handleOpenDialog("delete")}
+          >
             <Trans key={TKEYS.form.action.Delete} />
           </ActionButton>
         </div>
       </Section>
 
-      <Show when={showEditMarketBooth() && !_.isNil(props.marketBooth())}>
+      <Show
+        when={showDialog() === "edit-shop" && !_.isNil(shopData?.shop?.data())}
+      >
         <EditMarketBoothDialog
-          marketBooth={() => props.marketBooth()!}
+          marketBooth={() => shopData?.shop?.data()!}
           class={styles.EditMarketBooth}
-          onClose={handleCloseEditMarketBooth}
-          onUpdate={() => props.onUpdate?.()}
+          onClose={handleCloseDialog}
+          onUpdate={() => props.onUpdate()}
         />
       </Show>
       <Show when={showDialog() === "delete"}>
         <DeleteConfirmation
           item={trans(TKEYS["market-booth"].title)}
-          itemName={props.marketBooth()?.name}
-          onCancel={discardDeletion}
+          itemName={shopData?.shop?.data()?.name}
+          onCancel={handleCloseDialog}
           onConfirmation={confirmDeleteion}
         />
       </Show>
       <Show when={showDialog() === "message"}>
         <Message
           title={trans(TKEYS.form.errors.Conflict)}
-          onClose={handleCloseMessage}
+          onClose={handleCloseDialog}
         >
           <Trans key={TKEYS["market-booth"].errors["ensure-offers-deleted"]} />
         </Message>
       </Show>
       <Show
-        when={showDialog() === "add-image" && !_.isNil(props.marketBooth())}
+        when={showDialog() === "edit-image" && !_.isNil(shopData?.shop?.data())}
       >
         <EditMarketBoothImageDialog
-          marketBoothId={props.marketBooth()!.marketBoothId}
-          onClose={handleCloseAddImage}
-          onUpdate={() => props.onUpdate?.()}
+          marketBoothId={shopData?.shop?.data()!.marketBoothId}
+          onClose={handleCloseDialog}
+          onUpdate={() => props.onUpdate()}
         />
+      </Show>
+      <Show
+        when={showDialog() === "edit-logo" && !_.isNil(shopData?.shop?.data())}
+      >
+        <EditMarketBoothImageDialog
+          marketBoothId={shopData?.shop?.data()!.marketBoothId}
+          logo
+          onClose={handleCloseDialog}
+          onUpdate={() => props.onUpdate()}
+        />
+      </Show>
+      <Show
+        when={showDialog() === "edit-theme" && !_.isNil(shopData?.shop?.data())}
+      >
+        <EditShopThemeDialog
+          onClose={handleCloseDialog}
+          onUpdate={() => props.onUpdate()}
+        />
+      </Show>
+      <Show
+        when={showDialog() === "edit-slug" && !_.isNil(shopData?.shop?.data())}
+      >
+        <EditShopSlugDialog onClose={handleCloseDialog} />
       </Show>
       <Show when={redirecting()}>
         <Cover />

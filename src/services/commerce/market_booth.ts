@@ -1,10 +1,9 @@
 import {
   CreateMarketBoothRequest,
   GrpcWebImpl,
-  ListMarketBoothsRequest,
+  ListShopsRequest,
   MarketBoothServiceClientImpl,
   MarketBoothsOrderByField,
-  UpdateImageOfMarketBoothRequest,
   UpdateMarketBoothRequest,
 } from "../peoplesmarkets/commerce/v1/market_booth";
 
@@ -42,12 +41,12 @@ export class MarketBoothService extends ServiceClient {
     );
   }
 
-  public async list(request: ListMarketBoothsRequest) {
-    return this.client.ListMarketBooths(request, await this.withAuthHeader());
+  public async list(request: ListShopsRequest) {
+    return this.client.ListShops(request, await this.withAuthHeader());
   }
 
-  public async listDefault(request: ListMarketBoothsRequest) {
-    return this.client.ListMarketBooths(
+  public async listDefault(request: ListShopsRequest) {
+    return this.client.ListShops(
       {
         orderBy: {
           field:
@@ -66,20 +65,6 @@ export class MarketBoothService extends ServiceClient {
 
   public async delete(marketBoothId: string) {
     return this.client.DeleteMarketBooth(
-      { marketBoothId },
-      await this.withAuthHeader()
-    );
-  }
-
-  public async updateImage(request: UpdateImageOfMarketBoothRequest) {
-    return this.client.UpdateImageOfMarketBooth(
-      request,
-      await this.withAuthHeader()
-    );
-  }
-
-  public async removeImage(marketBoothId: string) {
-    return this.client.RemoveImageFromMarketBooth(
       { marketBoothId },
       await this.withAuthHeader()
     );

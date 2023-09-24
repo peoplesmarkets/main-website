@@ -4,9 +4,9 @@ import { Show, createSignal, onMount } from "solid-js";
 
 import { LANGUAGES } from "../../locales";
 import styles from "./PriceField.module.scss";
+import { slugify } from "../../lib";
 
 type Props = {
-  readonly name: string;
   readonly label: string;
   readonly errors: string[];
   readonly required?: boolean;
@@ -123,10 +123,10 @@ export function PriceField(props: Props) {
       <input
         type="text"
         inputmode="decimal"
-        id={props.label}
         class={styles.Input}
         classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
-        name={props.name}
+        id={slugify(props.label)}
+        name={slugify(props.label)}
         placeholder={props.label}
         value={value()}
         required={!!props.required}
@@ -136,7 +136,7 @@ export function PriceField(props: Props) {
 
       <label
         class={styles.Label}
-        for={props.label}
+        for={slugify(props.label)}
         classList={{ [styles.LabelEdited]: !_.isEmpty(value()) }}
       >
         {props.label}
