@@ -51,11 +51,13 @@ export function EditShopThemeDialog(props: Props) {
     createSignal(false);
 
   createEffect(() => {
-    if (
-      _.isNil(shopData.shopCustomization.data()?.shopId) ||
-      _.isEmpty(shopCustomization.shopId)
-    ) {
-      setShopCustomization(_.clone(shopData.shopCustomization.data()!));
+    if (_.isEmpty(shopCustomization.shopId)) {
+      const customization = shopData.shopCustomization.data();
+      if (!_.isEmpty(customization)) {
+        setShopCustomization(_.clone(customization));
+      } else {
+        setShopCustomization("shopId", shopData.shop.data()!.marketBoothId);
+      }
     }
   });
 

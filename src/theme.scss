@@ -120,6 +120,15 @@
   --font-body: var(--font-body-medium);
   --font-detail: var(--font-body-small);
 
+  @media only screen and (max-width: $small-min-width) {
+    --font-display: var(--font-display-small);
+    --font-headline: var(--font-headline-small);
+    --font-title: var(--font-title-small);
+    --font-label: var(--font-label-small);
+    --font-body: var(--font-body-small);
+    --font-detail: var(--font-body-small);
+  }
+
   @media only screen and (min-width: $medium-min-width) and (max-width: $medium-max-width) {
     --font-display: var(--font-display-medium);
     --font-headline: var(--font-headline-medium);

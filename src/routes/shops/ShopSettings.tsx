@@ -44,16 +44,13 @@ export default function ShopSettings() {
       <div class={styles.ShopSettings}>
         <Show when={shopData?.shop?.data()}>
           <div class={styles.Settings}>
-            <MarketBoothImage
-              shopCustomization={() => shopData.shopCustomization.data()}
-              onUpdate={handleShopUpdate}
-            />
+            <MarketBoothImage onUpdate={handleShopUpdate} />
 
             <Section flat>
               <span class={styles.Title}>{shopData.shop.data()?.name}</span>
             </Section>
 
-            <OfferSettings marketBooth={() => shopData.shop.data()!} />
+            <OfferSettings />
 
             <MarketBoothSettings
               onUpdate={handleShopUpdate}

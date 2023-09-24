@@ -47,14 +47,8 @@ export function ShopData({ params }: RouteDataFuncArgs) {
     try {
       const response = await shopCustomizationService.get(shopId);
 
-      if (_.isNil(response.shopCustomization)) {
-        throw new Error("Not Found");
-      }
-
       return response.shopCustomization;
-    } catch (err) {
-      throw new Error("Not Found");
-    }
+    } catch (_) {}
   }
 
   async function fetchStripeAccount(marketBoothId: string) {
