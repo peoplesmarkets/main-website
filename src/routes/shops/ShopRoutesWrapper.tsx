@@ -34,9 +34,21 @@ export default function ShopRoutesWrapper() {
   const shopData = useRouteData<typeof ShopData>();
 
   const [signingIn, setSigningIn] = createSignal(false);
-  const [customShopStyle, setCustomShopStyle] = createStore<
-    Record<string, string>
-  >({});
+  const [customShopStyle, setCustomShopStyle] = createStore({
+    "--header-background-color": undefined as string | undefined,
+    "--header-content-color": undefined as string | undefined,
+    "--secondary-background-color": undefined as string | undefined,
+    "--secondary-content-color": undefined as string | undefined,
+  });
+
+  function resetCustomShopStyle() {
+    setCustomShopStyle({
+      "--header-background-color": undefined,
+      "--header-content-color": undefined,
+      "--secondary-background-color": undefined,
+      "--secondary-content-color": undefined,
+    });
+  }
 
   createEffect(() => {
     const styles = shopData.shopCustomization.data();
@@ -44,6 +56,8 @@ export default function ShopRoutesWrapper() {
     if (_.isNil(styles)) {
       return;
     }
+
+    resetCustomShopStyle();
 
     if (theme() === Theme.DefaultDark) {
       if (isCssColor(styles.headerBackgroundColorDark)) {
