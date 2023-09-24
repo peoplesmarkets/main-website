@@ -21,7 +21,7 @@ describe("Render once", () => {
 
   test("MarketBoothList", () => {
     const { container } = renderIntoRoot(() => (
-      <MarketBoothList marketBooths={getNoObj} />
+      <MarketBoothList shops={getNoObj} />
     ));
     expect(container).toBeDefined();
   });

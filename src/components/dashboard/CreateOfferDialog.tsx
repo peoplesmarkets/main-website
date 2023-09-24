@@ -17,6 +17,7 @@ import {
   ActionButton,
   DiscardConfirmation,
   Select,
+  SelectKey,
   TextArea,
   TextField,
 } from "../form";
@@ -86,7 +87,7 @@ export function CreateOfferDialog(props: Props) {
     setOffer("description", value);
   }
 
-  function handleOfferTypeChange(value: string | number) {
+  function handleOfferTypeChange(value: SelectKey) {
     if (_.isString(value)) {
       setOffer("type", offerTypeFromJSON(value));
     }
@@ -148,7 +149,6 @@ export function CreateOfferDialog(props: Props) {
             />
 
             <TextField
-              name="name"
               label={trans(TKEYS.offer.labels.name)}
               required={true}
               value={offer.name}
@@ -157,7 +157,6 @@ export function CreateOfferDialog(props: Props) {
             />
 
             <TextArea
-              name="description"
               label={trans(TKEYS.offer.labels.description)}
               rows={8}
               required={false}

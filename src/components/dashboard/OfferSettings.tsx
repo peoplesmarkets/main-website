@@ -1,5 +1,5 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { A } from "@solidjs/router";
+import { A, useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import {
   For,
@@ -22,12 +22,11 @@ import { ActionButton } from "../form";
 import { Section } from "../layout/Section";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import styles from "./OfferSettings.module.scss";
+import { ShopData } from "../../routes/shops/ShopData";
 
-type Props = {
-  readonly marketBooth: () => MarketBoothResponse;
-};
+export function OfferSettings() {
+  const shopData = useRouteData<typeof ShopData>();
 
-export function OfferSettings(props: Props) {
   const { accessToken, currentSession } = useAccessTokensContext();
 
   const offerService = new OfferService(accessToken);
@@ -43,7 +42,7 @@ export function OfferSettings(props: Props) {
   async function fetchOffers() {
     const response = await offerService.list({
       userId: currentSession().userId || undefined,
-      marketBoothId: props.marketBooth().marketBoothId,
+      marketBoothId: shopData.shop.data()?.marketBoothId,
     });
 
     return response.offers;
@@ -111,9 +110,9 @@ export function OfferSettings(props: Props) {
         </Switch>
       </Section>
 
-      <Show when={showCreateOffer()}>
+      <Show when={showCreateOffer() && !_.isNil(shopData.shop.data())}>
         <CreateOfferDialog
-          marketBoothId={props.marketBooth().marketBoothId}
+          marketBoothId={shopData.shop.data()!.marketBoothId}
           onClose={handleCloseCreateOffer}
           onUpdate={refreshOffers}
         />

@@ -13,6 +13,7 @@ false && clickOutside;
 type Props = {
   children: JSX.Element;
   close?: () => boolean;
+  style?: string | JSX.CSSProperties | undefined;
 };
 
 export function Panel(props: Props) {
@@ -57,7 +58,7 @@ export function Panel(props: Props) {
   }
 
   return (
-    <>
+    <div style={props.style}>
       <div class={styles.Panel}>
         <BurgerIcon class={styles.MenuIcon} onClick={handleToggleSlider} />
 
@@ -111,6 +112,6 @@ export function Panel(props: Props) {
           </span>
         </div>
       </Show>
-    </>
+    </div>
   );
 }

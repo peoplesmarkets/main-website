@@ -13,8 +13,10 @@ export * from "./OpenInNewIcon";
 export * from "./RocketLaunchIcon";
 export * from "./SearchGlobalIcon";
 export * from "./SearchIcon";
+export * from "./SettingsIcon";
 export * from "./SignInIcon";
 export * from "./StorefrontIcon";
 export * from "./ThemeIcon";
 export * from "./TrashIcon";
 export * from "./UserSettingsIcon";
+

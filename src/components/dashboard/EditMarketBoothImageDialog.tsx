@@ -7,7 +7,6 @@ import { createStore } from "solid-js/store";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales/dev";
-import { MarketBoothService } from "../../services";
 import {
   ActionButton,
   DeleteConfirmation,
@@ -17,11 +16,13 @@ import {
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
 import { ProgressBar } from "../assets";
+import { ShopCustomizationService } from "../../services/commerce/shop_customization";
 
 type Props = {
   readonly marketBoothId: string;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
+  readonly logo?: boolean;
 };
 
 export function EditMarketBoothImageDialog(props: Props) {
@@ -29,7 +30,7 @@ export function EditMarketBoothImageDialog(props: Props) {
 
   const { accessToken } = useAccessTokensContext();
 
-  const marketBoothService = new MarketBoothService(accessToken);
+  const shopCustomizationService = new ShopCustomizationService(accessToken);
 
   const [form, setForm] = createStore({
     image: undefined as File | undefined,
@@ -54,14 +55,20 @@ export function EditMarketBoothImageDialog(props: Props) {
 
     setUploading(true);
 
+    const request = {
+      shopId: props.marketBoothId,
+      image: {
+        contentType: "",
+        data: await readAsUint8Array(form.image, 0, form.image.size),
+      },
+    };
+
     try {
-      await marketBoothService.updateImage({
-        marketBoothId: props.marketBoothId,
-        image: {
-          contentType: "",
-          data: await readAsUint8Array(form.image, 0, form.image.size),
-        },
-      });
+      if (props.logo) {
+        await shopCustomizationService.putLogoImage(request);
+      } else {
+        await shopCustomizationService.putBannerImage(request);
+      }
       setUploading(false);
       props.onUpdate();
       props.onClose();
@@ -88,7 +95,11 @@ export function EditMarketBoothImageDialog(props: Props) {
   }
 
   async function deleteImage() {
-    await marketBoothService.removeImage(props.marketBoothId);
+    if (props.logo) {
+      await shopCustomizationService.removeLogoImage(props.marketBoothId);
+    } else {
+      await shopCustomizationService.removeBannerImage(props.marketBoothId);
+    }
     props.onUpdate();
     props.onClose();
   }
@@ -130,13 +141,16 @@ export function EditMarketBoothImageDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={trans(TKEYS["market-booth"]["edit-image"])}
+          title={
+            props.logo
+              ? trans(TKEYS.dashboard["market-booth"]["edit-logo"])
+              : trans(TKEYS.dashboard["market-booth"]["edit-image"])
+          }
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={updateImage}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
-                name="image"
                 label="image"
                 required
                 errors={errors.image}
@@ -146,8 +160,15 @@ export function EditMarketBoothImageDialog(props: Props) {
 
             <div class={styles.DialogFooter}>
               <ActionButton actionType="danger" onClick={removeImage}>
-                <Trans key={TKEYS["market-booth"]["delete-image"]} />
+                <Trans
+                  key={
+                    props.logo
+                      ? trans(TKEYS.dashboard["market-booth"]["delete-logo"])
+                      : TKEYS.dashboard["market-booth"]["delete-image"]
+                  }
+                />
               </ActionButton>
+
               <ActionButton
                 actionType="active-filled"
                 onClick={updateImage}

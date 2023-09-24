@@ -1,9 +1,9 @@
 import _ from "lodash";
 import styles from "./NumberField.module.scss";
 import { Show } from "solid-js";
+import { slugify } from "../../lib";
 
 type Props = {
-  readonly name: string;
   readonly label: string;
   readonly errors: string[];
   readonly required?: boolean;
@@ -26,13 +26,13 @@ export function NumberField(props: Props) {
     <div class={styles.NumberField}>
       <input
         type="number"
-        id={props.label}
+        id={slugify(props.label)}
         class={styles.Input}
         classList={{
           [styles.Small]: Boolean(props.small),
           [styles.HasErrors]: !_.isEmpty(props.errors),
         }}
-        name={props.name}
+        name={slugify(props.label)}
         placeholder={props.label}
         required={Boolean(props.required)}
         value={props.value || 0}
@@ -43,7 +43,7 @@ export function NumberField(props: Props) {
       <label
         class={styles.Label}
         classList={{ [styles.LabelEdited]: !_.isEmpty(props.value) }}
-        for={props.label}
+        for={slugify(props.label)}
       >
         {props.label}
       </label>

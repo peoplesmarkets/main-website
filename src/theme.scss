@@ -1,5 +1,5 @@
 :root.theme-default-light {
-  --display-content-color: #141414;
+  --header-content-color: #141414;
   --primary-content-color: #303134;
   --secondary-content-color: #4d4e53;
   --active-content-color: #176dde;
@@ -12,9 +12,9 @@
   --secondary-border-color: #30313486;
   --danger-border-color: #e00025b7;
 
-  --display-background-color: #f8f9fa;
-  --display-background-color-lighten: #f8f9fa80;
+  --header-background-color: #f8f9fa;
   --primary-background-color: #f8f8f8;
+  --primary-background-color-lighten: #f8f9fa80;
   --secondary-background-color: #dde4e9;
   --active-background-color: #c2e7ff;
   --secondary-active-background-color: #b0ccf1;
@@ -31,7 +31,7 @@
 }
 
 :root.theme-default-dark {
-  --display-content-color: #f8f9fa;
+  --header-content-color: #f8f9fa;
   --primary-content-color: #e8eaed;
   --secondary-content-color: #b9bbbd;
   --active-content-color: #8ab4f8;
@@ -44,9 +44,9 @@
   --secondary-border-color: #5f63687a;
   --danger-border-color: #ff3b5cb7;
 
-  --display-background-color: #141414;
-  --display-background-color-lighten: #14141480;
+  --header-background-color: #141414;
   --primary-background-color: #1e1e1e;
+  --primary-background-color-lighten: #14141480;
   --secondary-background-color: #2d2f31;
   --active-background-color: #004a77;
   --secondary-active-background-color: #004a77;
@@ -119,6 +119,15 @@
   --font-label: var(--font-label-large);
   --font-body: var(--font-body-medium);
   --font-detail: var(--font-body-small);
+
+  @media only screen and (max-width: $small-min-width) {
+    --font-display: var(--font-display-small);
+    --font-headline: var(--font-headline-small);
+    --font-title: var(--font-title-small);
+    --font-label: var(--font-label-small);
+    --font-body: var(--font-body-small);
+    --font-detail: var(--font-body-small);
+  }
 
   @media only screen and (min-width: $medium-min-width) and (max-width: $medium-max-width) {
     --font-display: var(--font-display-medium);

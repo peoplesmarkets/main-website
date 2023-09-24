@@ -187,7 +187,6 @@ export function EditOfferDialog(props: Props) {
             />
 
             <TextField
-              name="name"
               label={trans(TKEYS.offer.labels.name)}
               required
               value={offer.name}
@@ -196,7 +195,6 @@ export function EditOfferDialog(props: Props) {
             />
 
             <TextArea
-              name="description"
               label={trans(TKEYS.offer.labels.description)}
               rows={8}
               value={offer.description}

@@ -19,10 +19,12 @@ $expanded-min-width: 1080px;
 .Dialog {
   width: 100%;
   max-width: 400px;
+  max-height: 100%;
   margin: 0 2rem;
   border: none;
   border-radius: 28px;
   background-color: var(--primary-background-color);
+  overflow-y: auto;
 
   @media only screen and (min-width: $expanded-min-width) {
     max-width: 600px;

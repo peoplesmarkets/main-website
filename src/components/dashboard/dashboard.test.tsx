@@ -1,10 +1,10 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
 import {
+  asyncNoOp,
   cleanupDOM,
   createDOM,
   getNoObj,
-  noObj,
   noOp,
   renderIntoRoot,
 } from "../../lib/testing";
@@ -76,13 +76,13 @@ describe("Render once", () => {
   });
   test("MarketBoothImage", () => {
     const { container } = renderIntoRoot(() => (
-      <MarketBoothImage marketBooth={getNoObj} onUpdate={noOp} />
+      <MarketBoothImage shopCustomization={getNoObj} onUpdate={noOp} />
     ));
     expect(container).toBeDefined();
   });
   test("MarketBoothSettings", () => {
     const { container } = renderIntoRoot(() => (
-      <MarketBoothSettings marketBooth={getNoObj} />
+      <MarketBoothSettings onUpdate={asyncNoOp} onDelete={noOp} />
     ));
     expect(container).toBeDefined();
   });

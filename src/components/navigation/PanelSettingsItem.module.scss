@@ -9,7 +9,7 @@ $navigation-item-height: 48px;
   user-select: none;
   font: var(--font-label);
   text-decoration: none;
-  color: var(--primary-content-color);
+  color: var(--header-content-color);
   background: none;
   border: none;
   outline: inherit;
@@ -34,5 +34,5 @@ $navigation-item-height: 48px;
 .Icon {
   width: calc($navigation-item-height / 2.2);
   height: calc($navigation-item-height / 2.2);
-  fill: var(--primary-content-color);
+  fill: var(--header-content-color);
 }

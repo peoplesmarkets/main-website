@@ -18,6 +18,7 @@ type Props = {
   submit?: boolean;
   disabled?: boolean;
   small?: boolean;
+  tall?: boolean;
   wide?: boolean;
 };
 
@@ -37,6 +38,7 @@ export function ActionButton(props: Props) {
         [styles.NeutralFilled]: props.actionType === "neutral-filled",
         [styles.Disabled]: Boolean(props.disabled),
         [styles.Small]: Boolean(props.small),
+        [styles.Tall]: Boolean(props.tall),
         [styles.Wide]: Boolean(props.wide),
       }}
       disabled={Boolean(props.disabled)}
