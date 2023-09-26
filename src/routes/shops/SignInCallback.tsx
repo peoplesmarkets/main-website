@@ -1,6 +1,6 @@
 import { useNavigate, useRouteData, useSearchParams } from "@solidjs/router";
 import _ from "lodash";
-import { createEffect } from "solid-js";
+import { onMount } from "solid-js";
 
 import { Cover } from "../../components/layout/Cover";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
@@ -16,7 +16,7 @@ export default function SignInCallback() {
 
   const shopData = useRouteData<typeof ShopData>();
 
-  createEffect(async () => {
+  onMount(async () => {
     const clientId = shopData?.shopDomain?.data()?.clientId;
 
     if (_.isNil(clientId) || _.isEmpty(clientId)) {
