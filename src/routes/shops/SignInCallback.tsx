@@ -1,6 +1,6 @@
 import { useNavigate, useRouteData, useSearchParams } from "@solidjs/router";
 import _ from "lodash";
-import { onMount } from "solid-js";
+import { createEffect, createResource, onMount } from "solid-js";
 
 import { Cover } from "../../components/layout/Cover";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
@@ -8,6 +8,7 @@ import { base64ToUtf8 } from "../../lib";
 import { buildIndexPath } from "../MainRoutes";
 import { buildDashboardPath } from "../dashboard/DashboardRoutes";
 import { ShopData } from "./ShopData";
+import { isResolved } from "../../components/content";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
@@ -16,23 +17,21 @@ export default function SignInCallback() {
 
   const shopData = useRouteData<typeof ShopData>();
 
-  onMount(async () => {
-    const clientId = shopData?.shopDomain?.data()?.clientId;
+  const [startSession] = createResource(
+    () => shopData?.shopDomain?.data()?.clientId,
+    async (clientId) => startSessionWithCode(code, clientId)
+  );
 
-    if (_.isNil(clientId) || _.isEmpty(clientId)) {
-      return;
+  createEffect(() => {
+    if (isResolved(startSession.state)) {
+      if (!_.isNil(state) && !_.isEmpty(state)) {
+        navigate(base64ToUtf8(state), { replace: true });
+      } else {
+        navigate(buildDashboardPath(), { replace: true });
+      }
     }
 
-    try {
-      await startSessionWithCode(code, clientId);
-
-      if (!_.isNil(state) && !_.isEmpty(state)) {
-        return navigate(base64ToUtf8(state), { replace: true });
-      } else {
-        return navigate(buildDashboardPath(), { replace: true, resolve: true });
-      }
-    } catch (err) {
-      // TODO: add error notice
+    if (startSession.state === "errored") {
       navigate(buildIndexPath(), { replace: true });
     }
   });
