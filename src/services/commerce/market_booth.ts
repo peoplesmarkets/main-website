@@ -33,12 +33,11 @@ export class MarketBoothService extends ServiceClient {
   }
 
   public async getBySlug(slug: string) {
-    return await this.client.GetShopBySlug(
-      {
-        slug,
-      },
-      await this.withAuthHeader()
-    );
+    return this.client.GetShopBySlug({ slug }, await this.withAuthHeader());
+  }
+
+  public async getByDomain(domain: string) {
+    return this.client.GetShopByDomain({ domain }, await this.withAuthHeader());
   }
 
   public async list(request: ListShopsRequest) {

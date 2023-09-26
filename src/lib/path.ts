@@ -15,7 +15,7 @@ export function buildPath(...paths: string[]): string {
   );
 }
 
-export function buildUrl(...paths: string[]): string {
+export function buildBaseUrl(...paths: string[]): string {
   return `${import.meta.env.VITE_BASE_URL}${buildPath(...paths)}`;
 }
 

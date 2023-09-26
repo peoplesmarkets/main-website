@@ -1,5 +1,5 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { A, Outlet } from "@solidjs/router";
+import { A, Outlet, useLocation } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 
@@ -8,6 +8,7 @@ import {
   CommunityIcon,
   DashboardIcon,
   LanguageIcon,
+  LogoutIcon,
   MainLogoIcon,
   SearchGlobalIcon,
   SignInIcon,
@@ -22,24 +23,31 @@ import { Theme, useThemeContext } from "../contexts/ThemeContext";
 import { clickOutside } from "../directives";
 import { buildAuthorizationRequest } from "../lib";
 import { TKEYS, getNextLanguageKey, setDocumentLanguage } from "../locales";
-import { buildMarketBoothsPath, buildOffersPath } from "./MainRoutes";
+import {
+  buildIndexPathOrUrl,
+  buildMarketBoothsPath,
+  buildOffersPath,
+} from "./MainRoutes";
 import styles from "./MainRoutesWrapper.module.scss";
-import { buildCommunityPath } from "./community/CommunityRoutes";
+import { buildCommunityPathOrUrl } from "./community/CommunityRoutes";
 import { buildDashboardPath } from "./dashboard/DashboardRoutes";
 import { buildUserSettingsPath } from "./user/UserRoutes";
 
 false && clickOutside;
 
 export default function MainRoutesWrapper() {
+  const location = useLocation();
   const [trans, { changeLanguage, getI18next }] = useTransContext();
   const { theme, setTheme } = useThemeContext();
-  const { isAuthenticated } = useAccessTokensContext();
+  const { isAuthenticated, endSession } = useAccessTokensContext();
 
   const [signingIn, setSigningIn] = createSignal(false);
 
   async function handleSignIn() {
     setSigningIn(true);
-    window.location.href = (await buildAuthorizationRequest()).toString();
+    window.location.href = (
+      await buildAuthorizationRequest(undefined, location.pathname)
+    ).toString();
   }
 
   function handleSwichtLanguage() {
@@ -60,17 +68,21 @@ export default function MainRoutesWrapper() {
     }
   }
 
+  async function handleLogout() {
+    endSession();
+  }
+
   return (
     <>
       <Show when={signingIn()}>
-        <Cover />
+        <Cover pageLoad />
       </Show>
 
       <Panel close={signingIn}>
         <Slot name="logo">
           <A
             class={styles.MainLink}
-            href={buildMarketBoothsPath()}
+            href={buildIndexPathOrUrl()}
             aria-label="Go to home page"
           >
             <MainLogoIcon class={styles.MainLogoIcon} />
@@ -109,7 +121,7 @@ export default function MainRoutesWrapper() {
 
           <PanelItem
             Icon={CommunityIcon}
-            path={buildCommunityPath}
+            path={buildCommunityPathOrUrl}
             label={() => trans(TKEYS["main-navigation"].links.community)}
           />
         </Slot>
@@ -137,6 +149,12 @@ export default function MainRoutesWrapper() {
               />
             </Show>
           </PanelSettingsItem>
+
+          <Show when={isAuthenticated()}>
+            <PanelSettingsItem Icon={LogoutIcon} onClick={handleLogout}>
+              <Trans key={TKEYS["main-navigation"].actions["sign-out"]} />
+            </PanelSettingsItem>
+          </Show>
         </Slot>
       </Panel>
 

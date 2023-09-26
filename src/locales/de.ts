@@ -119,6 +119,8 @@ export const DE: typeof TKEYS = {
       description: "Beschreibung",
       "Created-at": "Erstellt am",
       "Updated-at": "Bearbeitet am",
+      Domain: EN["market-booth"].labels.Domain,
+      domain: EN["market-booth"].labels.domain,
     },
   },
   "shop-customization": {
@@ -202,9 +204,14 @@ export const DE: typeof TKEYS = {
       "edit-logo": "Logo bearbeiten",
       "delete-logo": "Logo löschen",
       "edit-theme": "Erscheinungsbild anpassen",
-      "edit-path-and-domain": "Pfad und Domain einstellen",
+      "edit-path": "URL-Pfad einstellen",
+      "edit-domain": "Domain einstellen",
       "delete-this-market-booth": "Diesen Marktstand löschen",
       "resulting-url": "Resultierende URL",
+      domain: {
+        pending: "Wird verifiziert",
+        active: "Verifiziert",
+      },
       stripe: {
         title: EN.dashboard["market-booth"].stripe.title,
         integration: "Stripe Integration",
@@ -231,6 +238,7 @@ export const DE: typeof TKEYS = {
   "main-navigation": {
     actions: {
       "sign-in": "Login",
+      "sign-out": "Logout",
     },
     links: {
       home: EN["main-navigation"].links.home,

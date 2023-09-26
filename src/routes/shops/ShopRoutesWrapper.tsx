@@ -1,5 +1,5 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { A, Outlet, useRouteData } from "@solidjs/router";
+import { A, Outlet, useLocation, useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
@@ -7,6 +7,7 @@ import { createStore } from "solid-js/store";
 import { isResolved } from "../../components/content";
 import {
   LanguageIcon,
+  LogoutIcon,
   SettingsIcon,
   SignInIcon,
   StoreFrontIcon,
@@ -23,13 +24,20 @@ import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 import { buildAuthorizationRequest, isCssColor } from "../../lib";
 import { TKEYS, getNextLanguageKey, setDocumentLanguage } from "../../locales";
 import { ShopData } from "./ShopData";
-import { buildShopDetailPath, buildShopSettingsPath } from "./ShopRoutes";
+import {
+  buildShopDetailPath,
+  buildShopPathOrUrl,
+  buildShopSettingsPath,
+} from "./ShopRoutes";
 import styles from "./ShopRoutesWrapper.module.scss";
+import { isCustomDomain } from "../../lib/env";
 
 export default function ShopRoutesWrapper() {
+  const location = useLocation();
   const [trans, { changeLanguage, getI18next }] = useTransContext();
   const { theme, setTheme } = useThemeContext();
-  const { isAuthenticated, currentSession } = useAccessTokensContext();
+  const { isAuthenticated, currentSession, endSession } =
+    useAccessTokensContext();
 
   const shopData = useRouteData<typeof ShopData>();
 
@@ -114,7 +122,19 @@ export default function ShopRoutesWrapper() {
 
   async function handleSignIn() {
     setSigningIn(true);
-    window.location.href = (await buildAuthorizationRequest()).toString();
+    window.location.href = (
+      await buildAuthorizationRequest(undefined, location.pathname)
+    ).toString();
+  }
+
+  async function handleSignInForCustomDomain() {
+    const clientId = shopData?.shopDomain?.data()?.clientId;
+    if (!_.isNil(clientId) && !_.isEmpty(clientId)) {
+      setSigningIn(true);
+      window.location.href = (
+        await buildAuthorizationRequest(undefined, location.pathname, clientId)
+      ).toString();
+    }
   }
 
   function handleSwitchTheme() {
@@ -135,14 +155,34 @@ export default function ShopRoutesWrapper() {
     }
   }
 
+  async function handleLogout() {
+    const shopSlug = shopData?.shop?.data()?.marketBoothId;
+    const clientId = shopData?.shopDomain?.data()?.clientId;
+    if (
+      !_.isNil(clientId) &&
+      !_.isEmpty(clientId) &&
+      !_.isNil(shopSlug) &&
+      !_.isEmpty(shopSlug)
+    ) {
+      const redirectUrl = buildShopPathOrUrl(
+        shopData?.shopDomain?.data()?.domain,
+        shopSlug
+      );
+
+      endSession(redirectUrl, clientId);
+    } else {
+      endSession();
+    }
+  }
+
   return (
     <>
       <Show when={signingIn()}>
-        <Cover />
+        <Cover pageLoad />
       </Show>
 
       <Show when={isResolved(shopData.shop.data.state)}>
-        <Panel style={customShopStyle}>
+        <Panel style={customShopStyle} close={signingIn}>
           <Slot name="logo">
             <Show
               when={
@@ -195,9 +235,24 @@ export default function ShopRoutesWrapper() {
 
           <Slot name="settings">
             <Show when={!isAuthenticated()}>
-              <PanelSettingsItem Icon={SignInIcon} onClick={handleSignIn}>
-                <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
-              </PanelSettingsItem>
+              <Show when={!isCustomDomain()}>
+                <PanelSettingsItem Icon={SignInIcon} onClick={handleSignIn}>
+                  <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
+                </PanelSettingsItem>
+              </Show>
+              <Show
+                when={
+                  isCustomDomain() &&
+                  !_.isEmpty(shopData?.shopDomain?.data()?.clientId)
+                }
+              >
+                <PanelSettingsItem
+                  Icon={SignInIcon}
+                  onClick={handleSignInForCustomDomain}
+                >
+                  <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
+                </PanelSettingsItem>
+              </Show>
             </Show>
 
             <PanelSettingsItem
@@ -223,6 +278,12 @@ export default function ShopRoutesWrapper() {
                 />
               </Show>
             </PanelSettingsItem>
+
+            <Show when={isAuthenticated()}>
+              <PanelSettingsItem Icon={LogoutIcon} onClick={handleLogout}>
+                <Trans key={TKEYS["main-navigation"].actions["sign-out"]} />
+              </PanelSettingsItem>
+            </Show>
           </Slot>
         </Panel>
       </Show>
