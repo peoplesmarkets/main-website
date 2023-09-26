@@ -1,13 +1,13 @@
 import { useNavigate, useSearchParams } from "@solidjs/router";
-import { createEffect, createResource, onMount } from "solid-js";
+import { createEffect, createResource } from "solid-js";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { Cover } from "../../components/layout/Cover";
-import { buildDashboardPath } from "../dashboard/DashboardRoutes";
-import { buildIndexPath } from "../MainRoutes";
 import _ from "lodash";
-import { base64ToUtf8 } from "../../lib";
 import { isResolved } from "../../components/content";
+import { Cover } from "../../components/layout/Cover";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { base64ToUtf8 } from "../../lib";
+import { buildIndexPath } from "../MainRoutes";
+import { buildDashboardPath } from "../dashboard/DashboardRoutes";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
