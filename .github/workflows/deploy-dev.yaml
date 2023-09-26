@@ -2,8 +2,6 @@ name: Deploy to developement environment
 on:
   push:
     branches: [dev]
-  pull_request:
-    branches: [dev]
 env:
   NOMAD_ADDR: ${{ secrets.DEV_NOMAD_ADDR }}
   IMAGE_TAG: ghcr.io/${{ github.repository }}:${{ github.sha }}
