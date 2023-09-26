@@ -29,7 +29,7 @@ jobs:
         run: npm run test
 
       - name: Build
-        run: npm run build
+        run: cp .env.dev .env && npm run build
 
       - name: Build Docker image
         run: docker build -t $IMAGE_TAG -f Dockerfile .
