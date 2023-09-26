@@ -5,13 +5,13 @@ import styles from "./Footer.module.scss";
 import { MainLogoText } from "./components/assets";
 import { GitHubIcon, MainLogoIcon, RocketLaunchIcon } from "./components/icons";
 import { TKEYS } from "./locales/dev";
-import { buildMarketBoothsPath } from "./routes/MainRoutes";
-import { buildCommunityPath } from "./routes/community/CommunityRoutes";
+import { buildIndexPathOrUrl } from "./routes/MainRoutes";
+import { buildCommunityPathOrUrl } from "./routes/community/CommunityRoutes";
 import {
-  buildGetStartedPath,
-  buildImprintPath,
-  buildPrivacyPolicyPath,
-  buildTermsOfServicePath,
+  buildGetStartedPathOrUrl,
+  buildImprintPathOrUrl,
+  buildPrivacyPolicyPathOrUrl,
+  buildTermsOfServicePathOrUrl,
 } from "./routes/info/InfoRoutes";
 
 export default function Footer() {
@@ -25,7 +25,7 @@ export default function Footer() {
           <div class={styles.Logo}>
             <A
               class={styles.LogoLink}
-              href={buildMarketBoothsPath()}
+              href={buildIndexPathOrUrl()}
               aria-label="Go to home page"
             >
               <MainLogoIcon class={styles.MainLogoIcon} />
@@ -40,17 +40,17 @@ export default function Footer() {
           </div>
 
           <div class={styles.SiteLinks}>
-            <A href={buildGetStartedPath()} class={styles.LinkWithIcon}>
+            <A href={buildGetStartedPathOrUrl()} class={styles.LinkWithIcon}>
               <Trans key={TKEYS["landing-page"]["get-started"]} />
               <RocketLaunchIcon class={styles.LinkIcon} />
             </A>
-            <A href={buildImprintPath()}>
+            <A href={buildImprintPathOrUrl()}>
               <Trans key={TKEYS.imprint.title} />
             </A>
-            <A href={buildPrivacyPolicyPath()}>
+            <A href={buildPrivacyPolicyPathOrUrl()}>
               <Trans key={TKEYS["privacy-policy"].title} />
             </A>
-            <A href={buildTermsOfServicePath()}>
+            <A href={buildTermsOfServicePathOrUrl()}>
               <Trans key={TKEYS["terms-of-service"].title} />
             </A>
           </div>
@@ -62,7 +62,7 @@ export default function Footer() {
           </div>
 
           <div class={styles.SiteLinks}>
-            <A href={buildCommunityPath()}>
+            <A href={buildCommunityPathOrUrl()}>
               <Trans key={TKEYS["main-navigation"].links.community} />{" "}
             </A>
           </div>

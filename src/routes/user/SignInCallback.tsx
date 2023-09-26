@@ -28,5 +28,5 @@ export default function SignInCallback() {
     }
   });
 
-  return <Cover />;
+  return <Cover pageLoad />;
 }

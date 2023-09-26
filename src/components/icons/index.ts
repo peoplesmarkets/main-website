@@ -8,6 +8,7 @@ export * from "./EditIcon";
 export * from "./GitHubIcon";
 export * from "./ImageIcon";
 export * from "./LanguageIcon";
+export * from "./LogoutIcon";
 export * from "./MainLogoIcon";
 export * from "./OpenInNewIcon";
 export * from "./RocketLaunchIcon";
@@ -19,4 +20,3 @@ export * from "./StorefrontIcon";
 export * from "./ThemeIcon";
 export * from "./TrashIcon";
 export * from "./UserSettingsIcon";
-

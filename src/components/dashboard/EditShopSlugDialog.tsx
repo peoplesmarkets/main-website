@@ -4,6 +4,7 @@ import { useNavigate, useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
+
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
@@ -114,7 +115,7 @@ export function EditShopSlugDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard["market-booth"]["edit-path-and-domain"])}
+          title={trans(TKEYS.dashboard["market-booth"]["edit-path"])}
           onClose={props.onClose}
         >
           <form class={styles.Form} onSubmit={handleUpdateShop}>
