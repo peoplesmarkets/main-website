@@ -2,7 +2,7 @@ import { A } from "@solidjs/router";
 import _ from "lodash";
 import { For, Show } from "solid-js";
 
-import { buildShopDetailPath } from "../../routes/shops/ShopRoutes";
+import { buildShopPathOrUrl } from "../../routes/shops/ShopRoutes";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import { Multiline } from "../content";
 import styles from "./MarketBoothList.module.scss";
@@ -15,7 +15,10 @@ export function MarketBoothList(props: Props) {
   return (
     <For each={props.shops()}>
       {(shop) => (
-        <A class={styles.Row} href={buildShopDetailPath(shop.slug)}>
+        <A
+          class={styles.Row}
+          href={buildShopPathOrUrl(shop?.domain, shop.slug)}
+        >
           <Show when={!_.isEmpty(shop?.customization?.bannerImageUrl)}>
             <img
               class={styles.Image}

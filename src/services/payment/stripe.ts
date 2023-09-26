@@ -1,4 +1,4 @@
-import { buildOfferPath } from "../../routes/shops/ShopRoutes";
+import { buildOfferUrl } from "../../routes/shops/ShopRoutes";
 import {
   GrpcWebImpl,
   StripeServiceClientImpl,
@@ -48,10 +48,7 @@ export class StripeService extends ServiceClient {
   }
 
   public async createCheckoutSession(shopSlug: string, offerId: string) {
-    const offerUrl = `${import.meta.env.VITE_BASE_URL}${buildOfferPath(
-      shopSlug,
-      offerId
-    )}`;
+    const offerUrl = buildOfferUrl(shopSlug, offerId);
 
     return this.client.CreateCheckoutSession(
       {

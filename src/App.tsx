@@ -3,7 +3,7 @@ import { Route, Router, Routes } from "@solidjs/router";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import ICU from "i18next-icu";
-import { onMount } from "solid-js";
+import { Show, onMount } from "solid-js";
 
 import styles from "./App.module.scss";
 import Footer from "./Footer";
@@ -18,6 +18,7 @@ import NotFound from "./routes/404";
 import InfoRoutes from "./routes/info/InfoRoutes";
 import { ShopRoutes } from "./routes/shops/ShopRoutes";
 import { UserRoutes } from "./routes/user/UserRoutes";
+import { isCustomDomain } from "./lib/env";
 
 export default function App() {
   const i18nextInstance = i18next.createInstance({
@@ -38,17 +39,23 @@ export default function App() {
           <AccessTokenProvider>
             <div class={styles.App}>
               <Routes>
-                <MainRoutes />
+                <Show when={isCustomDomain()}>
+                  <ShopRoutes />
+                </Show>
 
-                <ShopRoutes />
+                <Show when={!isCustomDomain()}>
+                  <MainRoutes />
 
-                <DashboardRoutes />
+                  <ShopRoutes />
 
-                <UserRoutes />
+                  <DashboardRoutes />
 
-                <CommunityRoutes />
+                  <UserRoutes />
 
-                <InfoRoutes />
+                  <CommunityRoutes />
+
+                  <InfoRoutes />
+                </Show>
 
                 <Route path="*" component={MainRoutesWrapper}>
                   <Route path="*" component={NotFound} />

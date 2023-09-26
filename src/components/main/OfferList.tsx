@@ -6,7 +6,7 @@ import { TKEYS } from "../../locales/dev";
 
 import {
   buildOfferPath,
-  buildShopDetailPath,
+  buildShopPathOrUrl
 } from "../../routes/shops/ShopRoutes";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
@@ -53,7 +53,7 @@ export function OfferList(props: Props) {
                   <Trans key={TKEYS.common.by} />:{" "}
                   <A
                     class={styles.InfoLink}
-                    href={buildShopDetailPath(offer.shopSlug)}
+                    href={buildShopPathOrUrl(offer.shopDomain, offer.shopSlug)}
                   >
                     {offer.marketBoothName}
                   </A>

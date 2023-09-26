@@ -1,7 +1,8 @@
 import { Route } from "@solidjs/router";
 import { lazy } from "solid-js";
 
-import { buildPath } from "../lib";
+import { buildPath, buildBaseUrl } from "../lib";
+import { isCustomDomain } from "../lib/env";
 
 const ROOT_PATH = "";
 const MARKET_BOOTHS_PATH = "/";
@@ -9,6 +10,13 @@ const OFFERS_PATH = "/offers";
 
 export function buildIndexPath() {
   return "/";
+}
+
+export function buildIndexPathOrUrl() {
+  if (isCustomDomain()) {
+    return buildBaseUrl(buildIndexPath());
+  }
+  return buildIndexPath();
 }
 
 export function buildMarketBoothsPath() {

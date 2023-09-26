@@ -2,8 +2,9 @@ import { Route } from "@solidjs/router";
 import { lazy } from "solid-js";
 
 import { signInDataRoute } from "../../data-routes";
-import MainRoutesWrapper from "../MainRoutesWrapper";
 import { buildPath } from "../../lib";
+import { getOriginFromWindow } from "../../lib/env";
+import MainRoutesWrapper from "../MainRoutesWrapper";
 
 const ROOT_PATH = "/user";
 const SETTINGS_PATH = "/settings";
@@ -13,8 +14,13 @@ const SIGN_IN_CALLBACK_PATH = SIGN_IN_PATH + "/callback";
 export function buildUserSettingsPath() {
   return buildPath(ROOT_PATH, SETTINGS_PATH);
 }
+
 export function buildSignInCallbackPath() {
   return buildPath(ROOT_PATH, SIGN_IN_CALLBACK_PATH);
+}
+
+export function buildSignInCallbackUrl() {
+  return `${getOriginFromWindow()}${buildSignInCallbackPath()}`;
 }
 
 export function UserRoutes() {

@@ -159,14 +159,14 @@ function initialize() {
   }
 
   return {
-    startSessionWithCode: async (code: string) => {
-      const token = await getToken(code);
+    startSessionWithCode: async (code: string, clientId?: string) => {
+      const token = await getToken(code, clientId);
       storeAccessTokens(await token.json());
       await fetchSessions();
     },
-    endSession: () => {
+    endSession: (redirectTo?: string, clientId?: string) => {
       removeAccessTokens();
-      endSession();
+      endSession(redirectTo, clientId);
     },
     ensureFreshTokens,
     refreshToken: refreshTokensAndSet,

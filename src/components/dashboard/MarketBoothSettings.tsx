@@ -5,7 +5,7 @@ import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildUrl, secondsToLocaleString } from "../../lib";
+import { buildBaseUrl, secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { buildDashboardMediaPath } from "../../routes/dashboard/DashboardRoutes";
 import { ShopData } from "../../routes/shops/ShopData";
@@ -22,6 +22,7 @@ import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 import { EditShopThemeDialog } from "./EditShopThemeDialog";
 import styles from "./MarketBoothSettings.module.scss";
 import { EditShopSlugDialog } from "./EditShopSlugDialog";
+import { EditShopDomainDialog } from "./EditShopDomainDialog";
 
 type Props = {
   onUpdate: () => Promise<void>;
@@ -36,7 +37,8 @@ type DIALOG =
   | "edit-image"
   | "edit-logo"
   | "edit-theme"
-  | "edit-slug";
+  | "edit-slug"
+  | "edit-domain";
 
 export function MarketBoothSettings(props: Props) {
   const location = useLocation();
@@ -105,6 +107,7 @@ export function MarketBoothSettings(props: Props) {
 
   function handleCloseDialog() {
     setShowDialog("none");
+    shopData.refetch();
   }
 
   function handleEditMedias() {
@@ -155,7 +158,7 @@ export function MarketBoothSettings(props: Props) {
     try {
       const { link } = await stripeService.createAccountLink(
         shopData?.shop?.data()!.marketBoothId,
-        buildUrl(location.pathname)
+        buildBaseUrl(location.pathname)
       );
       window.location.href = link;
     } catch (err) {
@@ -256,13 +259,23 @@ export function MarketBoothSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans
-              key={TKEYS.dashboard["market-booth"]["edit-path-and-domain"]}
-            />
+            <Trans key={TKEYS.dashboard["market-booth"]["edit-path"]} />
           </p>
           <ActionButton
             actionType="neutral"
             onClick={() => handleOpenDialog("edit-slug")}
+          >
+            <Trans key={TKEYS.form.action.Edit} />
+          </ActionButton>
+        </div>
+
+        <div class={styles.EditSection}>
+          <p class={styles.Body}>
+            <Trans key={TKEYS.dashboard["market-booth"]["edit-domain"]} />
+          </p>
+          <ActionButton
+            actionType="neutral"
+            onClick={() => handleOpenDialog("edit-domain")}
           >
             <Trans key={TKEYS.form.action.Edit} />
           </ActionButton>
@@ -399,8 +412,15 @@ export function MarketBoothSettings(props: Props) {
       >
         <EditShopSlugDialog onClose={handleCloseDialog} />
       </Show>
+      <Show
+        when={
+          showDialog() === "edit-domain" && !_.isNil(shopData?.shop?.data())
+        }
+      >
+        <EditShopDomainDialog onClose={handleCloseDialog} />
+      </Show>
       <Show when={redirecting()}>
-        <Cover />
+        <Cover pageLoad/>
       </Show>
     </>
   );

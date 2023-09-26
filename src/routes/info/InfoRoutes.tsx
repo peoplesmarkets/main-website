@@ -1,7 +1,8 @@
 import { Route, useNavigate } from "@solidjs/router";
 import { lazy } from "solid-js";
-import { buildPath } from "../../lib";
+import { buildPath, buildBaseUrl } from "../../lib";
 import MainRoutesWrapper from "../MainRoutesWrapper";
+import { isCustomDomain } from "../../lib/env";
 
 const ROOT_PATH = "/info";
 const GET_STARTED_PATH = "/get-started";
@@ -9,20 +10,48 @@ const IMPRINT_PATH = "/imprint";
 const PRIVACY_POLICY_PATH = "/privacy-policy";
 const TERMS_OF_SERVICE_PATH = "/terms-of-service";
 
-export function buildGetStartedPath() {
+function buildGetStartedPath() {
   return buildPath(ROOT_PATH, GET_STARTED_PATH);
 }
 
-export function buildImprintPath() {
+export function buildGetStartedPathOrUrl() {
+  if (isCustomDomain()) {
+    return buildBaseUrl(buildGetStartedPath());
+  }
+  return buildGetStartedPath();
+}
+
+function buildImprintPath() {
   return buildPath(ROOT_PATH, IMPRINT_PATH);
 }
 
-export function buildPrivacyPolicyPath() {
+export function buildImprintPathOrUrl() {
+  if (isCustomDomain()) {
+    return buildBaseUrl(buildImprintPath());
+  }
+  return buildImprintPath();
+}
+
+function buildPrivacyPolicyPath() {
   return buildPath(ROOT_PATH, PRIVACY_POLICY_PATH);
 }
 
-export function buildTermsOfServicePath() {
+export function buildPrivacyPolicyPathOrUrl() {
+  if (isCustomDomain()) {
+    return buildBaseUrl(buildPrivacyPolicyPath());
+  }
+  return buildPrivacyPolicyPath();
+}
+
+function buildTermsOfServicePath() {
   return buildPath(ROOT_PATH, TERMS_OF_SERVICE_PATH);
+}
+
+export function buildTermsOfServicePathOrUrl() {
+  if (isCustomDomain()) {
+    return buildBaseUrl(buildTermsOfServicePath());
+  }
+  return buildTermsOfServicePath();
 }
 
 export default function InfoRoutes() {

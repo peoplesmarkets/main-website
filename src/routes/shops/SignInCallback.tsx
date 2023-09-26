@@ -1,22 +1,25 @@
-import { useNavigate, useSearchParams } from "@solidjs/router";
+import { useNavigate, useRouteData, useSearchParams } from "@solidjs/router";
+import _ from "lodash";
 import { createEffect, createResource } from "solid-js";
 
-import _ from "lodash";
 import { isResolved } from "../../components/content";
 import { Cover } from "../../components/layout/Cover";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { base64ToUtf8 } from "../../lib";
 import { buildIndexPath } from "../MainRoutes";
 import { buildDashboardPath } from "../dashboard/DashboardRoutes";
+import { ShopData } from "./ShopData";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
   const [{ code, state }] = useSearchParams();
   const navigate = useNavigate();
 
+  const shopData = useRouteData<typeof ShopData>();
+
   const [startSession] = createResource(
-    () => code,
-    async (code) => startSessionWithCode(code)
+    () => shopData?.shopDomain?.data()?.clientId,
+    async (clientId) => startSessionWithCode(code, clientId)
   );
 
   createEffect(() => {

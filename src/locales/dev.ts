@@ -133,6 +133,8 @@ export const TKEYS = {
       description: "market-booth.labels.description",
       "Created-at": "market-booth.labels.Created-at",
       "Updated-at": "market-booth.labels.Updated-at",
+      Domain: "market-booth.labels.Domain",
+      domain: "market-booth.labels.domain",
     },
   },
   "shop-customization": {
@@ -232,10 +234,15 @@ export const TKEYS = {
       "edit-logo": "dashboard.market-booth.edit-logo",
       "delete-logo": "dashboard.market-booth.delete-logo",
       "edit-theme": "dashboard.market-booth.edit-theme",
-      "edit-path-and-domain": "dashboard.market-booth.edit-path-and-domain",
+      "edit-path": "dashboard.market-booth.edit-path",
+      "edit-domain": "dashboard.market-booth.edit-domain",
       "delete-this-market-booth":
         "dashboard.market-booth.delete-this-market-booth",
       "resulting-url": "dashboard.market-booth.resulting-url",
+      domain: {
+        pending: "dashboard.market-booth.domain.pending",
+        active: "dashboard.market-booth.domain.active",
+      },
       stripe: {
         title: "dashboard.market-booth.stripe.title",
         integration: "dashboard.market-booth.stripe.integration",
@@ -264,6 +271,7 @@ export const TKEYS = {
   "main-navigation": {
     actions: {
       "sign-in": "main-navigation.actions.sign-in",
+      "sign-out": "main-navigation.actions.sign-out",
     },
     links: {
       home: "main-navigation.links.home",

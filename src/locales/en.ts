@@ -120,6 +120,8 @@ export const EN: typeof TKEYS = {
       description: "description",
       "Created-at": "Created at",
       "Updated-at": "Updated at",
+      Domain: "Domain",
+      domain: "domain",
     },
   },
   "shop-customization": {
@@ -204,9 +206,14 @@ export const EN: typeof TKEYS = {
       "edit-logo": "Edit Logo",
       "delete-logo": "Delete Logo",
       "edit-theme": "Edit Theme",
-      "edit-path-and-domain": "Edit Path and Domain",
+      "edit-path": "Edit URL-path",
+      "edit-domain": "Edit Domain",
       "delete-this-market-booth": "Delete this Market Booth",
       "resulting-url": "Resulting URL",
+      domain: {
+        pending: "Pending verification",
+        active: "Verified",
+      },
       stripe: {
         title: "Stripe",
         integration: "Stripe Integraion",
@@ -233,6 +240,7 @@ export const EN: typeof TKEYS = {
   "main-navigation": {
     actions: {
       "sign-in": "Sign In",
+      "sign-out": "Sign Out",
     },
     links: {
       home: "Home",
