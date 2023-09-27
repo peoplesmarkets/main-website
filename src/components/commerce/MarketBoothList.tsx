@@ -6,12 +6,30 @@ import { buildShopPathOrUrl } from "../../routes/shops/ShopRoutes";
 import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
 import { Multiline } from "../content";
 import styles from "./MarketBoothList.module.scss";
+import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 
 type Props = {
   readonly shops: () => MarketBoothResponse[];
 };
 
 export function MarketBoothList(props: Props) {
+  const { theme } = useThemeContext();
+
+  function bannerImageUrl(shop: MarketBoothResponse) {
+    if (
+      theme() === Theme.DefaultLight &&
+      !_.isEmpty(shop?.customization?.bannerImageLightUrl)
+    ) {
+      return shop.customization?.bannerImageLightUrl;
+    }
+    if (
+      theme() === Theme.DefaultDark &&
+      !_.isEmpty(shop?.customization?.bannerImageDarkUrl)
+    ) {
+      return shop.customization?.bannerImageDarkUrl;
+    }
+  }
+
   return (
     <For each={props.shops()}>
       {(shop) => (
@@ -19,12 +37,8 @@ export function MarketBoothList(props: Props) {
           class={styles.Row}
           href={buildShopPathOrUrl(shop?.domain, shop.slug)}
         >
-          <Show when={!_.isEmpty(shop?.customization?.bannerImageUrl)}>
-            <img
-              class={styles.Image}
-              src={shop.customization!.bannerImageUrl}
-              alt=""
-            />
+          <Show when={!_.isNil(bannerImageUrl(shop))}>
+            <img class={styles.Image} src={bannerImageUrl(shop)} alt="" />
           </Show>
           <div>
             <span class={styles.Label}>{shop.name}</span>

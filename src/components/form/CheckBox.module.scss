@@ -1,0 +1,17 @@
+.CheckBox {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+  user-select: none;
+}
+
+.Label {
+  font: var(--font-body);
+}
+
+.Icon {
+  height: 1.4rem;
+  width: 1.4rem;
+  fill: var(--primary-content-color);
+}

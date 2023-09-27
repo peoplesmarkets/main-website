@@ -17,15 +17,15 @@ import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
 import { ProgressBar } from "../assets";
 import { ShopCustomizationService } from "../../services/commerce/shop_customization";
+import { PutLogoImageToShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop_customization";
 
 type Props = {
-  readonly marketBoothId: string;
+  readonly shopId: string;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
-  readonly logo?: boolean;
 };
 
-export function EditMarketBoothImageDialog(props: Props) {
+export function EditShopLogoDialog(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
@@ -33,10 +33,13 @@ export function EditMarketBoothImageDialog(props: Props) {
   const shopCustomizationService = new ShopCustomizationService(accessToken);
 
   const [form, setForm] = createStore({
+    shopId: undefined as string | undefined,
     image: undefined as File | undefined,
+    imageDark: undefined as File | undefined,
   });
   const [errors, setErrors] = createStore({
     image: [] as string[],
+    imageDark: [] as string[],
   });
 
   const [uploading, setUploading] = createSignal(false);
@@ -48,27 +51,27 @@ export function EditMarketBoothImageDialog(props: Props) {
   async function updateImage(event: SubmitEvent) {
     event.preventDefault();
 
-    if (_.isNil(form.image)) {
-      setErrors("image", [trans(TKEYS.form.errors["required-field"])]);
-      return;
-    }
+    const request = PutLogoImageToShopRequest.create({
+      shopId: props.shopId,
+    });
 
-    setUploading(true);
-
-    const request = {
-      shopId: props.marketBoothId,
-      image: {
+    if (!_.isNil(form.image)) {
+      setUploading(true);
+      request.image = {
         contentType: "",
         data: await readAsUint8Array(form.image, 0, form.image.size),
-      },
-    };
+      };
+    }
+    if (!_.isNil(form.imageDark)) {
+      setUploading(true);
+      request.imageDark = {
+        contentType: "",
+        data: await readAsUint8Array(form.imageDark, 0, form.imageDark.size),
+      };
+    }
 
     try {
-      if (props.logo) {
-        await shopCustomizationService.putLogoImage(request);
-      } else {
-        await shopCustomizationService.putBannerImage(request);
-      }
+      await shopCustomizationService.putLogoImage(request);
       setUploading(false);
       props.onUpdate();
       props.onClose();
@@ -77,15 +80,17 @@ export function EditMarketBoothImageDialog(props: Props) {
 
       if (err.code) {
         if (err.code === grpc.Code.ResourceExhausted) {
-          setErrors("image", [
-            trans(TKEYS.form.errors["item-too-large"], {
-              item: trans(TKEYS.common.file),
-            }),
-          ]);
+          const toLarge = trans(TKEYS.form.errors["item-too-large"], {
+            item: trans(TKEYS.common.file),
+          });
+          setErrors("image", [toLarge]);
+          setErrors("imageDark", [toLarge]);
           return;
         }
         if (err.code === grpc.Code.InvalidArgument) {
-          setErrors("image", [trans(TKEYS.form.errors["wrong-type"])]);
+          const wrongType = trans(TKEYS.form.errors["wrong-type"]);
+          setErrors("image", [wrongType]);
+          setErrors("imageDark", [wrongType]);
           return;
         }
       }
@@ -95,11 +100,7 @@ export function EditMarketBoothImageDialog(props: Props) {
   }
 
   async function deleteImage() {
-    if (props.logo) {
-      await shopCustomizationService.removeLogoImage(props.marketBoothId);
-    } else {
-      await shopCustomizationService.removeBannerImage(props.marketBoothId);
-    }
+    await shopCustomizationService.removeLogoImage(props.shopId);
     props.onUpdate();
     props.onClose();
   }
@@ -111,8 +112,15 @@ export function EditMarketBoothImageDialog(props: Props) {
     }
   }
 
+  function handleImageDarkInput(files: FileList | null) {
+    resetErrors();
+    if (!_.isNil(files) && !_.isEmpty(files)) {
+      setForm("imageDark", _.first(files));
+    }
+  }
+
   function resetErrors() {
-    setErrors({ image: [] });
+    setErrors({ image: [], imageDark: [] });
   }
 
   function removeImage() {
@@ -141,32 +149,33 @@ export function EditMarketBoothImageDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={
-            props.logo
-              ? trans(TKEYS.dashboard["market-booth"]["edit-logo"])
-              : trans(TKEYS.dashboard["market-booth"]["edit-image"])
-          }
+          title={trans(TKEYS.dashboard["market-booth"]["edit-logo"])}
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={updateImage}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
-                label="image"
-                required
+                label={trans(
+                  TKEYS.dashboard["market-booth"].image["for-light-theme"]
+                )}
                 errors={errors.image}
                 onValue={handleImageInput}
+                showLabel
+              />
+
+              <FileField
+                label={trans(
+                  TKEYS.dashboard["market-booth"].image["for-dark-theme"]
+                )}
+                errors={errors.image}
+                onValue={handleImageDarkInput}
+                showLabel
               />
             </Show>
 
             <div class={styles.DialogFooter}>
               <ActionButton actionType="danger" onClick={removeImage}>
-                <Trans
-                  key={
-                    props.logo
-                      ? trans(TKEYS.dashboard["market-booth"]["delete-logo"])
-                      : TKEYS.dashboard["market-booth"]["delete-image"]
-                  }
-                />
+                <Trans key={TKEYS.dashboard["market-booth"]["delete-logo"]} />
               </ActionButton>
 
               <ActionButton

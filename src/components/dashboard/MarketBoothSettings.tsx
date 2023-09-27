@@ -18,11 +18,12 @@ import { Message } from "../form/Message";
 import { Cover } from "../layout/Cover";
 import { Section } from "../layout/Section";
 import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
-import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
+import { EditShopBannerDialog } from "./EditShopBannerDialog";
+import { EditShopDomainDialog } from "./EditShopDomainDialog";
+import { EditShopLogoDialog } from "./EditShopLogoDialog";
+import { EditShopSlugDialog } from "./EditShopSlugDialog";
 import { EditShopThemeDialog } from "./EditShopThemeDialog";
 import styles from "./MarketBoothSettings.module.scss";
-import { EditShopSlugDialog } from "./EditShopSlugDialog";
-import { EditShopDomainDialog } from "./EditShopDomainDialog";
 
 type Props = {
   onUpdate: () => Promise<void>;
@@ -383,8 +384,8 @@ export function MarketBoothSettings(props: Props) {
       <Show
         when={showDialog() === "edit-image" && !_.isNil(shopData?.shop?.data())}
       >
-        <EditMarketBoothImageDialog
-          marketBoothId={shopData?.shop?.data()!.marketBoothId}
+        <EditShopBannerDialog
+          shopId={shopData?.shop?.data()!.marketBoothId}
           onClose={handleCloseDialog}
           onUpdate={() => props.onUpdate()}
         />
@@ -392,9 +393,8 @@ export function MarketBoothSettings(props: Props) {
       <Show
         when={showDialog() === "edit-logo" && !_.isNil(shopData?.shop?.data())}
       >
-        <EditMarketBoothImageDialog
-          marketBoothId={shopData?.shop?.data()!.marketBoothId}
-          logo
+        <EditShopLogoDialog
+          shopId={shopData?.shop?.data()!.marketBoothId}
           onClose={handleCloseDialog}
           onUpdate={() => props.onUpdate()}
         />
@@ -420,7 +420,7 @@ export function MarketBoothSettings(props: Props) {
         <EditShopDomainDialog onClose={handleCloseDialog} />
       </Show>
       <Show when={redirecting()}>
-        <Cover pageLoad/>
+        <Cover pageLoad />
       </Show>
     </>
   );
