@@ -58,6 +58,21 @@ export default function ShopRoutesWrapper() {
     });
   }
 
+  function logoImageUrl() {
+    if (
+      theme() === Theme.DefaultLight &&
+      !_.isEmpty(shopData?.shopCustomization.data()?.logoImageLightUrl)
+    ) {
+      return shopData.shopCustomization.data()?.logoImageLightUrl;
+    }
+    if (
+      theme() === Theme.DefaultDark &&
+      !_.isEmpty(shopData?.shopCustomization.data()?.logoImageDarkUrl)
+    ) {
+      return shopData.shopCustomization.data()?.logoImageDarkUrl;
+    }
+  }
+
   createEffect(() => {
     const styles = shopData.shopCustomization.data();
 
@@ -185,10 +200,7 @@ export default function ShopRoutesWrapper() {
         <Panel style={customShopStyle} close={signingIn}>
           <Slot name="logo">
             <Show
-              when={
-                isResolved(shopData.shopCustomization.data.state) &&
-                !_.isEmpty(shopData.shopCustomization.data()?.logoImageUrl)
-              }
+              when={!_.isEmpty(logoImageUrl())}
               fallback={
                 <A
                   class={styles.MainLink}
@@ -202,11 +214,7 @@ export default function ShopRoutesWrapper() {
                 class={styles.LogoLink}
                 href={buildShopDetailPath(shopData.shop.data()!.slug)}
               >
-                <img
-                  class={styles.Logo}
-                  src={shopData.shopCustomization.data()?.logoImageUrl}
-                  alt=""
-                />
+                <img class={styles.Logo} src={logoImageUrl()} alt="" />
               </A>
             </Show>
           </Slot>

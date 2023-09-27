@@ -8,6 +8,7 @@ type Props = {
   readonly errors: string[];
   readonly required?: boolean;
   readonly onValue: (_value: FileList | null) => void;
+  readonly showLabel?: boolean;
 };
 
 export function FileField(props: Props) {
@@ -17,13 +18,19 @@ export function FileField(props: Props) {
         id={slugify(props.label)}
         type="file"
         class={styles.Input}
-        classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
+        classList={{
+          [styles.HasErrors]: !_.isEmpty(props.errors),
+        }}
         name={slugify(props.label)}
         placeholder={props.label}
         required={Boolean(props.required)}
         onInput={(event) => props.onValue(event.currentTarget.files)}
       />
-      <label class={styles.Label} for={slugify(props.label)}>
+      <label
+        class={styles.Label}
+        classList={{ [styles.ShowLabel]: Boolean(props.showLabel) }}
+        for={slugify(props.label)}
+      >
         {props.label}
       </label>
       <Show when={!_.isEmpty(props.errors)}>

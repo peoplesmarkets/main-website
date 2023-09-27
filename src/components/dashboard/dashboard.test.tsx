@@ -15,9 +15,9 @@ import { EditOfferDialog } from "./EditOfferDialog";
 import { MarketBoothSettings } from "./MarketBoothSettings";
 import { OfferSettings } from "./OfferSettings";
 import { CreateOfferImageDialog } from "./CreateOfferImageDialog";
-import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 import { MarketBoothImage } from "./MarketBoothImage";
 import { MediaSettings } from "./MediaSettings";
+import { EditShopBannerDialog } from "./EditShopBannerDialog";
 
 /**
  * Render to check if objects are accessed correctly
@@ -58,10 +58,10 @@ describe("Render once", () => {
     ));
     expect(container).toBeDefined();
   });
-  test("EditMarketBoothImageDialog", () => {
+  test("EditShopBannerDialog", () => {
     const { container } = renderIntoRoot(() => (
-      <EditMarketBoothImageDialog
-        marketBoothId=""
+      <EditShopBannerDialog
+        shopId=""
         onClose={noOp}
         onUpdate={noOp}
       />

@@ -239,6 +239,12 @@ export const TKEYS = {
       "delete-this-market-booth":
         "dashboard.market-booth.delete-this-market-booth",
       "resulting-url": "dashboard.market-booth.resulting-url",
+      image: {
+        "for-light-theme": "dashboard.market-booth.image.for-light-theme",
+        "for-dark-theme": "dashboard.market-booth.image.for-dark-theme",
+        "show-in-listings": "dashboard.market-booth.image.show-in-listings",
+        "show-on-home": "dashboard.market-booth.image.show-on-home",
+      },
       domain: {
         pending: "dashboard.market-booth.domain.pending",
         active: "dashboard.market-booth.domain.active",

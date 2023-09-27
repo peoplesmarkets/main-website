@@ -208,6 +208,12 @@ export const DE: typeof TKEYS = {
       "edit-domain": "Domain einstellen",
       "delete-this-market-booth": "Diesen Marktstand löschen",
       "resulting-url": "Resultierende URL",
+      image: {
+        "for-light-theme": "Für Hellmodus",
+        "for-dark-theme": "Für Dunkelmodus",
+        "show-in-listings": "In Listen anzeigen",
+        "show-on-home": "Auf der Hauptseite anzeigen",
+      },
       domain: {
         pending: "Wird verifiziert",
         active: "Verifiziert",
