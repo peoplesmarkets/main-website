@@ -12,9 +12,9 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales";
 import { MediaService } from "../../services";
 import { ShopData } from "../shops/ShopData";
-import styles from "./Medias.module.scss";
+import styles from "./MediaSettings.module.scss";
 
-export default function Medias() {
+export default function MediaSettings() {
   const { accessToken } = useAccessTokensContext();
 
   const shopData = useRouteData<typeof ShopData>();
@@ -47,7 +47,9 @@ export default function Medias() {
 
   return (
     <>
-      <ShopBanner shopCustomization={() => shopData.shopCustomization.data()!} />
+      <ShopBanner
+        shopCustomization={() => shopData.shopCustomization.data()!}
+      />
 
       <Section>
         <Show when={isResolved(shopData.shop.data.state)}>

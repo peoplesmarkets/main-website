@@ -7,7 +7,6 @@ import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { buildBaseUrl, secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
-import { buildDashboardMediaPath } from "../../routes/dashboard/DashboardRoutes";
 import { ShopData } from "../../routes/shops/ShopData";
 import { MarketBoothService, StripeService } from "../../services";
 import { ContentError, ContentLoading, isResolved } from "../content";
@@ -24,6 +23,7 @@ import { EditShopLogoDialog } from "./EditShopLogoDialog";
 import { EditShopSlugDialog } from "./EditShopSlugDialog";
 import { EditShopThemeDialog } from "./EditShopThemeDialog";
 import styles from "./MarketBoothSettings.module.scss";
+import { buildMediasSettingsPath } from "../../routes/shops/ShopRoutes";
 
 type Props = {
   onUpdate: () => Promise<void>;
@@ -114,7 +114,7 @@ export function MarketBoothSettings(props: Props) {
   function handleEditMedias() {
     const slug = shopData?.shop?.data()?.slug;
     if (!_.isNil(slug)) {
-      navigate(buildDashboardMediaPath(slug));
+      navigate(buildMediasSettingsPath(slug));
     }
   }
 

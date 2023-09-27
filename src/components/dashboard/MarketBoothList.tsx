@@ -15,18 +15,18 @@ type Props = {
 export function MarketBoothList(props: Props) {
   const { theme } = useThemeContext();
 
-  function logoImageUrl(shop: MarketBoothResponse) {
+  function bannerImageUrl(shop: MarketBoothResponse) {
     if (
       theme() === Theme.DefaultLight &&
-      !_.isEmpty(shop?.customization?.logoImageLightUrl)
+      !_.isEmpty(shop?.customization?.bannerImageLightUrl)
     ) {
-      return shop.customization?.logoImageLightUrl;
+      return shop.customization?.bannerImageLightUrl;
     }
     if (
       theme() === Theme.DefaultDark &&
-      !_.isEmpty(shop?.customization?.logoImageDarkUrl)
+      !_.isEmpty(shop?.customization?.bannerImageDarkUrl)
     ) {
-      return shop.customization?.logoImageDarkUrl;
+      return shop.customization?.bannerImageDarkUrl;
     }
   }
 
@@ -34,10 +34,10 @@ export function MarketBoothList(props: Props) {
     <For each={props.shops()}>
       {(shop) => (
         <A class={styles.Row} href={buildShopSettingsPath(shop.slug)}>
-          <Show when={!_.isEmpty(logoImageUrl(shop))}>
-            <img class={styles.Image} src={logoImageUrl(shop)} alt="" />
+          <Show when={!_.isEmpty(bannerImageUrl(shop))}>
+            <img class={styles.Image} src={bannerImageUrl(shop)} alt="" />
           </Show>
-          <Show when={_.isEmpty(logoImageUrl(shop))}>
+          <Show when={_.isEmpty(bannerImageUrl(shop))}>
             <PlaceholderImage wide />
           </Show>
           <div>
