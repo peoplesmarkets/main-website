@@ -45,10 +45,15 @@
   left: 11px;
   text-align: center;
   font: var(--font-detail);
-  color: var(--active-content-color);
+  color: var(--secondary-content-color);
   background-color: inherit;
   border-radius: 2px;
   pointer-events: none;
+}
+
+.ShowLabel {
+  opacity: 1;
+  transform: translateY(-2.7em);
 }
 
 .LabelEdited {

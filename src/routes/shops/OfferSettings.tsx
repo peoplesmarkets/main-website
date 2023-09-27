@@ -25,11 +25,11 @@ import { secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { OfferService } from "../../services";
 import { OfferType } from "../../services/peoplesmarkets/commerce/v1/offer";
-import { buildDashboardPath } from "./DashboardRoutes";
-import styles from "./Offer.module.scss";
+import { buildDashboardPath } from "../MainRoutes";
 import { buildShopSettingsPath } from "../shops/ShopRoutes";
+import styles from "./OfferSettings.module.scss";
 
-export default function Offer() {
+export default function OfferSettings() {
   const navigate = useNavigate();
 
   const [trans] = useTransContext();

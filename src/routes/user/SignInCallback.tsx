@@ -7,7 +7,7 @@ import { Cover } from "../../components/layout/Cover";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { base64ToUtf8 } from "../../lib";
 import { buildIndexPath } from "../MainRoutes";
-import { buildDashboardPath } from "../dashboard/DashboardRoutes";
+import { buildDashboardPath } from "../MainRoutes";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();

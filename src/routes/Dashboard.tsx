@@ -4,18 +4,18 @@ import { useNavigate } from "@solidjs/router";
 import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
-import { MediaList } from "../../components/commerce";
-import { MarketBoothList } from "../../components/dashboard";
-import { ContentError, isResolved } from "../../components/content";
-import { CreateMarketBoothDialog } from "../../components/dashboard";
-import { ActionButton } from "../../components/form";
-import { Border, Section } from "../../components/layout";
-import { Page } from "../../components/layout/Page";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { TKEYS } from "../../locales";
-import { MarketBoothService, MediaService } from "../../services";
+import { MediaList } from "../components/commerce";
+import { MarketBoothList } from "../components/dashboard";
+import { ContentError, isResolved } from "../components/content";
+import { CreateMarketBoothDialog } from "../components/dashboard";
+import { ActionButton } from "../components/form";
+import { Border, Section } from "../components/layout";
+import { Page } from "../components/layout/Page";
+import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { TKEYS } from "../locales";
+import { MarketBoothService, MediaService } from "../services";
 import styles from "./Dashboard.module.scss";
-import { buildUserSettingsPath } from "../user/UserRoutes";
+import { buildUserSettingsPath } from "./user/UserRoutes";
 
 export default function Dashboard() {
   const navigate = useNavigate();

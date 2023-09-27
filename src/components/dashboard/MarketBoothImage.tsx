@@ -5,14 +5,16 @@ import { Show, createSignal } from "solid-js";
 import { ShopData } from "../../routes/shops/ShopData";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { EditIcon } from "../icons";
-import { EditMarketBoothImageDialog } from "./EditMarketBoothImageDialog";
 import styles from "./MarketBoothImage.module.scss";
+import { EditShopBannerDialog } from "./EditShopBannerDialog";
+import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 
 type Props = {
   onUpdate: () => void;
 };
 
 export function MarketBoothImage(props: Props) {
+  const { theme } = useThemeContext();
   const shopData = useRouteData<typeof ShopData>();
 
   const [showEditDialog, setShowEditDialog] = createSignal(false);
@@ -25,21 +27,28 @@ export function MarketBoothImage(props: Props) {
     setShowEditDialog(false);
   }
 
+  function bannerImageUrl() {
+    if (
+      theme() === Theme.DefaultLight &&
+      !_.isEmpty(shopData?.shopCustomization.data()?.bannerImageLightUrl)
+    ) {
+      return shopData?.shopCustomization.data()?.bannerImageLightUrl;
+    }
+    if (
+      theme() === Theme.DefaultDark &&
+      !_.isEmpty(shopData?.shopCustomization.data()?.bannerImageDarkUrl)
+    ) {
+      return shopData?.shopCustomization.data()?.bannerImageDarkUrl;
+    }
+  }
+
   return (
     <>
       <div class={styles.ImageContainer}>
-        <Show
-          when={!_.isEmpty(shopData?.shopCustomization?.data()?.bannerImageUrl)}
-        >
-          <img
-            class={styles.Image}
-            src={shopData.shopCustomization.data()?.bannerImageUrl}
-            alt=""
-          />
+        <Show when={!_.isEmpty(bannerImageUrl())}>
+          <img class={styles.Image} src={bannerImageUrl()} alt="" />
         </Show>
-        <Show
-          when={_.isEmpty(shopData?.shopCustomization?.data()?.bannerImageUrl)}
-        >
+        <Show when={_.isEmpty(bannerImageUrl())}>
           <PlaceholderImage wide />
         </Show>
         <button class={styles.EditButton} onClick={openEditDialog}>
@@ -48,8 +57,8 @@ export function MarketBoothImage(props: Props) {
       </div>
 
       <Show when={showEditDialog() && !_.isNil(shopData?.shop?.data())}>
-        <EditMarketBoothImageDialog
-          marketBoothId={shopData.shop.data()!.marketBoothId}
+        <EditShopBannerDialog
+          shopId={shopData.shop.data()!.marketBoothId}
           onUpdate={props.onUpdate}
           onClose={handleCloseEditDialog}
         />

@@ -7,7 +7,7 @@ import {
   OfferSettings,
 } from "../../components/dashboard";
 import { Page, Section } from "../../components/layout";
-import { buildDashboardPath } from "../dashboard/DashboardRoutes";
+import { buildDashboardPath } from "../MainRoutes";
 import { ShopData } from "./ShopData";
 import styles from "./ShopSettings.module.scss";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";

@@ -210,6 +210,12 @@ export const EN: typeof TKEYS = {
       "edit-domain": "Edit Domain",
       "delete-this-market-booth": "Delete this Market Booth",
       "resulting-url": "Resulting URL",
+      image: {
+        "for-light-theme": "For light theme",
+        "for-dark-theme": "For dark theme",
+        "show-in-listings": "Show in listings",
+        "show-on-home": "Show on home page",
+      },
       domain: {
         pending: "Pending verification",
         active: "Verified",

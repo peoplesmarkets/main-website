@@ -27,10 +27,10 @@ import {
   buildIndexPathOrUrl,
   buildMarketBoothsPath,
   buildOffersPath,
+  buildDashboardPath,
 } from "./MainRoutes";
 import styles from "./MainRoutesWrapper.module.scss";
 import { buildCommunityPathOrUrl } from "./community/CommunityRoutes";
-import { buildDashboardPath } from "./dashboard/DashboardRoutes";
 import { buildUserSettingsPath } from "./user/UserRoutes";
 
 false && clickOutside;

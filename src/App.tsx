@@ -13,7 +13,6 @@ import { LOCALES, setDocumentLanguage } from "./locales";
 import MainRoutes from "./routes/MainRoutes";
 import MainRoutesWrapper from "./routes/MainRoutesWrapper";
 import CommunityRoutes from "./routes/community/CommunityRoutes";
-import DashboardRoutes from "./routes/dashboard/DashboardRoutes";
 import NotFound from "./routes/404";
 import InfoRoutes from "./routes/info/InfoRoutes";
 import { ShopRoutes } from "./routes/shops/ShopRoutes";
@@ -47,8 +46,6 @@ export default function App() {
                   <MainRoutes />
 
                   <ShopRoutes />
-
-                  <DashboardRoutes />
 
                   <UserRoutes />
 

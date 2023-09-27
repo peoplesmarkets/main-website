@@ -4,9 +4,10 @@ import { lazy } from "solid-js";
 import { buildPath, buildBaseUrl } from "../lib";
 import { isCustomDomain } from "../lib/env";
 
-const ROOT_PATH = "";
-const MARKET_BOOTHS_PATH = "/";
+const ROOT_PATH = "/";
+const MARKET_BOOTHS_PATH = "";
 const OFFERS_PATH = "/offers";
+const DASHBOARD_PATH = "/dashboard";
 
 export function buildIndexPath() {
   return "/";
@@ -27,6 +28,10 @@ export function buildOffersPath() {
   return buildPath(ROOT_PATH, OFFERS_PATH);
 }
 
+export function buildDashboardPath() {
+  return buildPath(ROOT_PATH, DASHBOARD_PATH);
+}
+
 export default function MainRoutes() {
   return (
     <>
@@ -38,7 +43,13 @@ export default function MainRoutes() {
           path={MARKET_BOOTHS_PATH}
           component={lazy(() => import("./MarketBooths"))}
         />
+
         <Route path={OFFERS_PATH} component={lazy(() => import("./Offers"))} />
+
+        <Route
+          path={DASHBOARD_PATH}
+          component={lazy(() => import("./Dashboard"))}
+        />
       </Route>
     </>
   );

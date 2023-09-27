@@ -13,7 +13,6 @@ import {
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
-import { buildDashboardOfferPath } from "../../routes/dashboard/DashboardRoutes";
 import { ShopData } from "../../routes/shops/ShopData";
 import { OfferService } from "../../services";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
@@ -22,6 +21,7 @@ import { ActionButton } from "../form";
 import { Section } from "../layout/Section";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import styles from "./OfferSettings.module.scss";
+import { buildOfferSettingsPath } from "../../routes/shops/ShopRoutes";
 
 export function OfferSettings() {
   const shopData = useRouteData<typeof ShopData>();
@@ -84,10 +84,7 @@ export function OfferSettings() {
                 {(offer) => (
                   <A
                     class={styles.Row}
-                    href={buildDashboardOfferPath(
-                      offer.shopSlug,
-                      offer.offerId
-                    )}
+                    href={buildOfferSettingsPath(offer.shopSlug, offer.offerId)}
                   >
                     <Show
                       when={!_.isEmpty(offer.images)}
