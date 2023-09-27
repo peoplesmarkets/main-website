@@ -13,8 +13,9 @@ import { buildSignInCallbackPath } from "../user/UserRoutes";
 
 const ROOT_PATH = "/shops";
 const SHOP_PATH = "/:shopSlug";
-const SHOP_SETTINGS_PATH = "/settings";
+const SETTINGS_PATH = "/settings";
 const OFFER_PATH = "/offer/:offerId";
+const MEDIAS_PATH = "/media";
 
 export function buildShopDetailPath(slug: string): string {
   if (isCustomDomain()) {
@@ -31,7 +32,7 @@ export function buildShopPathOrUrl(domain: string | undefined, slug: string) {
 }
 
 export function buildShopSettingsPath(slug: string): string {
-  return buildPath(buildShopDetailPath(slug), "settings");
+  return buildPath(buildShopDetailPath(slug), SETTINGS_PATH);
 }
 
 export function buildOfferPath(slug: string, offerId: string): string {
@@ -44,6 +45,14 @@ export function buildOfferUrl(shopSlug: string, offerId: string): string {
   } else {
     return buildBaseUrl(buildOfferPath(shopSlug, offerId));
   }
+}
+
+export function buildOfferSettingsPath(shopSlug: string, offerId: string) {
+  return buildPath(buildShopSettingsPath(shopSlug), "offer", offerId);
+}
+
+export function buildMediasSettingsPath(shopSlug: string) {
+  return buildPath(buildShopSettingsPath(shopSlug), MEDIAS_PATH);
 }
 
 export function ShopRoutes() {
@@ -61,14 +70,23 @@ export function ShopRoutes() {
           <Route path="" component={lazy(() => import("./ShopDetail"))} />
 
           <Route
-            path={SHOP_SETTINGS_PATH}
-            component={lazy(() => import("./ShopSettings"))}
-          />
-
-          <Route
             path={OFFER_PATH}
             component={lazy(() => import("./OfferDetail"))}
           />
+
+          <Route path={SETTINGS_PATH}>
+            <Route path="" component={lazy(() => import("./ShopSettings"))} />
+
+            <Route
+              path={OFFER_PATH}
+              component={lazy(() => import("./OfferSettings"))}
+            />
+
+            <Route
+              path={MEDIAS_PATH}
+              component={lazy(() => import("./MediaSettings"))}
+            />
+          </Route>
 
           <Route
             path={buildSignInCallbackPath()}
