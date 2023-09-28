@@ -45,9 +45,12 @@ export default function MainRoutesWrapper() {
 
   async function handleSignIn() {
     setSigningIn(true);
-    window.location.href = (
-      await buildAuthorizationRequest(undefined, location.pathname)
-    ).toString();
+    const signInUrl = await buildAuthorizationRequest(
+      undefined,
+      location.pathname
+    );
+    setSigningIn(false);
+    window.location.href = signInUrl.toString();
   }
 
   function handleSwichtLanguage() {

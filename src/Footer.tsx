@@ -8,7 +8,6 @@ import { TKEYS } from "./locales/dev";
 import { buildIndexPathOrUrl } from "./routes/MainRoutes";
 import { buildCommunityPathOrUrl } from "./routes/community/CommunityRoutes";
 import {
-  buildGetStartedPathOrUrl,
   buildImprintPathOrUrl,
   buildPrivacyPolicyPathOrUrl,
   buildTermsOfServicePathOrUrl,
@@ -40,10 +39,6 @@ export default function Footer() {
           </div>
 
           <div class={styles.SiteLinks}>
-            <A href={buildGetStartedPathOrUrl()} class={styles.LinkWithIcon}>
-              <Trans key={TKEYS["landing-page"]["get-started"]} />
-              <RocketLaunchIcon class={styles.LinkIcon} />
-            </A>
             <A href={buildImprintPathOrUrl()}>
               <Trans key={TKEYS.imprint.title} />
             </A>

@@ -100,8 +100,8 @@ export const DE: typeof TKEYS = {
     },
   },
   "market-booth": {
-    title: "Marktstand",
-    "title-plural": "Marktstände",
+    title: "Shop",
+    "title-plural": "Shops",
     "no-description": "Keine Beschreibung vorhanden ...",
     settings: {
       title: "Einstellungen",
@@ -141,7 +141,7 @@ export const DE: typeof TKEYS = {
     "no-offers-yet": "Derzeit noch keine Angebote ...",
     "no-description": "Keine Beschreibung vorhanden ...",
     "currently-not-available": "Derzeit nicht verfügbar",
-    "sign-in-to-subscribe": "Anmelden um zu abonnieren",
+    "sign-in-to-subscribe": "Anmelden",
     "other-offers": "Weitere Angebote",
     "downloadable-content": "downloadbarer Inhalt",
     visibility: {
@@ -187,7 +187,7 @@ export const DE: typeof TKEYS = {
     "delete-confirmation-message": "Dieses Bild wirklich löschen?",
   },
   "market-booths-search": {
-    title: "Finde einen Marktstand",
+    title: "Finde einen Shop",
   },
   "offers-search": {
     title: "Durchsuche alle Angebote",
@@ -195,9 +195,9 @@ export const DE: typeof TKEYS = {
   dashboard: {
     "market-booth": {
       Details: "Details",
-      "my-market-booths": "Meine Marktstände",
-      "no-market-booth-yet": "Bisher kein Markstand",
-      "create-new-market-booth": "Neuen Marktstand erstellen",
+      "my-market-booths": "Meine Shops",
+      "no-market-booth-yet": "Bisher keinen Shop erstellt",
+      "create-new-market-booth": "Neuen Shop erstellen",
       "edit-name-and-description": "Name und Beschreibung bearbeiten",
       "edit-image": "Bild bearbeiten",
       "delete-image": "Bild löschen",
@@ -206,7 +206,7 @@ export const DE: typeof TKEYS = {
       "edit-theme": "Erscheinungsbild anpassen",
       "edit-path": "URL-Pfad einstellen",
       "edit-domain": "Domain einstellen",
-      "delete-this-market-booth": "Diesen Marktstand löschen",
+      "delete-this-market-booth": "Diesen Shop löschen",
       "resulting-url": "Resultierende URL",
       image: {
         "for-light-theme": "Für Hellmodus",
@@ -248,7 +248,7 @@ export const DE: typeof TKEYS = {
     },
     links: {
       home: EN["main-navigation"].links.home,
-      "market-booths": "Marktstände",
+      "market-booths": "Shops",
       offers: "Angebote",
       dashboard: EN["main-navigation"].links.dashboard,
       "user-settings": "Benutzereinstellungen",
@@ -279,7 +279,7 @@ export const DE: typeof TKEYS = {
     "GET-STARTED": "LOS GEHT'S",
     "establish-your-online-appearance": "Erstell dir deine Online-Präsenz",
     "create-your-online-market-booth-and-build-your-brand":
-      "Baue deine Marke mit einem Online-Marktstand auf",
+      "Baue deine Marke mit einem Online-Shop auf",
     "offer-your-goods-to-the-people": "Biete den Menschen deine Waren an",
     "no-costs-until-you-sell": "Keine Kosten bis zum Verkauf",
     "no-strings-attached": "Keine Verbindlichkeiten",

@@ -42,21 +42,17 @@ export default function ShopRoutesWrapper() {
   const shopData = useRouteData<typeof ShopData>();
 
   const [signingIn, setSigningIn] = createSignal(false);
-  const [customShopStyle, setCustomShopStyle] = createStore({
+
+  const emptyShopStyle = {
     "--header-background-color": undefined as string | undefined,
     "--header-content-color": undefined as string | undefined,
     "--secondary-background-color": undefined as string | undefined,
     "--secondary-content-color": undefined as string | undefined,
-  });
+  };
 
-  function resetCustomShopStyle() {
-    setCustomShopStyle({
-      "--header-background-color": undefined,
-      "--header-content-color": undefined,
-      "--secondary-background-color": undefined,
-      "--secondary-content-color": undefined,
-    });
-  }
+  const [customShopStyle, setCustomShopStyle] = createStore(
+    _.clone(emptyShopStyle)
+  );
 
   function logoImageUrl() {
     if (
@@ -80,7 +76,7 @@ export default function ShopRoutesWrapper() {
       return;
     }
 
-    resetCustomShopStyle();
+    setCustomShopStyle(_.clone(emptyShopStyle));
 
     if (theme() === Theme.DefaultDark) {
       if (isCssColor(styles.headerBackgroundColorDark)) {
@@ -137,9 +133,12 @@ export default function ShopRoutesWrapper() {
 
   async function handleSignIn() {
     setSigningIn(true);
-    window.location.href = (
-      await buildAuthorizationRequest(undefined, location.pathname)
-    ).toString();
+    const signInUrl = await buildAuthorizationRequest(
+      undefined,
+      location.pathname
+    );
+    setSigningIn(false);
+    window.location.href = signInUrl.toString();
   }
 
   async function handleSignInForCustomDomain() {
