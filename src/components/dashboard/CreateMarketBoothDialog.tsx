@@ -143,8 +143,11 @@ export function CreateMarketBoothDialog(props: Props) {
               errors={errors.slug}
             />
             <Anotation>
+              <Trans key={TKEYS.dashboard["market-booth"]["resulting-url"]} />:
+            </Anotation>
+            <Anotation bordered padded>
               {import.meta.env.VITE_BASE_URL}
-              {buildShopDetailPath(marketBooth.slug || "")}
+              {buildShopDetailPath(marketBooth.slug!)}
             </Anotation>
 
             <div class={styles.DialogFooter}>
