@@ -49,10 +49,10 @@ server {
 		try_files $uri $uri/index.html /index.html;
 	}
 
-	location ~ \.(?!html) {
-    add_header Cache-Control "public, max-age=600";
-		try_files $uri =404;
-	}
+  location ~* \.(?:html|js)$ {
+      expires 1d;
+      add_header Cache-Control "no-cache";
+  }
 
   location ~* \.(?:ttf|ico|svg)$ {
       expires 1d;
