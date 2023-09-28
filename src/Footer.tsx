@@ -3,7 +3,7 @@ import { A } from "@solidjs/router";
 
 import styles from "./Footer.module.scss";
 import { MainLogoText } from "./components/assets";
-import { GitHubIcon, MainLogoIcon, RocketLaunchIcon } from "./components/icons";
+import { GitHubIcon, MainLogoIcon } from "./components/icons";
 import { TKEYS } from "./locales/dev";
 import { buildIndexPathOrUrl } from "./routes/MainRoutes";
 import { buildCommunityPathOrUrl } from "./routes/community/CommunityRoutes";
