@@ -101,8 +101,8 @@ export const EN: typeof TKEYS = {
     },
   },
   "market-booth": {
-    title: "Market Booth",
-    "title-plural": "Market Booths",
+    title: "Shop",
+    "title-plural": "Shops",
     "no-description": "No description ...",
     settings: {
       title: "Settings",
@@ -142,7 +142,7 @@ export const EN: typeof TKEYS = {
     "no-offers-yet": "No Offers yet ...",
     "no-description": "No description ...",
     "currently-not-available": "Currently not available",
-    "sign-in-to-subscribe": "Sign in to subscribe",
+    "sign-in-to-subscribe": "Sign in",
     "other-offers": "Other Offers",
     "downloadable-content": "downloadable content",
     visibility: {
@@ -189,7 +189,7 @@ export const EN: typeof TKEYS = {
       "Are you sure you want to delete the current image?",
   },
   "market-booths-search": {
-    title: "Search for a Market Booth",
+    title: "Search for a Shop",
   },
   "offers-search": {
     title: "Search all Offers",
@@ -197,9 +197,9 @@ export const EN: typeof TKEYS = {
   dashboard: {
     "market-booth": {
       Details: "Details",
-      "my-market-booths": "My Market Booths",
-      "no-market-booth-yet": "No Market Booth yet",
-      "create-new-market-booth": "Create a new Market Booth",
+      "my-market-booths": "My Shops",
+      "no-market-booth-yet": "No Shop yet",
+      "create-new-market-booth": "Create a new Shop",
       "edit-name-and-description": "Edit Name and Description",
       "edit-image": "Edit Image",
       "delete-image": "Delete Image",
@@ -208,7 +208,7 @@ export const EN: typeof TKEYS = {
       "edit-theme": "Edit Theme",
       "edit-path": "Edit URL-path",
       "edit-domain": "Edit Domain",
-      "delete-this-market-booth": "Delete this Market Booth",
+      "delete-this-market-booth": "Delete this Shop",
       "resulting-url": "Resulting URL",
       image: {
         "for-light-theme": "For light theme",
@@ -250,7 +250,7 @@ export const EN: typeof TKEYS = {
     },
     links: {
       home: "Home",
-      "market-booths": "Market Booths",
+      "market-booths": "Shops",
       offers: "Offers",
       dashboard: "Dashboard",
       "user-settings": "User Settings",
@@ -281,7 +281,7 @@ export const EN: typeof TKEYS = {
     "GET-STARTED": "GET STARTED",
     "establish-your-online-appearance": "Establish Your Online Appearance",
     "create-your-online-market-booth-and-build-your-brand":
-      "Create your online Market Booth and build your brand",
+      "Create your online store and build your brand",
     "offer-your-goods-to-the-people": "Offer your goods to the people",
     "no-costs-until-you-sell": "No costs until you sell",
     "no-strings-attached": "No strings attached",
