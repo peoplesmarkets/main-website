@@ -50,7 +50,6 @@ server {
 	}
 
   location ~* \.(?:html|js)$ {
-      expires 1d;
       add_header Cache-Control "no-cache";
   }
 
