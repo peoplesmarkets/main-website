@@ -120,12 +120,12 @@ export function EditShopDomainDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard["market-booth"]["edit-domain"])}
+          title={trans(TKEYS.dashboard["shop"]["edit-domain"])}
           onClose={props.onClose}
         >
           <form class={styles.Form} onSubmit={handleAddDomain}>
             <TextField
-              label={trans(TKEYS["market-booth"].labels.domain)}
+              label={trans(TKEYS["shop"].labels.domain)}
               required
               small
               value={shopDomain.domain}
@@ -140,7 +140,7 @@ export function EditShopDomainDialog(props: Props) {
               }
             >
               <Anotation warn>
-                <Trans key={TKEYS.dashboard["market-booth"].domain.pending} />
+                <Trans key={TKEYS.dashboard["shop"].domain.pending} />
               </Anotation>
             </Show>
             <Show
@@ -150,7 +150,7 @@ export function EditShopDomainDialog(props: Props) {
               }
             >
               <Anotation active>
-                <Trans key={TKEYS.dashboard["market-booth"].domain.active} />
+                <Trans key={TKEYS.dashboard["shop"].domain.active} />
               </Anotation>
             </Show>
 

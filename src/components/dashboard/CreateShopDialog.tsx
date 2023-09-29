@@ -113,13 +113,13 @@ export function CreateShopDialog(props: Props) {
       <Show when={!discardConfirmation()}>
         <Dialog
           title={trans(
-            TKEYS.dashboard["market-booth"]["create-new-market-booth"]
+            TKEYS.dashboard["shop"]["create-new-shop"]
           )}
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={(e) => createShop(e)}>
             <TextField
-              label={trans(TKEYS["market-booth"].labels.name)}
+              label={trans(TKEYS["shop"].labels.name)}
               required
               value={shop.name}
               onValue={handleNameInput}
@@ -127,7 +127,7 @@ export function CreateShopDialog(props: Props) {
             />
 
             <TextArea
-              label={trans(TKEYS["market-booth"].labels.description)}
+              label={trans(TKEYS["shop"].labels.description)}
               rows={8}
               required
               value={shop.description}
@@ -136,7 +136,7 @@ export function CreateShopDialog(props: Props) {
             />
 
             <TextField
-              label={trans(TKEYS["market-booth"].labels.slug)}
+              label={trans(TKEYS["shop"].labels.slug)}
               required
               small
               value={shop.slug}
@@ -144,7 +144,7 @@ export function CreateShopDialog(props: Props) {
               errors={errors.slug}
             />
             <Anotation>
-              <Trans key={TKEYS.dashboard["market-booth"]["resulting-url"]} />:
+              <Trans key={TKEYS.dashboard["shop"]["resulting-url"]} />:
             </Anotation>
             <Anotation bordered padded>
               {import.meta.env.VITE_BASE_URL}

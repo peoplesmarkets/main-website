@@ -115,7 +115,7 @@ export function EditShopThemeDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard["market-booth"]["edit-theme"])}
+          title={trans(TKEYS.dashboard["shop"]["edit-theme"])}
           onClose={handleCloseDialog}
         >
           <form class={styles.Form} onSubmit={handlePutShopCustomization}>

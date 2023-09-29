@@ -115,7 +115,7 @@ export default function Shops() {
           <div class={styles.Headline}>
             <StoreFrontIcon class={styles.HeadlineIcon} />
             <span>
-              <Trans key={TKEYS["market-booths-search"].title} />
+              <Trans key={TKEYS["shops-search"].title} />
             </span>
           </div>
 

@@ -99,7 +99,7 @@ export const DE: typeof TKEYS = {
       )]: `{intervalCount, plural, =1 {Jahr} other {Jahre} }`,
     },
   },
-  "market-booth": {
+  "shop": {
     title: "Shop",
     "title-plural": "Shops",
     "no-description": "Keine Beschreibung vorhanden ...",
@@ -119,8 +119,8 @@ export const DE: typeof TKEYS = {
       description: "Beschreibung",
       "Created-at": "Erstellt am",
       "Updated-at": "Bearbeitet am",
-      Domain: EN["market-booth"].labels.Domain,
-      domain: EN["market-booth"].labels.domain,
+      Domain: EN["shop"].labels.Domain,
+      domain: EN["shop"].labels.domain,
     },
   },
   "shop-customization": {
@@ -186,18 +186,18 @@ export const DE: typeof TKEYS = {
   image: {
     "delete-confirmation-message": "Dieses Bild wirklich löschen?",
   },
-  "market-booths-search": {
+  "shops-search": {
     title: "Finde einen Shop",
   },
   "offers-search": {
     title: "Durchsuche alle Angebote",
   },
   dashboard: {
-    "market-booth": {
+    "shop": {
       Details: "Details",
-      "my-market-booths": "Meine Shops",
-      "no-market-booth-yet": "Bisher keinen Shop erstellt",
-      "create-new-market-booth": "Neuen Shop erstellen",
+      "my-shops": "Meine Shops",
+      "no-shop-yet": "Bisher keinen Shop erstellt",
+      "create-new-shop": "Neuen Shop erstellen",
       "edit-name-and-description": "Name und Beschreibung bearbeiten",
       "edit-image": "Bild bearbeiten",
       "delete-image": "Bild löschen",
@@ -206,7 +206,7 @@ export const DE: typeof TKEYS = {
       "edit-theme": "Erscheinungsbild anpassen",
       "edit-path": "URL-Pfad einstellen",
       "edit-domain": "Domain einstellen",
-      "delete-this-market-booth": "Diesen Shop löschen",
+      "delete-this-shop": "Diesen Shop löschen",
       "resulting-url": "Resultierende URL",
       image: {
         "for-light-theme": "Für Hellmodus",
@@ -219,7 +219,7 @@ export const DE: typeof TKEYS = {
         active: "Verifiziert",
       },
       stripe: {
-        title: EN.dashboard["market-booth"].stripe.title,
+        title: EN.dashboard["shop"].stripe.title,
         integration: "Stripe Integration",
         "start-integration": "Stripe einrichten",
         "continue-integration": "Stripe Einrichtung fortsetzen",
@@ -248,7 +248,7 @@ export const DE: typeof TKEYS = {
     },
     links: {
       home: EN["main-navigation"].links.home,
-      "market-booths": "Shops",
+      "shops": "Shops",
       offers: "Angebote",
       dashboard: EN["main-navigation"].links.dashboard,
       "user-settings": "Benutzereinstellungen",
@@ -278,7 +278,7 @@ export const DE: typeof TKEYS = {
     "get-started": "Los geht's",
     "GET-STARTED": "LOS GEHT'S",
     "establish-your-online-appearance": "Erstelle dir eine Online-Präsenz",
-    "create-your-online-market-booth-and-build-your-brand":
+    "create-your-online-shop-and-build-your-brand":
       "Baue deine Marke mit einem Online-Shop auf",
     "offer-your-goods-to-the-people": "Biete den Menschen deine Waren an",
     "no-costs-until-you-sell": "Keine Kosten bis zum Verkauf",

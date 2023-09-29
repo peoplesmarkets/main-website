@@ -113,28 +113,28 @@ export const TKEYS = {
       )}`,
     },
   },
-  "market-booth": {
-    title: "market-booth.title",
-    "title-plural": "market-booth.title-plural",
-    "no-description": "market-booth.no-description",
+  "shop": {
+    title: "shop.title",
+    "title-plural": "shop.title-plural",
+    "no-description": "shop.no-description",
     settings: {
-      title: "market-booth.settings.title",
+      title: "shop.settings.title",
     },
     errors: {
-      "ensure-offers-deleted": "market-booth.errors.ensure-offers-deleted",
+      "ensure-offers-deleted": "shop.errors.ensure-offers-deleted",
     },
     labels: {
-      Details: "market-booth.labels.Details",
-      Name: "market-booth.labels.Name",
-      name: "market-booth.labels.name",
-      Slug: "market-booth.labels.Slug",
-      slug: "market-booth.labels.slug",
-      Description: "market-booth.labels.Description",
-      description: "market-booth.labels.description",
-      "Created-at": "market-booth.labels.Created-at",
-      "Updated-at": "market-booth.labels.Updated-at",
-      Domain: "market-booth.labels.Domain",
-      domain: "market-booth.labels.domain",
+      Details: "shop.labels.Details",
+      Name: "shop.labels.Name",
+      name: "shop.labels.name",
+      Slug: "shop.labels.Slug",
+      slug: "shop.labels.slug",
+      Description: "shop.labels.Description",
+      description: "shop.labels.description",
+      "Created-at": "shop.labels.Created-at",
+      "Updated-at": "shop.labels.Updated-at",
+      Domain: "shop.labels.Domain",
+      domain: "shop.labels.domain",
     },
   },
   "shop-customization": {
@@ -214,49 +214,49 @@ export const TKEYS = {
   image: {
     "delete-confirmation-message": "image.delete-confirmation-message",
   },
-  "market-booths-search": {
-    title: "market-booths-search.title",
+  "shops-search": {
+    title: "shops-search.title",
   },
   "offers-search": {
     title: "offers-search.title",
   },
   dashboard: {
-    "market-booth": {
-      Details: "dashboard.market-booth.Details",
-      "my-market-booths": "dashboard.market-booth.my-market-booths",
-      "no-market-booth-yet": "dashboard.market-booth.no-market-booth-yet",
-      "create-new-market-booth":
-        "dashboard.market-booth.create-new-market-booth",
+    "shop": {
+      Details: "dashboard.shop.Details",
+      "my-shops": "dashboard.shop.my-shops",
+      "no-shop-yet": "dashboard.shop.no-shop-yet",
+      "create-new-shop":
+        "dashboard.shop.create-new-shop",
       "edit-name-and-description":
-        "dashboard.market-booth.edit-name-and-description",
-      "edit-image": "dashboard.market-booth.edit-image",
-      "delete-image": "dashboard.market-booth.delete-image",
-      "edit-logo": "dashboard.market-booth.edit-logo",
-      "delete-logo": "dashboard.market-booth.delete-logo",
-      "edit-theme": "dashboard.market-booth.edit-theme",
-      "edit-path": "dashboard.market-booth.edit-path",
-      "edit-domain": "dashboard.market-booth.edit-domain",
-      "delete-this-market-booth":
-        "dashboard.market-booth.delete-this-market-booth",
-      "resulting-url": "dashboard.market-booth.resulting-url",
+        "dashboard.shop.edit-name-and-description",
+      "edit-image": "dashboard.shop.edit-image",
+      "delete-image": "dashboard.shop.delete-image",
+      "edit-logo": "dashboard.shop.edit-logo",
+      "delete-logo": "dashboard.shop.delete-logo",
+      "edit-theme": "dashboard.shop.edit-theme",
+      "edit-path": "dashboard.shop.edit-path",
+      "edit-domain": "dashboard.shop.edit-domain",
+      "delete-this-shop":
+        "dashboard.shop.delete-this-shop",
+      "resulting-url": "dashboard.shop.resulting-url",
       image: {
-        "for-light-theme": "dashboard.market-booth.image.for-light-theme",
-        "for-dark-theme": "dashboard.market-booth.image.for-dark-theme",
-        "show-in-listings": "dashboard.market-booth.image.show-in-listings",
-        "show-on-home": "dashboard.market-booth.image.show-on-home",
+        "for-light-theme": "dashboard.shop.image.for-light-theme",
+        "for-dark-theme": "dashboard.shop.image.for-dark-theme",
+        "show-in-listings": "dashboard.shop.image.show-in-listings",
+        "show-on-home": "dashboard.shop.image.show-on-home",
       },
       domain: {
-        pending: "dashboard.market-booth.domain.pending",
-        active: "dashboard.market-booth.domain.active",
+        pending: "dashboard.shop.domain.pending",
+        active: "dashboard.shop.domain.active",
       },
       stripe: {
-        title: "dashboard.market-booth.stripe.title",
-        integration: "dashboard.market-booth.stripe.integration",
-        "start-integration": "dashboard.market-booth.stripe.start-integration",
+        title: "dashboard.shop.stripe.title",
+        integration: "dashboard.shop.stripe.integration",
+        "start-integration": "dashboard.shop.stripe.start-integration",
         "continue-integration":
-          "dashboard.market-booth.stripe.continue-integration",
+          "dashboard.shop.stripe.continue-integration",
         "remove-integration":
-          "dashboard.market-booth.stripe.remove-integration",
+          "dashboard.shop.stripe.remove-integration",
       },
     },
     offers: {
@@ -281,7 +281,7 @@ export const TKEYS = {
     },
     links: {
       home: "main-navigation.links.home",
-      "market-booths": "main-navigation.links.market-booths",
+      "shops": "main-navigation.links.shops",
       offers: "main-navigation.links.offers",
       dashboard: "main-navigation.links.dashboard",
       "user-settings": "main-navigation.links.user-settings",
@@ -311,8 +311,8 @@ export const TKEYS = {
     "GET-STARTED": "landing-page.GET-STARTED",
     "establish-your-online-appearance":
       "landing-page.establish-your-online-appearance",
-    "create-your-online-market-booth-and-build-your-brand":
-      "landing-page.create-your-online-market-booth-and-build-your-brand",
+    "create-your-online-shop-and-build-your-brand":
+      "landing-page.create-your-online-shop-and-build-your-brand",
     "offer-your-goods-to-the-people":
       "landing-page.offer-your-goods-to-the-people",
     "no-costs-until-you-sell": "landing-page.no-costs-until-you-sell",

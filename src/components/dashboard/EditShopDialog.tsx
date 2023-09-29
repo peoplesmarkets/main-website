@@ -114,13 +114,13 @@ export function EditShopDialog(props: Props) {
       <Show when={!discardConfirmation()}>
         <Dialog
           title={trans(
-            TKEYS.dashboard["market-booth"]["edit-name-and-description"]
+            TKEYS.dashboard["shop"]["edit-name-and-description"]
           )}
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={updateShop}>
             <TextField
-              label={trans(TKEYS["market-booth"].labels.name)}
+              label={trans(TKEYS["shop"].labels.name)}
               required
               value={shop.name}
               onValue={handleNameInput}
@@ -128,7 +128,7 @@ export function EditShopDialog(props: Props) {
             />
 
             <TextArea
-              label={trans(TKEYS["market-booth"].labels.description)}
+              label={trans(TKEYS["shop"].labels.description)}
               rows={8}
               value={shop.description}
               onValue={handleDescriptionInput}

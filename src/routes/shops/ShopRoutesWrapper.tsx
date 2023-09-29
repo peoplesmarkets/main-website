@@ -241,7 +241,7 @@ export default function ShopRoutesWrapper() {
               <PanelItem
                 Icon={SettingsIcon}
                 path={() => buildShopSettingsPath(shopData.shop.data()!.slug)}
-                label={() => trans(TKEYS["market-booth"].settings.title)}
+                label={() => trans(TKEYS["shop"].settings.title)}
               />
             </Show>
           </Slot>

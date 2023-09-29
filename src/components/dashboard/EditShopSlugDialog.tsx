@@ -115,12 +115,12 @@ export function EditShopSlugDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard["market-booth"]["edit-path"])}
+          title={trans(TKEYS.dashboard["shop"]["edit-path"])}
           onClose={props.onClose}
         >
           <form class={styles.Form} onSubmit={handleUpdateShop}>
             <TextField
-              label={trans(TKEYS["market-booth"].labels.slug)}
+              label={trans(TKEYS["shop"].labels.slug)}
               required
               small
               value={shop.slug}
@@ -129,7 +129,7 @@ export function EditShopSlugDialog(props: Props) {
             />
 
             <Anotation>
-              <Trans key={TKEYS.dashboard["market-booth"]["resulting-url"]} />:
+              <Trans key={TKEYS.dashboard["shop"]["resulting-url"]} />:
             </Anotation>
             <Anotation bordered padded>
               {import.meta.env.VITE_BASE_URL}

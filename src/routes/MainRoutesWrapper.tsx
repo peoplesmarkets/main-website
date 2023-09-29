@@ -95,7 +95,7 @@ export default function MainRoutesWrapper() {
           <PanelItem
             Icon={StoreFrontIcon}
             path={buildShopsPath}
-            label={() => trans(TKEYS["main-navigation"].links["market-booths"])}
+            label={() => trans(TKEYS["main-navigation"].links["shops"])}
           />
 
           <PanelItem

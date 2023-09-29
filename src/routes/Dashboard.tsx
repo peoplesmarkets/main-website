@@ -96,7 +96,7 @@ export default function Dashboard() {
           <div class={styles.TitleSection}>
             <span class={styles.Title}>
               <Trans
-                key={TKEYS.dashboard["market-booth"]["my-market-booths"]}
+                key={TKEYS.dashboard["shop"]["my-shops"]}
               />
               :
             </span>
@@ -117,7 +117,7 @@ export default function Dashboard() {
             </Match>
             <Match when={isResolved(shops.state) && _.isEmpty(shops())}>
               <Trans
-                key={TKEYS.dashboard["market-booth"]["no-market-booth-yet"]}
+                key={TKEYS.dashboard["shop"]["no-shop-yet"]}
               />
             </Match>
           </Switch>

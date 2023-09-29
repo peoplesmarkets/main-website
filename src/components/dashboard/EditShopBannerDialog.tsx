@@ -183,14 +183,14 @@ export function EditShopBannerDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard["market-booth"]["edit-image"])}
+          title={trans(TKEYS.dashboard["shop"]["edit-image"])}
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={updateImage}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
                 label={trans(
-                  TKEYS.dashboard["market-booth"].image["for-light-theme"]
+                  TKEYS.dashboard["shop"].image["for-light-theme"]
                 )}
                 errors={errors.image}
                 onValue={handleImageInput}
@@ -199,7 +199,7 @@ export function EditShopBannerDialog(props: Props) {
 
               <FileField
                 label={trans(
-                  TKEYS.dashboard["market-booth"].image["for-dark-theme"]
+                  TKEYS.dashboard["shop"].image["for-dark-theme"]
                 )}
                 errors={errors.imageDark}
                 onValue={handleImageDarkInput}
@@ -208,14 +208,14 @@ export function EditShopBannerDialog(props: Props) {
 
               <CheckBox
                 label={trans(
-                  TKEYS.dashboard["market-booth"].image["show-in-listings"]
+                  TKEYS.dashboard["shop"].image["show-in-listings"]
                 )}
                 value={form.showInListing}
                 onValue={handleShowInListingsInput}
               />
               <CheckBox
                 label={trans(
-                  TKEYS.dashboard["market-booth"].image["show-on-home"]
+                  TKEYS.dashboard["shop"].image["show-on-home"]
                 )}
                 value={form.showOnHome}
                 onValue={handleShowOnHome}
@@ -228,7 +228,7 @@ export function EditShopBannerDialog(props: Props) {
                 onClick={removeImage}
                 disabled={uploading()}
               >
-                <Trans key={TKEYS.dashboard["market-booth"]["delete-image"]} />
+                <Trans key={TKEYS.dashboard["shop"]["delete-image"]} />
               </ActionButton>
 
               <ActionButton

@@ -75,7 +75,7 @@ export function ShopSettings(props: Props) {
   }
 
   function stripeTkeys() {
-    return TKEYS.dashboard["market-booth"].stripe;
+    return TKEYS.dashboard["shop"].stripe;
   }
 
   function stripeAccountState() {
@@ -173,14 +173,14 @@ export function ShopSettings(props: Props) {
     <>
       <Section>
         <span class={styles.Label}>
-          <Trans key={TKEYS["market-booth"].labels.Description} />:
+          <Trans key={TKEYS["shop"].labels.Description} />:
         </span>
 
         <Show
           when={!_.isEmpty(shopData?.shop?.data()?.description)}
           fallback={
             <span class={styles.Details}>
-              <Trans key={TKEYS["market-booth"]["no-description"]} />
+              <Trans key={TKEYS["shop"]["no-description"]} />
             </span>
           }
         >
@@ -190,16 +190,16 @@ export function ShopSettings(props: Props) {
 
       <Section>
         <span class={styles.Label}>
-          <Trans key={TKEYS.dashboard["market-booth"].Details} />:
+          <Trans key={TKEYS.dashboard["shop"].Details} />:
         </span>
 
         <span class={styles.Details}>
-          <Trans key={TKEYS["market-booth"].labels["Created-at"]} />:{" "}
+          <Trans key={TKEYS["shop"].labels["Created-at"]} />:{" "}
           {secondsToLocaleString(shopData?.shop?.data()?.createdAt)}
         </span>
 
         <span class={styles.Details}>
-          <Trans key={TKEYS["market-booth"].labels["Updated-at"]} />:{" "}
+          <Trans key={TKEYS["shop"].labels["Updated-at"]} />:{" "}
           {secondsToLocaleString(shopData?.shop?.data()?.updatedAt)}
         </span>
       </Section>
@@ -212,7 +212,7 @@ export function ShopSettings(props: Props) {
         <div class={styles.EditSection}>
           <p class={styles.Body}>
             <Trans
-              key={TKEYS.dashboard["market-booth"]["edit-name-and-description"]}
+              key={TKEYS.dashboard["shop"]["edit-name-and-description"]}
             />
           </p>
           <ActionButton
@@ -225,7 +225,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["market-booth"]["edit-image"]} />
+            <Trans key={TKEYS.dashboard["shop"]["edit-image"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -237,7 +237,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["market-booth"]["edit-logo"]} />
+            <Trans key={TKEYS.dashboard["shop"]["edit-logo"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -249,7 +249,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["market-booth"]["edit-theme"]} />
+            <Trans key={TKEYS.dashboard["shop"]["edit-theme"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -261,7 +261,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["market-booth"]["edit-path"]} />
+            <Trans key={TKEYS.dashboard["shop"]["edit-path"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -273,7 +273,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["market-booth"]["edit-domain"]} />
+            <Trans key={TKEYS.dashboard["shop"]["edit-domain"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -291,7 +291,7 @@ export function ShopSettings(props: Props) {
             fallback={
               <span>
                 <Trans
-                  key={TKEYS.dashboard["market-booth"]["no-market-booth-yet"]}
+                  key={TKEYS.dashboard["shop"]["no-shop-yet"]}
                 />
               </span>
             }
@@ -344,7 +344,7 @@ export function ShopSettings(props: Props) {
         <div class={styles.EditSection}>
           <p class={styles.Body}>
             <Trans
-              key={TKEYS.dashboard["market-booth"]["delete-this-market-booth"]}
+              key={TKEYS.dashboard["shop"]["delete-this-shop"]}
             />
           </p>
           <ActionButton
@@ -368,7 +368,7 @@ export function ShopSettings(props: Props) {
       </Show>
       <Show when={showDialog() === "delete"}>
         <DeleteConfirmation
-          item={trans(TKEYS["market-booth"].title)}
+          item={trans(TKEYS["shop"].title)}
           itemName={shopData?.shop?.data()?.name}
           onCancel={handleCloseDialog}
           onConfirmation={confirmDeleteion}
@@ -379,7 +379,7 @@ export function ShopSettings(props: Props) {
           title={trans(TKEYS.form.errors.Conflict)}
           onClose={handleCloseDialog}
         >
-          <Trans key={TKEYS["market-booth"].errors["ensure-offers-deleted"]} />
+          <Trans key={TKEYS["shop"].errors["ensure-offers-deleted"]} />
         </Message>
       </Show>
       <Show
