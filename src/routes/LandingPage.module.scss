@@ -1,0 +1,22 @@
+$expanded-min-width: 1080px;
+
+.Subtitle {
+  width: 100%;
+  margin-bottom: 2rem;
+  text-align: center;
+}
+
+.CreateShop {
+  width: 330px;
+  height: 500px;
+
+  margin: 0 auto;
+
+  background-image: url("/preview/CreateShopSmall.png");
+
+  @media only screen and (min-width: $expanded-min-width) {
+    width: 800px;
+    height: 600px;
+    background-image: url("/preview/CreateShopExpanded.png");
+  }
+}

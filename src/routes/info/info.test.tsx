@@ -1,7 +1,6 @@
 import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
 import { cleanupDOM, createDOM, renderIntoRoot } from "../../lib/testing";
-import GetStarted from "./GetStarted";
 import Imprint from "./Imprint";
 import PrivacyPolicy from "./PrivacyPolicy";
 import TermsOfService from "./TermsOfService";
@@ -13,10 +12,6 @@ describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
-  test("GetStarted", () => {
-    const { container } = renderIntoRoot(() => <GetStarted />);
-    expect(container).toBeDefined();
-  });
   test("Imprint", () => {
     const { container } = renderIntoRoot(() => <Imprint />);
     expect(container).toBeDefined();

@@ -62,6 +62,7 @@ export function CreateMarketBoothDialog(props: Props) {
     resetErrors();
     setMarketBooth("slug", value);
   }
+
   function handleDescriptionInput(value: string) {
     resetErrors();
     setMarketBooth("description", value);

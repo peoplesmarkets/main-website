@@ -1,5 +1,4 @@
 :root.theme-default-light {
-  --header-content-color: #141414;
   --primary-content-color: #303134;
   --secondary-content-color: #4d4e53;
   --active-content-color: #176dde;
@@ -12,7 +11,7 @@
   --secondary-border-color: #30313486;
   --danger-border-color: #e00025b7;
 
-  --header-background-color: #f8f9fa;
+  --display-background-color: #f8f9fa;
   --primary-background-color: #f8f8f8;
   --primary-background-color-lighten: #f8f9fa80;
   --secondary-background-color: #dde4e9;
@@ -28,10 +27,15 @@
   --blend-opacity: 20%;
 
   --hover-filter: brightness(90%);
+
+  // customizable variables
+  --header-content-color: #141414;
+  --header-background-color: #f8f9fa;
+  --footer-content-color: #303134;
+  --footer-background-color: #dde4e9;
 }
 
 :root.theme-default-dark {
-  --header-content-color: #f8f9fa;
   --primary-content-color: #e8eaed;
   --secondary-content-color: #b9bbbd;
   --active-content-color: #8ab4f8;
@@ -44,7 +48,7 @@
   --secondary-border-color: #5f63687a;
   --danger-border-color: #ff3b5cb7;
 
-  --header-background-color: #141414;
+  --display-background-color: #141414;
   --primary-background-color: #1e1e1e;
   --primary-background-color-lighten: #14141480;
   --secondary-background-color: #2d2f31;
@@ -60,6 +64,12 @@
   --blend-opacity: 10%;
 
   --hover-filter: brightness(90%);
+
+  // customizable variables
+  --header-content-color: #f8f9fa;
+  --header-background-color: #141414;
+  --footer-content-color: #e8eaed;
+  --footer-background-color: #2d2f31;
 }
 
 :root {
@@ -184,11 +194,12 @@ html {
   font: var(--font-body);
   color: var(--primary-content-color);
 
-  // ::-webkit-scrollbar {
-  //   display: none;
-  // }
-  // -ms-overflow-style: none;
   scrollbar-width: none;
+  -ms-overflow-style: none;
+
+  ::-webkit-scrollbar {
+    display: none;
+  }
 }
 
 input {
@@ -205,24 +216,4 @@ input[type="search"] {
 .no-scroll {
   height: 100%;
   overflow: hidden;
-}
-
-.font-display {
-  font: var(--font-display);
-}
-
-.font-headline {
-  font: var(--font-headline);
-}
-
-.font-title {
-  font: var(--font-title);
-}
-
-.font-label {
-  font: var(--font-label);
-}
-
-.font-body {
-  font: var(--font-body);
 }

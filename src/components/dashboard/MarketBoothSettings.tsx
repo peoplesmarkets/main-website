@@ -161,6 +161,7 @@ export function MarketBoothSettings(props: Props) {
         shopData?.shop?.data()!.marketBoothId,
         buildBaseUrl(location.pathname)
       );
+      setRedirecting(false);
       window.location.href = link;
     } catch (err) {
       setRedirecting(false);

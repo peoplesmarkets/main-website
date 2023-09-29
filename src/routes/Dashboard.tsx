@@ -2,7 +2,14 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { Trans } from "@mbarzda/solid-i18next";
 import { useNavigate } from "@solidjs/router";
 import _ from "lodash";
-import { Match, Show, Switch, createResource, createSignal } from "solid-js";
+import {
+  Match,
+  Show,
+  Switch,
+  createEffect,
+  createResource,
+  createSignal,
+} from "solid-js";
 
 import { MediaList } from "../components/commerce";
 import { MarketBoothList } from "../components/dashboard";
@@ -22,6 +29,8 @@ export default function Dashboard() {
 
   const { accessToken, currentSession } = useAccessTokensContext();
 
+  const [initiallyShowCreateShop, setInitiallyShowCreateShop] =
+    createSignal(true);
   const [showCreateMarketBooth, setShowCreateMarketBooth] = createSignal(false);
 
   const marketBoothService = new MarketBoothService(accessToken);
@@ -35,6 +44,16 @@ export default function Dashboard() {
     () => currentSession().userId || undefined,
     fetchMedias
   );
+
+  createEffect(() => {
+    if (
+      isResolved(shops.state) &&
+      _.isEmpty(shops()) &&
+      initiallyShowCreateShop()
+    ) {
+      setShowCreateMarketBooth(true);
+    }
+  });
 
   async function fetchMarketBooths(userId: string) {
     try {
@@ -66,6 +85,7 @@ export default function Dashboard() {
   }
 
   function handleCloseCreateMarketBooth() {
+    setInitiallyShowCreateShop(false);
     setShowCreateMarketBooth(false);
   }
 

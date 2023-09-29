@@ -1,10 +1,10 @@
 $compact-min-width: 360px;
 $medium-min-width: 600px;
 
-.GetStarted {
-  padding: 1rem;
-  min-height: var(--fill-height);
-  background-color: var(--header-background-color);
+.LandingPageHero {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-bottom: 4rem;
 }
 
 .Hero {
@@ -12,10 +12,10 @@ $medium-min-width: 600px;
   margin: 0 auto;
 
   @media only screen and (min-width: $compact-min-width) {
-    margin: 2rem auto;
+    padding-top: 2rem;
   }
   @media only screen and (min-width: $medium-min-width) {
-    margin: 5rem auto;
+    padding-top: 5rem;
   }
 }
 
@@ -55,28 +55,4 @@ $medium-min-width: 600px;
 
 .List li:not(:last-child) {
   margin-bottom: 1rem;
-}
-
-.CallToAction {
-  text-align: center;
-  margin-bottom: 4rem;
-}
-
-.CallToActionButton {
-  height: 3.5rem;
-  color: var(--primary-content-color);
-  background-color: var(--orange);
-  font: var(--font-title);
-  font-weight: 500;
-  opacity: 95%;
-  border: 1px solid var(--orange);
-  border-radius: 4px;
-  padding: 0 23px 0 23px;
-  text-decoration: none;
-  outline: 0;
-}
-
-.CallToActionButton:hover {
-  background-color: var(--orange);
-  opacity: 100%;
 }

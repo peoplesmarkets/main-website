@@ -19,9 +19,16 @@
 }
 
 .Flat {
-  padding: 0 1rem;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
 .Padded {
-  padding: 1.5rem 3rem;
+  padding-left: 3rem;
+  padding-right: 3rem;
+}
+
+.Narrow {
+  padding-left: 0;
+  padding-right: 0;
 }

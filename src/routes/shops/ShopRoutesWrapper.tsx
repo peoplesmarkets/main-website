@@ -13,7 +13,7 @@ import {
   StoreFrontIcon,
   ThemeIcon,
 } from "../../components/icons";
-import { Cover, Page, Slot } from "../../components/layout";
+import { Border, Cover, Page, Slot } from "../../components/layout";
 import {
   Panel,
   PanelItem,
@@ -46,8 +46,8 @@ export default function ShopRoutesWrapper() {
   const emptyShopStyle = {
     "--header-background-color": undefined as string | undefined,
     "--header-content-color": undefined as string | undefined,
-    "--secondary-background-color": undefined as string | undefined,
-    "--secondary-content-color": undefined as string | undefined,
+    "--footer-background-color": undefined as string | undefined,
+    "--footer-content-color": undefined as string | undefined,
   };
 
   const [customShopStyle, setCustomShopStyle] = createStore(
@@ -93,13 +93,13 @@ export default function ShopRoutesWrapper() {
       }
       if (isCssColor(styles.secondaryBackgroundColorDark)) {
         setCustomShopStyle(
-          "--secondary-background-color",
+          "--footer-background-color",
           styles.secondaryBackgroundColorDark!
         );
       }
       if (isCssColor(styles.secondaryContentColorDark)) {
         setCustomShopStyle(
-          "--secondary-content-color",
+          "--footer-content-color",
           styles.secondaryContentColorDark!
         );
       }
@@ -118,13 +118,13 @@ export default function ShopRoutesWrapper() {
       }
       if (isCssColor(styles.secondaryBackgroundColorLight)) {
         setCustomShopStyle(
-          "--secondary-background-color",
+          "--footer-background-color",
           styles.secondaryBackgroundColorLight!
         );
       }
       if (isCssColor(styles.secondaryContentColorLight)) {
         setCustomShopStyle(
-          "--secondary-content-color",
+          "--footer-content-color",
           styles.secondaryContentColorLight!
         );
       }
@@ -145,9 +145,13 @@ export default function ShopRoutesWrapper() {
     const clientId = shopData?.shopDomain?.data()?.clientId;
     if (!_.isNil(clientId) && !_.isEmpty(clientId)) {
       setSigningIn(true);
-      window.location.href = (
-        await buildAuthorizationRequest(undefined, location.pathname, clientId)
-      ).toString();
+      const signInUrl = await buildAuthorizationRequest(
+        undefined,
+        location.pathname,
+        clientId
+      );
+      setSigningIn(false);
+      window.location.href = signInUrl.toString();
     }
   }
 
@@ -232,6 +236,8 @@ export default function ShopRoutesWrapper() {
                 currentSession().userId === shopData.shop.data()?.userId
               }
             >
+              <Border narrow />
+
               <PanelItem
                 Icon={SettingsIcon}
                 path={() => buildShopSettingsPath(shopData.shop.data()!.slug)}

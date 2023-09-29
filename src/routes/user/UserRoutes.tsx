@@ -1,7 +1,6 @@
 import { Route } from "@solidjs/router";
 import { lazy } from "solid-js";
 
-import { signInDataRoute } from "../../data-routes";
 import { buildPath } from "../../lib";
 import { getOriginFromWindow } from "../../lib/env";
 import MainRoutesWrapper from "../MainRoutesWrapper";
@@ -31,7 +30,6 @@ export function UserRoutes() {
         component={lazy(() => import("./Settings"))}
       />
 
-      <Route path={SIGN_IN_PATH} data={signInDataRoute} />
       <Route
         path={SIGN_IN_CALLBACK_PATH}
         component={lazy(() => import("./SignInCallback"))}
