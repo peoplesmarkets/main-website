@@ -99,7 +99,7 @@ export const DE: typeof TKEYS = {
       )]: `{intervalCount, plural, =1 {Jahr} other {Jahre} }`,
     },
   },
-  "shop": {
+  shop: {
     title: "Shop",
     "title-plural": "Shops",
     "no-description": "Keine Beschreibung vorhanden ...",
@@ -193,12 +193,12 @@ export const DE: typeof TKEYS = {
     title: "Durchsuche alle Angebote",
   },
   dashboard: {
-    "shop": {
+    shop: {
       Details: "Details",
       "my-shops": "Meine Shops",
       "no-shop-yet": "Bisher keinen Shop erstellt",
       "create-new-shop": "Neuen Shop erstellen",
-      "edit-name-and-description": "Name und Beschreibung bearbeiten",
+      "edit-name-and-description": "Name, Beschreibung und Sichtbarkeit",
       "edit-image": "Bild bearbeiten",
       "delete-image": "Bild löschen",
       "edit-logo": "Logo bearbeiten",
@@ -248,7 +248,7 @@ export const DE: typeof TKEYS = {
     },
     links: {
       home: EN["main-navigation"].links.home,
-      "shops": "Shops",
+      shops: "Shops",
       offers: "Angebote",
       dashboard: EN["main-navigation"].links.dashboard,
       "user-settings": "Benutzereinstellungen",

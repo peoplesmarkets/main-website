@@ -194,6 +194,22 @@ export function ShopSettings(props: Props) {
         </span>
 
         <span class={styles.Details}>
+          <Trans key={TKEYS.offer.visibility.title} />:{" "}
+          <Show
+            when={Boolean(shopData?.shop?.data()?.isActive)}
+            fallback={
+              <span class={styles.Warning}>
+                <Trans key={TKEYS.offer.visibility["not-visible"]} />
+              </span>
+            }
+          >
+            <span class={styles.Active}>
+              <Trans key={TKEYS.offer.visibility.visible} />
+            </span>
+          </Show>
+        </span>
+
+        <span class={styles.Details}>
           <Trans key={TKEYS["shop"].labels["Created-at"]} />:{" "}
           {secondsToLocaleString(shopData?.shop?.data()?.createdAt)}
         </span>
@@ -211,9 +227,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans
-              key={TKEYS.dashboard["shop"]["edit-name-and-description"]}
-            />
+            <Trans key={TKEYS.dashboard["shop"]["edit-name-and-description"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -290,9 +304,7 @@ export function ShopSettings(props: Props) {
           <Switch
             fallback={
               <span>
-                <Trans
-                  key={TKEYS.dashboard["shop"]["no-shop-yet"]}
-                />
+                <Trans key={TKEYS.dashboard["shop"]["no-shop-yet"]} />
               </span>
             }
           >
@@ -343,9 +355,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans
-              key={TKEYS.dashboard["shop"]["delete-this-shop"]}
-            />
+            <Trans key={TKEYS.dashboard["shop"]["delete-this-shop"]} />
           </p>
           <ActionButton
             actionType="danger"
