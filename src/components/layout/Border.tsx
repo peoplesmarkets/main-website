@@ -1,5 +1,14 @@
 import styles from "./Border.module.scss";
 
-export function Border() {
-  return <div class={styles.Border} />;
+type Props = {
+  narrow?: boolean;
+};
+
+export function Border(props: Props) {
+  return (
+    <div
+      class={styles.Border}
+      classList={{ [styles.Narrow]: Boolean(props.narrow) }}
+    />
+  );
 }

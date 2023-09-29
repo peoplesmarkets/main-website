@@ -277,7 +277,7 @@ export const DE: typeof TKEYS = {
   "landing-page": {
     "get-started": "Los geht's",
     "GET-STARTED": "LOS GEHT'S",
-    "establish-your-online-appearance": "Erstell dir deine Online-Präsenz",
+    "establish-your-online-appearance": "Erstelle dir eine Online-Präsenz",
     "create-your-online-market-booth-and-build-your-brand":
       "Baue deine Marke mit einem Online-Shop auf",
     "offer-your-goods-to-the-people": "Biete den Menschen deine Waren an",

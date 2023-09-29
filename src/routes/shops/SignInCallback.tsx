@@ -9,6 +9,7 @@ import { base64ToUtf8 } from "../../lib";
 import { buildIndexPath } from "../MainRoutes";
 import { buildDashboardPath } from "../MainRoutes";
 import { ShopData } from "./ShopData";
+import { Page } from "../../components/layout";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
@@ -36,5 +37,9 @@ export default function SignInCallback() {
     }
   });
 
-  return <Cover pageLoad />;
+  return (
+    <Page>
+      <Cover pageLoad />
+    </Page>
+  );
 }
