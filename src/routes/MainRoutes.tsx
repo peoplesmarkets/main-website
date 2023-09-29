@@ -5,7 +5,7 @@ import { buildPath, buildBaseUrl } from "../lib";
 import { isCustomDomain } from "../lib/env";
 
 const ROOT_PATH = "/";
-const MARKET_BOOTHS_PATH = "/shops";
+const SHOPS_PATH = "/shops";
 const OFFERS_PATH = "/offers";
 const DASHBOARD_PATH = "/dashboard";
 
@@ -21,7 +21,7 @@ export function buildIndexPathOrUrl() {
 }
 
 export function buildShopsPath() {
-  return buildPath(ROOT_PATH, MARKET_BOOTHS_PATH);
+  return buildPath(ROOT_PATH, SHOPS_PATH);
 }
 
 export function buildOffersPath() {
@@ -42,7 +42,7 @@ export default function MainRoutes() {
         <Route path="" component={lazy(() => import("./LandingPage"))} />
 
         <Route
-          path={MARKET_BOOTHS_PATH}
+          path={SHOPS_PATH}
           component={lazy(() => import("./Shops"))}
         />
 

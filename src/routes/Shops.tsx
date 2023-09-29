@@ -28,8 +28,7 @@ export default function Shops() {
 
   const shopService = new ShopService(accessToken);
 
-  const searchField =
-    ShopsFilterField.MARKET_BOOTHS_FILTER_FIELD_NAME_AND_DESCRIPTION;
+  const searchField = ShopsFilterField.SHOPS_FILTER_FIELD_NAME_AND_DESCRIPTION;
 
   function createdAtOrderByOptions() {
     return [
@@ -46,26 +45,23 @@ export default function Shops() {
 
   const [listRequest, setListRequest] = createStore<ListShopsRequest>({
     orderBy: {
-      field: ShopsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
+      field: ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT,
       direction: Direction.DIRECTION_DESC,
     },
     extended: true,
   });
 
-  const [shops, { refetch }] = createResource(
-    () => listRequest,
-    fetchShops
-  );
+  const [shops, { refetch }] = createResource(() => listRequest, fetchShops);
 
   async function fetchShops(request: ListShopsRequest) {
-    const response = await shopService.list(request);    
+    const response = await shopService.list(request);
     return response.shops;
   }
 
   function selectedCreatedAtOrderByKey() {
     if (
       listRequest.orderBy?.field ===
-      ShopsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT
+      ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT
     ) {
       return listRequest.orderBy?.direction;
     }
@@ -92,10 +88,7 @@ export default function Shops() {
     refetch();
   }
 
-  function handleOrderByInput(
-    field: ShopsOrderByField,
-    direction: SelectKey
-  ) {
+  function handleOrderByInput(field: ShopsOrderByField, direction: SelectKey) {
     if (!_.isNumber(direction)) {
       return;
     }
@@ -140,7 +133,7 @@ export default function Shops() {
               options={createdAtOrderByOptions}
               onValue={(direction) =>
                 handleOrderByInput(
-                  ShopsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
+                  ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT,
                   direction
                 )
               }
