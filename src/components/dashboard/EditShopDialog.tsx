@@ -13,6 +13,8 @@ import {
 import {
   ActionButton,
   DiscardConfirmation,
+  Select,
+  SelectKey,
   TextArea,
   TextField,
 } from "../form";
@@ -33,10 +35,15 @@ export function EditShopDialog(props: Props) {
 
   const shopService = new ShopService(accessToken);
 
-  const emptyUpdateRequest = UpdateShopRequest.create();
-  const updateFields = ["shopId", "name", "description"];
-  const [shop, setShop] =
-    createStore<UpdateShopRequest>(emptyUpdateRequest);
+  const emptyUpdateRequest = {
+    shopId: undefined as string | undefined,
+    name: undefined as string | undefined,
+    description: undefined as string | undefined,
+    isActive: undefined as string | undefined,
+  } as UpdateShopRequest;
+  const updateFields = Object.keys(emptyUpdateRequest);
+
+  const [shop, setShop] = createStore(emptyUpdateRequest);
 
   const [errors, setErrors] = createStore({
     name: [] as string[],
@@ -46,16 +53,26 @@ export function EditShopDialog(props: Props) {
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
   createEffect(() => {
-    if (
-      _.isNil(shop.shopId) ||
-      _.isEmpty(shop.shopId)
-    ) {
+    if (_.isNil(shop.shopId) || _.isEmpty(shop.shopId)) {
       setShop(_.clone(_.pick(props.shop(), updateFields)));
     }
   });
 
   function resetErrors() {
     setErrors({ name: [], description: [] });
+  }
+
+  function visibilityOptions() {
+    return [
+      { name: trans(TKEYS.offer.visibility.visible), key: true },
+      { name: trans(TKEYS.offer.visibility["not-visible"]), key: false },
+    ];
+  }
+
+  function selectedVisibility() {
+    return _.find(visibilityOptions(), {
+      key: shop.isActive,
+    });
   }
 
   function handleNameInput(value: string) {
@@ -68,7 +85,13 @@ export function EditShopDialog(props: Props) {
     setShop("description", value.trim());
   }
 
-  async function updateShop(event: SubmitEvent) {
+  function handleVisibilityChange(value: SelectKey) {
+    if (_.isBoolean(value)) {
+      setShop("isActive", value);
+    }
+  }
+
+  async function handleUpdateShop(event: SubmitEvent) {
     event.preventDefault();
 
     if (!dataWasChanged()) {
@@ -113,12 +136,10 @@ export function EditShopDialog(props: Props) {
     <>
       <Show when={!discardConfirmation()}>
         <Dialog
-          title={trans(
-            TKEYS.dashboard["shop"]["edit-name-and-description"]
-          )}
+          title={trans(TKEYS.dashboard["shop"]["edit-name-and-description"])}
           onClose={closeDialog}
         >
-          <form class={styles.Form} onSubmit={updateShop}>
+          <form class={styles.Form} onSubmit={handleUpdateShop}>
             <TextField
               label={trans(TKEYS["shop"].labels.name)}
               required
@@ -135,11 +156,18 @@ export function EditShopDialog(props: Props) {
               errors={errors.description}
             />
 
+            <Select
+              label={trans(TKEYS.offer.visibility.title)}
+              value={selectedVisibility}
+              options={visibilityOptions}
+              onValue={handleVisibilityChange}
+            />
+
             <div class={styles.DialogFooter}>
               <ActionButton
                 actionType="active-filled"
                 submit
-                onClick={(e) => updateShop(e)}
+                onClick={(e) => handleUpdateShop(e)}
               >
                 <Trans key={TKEYS.form.action.Save} />
               </ActionButton>
