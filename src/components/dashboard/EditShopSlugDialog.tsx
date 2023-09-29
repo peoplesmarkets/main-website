@@ -12,8 +12,8 @@ import {
   buildShopDetailPath,
   buildShopSettingsPath,
 } from "../../routes/shops/ShopRoutes";
-import { MarketBoothService } from "../../services";
-import { UpdateMarketBoothRequest } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { ShopService } from "../../services";
+import { UpdateShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop";
 import {
   ActionButton,
   Anotation,
@@ -33,12 +33,12 @@ export function EditShopSlugDialog(props: Props) {
   const [trans] = useTransContext();
   const shopData = useRouteData<typeof ShopData>();
   const { accessToken } = useAccessTokensContext();
-  const marketBoothService = new MarketBoothService(accessToken);
+  const shopService = new ShopService(accessToken);
 
-  const emptyUpdateRequest = UpdateMarketBoothRequest.create();
-  const updateFields = ["marketBoothId", "slug"];
-  const [marketBooth, setMarketBooth] =
-    createStore<UpdateMarketBoothRequest>(emptyUpdateRequest);
+  const emptyUpdateRequest = UpdateShopRequest.create();
+  const updateFields = ["shopId", "slug"];
+  const [shop, setShop] =
+    createStore<UpdateShopRequest>(emptyUpdateRequest);
 
   const [errors, setErrors] = createStore({ slug: [] as string[] });
 
@@ -47,10 +47,10 @@ export function EditShopSlugDialog(props: Props) {
 
   createEffect(() => {
     if (
-      _.isNil(marketBooth.marketBoothId) ||
-      _.isEmpty(marketBooth.marketBoothId)
+      _.isNil(shop.shopId) ||
+      _.isEmpty(shop.shopId)
     ) {
-      setMarketBooth(_.clone(_.pick(shopData.shop.data(), updateFields)));
+      setShop(_.clone(_.pick(shopData.shop.data(), updateFields)));
     }
   });
 
@@ -60,7 +60,7 @@ export function EditShopSlugDialog(props: Props) {
 
   function handleSlugInput(value: string) {
     resetErrors();
-    setMarketBooth("slug", value);
+    setShop("slug", value);
   }
 
   async function handleUpdateShop(event: SubmitEvent) {
@@ -73,10 +73,10 @@ export function EditShopSlugDialog(props: Props) {
     }
 
     try {
-      const response = await marketBoothService.update(marketBooth);
+      const response = await shopService.update(shop);
 
-      if (!_.isNil(response.marketBooth)) {
-        navigate(buildShopSettingsPath(response.marketBooth?.slug));
+      if (!_.isNil(response.shop)) {
+        navigate(buildShopSettingsPath(response.shop?.slug));
         props.onClose();
       } else {
         props.onClose();
@@ -97,7 +97,7 @@ export function EditShopSlugDialog(props: Props) {
   function dataWasChanged() {
     return !_.isEqual(
       _.pick(shopData.shop.data(), updateFields),
-      _.pick(marketBooth, updateFields)
+      _.pick(shop, updateFields)
     );
   }
 
@@ -115,25 +115,25 @@ export function EditShopSlugDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard["market-booth"]["edit-path"])}
+          title={trans(TKEYS.dashboard["shop"]["edit-path"])}
           onClose={props.onClose}
         >
           <form class={styles.Form} onSubmit={handleUpdateShop}>
             <TextField
-              label={trans(TKEYS["market-booth"].labels.slug)}
+              label={trans(TKEYS["shop"].labels.slug)}
               required
               small
-              value={marketBooth.slug}
+              value={shop.slug}
               onValue={handleSlugInput}
               errors={errors.slug}
             />
 
             <Anotation>
-              <Trans key={TKEYS.dashboard["market-booth"]["resulting-url"]} />:
+              <Trans key={TKEYS.dashboard["shop"]["resulting-url"]} />:
             </Anotation>
             <Anotation bordered padded>
               {import.meta.env.VITE_BASE_URL}
-              {buildShopDetailPath(marketBooth.slug!)}
+              {buildShopDetailPath(shop.slug!)}
             </Anotation>
 
             <div class={styles.DialogFooter}>

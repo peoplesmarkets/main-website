@@ -20,7 +20,7 @@ export function buildIndexPathOrUrl() {
   return buildIndexPath();
 }
 
-export function buildMarketBoothsPath() {
+export function buildShopsPath() {
   return buildPath(ROOT_PATH, MARKET_BOOTHS_PATH);
 }
 
@@ -43,7 +43,7 @@ export default function MainRoutes() {
 
         <Route
           path={MARKET_BOOTHS_PATH}
-          component={lazy(() => import("./MarketBooths"))}
+          component={lazy(() => import("./Shops"))}
         />
 
         <Route path={OFFERS_PATH} component={lazy(() => import("./Offers"))} />

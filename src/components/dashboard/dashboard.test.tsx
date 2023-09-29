@@ -8,14 +8,14 @@ import {
   noOp,
   renderIntoRoot,
 } from "../../lib/testing";
-import { CreateMarketBoothDialog } from "./CreateMarketBoothDialog";
+import { CreateShopDialog } from "./CreateShopDialog";
 import { CreateOfferDialog } from "./CreateOfferDialog";
-import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
+import { EditShopDialog } from "./EditShopDialog";
 import { EditOfferDialog } from "./EditOfferDialog";
-import { MarketBoothSettings } from "./MarketBoothSettings";
+import { ShopSettings } from "./ShopSettings";
 import { OfferSettings } from "./OfferSettings";
 import { CreateOfferImageDialog } from "./CreateOfferImageDialog";
-import { MarketBoothImage } from "./MarketBoothImage";
+import { ShopImage } from "./ShopImage";
 import { MediaSettings } from "./MediaSettings";
 import { EditShopBannerDialog } from "./EditShopBannerDialog";
 
@@ -26,15 +26,15 @@ describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
-  test("CreateMarketBoothDialog", () => {
+  test("CreateShopDialog", () => {
     const { container } = renderIntoRoot(() => (
-      <CreateMarketBoothDialog onClose={noOp} />
+      <CreateShopDialog onClose={noOp} />
     ));
     expect(container).toBeDefined();
   });
   test("CreateOfferDialog", () => {
     const { container } = renderIntoRoot(() => (
-      <CreateOfferDialog marketBoothId="" onClose={noOp} />
+      <CreateOfferDialog shopId="" onClose={noOp} />
     ));
     expect(container).toBeDefined();
   });
@@ -49,10 +49,10 @@ describe("Render once", () => {
     ));
     expect(container).toBeDefined();
   });
-  test("EditMarketBoothDialog", () => {
+  test("EditShopDialog", () => {
     const { container } = renderIntoRoot(() => (
-      <EditMarketBoothDialog
-        marketBooth={() => ({ marketBoothId: "" } as any)}
+      <EditShopDialog
+        shop={() => ({ shopId: "" } as any)}
         onClose={noOp}
       />
     ));
@@ -74,15 +74,15 @@ describe("Render once", () => {
     ));
     expect(container).toBeDefined();
   });
-  test("MarketBoothImage", () => {
+  test("ShopImage", () => {
     const { container } = renderIntoRoot(() => (
-      <MarketBoothImage onUpdate={noOp} />
+      <ShopImage onUpdate={noOp} />
     ));
     expect(container).toBeDefined();
   });
-  test("MarketBoothSettings", () => {
+  test("ShopSettings", () => {
     const { container } = renderIntoRoot(() => (
-      <MarketBoothSettings onUpdate={asyncNoOp} onDelete={noOp} />
+      <ShopSettings onUpdate={asyncNoOp} onDelete={noOp} />
     ));
     expect(container).toBeDefined();
   });

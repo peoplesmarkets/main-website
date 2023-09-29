@@ -55,7 +55,7 @@ export function OfferList(props: Props) {
                     class={styles.InfoLink}
                     href={buildShopPathOrUrl(offer.shopDomain, offer.shopSlug)}
                   >
-                    {offer.marketBoothName}
+                    {offer.shopName}
                   </A>
                 </span>
 

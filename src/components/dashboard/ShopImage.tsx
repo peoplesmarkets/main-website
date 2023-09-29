@@ -5,7 +5,7 @@ import { Show, createSignal } from "solid-js";
 import { ShopData } from "../../routes/shops/ShopData";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { EditIcon } from "../icons";
-import styles from "./MarketBoothImage.module.scss";
+import styles from "./ShopImage.module.scss";
 import { EditShopBannerDialog } from "./EditShopBannerDialog";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 
@@ -13,7 +13,7 @@ type Props = {
   onUpdate: () => void;
 };
 
-export function MarketBoothImage(props: Props) {
+export function ShopImage(props: Props) {
   const { theme } = useThemeContext();
   const shopData = useRouteData<typeof ShopData>();
 
@@ -58,7 +58,7 @@ export function MarketBoothImage(props: Props) {
 
       <Show when={showEditDialog() && !_.isNil(shopData?.shop?.data())}>
         <EditShopBannerDialog
-          shopId={shopData.shop.data()!.marketBoothId}
+          shopId={shopData.shop.data()!.shopId}
           onUpdate={props.onUpdate}
           onClose={handleCloseEditDialog}
         />

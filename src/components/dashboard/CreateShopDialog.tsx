@@ -6,8 +6,8 @@ import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
-import { MarketBoothService } from "../../services";
-import { CreateMarketBoothRequest } from "../../services/peoplesmarkets/commerce/v1/market_booth";
+import { ShopService } from "../../services";
+import { CreateShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop";
 import {
   ActionButton,
   Anotation,
@@ -25,14 +25,14 @@ type Props = {
   onUpdate?: () => void;
 };
 
-export function CreateMarketBoothDialog(props: Props) {
+export function CreateShopDialog(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
 
-  const marketBoothService = new MarketBoothService(accessToken);
+  const shopService = new ShopService(accessToken);
 
-  const [marketBooth, setMarketBooth] = createStore<CreateMarketBoothRequest>({
+  const [shop, setShop] = createStore<CreateShopRequest>({
     name: "",
     slug: "",
     description: "",
@@ -52,32 +52,32 @@ export function CreateMarketBoothDialog(props: Props) {
 
   function handleNameInput(value: string) {
     resetErrors();
-    if (slugify(marketBooth.name) === marketBooth.slug) {
-      setMarketBooth("slug", slugify(value));
+    if (slugify(shop.name) === shop.slug) {
+      setShop("slug", slugify(value));
     }
-    setMarketBooth("name", value);
+    setShop("name", value);
   }
 
   function handleSlugInput(value: string) {
     resetErrors();
-    setMarketBooth("slug", value);
+    setShop("slug", value);
   }
 
   function handleDescriptionInput(value: string) {
     resetErrors();
-    setMarketBooth("description", value);
+    setShop("description", value);
   }
 
-  async function createMarketBooth(event: SubmitEvent) {
+  async function createShop(event: SubmitEvent) {
     event.preventDefault();
 
-    if (_.isEmpty(marketBooth.name)) {
+    if (_.isEmpty(shop.name)) {
       setErrors("name", [trans(TKEYS.form.errors["required-field"])]);
       return;
     }
 
     try {
-      await marketBoothService.create(marketBooth);
+      await shopService.create(shop);
 
       props.onUpdate?.();
       props.onClose();
@@ -91,7 +91,7 @@ export function CreateMarketBoothDialog(props: Props) {
   }
 
   function closeDialog() {
-    if (!_.isEmpty(marketBooth.name) || !_.isEmpty(marketBooth.description)) {
+    if (!_.isEmpty(shop.name) || !_.isEmpty(shop.description)) {
       setDiscardConfirmation(true);
     } else {
       props.onClose();
@@ -113,49 +113,49 @@ export function CreateMarketBoothDialog(props: Props) {
       <Show when={!discardConfirmation()}>
         <Dialog
           title={trans(
-            TKEYS.dashboard["market-booth"]["create-new-market-booth"]
+            TKEYS.dashboard["shop"]["create-new-shop"]
           )}
           onClose={closeDialog}
         >
-          <form class={styles.Form} onSubmit={(e) => createMarketBooth(e)}>
+          <form class={styles.Form} onSubmit={(e) => createShop(e)}>
             <TextField
-              label={trans(TKEYS["market-booth"].labels.name)}
+              label={trans(TKEYS["shop"].labels.name)}
               required
-              value={marketBooth.name}
+              value={shop.name}
               onValue={handleNameInput}
               errors={errors.name}
             />
 
             <TextArea
-              label={trans(TKEYS["market-booth"].labels.description)}
+              label={trans(TKEYS["shop"].labels.description)}
               rows={8}
               required
-              value={marketBooth.description}
+              value={shop.description}
               onValue={handleDescriptionInput}
               errors={errors.description}
             />
 
             <TextField
-              label={trans(TKEYS["market-booth"].labels.slug)}
+              label={trans(TKEYS["shop"].labels.slug)}
               required
               small
-              value={marketBooth.slug}
+              value={shop.slug}
               onValue={handleSlugInput}
               errors={errors.slug}
             />
             <Anotation>
-              <Trans key={TKEYS.dashboard["market-booth"]["resulting-url"]} />:
+              <Trans key={TKEYS.dashboard["shop"]["resulting-url"]} />:
             </Anotation>
             <Anotation bordered padded>
               {import.meta.env.VITE_BASE_URL}
-              {buildShopDetailPath(marketBooth.slug!)}
+              {buildShopDetailPath(shop.slug!)}
             </Anotation>
 
             <div class={styles.DialogFooter}>
               <ActionButton
                 actionType="active-filled"
                 submit
-                onClick={(e) => createMarketBooth(e)}
+                onClick={(e) => createShop(e)}
               >
                 <Trans key={TKEYS.form.action.Save} />
               </ActionButton>

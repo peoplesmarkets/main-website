@@ -12,15 +12,15 @@ import {
 } from "solid-js";
 
 import { MediaList } from "../components/commerce";
-import { MarketBoothList } from "../components/dashboard";
+import { ShopList } from "../components/dashboard";
 import { ContentError, isResolved } from "../components/content";
-import { CreateMarketBoothDialog } from "../components/dashboard";
+import { CreateShopDialog } from "../components/dashboard";
 import { ActionButton } from "../components/form";
 import { Border, Section } from "../components/layout";
 import { Page } from "../components/layout/Page";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { TKEYS } from "../locales";
-import { MarketBoothService, MediaService } from "../services";
+import { ShopService, MediaService } from "../services";
 import styles from "./Dashboard.module.scss";
 import { buildUserSettingsPath } from "./user/UserRoutes";
 
@@ -31,14 +31,14 @@ export default function Dashboard() {
 
   const [initiallyShowCreateShop, setInitiallyShowCreateShop] =
     createSignal(true);
-  const [showCreateMarketBooth, setShowCreateMarketBooth] = createSignal(false);
+  const [showCreateShop, setShowCreateShop] = createSignal(false);
 
-  const marketBoothService = new MarketBoothService(accessToken);
+  const shopService = new ShopService(accessToken);
   const mediaService = new MediaService(accessToken);
 
   const [shops, { refetch }] = createResource(
     () => currentSession().userId || undefined,
-    fetchMarketBooths
+    fetchShops
   );
   const [medias] = createResource(
     () => currentSession().userId || undefined,
@@ -51,17 +51,17 @@ export default function Dashboard() {
       _.isEmpty(shops()) &&
       initiallyShowCreateShop()
     ) {
-      setShowCreateMarketBooth(true);
+      setShowCreateShop(true);
     }
   });
 
-  async function fetchMarketBooths(userId: string) {
+  async function fetchShops(userId: string) {
     try {
-      const response = await marketBoothService.listDefault({
+      const response = await shopService.listDefault({
         userId,
         extended: true,
       });
-      return response.marketBooths;
+      return response.shops;
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
         navigate(buildUserSettingsPath(), { replace: true });
@@ -76,17 +76,17 @@ export default function Dashboard() {
     return response.medias;
   }
 
-  async function handleMarketBoothUpdate() {
+  async function handleShopUpdate() {
     refetch();
   }
 
-  function handleOpenCreateMarketBooth() {
-    setShowCreateMarketBooth(true);
+  function handleOpenCreateShop() {
+    setShowCreateShop(true);
   }
 
-  function handleCloseCreateMarketBooth() {
+  function handleCloseCreateShop() {
     setInitiallyShowCreateShop(false);
-    setShowCreateMarketBooth(false);
+    setShowCreateShop(false);
   }
 
   return (
@@ -96,13 +96,13 @@ export default function Dashboard() {
           <div class={styles.TitleSection}>
             <span class={styles.Title}>
               <Trans
-                key={TKEYS.dashboard["market-booth"]["my-market-booths"]}
+                key={TKEYS.dashboard["shop"]["my-shops"]}
               />
               :
             </span>
             <ActionButton
               actionType="neutral"
-              onClick={handleOpenCreateMarketBooth}
+              onClick={handleOpenCreateShop}
             >
               <Trans key={TKEYS.form.action["Create-new"]} />
             </ActionButton>
@@ -113,11 +113,11 @@ export default function Dashboard() {
               <ContentError />
             </Match>
             <Match when={isResolved(shops.state) && !_.isEmpty(shops())}>
-              <MarketBoothList shops={() => shops()!} />
+              <ShopList shops={() => shops()!} />
             </Match>
             <Match when={isResolved(shops.state) && _.isEmpty(shops())}>
               <Trans
-                key={TKEYS.dashboard["market-booth"]["no-market-booth-yet"]}
+                key={TKEYS.dashboard["shop"]["no-shop-yet"]}
               />
             </Match>
           </Switch>
@@ -133,10 +133,10 @@ export default function Dashboard() {
         </Section>
       </Page>
 
-      <Show when={showCreateMarketBooth()}>
-        <CreateMarketBoothDialog
-          onClose={handleCloseCreateMarketBooth}
-          onUpdate={handleMarketBoothUpdate}
+      <Show when={showCreateShop()}>
+        <CreateShopDialog
+          onClose={handleCloseCreateShop}
+          onUpdate={handleShopUpdate}
         />
       </Show>
     </>

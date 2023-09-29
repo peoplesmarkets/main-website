@@ -27,24 +27,24 @@ export default function ShopDetail() {
 
   const shopData = useRouteData<typeof ShopData>();
 
-  function marketBoothId() {
-    return shopData?.shop?.data?.()?.marketBoothId;
+  function shopId() {
+    return shopData?.shop?.data?.()?.shopId;
   }
 
-  const [featuredOffers] = createResource(marketBoothId, fetchFeaturedOffers);
-  const [offers] = createResource(marketBoothId, fetchNotFeaturedOffers);
+  const [featuredOffers] = createResource(shopId, fetchFeaturedOffers);
+  const [offers] = createResource(shopId, fetchNotFeaturedOffers);
 
-  async function fetchNotFeaturedOffers(marketBoothId: string) {
-    return fetchOffers(marketBoothId, "false");
+  async function fetchNotFeaturedOffers(shopId: string) {
+    return fetchOffers(shopId, "false");
   }
 
-  async function fetchFeaturedOffers(marketBoothId: string) {
-    return fetchOffers(marketBoothId, "true");
+  async function fetchFeaturedOffers(shopId: string) {
+    return fetchOffers(shopId, "true");
   }
 
-  async function fetchOffers(marketBoothId: string, isFeatured: string) {
+  async function fetchOffers(shopId: string, isFeatured: string) {
     const response = await offerService.list({
-      marketBoothId,
+      shopId,
       orderBy: {
         field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_UPDATED_AT,
         direction: Direction.DIRECTION_DESC,

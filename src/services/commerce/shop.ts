@@ -1,35 +1,32 @@
 import {
-  CreateMarketBoothRequest,
+  CreateShopRequest,
   GrpcWebImpl,
   ListShopsRequest,
-  MarketBoothServiceClientImpl,
-  MarketBoothsOrderByField,
-  UpdateMarketBoothRequest,
-} from "../peoplesmarkets/commerce/v1/market_booth";
+  ShopServiceClientImpl,
+  ShopsOrderByField,
+  UpdateShopRequest,
+} from "../peoplesmarkets/commerce/v1/shop";
 
 import { Direction } from "../peoplesmarkets/ordering/v1/ordering";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
-export class MarketBoothService extends ServiceClient {
+export class ShopService extends ServiceClient {
   private readonly rpc: GrpcWebImpl;
-  private readonly client: MarketBoothServiceClientImpl;
+  private readonly client: ShopServiceClientImpl;
 
   constructor(accessToken: AccessTokenGetter) {
     super(accessToken);
 
     this.rpc = new GrpcWebImpl(import.meta.env.VITE_SERIVCE_APIS_URL, {});
-    this.client = new MarketBoothServiceClientImpl(this.rpc);
+    this.client = new ShopServiceClientImpl(this.rpc);
   }
 
-  public async create(request: CreateMarketBoothRequest) {
-    return this.client.CreateMarketBooth(request, await this.withAuthHeader());
+  public async create(request: CreateShopRequest) {
+    return this.client.CreateShop(request, await this.withAuthHeader());
   }
 
-  public async get(marketBoothId: string) {
-    return this.client.GetMarketBooth(
-      { marketBoothId },
-      await this.withAuthHeader()
-    );
+  public async get(shopId: string) {
+    return this.client.GetShop({ shopId }, await this.withAuthHeader());
   }
 
   public async getBySlug(slug: string) {
@@ -48,8 +45,7 @@ export class MarketBoothService extends ServiceClient {
     return this.client.ListShops(
       {
         orderBy: {
-          field:
-            MarketBoothsOrderByField.MARKET_BOOTHS_ORDER_BY_FIELD_CREATED_AT,
+          field: ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT,
           direction: Direction.DIRECTION_DESC,
         },
         ...request,
@@ -58,15 +54,12 @@ export class MarketBoothService extends ServiceClient {
     );
   }
 
-  public async update(request: UpdateMarketBoothRequest) {
-    return this.client.UpdateMarketBooth(request, await this.withAuthHeader());
+  public async update(request: UpdateShopRequest) {
+    return this.client.UpdateShop(request, await this.withAuthHeader());
   }
 
-  public async delete(marketBoothId: string) {
-    return this.client.DeleteMarketBooth(
-      { marketBoothId },
-      await this.withAuthHeader()
-    );
+  public async delete(shopId: string) {
+    return this.client.DeleteShop({ shopId }, await this.withAuthHeader());
   }
 }
 

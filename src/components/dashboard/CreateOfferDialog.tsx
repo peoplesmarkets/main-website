@@ -25,7 +25,7 @@ import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
-  marketBoothId: string;
+  shopId: string;
   onClose: () => void;
   onUpdate?: () => void;
 };
@@ -38,7 +38,7 @@ export function CreateOfferDialog(props: Props) {
   const offerService = new OfferService(accessToken);
 
   const [offer, setOffer] = createStore<CreateOfferRequest>({
-    marketBoothId: "",
+    shopId: "",
     name: "",
     description: "",
     type: OfferType.OFFER_TYPE_PHYSICAL,
@@ -53,8 +53,8 @@ export function CreateOfferDialog(props: Props) {
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(offer.marketBoothId) || _.isEmpty(offer.marketBoothId)) {
-      setOffer("marketBoothId", props.marketBoothId);
+    if (_.isNil(offer.shopId) || _.isEmpty(offer.shopId)) {
+      setOffer("shopId", props.shopId);
     }
   });
 

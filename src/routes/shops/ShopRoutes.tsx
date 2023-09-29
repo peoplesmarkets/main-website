@@ -75,7 +75,7 @@ export function ShopRoutes() {
           />
 
           <Route path={SETTINGS_PATH}>
-            <Route path="" component={lazy(() => import("./ShopSettings"))} />
+            <Route path="" component={lazy(() => import("./ShopSettingsPage"))} />
 
             <Route
               path={OFFER_PATH}
