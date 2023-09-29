@@ -49,10 +49,6 @@ server {
 		try_files $uri $uri/index.html /index.html;
 	}
 
-  location ~* \.(?:html|js)$ {
-      add_header Cache-Control "no-cache";
-  }
-
   location ~* \.(?:ttf|ico|svg)$ {
       expires 1d;
       add_header Cache-Control "public";
