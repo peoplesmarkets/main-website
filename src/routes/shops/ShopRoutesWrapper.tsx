@@ -174,7 +174,7 @@ export default function ShopRoutesWrapper() {
   }
 
   async function handleLogout() {
-    const shopSlug = shopData?.shop?.data()?.marketBoothId;
+    const shopSlug = shopData?.shop?.data()?.shopId;
     const clientId = shopData?.shopDomain?.data()?.clientId;
     if (
       !_.isNil(clientId) &&

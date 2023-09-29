@@ -56,7 +56,7 @@ export function EditShopThemeDialog(props: Props) {
       if (!_.isEmpty(customization)) {
         setShopCustomization(_.clone(customization));
       } else {
-        setShopCustomization("shopId", shopData.shop.data()!.marketBoothId);
+        setShopCustomization("shopId", shopData.shop.data()!.shopId);
       }
     }
   });

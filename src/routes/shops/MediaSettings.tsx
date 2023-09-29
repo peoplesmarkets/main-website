@@ -22,14 +22,14 @@ export default function MediaSettings() {
   const mediaService = new MediaService(accessToken);
 
   const [medias, mediasActions] = createResource(
-    () => shopData?.shop?.data()?.marketBoothId,
+    () => shopData?.shop?.data()?.shopId,
     fetchMedias
   );
 
   const [showCreateMedia, setShowCreateMedia] = createSignal(false);
 
-  async function fetchMedias(marketBoothId: string) {
-    const response = await mediaService.list({ marketBoothId });
+  async function fetchMedias(shopId: string) {
+    const response = await mediaService.list({ shopId });
     return response.medias;
   }
 
@@ -74,7 +74,7 @@ export default function MediaSettings() {
 
       <Show when={showCreateMedia()}>
         <CreateMediaDialog
-          marketBoothId={shopData.shop.data()?.marketBoothId!}
+          shopId={shopData.shop.data()?.shopId!}
           onClose={handleCancelEdit}
           onUpdate={handleRefreshMedias}
         />

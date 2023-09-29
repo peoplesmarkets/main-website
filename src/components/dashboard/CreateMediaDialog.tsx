@@ -25,7 +25,7 @@ import styles from "./CreateEditDialg.module.scss";
 const CHUNKSIZE = 1024 * 1024 * 5;
 
 type Props = {
-  readonly marketBoothId: string;
+  readonly shopId: string;
   readonly offerId?: string;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
@@ -106,7 +106,7 @@ export function CreateMediaDialog(props: Props) {
     }
 
     const response = await mediaService.create({
-      marketBoothId: props.marketBoothId,
+      shopId: props.shopId,
       name: form.name || form.file.name,
       file: {
         contentType: form.file.type,
@@ -124,7 +124,7 @@ export function CreateMediaDialog(props: Props) {
     }
 
     const response = await mediaService.create({
-      marketBoothId: props.marketBoothId,
+      shopId: props.shopId,
       name: form.name || form.file.name,
     });
 

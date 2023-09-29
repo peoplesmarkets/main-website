@@ -144,7 +144,7 @@ export default function Offers() {
   return (
     <Page>
       <Section>
-        <div class={styles.MarketBooths}>
+        <div class={styles.Shops}>
           <div class={styles.Headline}>
             <SearchGlobalIcon class={styles.HeadlineIcon} />
             <span>

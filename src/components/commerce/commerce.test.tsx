@@ -9,7 +9,7 @@ import {
 } from "../../lib/testing";
 import { OfferImages } from "./OfferImages";
 import { OfferPrice } from "./OfferPrice";
-import { MarketBoothList } from "./MarketBoothList";
+import { ShopList } from "./ShopList";
 import { MediaList } from "./MediaList";
 
 /**
@@ -19,9 +19,9 @@ describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
-  test("MarketBoothList", () => {
+  test("ShopList", () => {
     const { container } = renderIntoRoot(() => (
-      <MarketBoothList shops={getNoObj} />
+      <ShopList shops={getNoObj} />
     ));
     expect(container).toBeDefined();
   });

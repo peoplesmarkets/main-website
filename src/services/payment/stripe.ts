@@ -16,19 +16,19 @@ export class StripeService extends ServiceClient {
     this.client = new StripeServiceClientImpl(this.rpc);
   }
 
-  public async createAccount(marketBoothId: string) {
+  public async createAccount(shopId: string) {
     return this.client.CreateAccount(
       {
-        marketBoothId,
+        shopId,
       },
       await this.withAuthHeader()
     );
   }
 
-  public async createAccountLink(marketBoothId: string, redirectUrl: string) {
+  public async createAccountLink(shopId: string, redirectUrl: string) {
     return this.client.CreateAccountLink(
       {
-        marketBoothId,
+        shopId,
         refreshUrl: redirectUrl,
         returnUrl: redirectUrl,
       },
@@ -36,13 +36,13 @@ export class StripeService extends ServiceClient {
     );
   }
 
-  public async getAccount(marketBoothId: string) {
-    return this.client.GetAccount({ marketBoothId });
+  public async getAccount(shopId: string) {
+    return this.client.GetAccount({ shopId });
   }
 
-  public async getAccountDetails(marketBoothId: string) {
+  public async getAccountDetails(shopId: string) {
     return this.client.GetAccountDetails(
-      { marketBoothId },
+      { shopId },
       await this.withAuthHeader()
     );
   }

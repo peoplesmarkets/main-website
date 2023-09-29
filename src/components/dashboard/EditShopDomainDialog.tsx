@@ -40,7 +40,7 @@ export function EditShopDomainDialog(props: Props) {
   createEffect(() => {
     if (_.isNil(shopDomain.shopId) || _.isEmpty(shopDomain.shopId)) {
       setShopDomain({
-        shopId: shopData.shop.data()?.marketBoothId,
+        shopId: shopData.shop.data()?.shopId,
         domain: shopData.shopDomain.data()?.domain,
       });
     }
@@ -82,7 +82,7 @@ export function EditShopDomainDialog(props: Props) {
 
   async function handleRemoveDomain() {
     try {
-      const shopId = shopData?.shop?.data()?.marketBoothId;
+      const shopId = shopData?.shop?.data()?.shopId;
       const domain = shopData?.shopDomain?.data()?.domain;
       if (!_.isNil(shopId) && !_.isNil(domain)) {
         await shopDomainService.removeDomain({

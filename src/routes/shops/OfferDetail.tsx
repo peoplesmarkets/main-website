@@ -35,7 +35,7 @@ export default function OfferDetail() {
 
   async function fetchOtherOffers(offer: OfferResponse) {
     const response = await offerService.list({
-      marketBoothId: offer.marketBoothId,
+      shopId: offer.shopId,
     });
     return response.offers.filter((o) => o.offerId !== offer.offerId);
   }

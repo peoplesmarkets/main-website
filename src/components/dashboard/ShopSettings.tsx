@@ -8,7 +8,7 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { buildBaseUrl, secondsToLocaleString } from "../../lib";
 import { TKEYS } from "../../locales/dev";
 import { ShopData } from "../../routes/shops/ShopData";
-import { MarketBoothService, StripeService } from "../../services";
+import { ShopService, StripeService } from "../../services";
 import { ContentError, ContentLoading, isResolved } from "../content";
 import { Multiline } from "../content/Multiline";
 import { ActionButton } from "../form";
@@ -16,13 +16,13 @@ import { DeleteConfirmation } from "../form/DeleteConfirmation";
 import { Message } from "../form/Message";
 import { Cover } from "../layout/Cover";
 import { Section } from "../layout/Section";
-import { EditMarketBoothDialog } from "./EditMarketBoothDialog";
+import { EditShopDialog } from "./EditShopDialog";
 import { EditShopBannerDialog } from "./EditShopBannerDialog";
 import { EditShopDomainDialog } from "./EditShopDomainDialog";
 import { EditShopLogoDialog } from "./EditShopLogoDialog";
 import { EditShopSlugDialog } from "./EditShopSlugDialog";
 import { EditShopThemeDialog } from "./EditShopThemeDialog";
-import styles from "./MarketBoothSettings.module.scss";
+import styles from "./ShopSettings.module.scss";
 import { buildMediasSettingsPath } from "../../routes/shops/ShopRoutes";
 
 type Props = {
@@ -41,7 +41,7 @@ type DIALOG =
   | "edit-slug"
   | "edit-domain";
 
-export function MarketBoothSettings(props: Props) {
+export function ShopSettings(props: Props) {
   const location = useLocation();
   const navigate = useNavigate();
   const [trans] = useTransContext();
@@ -50,20 +50,20 @@ export function MarketBoothSettings(props: Props) {
 
   const shopData = useRouteData<typeof ShopData>();
 
-  const marketBoothService = new MarketBoothService(accessToken);
+  const shopService = new ShopService(accessToken);
   const stripeService = new StripeService(accessToken);
 
   const [showDialog, setShowDialog] = createSignal<DIALOG>("none");
   const [redirecting, setRedirecting] = createSignal(false);
 
   const [stripeAccountDetails] = createResource(
-    () => shopData?.shop?.data()?.marketBoothId,
+    () => shopData?.shop?.data()?.shopId,
     fetchStripeAccountDetails
   );
 
-  async function fetchStripeAccountDetails(marketBoothId: string) {
+  async function fetchStripeAccountDetails(shopId: string) {
     try {
-      const response = await stripeService.getAccountDetails(marketBoothId);
+      const response = await stripeService.getAccountDetails(shopId);
       return response;
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
@@ -121,7 +121,7 @@ export function MarketBoothSettings(props: Props) {
   async function confirmDeleteion() {
     if (!_.isNil(shopData?.shop?.data())) {
       try {
-        await marketBoothService.delete(shopData?.shop?.data()!.marketBoothId);
+        await shopService.delete(shopData?.shop?.data()!.shopId);
       } catch (err: any) {
         if (err.code && err.code === grpc.Code.FailedPrecondition) {
           setShowDialog("message");
@@ -142,7 +142,7 @@ export function MarketBoothSettings(props: Props) {
 
     setRedirecting(true);
     try {
-      await stripeService.createAccount(shopData?.shop?.data()!.marketBoothId);
+      await stripeService.createAccount(shopData?.shop?.data()!.shopId);
       handleContinueStripeIntegration();
     } catch (err) {
       setRedirecting(false);
@@ -158,7 +158,7 @@ export function MarketBoothSettings(props: Props) {
     setRedirecting(true);
     try {
       const { link } = await stripeService.createAccountLink(
-        shopData?.shop?.data()!.marketBoothId,
+        shopData?.shop?.data()!.shopId,
         buildBaseUrl(location.pathname)
       );
       setRedirecting(false);
@@ -359,9 +359,9 @@ export function MarketBoothSettings(props: Props) {
       <Show
         when={showDialog() === "edit-shop" && !_.isNil(shopData?.shop?.data())}
       >
-        <EditMarketBoothDialog
-          marketBooth={() => shopData?.shop?.data()!}
-          class={styles.EditMarketBooth}
+        <EditShopDialog
+          shop={() => shopData?.shop?.data()!}
+          class={styles.EditShop}
           onClose={handleCloseDialog}
           onUpdate={() => props.onUpdate()}
         />
@@ -386,7 +386,7 @@ export function MarketBoothSettings(props: Props) {
         when={showDialog() === "edit-image" && !_.isNil(shopData?.shop?.data())}
       >
         <EditShopBannerDialog
-          shopId={shopData?.shop?.data()!.marketBoothId}
+          shopId={shopData?.shop?.data()!.shopId}
           onClose={handleCloseDialog}
           onUpdate={() => props.onUpdate()}
         />
@@ -395,7 +395,7 @@ export function MarketBoothSettings(props: Props) {
         when={showDialog() === "edit-logo" && !_.isNil(shopData?.shop?.data())}
       >
         <EditShopLogoDialog
-          shopId={shopData?.shop?.data()!.marketBoothId}
+          shopId={shopData?.shop?.data()!.shopId}
           onClose={handleCloseDialog}
           onUpdate={() => props.onUpdate()}
         />

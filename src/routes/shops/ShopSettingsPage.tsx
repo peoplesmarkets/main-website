@@ -2,19 +2,19 @@ import { useNavigate, useRouteData } from "@solidjs/router";
 import { Show, createEffect } from "solid-js";
 
 import {
-  MarketBoothImage,
-  MarketBoothSettings,
+  ShopImage,
+  ShopSettings,
   OfferSettings,
 } from "../../components/dashboard";
 import { Page, Section } from "../../components/layout";
 import { buildDashboardPath } from "../MainRoutes";
 import { ShopData } from "./ShopData";
-import styles from "./ShopSettings.module.scss";
+import styles from "./ShopSettingsPage.module.scss";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import _ from "lodash";
 import { buildIndexPath } from "../MainRoutes";
 
-export default function ShopSettings() {
+export default function ShopSettingsPage() {
   const navigate = useNavigate();
 
   const { currentSession } = useAccessTokensContext();
@@ -44,7 +44,7 @@ export default function ShopSettings() {
       <div class={styles.ShopSettings}>
         <Show when={shopData?.shop?.data()}>
           <div class={styles.Settings}>
-            <MarketBoothImage onUpdate={handleShopUpdate} />
+            <ShopImage onUpdate={handleShopUpdate} />
 
             <Section flat>
               <span class={styles.Title}>{shopData.shop.data()?.name}</span>
@@ -52,7 +52,7 @@ export default function ShopSettings() {
 
             <OfferSettings />
 
-            <MarketBoothSettings
+            <ShopSettings
               onUpdate={handleShopUpdate}
               onDelete={handleDeleteShop}
             />
