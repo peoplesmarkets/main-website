@@ -149,14 +149,14 @@ export function EditShopLogoDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard["market-booth"]["edit-logo"])}
+          title={trans(TKEYS.dashboard["shop"]["edit-logo"])}
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={updateImage}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
                 label={trans(
-                  TKEYS.dashboard["market-booth"].image["for-light-theme"]
+                  TKEYS.dashboard["shop"].image["for-light-theme"]
                 )}
                 errors={errors.image}
                 onValue={handleImageInput}
@@ -165,7 +165,7 @@ export function EditShopLogoDialog(props: Props) {
 
               <FileField
                 label={trans(
-                  TKEYS.dashboard["market-booth"].image["for-dark-theme"]
+                  TKEYS.dashboard["shop"].image["for-dark-theme"]
                 )}
                 errors={errors.image}
                 onValue={handleImageDarkInput}
@@ -175,7 +175,7 @@ export function EditShopLogoDialog(props: Props) {
 
             <div class={styles.DialogFooter}>
               <ActionButton actionType="danger" onClick={removeImage}>
-                <Trans key={TKEYS.dashboard["market-booth"]["delete-logo"]} />
+                <Trans key={TKEYS.dashboard["shop"]["delete-logo"]} />
               </ActionButton>
 
               <ActionButton

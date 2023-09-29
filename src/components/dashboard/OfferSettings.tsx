@@ -41,7 +41,7 @@ export function OfferSettings() {
   async function fetchOffers() {
     const response = await offerService.list({
       userId: currentSession().userId || undefined,
-      marketBoothId: shopData.shop.data()?.marketBoothId,
+      shopId: shopData.shop.data()?.shopId,
     });
 
     return response.offers;
@@ -108,7 +108,7 @@ export function OfferSettings() {
 
       <Show when={showCreateOffer() && !_.isNil(shopData.shop.data())}>
         <CreateOfferDialog
-          marketBoothId={shopData.shop.data()!.marketBoothId}
+          shopId={shopData.shop.data()!.shopId}
           onClose={handleCloseCreateOffer}
           onUpdate={refreshOffers}
         />

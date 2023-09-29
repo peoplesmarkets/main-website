@@ -32,7 +32,7 @@ export function MediaSettings(props: Props) {
 
   async function fetchMedias() {
     const response = await mediaService.list({
-      marketBoothId: props.offer().marketBoothId,
+      shopId: props.offer().shopId,
       filter: {
         field: MediaFilterField.MEDIA_FILTER_FIELD_OFFER_ID,
         query: props.offer().offerId,
@@ -86,7 +86,7 @@ export function MediaSettings(props: Props) {
 
       <Show when={showCreateMedia()}>
         <CreateMediaDialog
-          marketBoothId={props.offer().marketBoothId}
+          shopId={props.offer().shopId}
           offerId={props.offer().offerId}
           onClose={handleCloseCreateMedia}
           onUpdate={refreshMedias}

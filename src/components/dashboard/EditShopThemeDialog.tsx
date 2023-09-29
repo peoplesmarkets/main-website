@@ -56,7 +56,7 @@ export function EditShopThemeDialog(props: Props) {
       if (!_.isEmpty(customization)) {
         setShopCustomization(_.clone(customization));
       } else {
-        setShopCustomization("shopId", shopData.shop.data()!.marketBoothId);
+        setShopCustomization("shopId", shopData.shop.data()!.shopId);
       }
     }
   });
@@ -115,7 +115,7 @@ export function EditShopThemeDialog(props: Props) {
     <>
       <Show when={!showDiscardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard["market-booth"]["edit-theme"])}
+          title={trans(TKEYS.dashboard["shop"]["edit-theme"])}
           onClose={handleCloseDialog}
         >
           <form class={styles.Form} onSubmit={handlePutShopCustomization}>

@@ -174,7 +174,7 @@ export default function ShopRoutesWrapper() {
   }
 
   async function handleLogout() {
-    const shopSlug = shopData?.shop?.data()?.marketBoothId;
+    const shopSlug = shopData?.shop?.data()?.shopId;
     const clientId = shopData?.shopDomain?.data()?.clientId;
     if (
       !_.isNil(clientId) &&
@@ -241,7 +241,7 @@ export default function ShopRoutesWrapper() {
               <PanelItem
                 Icon={SettingsIcon}
                 path={() => buildShopSettingsPath(shopData.shop.data()!.slug)}
-                label={() => trans(TKEYS["market-booth"].settings.title)}
+                label={() => trans(TKEYS["shop"].settings.title)}
               />
             </Show>
           </Slot>

@@ -19,7 +19,7 @@ export function LandingPageHero() {
             <Trans
               key={
                 TKEYS["landing-page"][
-                  "create-your-online-market-booth-and-build-your-brand"
+                  "create-your-online-shop-and-build-your-brand"
                 ]
               }
             />

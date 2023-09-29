@@ -4,7 +4,7 @@ import { createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import {
-  MarketBoothService,
+  ShopService,
   ShopDomainService,
   StripeService,
 } from "../../services";
@@ -15,48 +15,48 @@ import { getDomainFromWindow, isCustomDomain } from "../../lib/env";
 export function ShopData({ params }: RouteDataFuncArgs) {
   const { accessToken } = useAccessTokensContext();
 
-  const marketBoothService = new MarketBoothService(accessToken);
+  const shopService = new ShopService(accessToken);
   const shopCustomizationService = new ShopCustomizationService(accessToken);
   const shopDomainService = new ShopDomainService(accessToken);
   const stripeService = new StripeService(accessToken);
 
   const [shop, shopActions] = isCustomDomain()
     ? createResource(() => getDomainFromWindow(), fetchShopByDomain)
-    : createResource(() => params.shopSlug, fetchMarketBooth);
+    : createResource(() => params.shopSlug, fetchShop);
 
   const [shopCustomization, shopCustomizationActions] = createResource(
-    () => shop?.()?.marketBoothId,
+    () => shop?.()?.shopId,
     fetchShopCustomization
   );
 
   const [shopDomain, shopDomainActions] = createResource(
-    () => shop?.()?.marketBoothId,
+    () => shop?.()?.shopId,
     fetchShopDomain
   );
 
   const [stripeAccount, stripeAccountActions] = createResource(
-    () => shop?.()?.marketBoothId,
+    () => shop?.()?.shopId,
     fetchStripeAccount
   );
 
   async function fetchShopByDomain(domain: string) {
-    const response = await marketBoothService.getByDomain(domain);
+    const response = await shopService.getByDomain(domain);
 
-    if (_.isNil(response.marketBooth)) {
+    if (_.isNil(response.shop)) {
       throw new Error("Not Found");
     }
 
-    return response.marketBooth;
+    return response.shop;
   }
 
-  async function fetchMarketBooth(slug: string) {
-    const response = await marketBoothService.getBySlug(slug);
+  async function fetchShop(slug: string) {
+    const response = await shopService.getBySlug(slug);
 
-    if (_.isNil(response.marketBooth)) {
+    if (_.isNil(response.shop)) {
       throw new Error("Not Found");
     }
 
-    return response.marketBooth;
+    return response.shop;
   }
 
   async function fetchShopCustomization(shopId: string) {
@@ -77,20 +77,20 @@ export function ShopData({ params }: RouteDataFuncArgs) {
     }
   }
 
-  async function fetchStripeAccount(marketBoothId: string) {
+  async function fetchStripeAccount(shopId: string) {
     try {
-      const response = await stripeService.getAccount(marketBoothId);
+      const response = await stripeService.getAccount(shopId);
 
       if (_.isNil(response.account)) {
         return {
-          marketBoothId,
+          shopId,
           enabled: false,
         } as StripeAccount;
       }
       return response.account;
     } catch (err: any) {
       return {
-        marketBoothId,
+        shopId,
         enabled: false,
       } as StripeAccount;
     }

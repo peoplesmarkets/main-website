@@ -5,11 +5,11 @@ import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { TKEYS } from "../../locales/dev";
-import { MarketBoothService } from "../../services";
+import { ShopService } from "../../services";
 import {
-  MarketBoothResponse,
-  UpdateMarketBoothRequest,
-} from "../../services/peoplesmarkets/commerce/v1/market_booth";
+  ShopResponse,
+  UpdateShopRequest,
+} from "../../services/peoplesmarkets/commerce/v1/shop";
 import {
   ActionButton,
   DiscardConfirmation,
@@ -20,23 +20,23 @@ import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
-  marketBooth: () => MarketBoothResponse;
+  shop: () => ShopResponse;
   class?: string;
   onClose: () => void;
   onUpdate?: () => void;
 };
 
-export function EditMarketBoothDialog(props: Props) {
+export function EditShopDialog(props: Props) {
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
 
-  const marketBoothService = new MarketBoothService(accessToken);
+  const shopService = new ShopService(accessToken);
 
-  const emptyUpdateRequest = UpdateMarketBoothRequest.create();
-  const updateFields = ["marketBoothId", "name", "description"];
-  const [marketBooth, setMarketBooth] =
-    createStore<UpdateMarketBoothRequest>(emptyUpdateRequest);
+  const emptyUpdateRequest = UpdateShopRequest.create();
+  const updateFields = ["shopId", "name", "description"];
+  const [shop, setShop] =
+    createStore<UpdateShopRequest>(emptyUpdateRequest);
 
   const [errors, setErrors] = createStore({
     name: [] as string[],
@@ -47,10 +47,10 @@ export function EditMarketBoothDialog(props: Props) {
 
   createEffect(() => {
     if (
-      _.isNil(marketBooth.marketBoothId) ||
-      _.isEmpty(marketBooth.marketBoothId)
+      _.isNil(shop.shopId) ||
+      _.isEmpty(shop.shopId)
     ) {
-      setMarketBooth(_.clone(_.pick(props.marketBooth(), updateFields)));
+      setShop(_.clone(_.pick(props.shop(), updateFields)));
     }
   });
 
@@ -60,15 +60,15 @@ export function EditMarketBoothDialog(props: Props) {
 
   function handleNameInput(value: string) {
     resetErrors();
-    setMarketBooth("name", value.trim());
+    setShop("name", value.trim());
   }
 
   function handleDescriptionInput(value: string) {
     resetErrors();
-    setMarketBooth("description", value.trim());
+    setShop("description", value.trim());
   }
 
-  async function updateMarketBooth(event: SubmitEvent) {
+  async function updateShop(event: SubmitEvent) {
     event.preventDefault();
 
     if (!dataWasChanged()) {
@@ -78,7 +78,7 @@ export function EditMarketBoothDialog(props: Props) {
       return;
     }
 
-    await marketBoothService.update(marketBooth);
+    await shopService.update(shop);
 
     props.onUpdate?.();
     props.onClose();
@@ -86,8 +86,8 @@ export function EditMarketBoothDialog(props: Props) {
 
   function dataWasChanged() {
     return !_.isEqual(
-      _.pick(props.marketBooth(), updateFields),
-      _.pick(marketBooth, updateFields)
+      _.pick(props.shop(), updateFields),
+      _.pick(shop, updateFields)
     );
   }
 
@@ -114,23 +114,23 @@ export function EditMarketBoothDialog(props: Props) {
       <Show when={!discardConfirmation()}>
         <Dialog
           title={trans(
-            TKEYS.dashboard["market-booth"]["edit-name-and-description"]
+            TKEYS.dashboard["shop"]["edit-name-and-description"]
           )}
           onClose={closeDialog}
         >
-          <form class={styles.Form} onSubmit={updateMarketBooth}>
+          <form class={styles.Form} onSubmit={updateShop}>
             <TextField
-              label={trans(TKEYS["market-booth"].labels.name)}
+              label={trans(TKEYS["shop"].labels.name)}
               required
-              value={marketBooth.name}
+              value={shop.name}
               onValue={handleNameInput}
               errors={errors.name}
             />
 
             <TextArea
-              label={trans(TKEYS["market-booth"].labels.description)}
+              label={trans(TKEYS["shop"].labels.description)}
               rows={8}
-              value={marketBooth.description}
+              value={shop.description}
               onValue={handleDescriptionInput}
               errors={errors.description}
             />
@@ -139,7 +139,7 @@ export function EditMarketBoothDialog(props: Props) {
               <ActionButton
                 actionType="active-filled"
                 submit
-                onClick={(e) => updateMarketBooth(e)}
+                onClick={(e) => updateShop(e)}
               >
                 <Trans key={TKEYS.form.action.Save} />
               </ActionButton>

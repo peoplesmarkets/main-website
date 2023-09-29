@@ -25,7 +25,7 @@ import { TKEYS, getNextLanguageKey, setDocumentLanguage } from "../locales";
 import {
   buildDashboardPath,
   buildIndexPathOrUrl,
-  buildMarketBoothsPath,
+  buildShopsPath,
   buildOffersPath,
 } from "./MainRoutes";
 import styles from "./MainRoutesWrapper.module.scss";
@@ -94,8 +94,8 @@ export default function MainRoutesWrapper() {
         <Slot name="items">
           <PanelItem
             Icon={StoreFrontIcon}
-            path={buildMarketBoothsPath}
-            label={() => trans(TKEYS["main-navigation"].links["market-booths"])}
+            path={buildShopsPath}
+            label={() => trans(TKEYS["main-navigation"].links["shops"])}
           />
 
           <PanelItem

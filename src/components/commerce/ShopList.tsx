@@ -2,20 +2,20 @@ import { A } from "@solidjs/router";
 import _ from "lodash";
 import { For, Show } from "solid-js";
 
-import { MarketBoothResponse } from "../../services/peoplesmarkets/commerce/v1/market_booth";
-import { PlaceholderImage } from "../assets/PlaceholderImage";
-import styles from "./MarketBoothList.module.scss";
-import { buildShopSettingsPath } from "../../routes/shops/ShopRoutes";
+import { buildShopPathOrUrl } from "../../routes/shops/ShopRoutes";
+import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
+import { Multiline } from "../content";
+import styles from "./ShopList.module.scss";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 
 type Props = {
-  readonly shops: () => MarketBoothResponse[];
+  readonly shops: () => ShopResponse[];
 };
 
-export function MarketBoothList(props: Props) {
+export function ShopList(props: Props) {
   const { theme } = useThemeContext();
 
-  function bannerImageUrl(shop: MarketBoothResponse) {
+  function bannerImageUrl(shop: ShopResponse) {
     if (
       theme() === Theme.DefaultLight &&
       !_.isEmpty(shop?.customization?.bannerImageLightUrl)
@@ -33,15 +33,18 @@ export function MarketBoothList(props: Props) {
   return (
     <For each={props.shops()}>
       {(shop) => (
-        <A class={styles.Row} href={buildShopSettingsPath(shop.slug)}>
-          <Show when={!_.isEmpty(bannerImageUrl(shop))}>
+        <A
+          class={styles.Row}
+          href={buildShopPathOrUrl(shop?.domain, shop.slug)}
+        >
+          <Show when={!_.isNil(bannerImageUrl(shop))}>
             <img class={styles.Image} src={bannerImageUrl(shop)} alt="" />
-          </Show>
-          <Show when={_.isEmpty(bannerImageUrl(shop))}>
-            <PlaceholderImage wide />
           </Show>
           <div>
             <span class={styles.Label}>{shop.name}</span>
+            <span class={styles.Detail}>
+              <Multiline text={() => shop.description} maxRows={6} />
+            </span>
           </div>
         </A>
       )}
