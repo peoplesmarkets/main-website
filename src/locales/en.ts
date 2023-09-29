@@ -316,7 +316,7 @@ export const EN: typeof TKEYS = {
   footer: {
     "powered-by": "Powered by",
     "main-paragraph":
-      "People's Markets is an online platform where businesses and people can offer their goods while building their brand and market appearance.",
+      "People's Markets is an online platform where people and businesses can offer their goods while building their brand and market appearance.",
     "community-paragraph": "Get involved in any aspect of the project.",
   },
 };

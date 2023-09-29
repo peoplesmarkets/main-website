@@ -1,0 +1,21 @@
+$expanded-min-width: 1080px;
+
+.Image {
+  width: 330px;
+  height: 500px;
+
+  margin: 0 auto;
+
+  background-image: var(--small-image-url);
+
+  @media only screen and (min-width: $expanded-min-width) {
+    width: 800px;
+    height: 600px;
+    background-image: var(--expanded-image-url);
+  }
+}
+
+.Bordered {
+  border: 2px solid var(--secondary-border-color);
+  border-radius: 4px;
+}

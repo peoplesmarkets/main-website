@@ -2,20 +2,11 @@ import { Trans } from "@mbarzda/solid-i18next";
 
 import { TKEYS } from "../../locales";
 import styles from "./LandingPageHero.module.scss";
-import { buildAuthorizationRequest } from "../../lib";
-import { buildDashboardPath } from "../../routes/MainRoutes";
+import { CallToAction } from "./CallToAction";
 
 export function LandingPageHero() {
-  async function handleGetStarted() {
-    const registerUrl = await buildAuthorizationRequest(
-      "create",
-      buildDashboardPath()
-    );
-    window.location.href = registerUrl.toString();
-  }
-
   return (
-    <div class={styles.GetStarted}>
+    <div class={styles.LandingPageHero}>
       <div class={styles.Hero}>
         <h1 class={styles.Title}>
           <Trans
@@ -46,11 +37,7 @@ export function LandingPageHero() {
           </li>
         </ul>
 
-        <div class={styles.CallToAction}>
-          <button class={styles.CallToActionButton} onClick={handleGetStarted}>
-            <Trans key={TKEYS["landing-page"]["GET-STARTED"]} />
-          </button>
-        </div>
+        <CallToAction />
       </div>
     </div>
   );

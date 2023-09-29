@@ -14,9 +14,8 @@ import {
   SignInIcon,
   StoreFrontIcon,
   ThemeIcon,
-  UserSettingsIcon,
 } from "../components/icons";
-import { Cover, Page, Slot } from "../components/layout";
+import { Border, Cover, Slot } from "../components/layout";
 import { Panel, PanelItem, PanelSettingsItem } from "../components/navigation";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { Theme, useThemeContext } from "../contexts/ThemeContext";
@@ -24,14 +23,13 @@ import { clickOutside } from "../directives";
 import { buildAuthorizationRequest } from "../lib";
 import { TKEYS, getNextLanguageKey, setDocumentLanguage } from "../locales";
 import {
+  buildDashboardPath,
   buildIndexPathOrUrl,
   buildMarketBoothsPath,
   buildOffersPath,
-  buildDashboardPath,
 } from "./MainRoutes";
 import styles from "./MainRoutesWrapper.module.scss";
 import { buildCommunityPathOrUrl } from "./community/CommunityRoutes";
-import { buildUserSettingsPath } from "./user/UserRoutes";
 
 false && clickOutside;
 
@@ -106,27 +104,29 @@ export default function MainRoutesWrapper() {
             label={() => trans(TKEYS["main-navigation"].links.offers)}
           />
 
+          <PanelItem
+            Icon={CommunityIcon}
+            path={buildCommunityPathOrUrl}
+            label={() => trans(TKEYS["main-navigation"].links.community)}
+          />
+
           <Show when={isAuthenticated()}>
+            <Border narrow />
+
             <PanelItem
               Icon={DashboardIcon}
               path={buildDashboardPath}
               label={() => trans(TKEYS["main-navigation"].links.dashboard)}
             />
 
-            <PanelItem
+            {/* <PanelItem
               Icon={UserSettingsIcon}
               path={buildUserSettingsPath}
               label={() =>
                 trans(TKEYS["main-navigation"].links["user-settings"])
               }
-            />
+            /> */}
           </Show>
-
-          <PanelItem
-            Icon={CommunityIcon}
-            path={buildCommunityPathOrUrl}
-            label={() => trans(TKEYS["main-navigation"].links.community)}
-          />
         </Slot>
 
         <Slot name="settings">
@@ -161,9 +161,7 @@ export default function MainRoutesWrapper() {
         </Slot>
       </Panel>
 
-      <Page>
-        <Outlet />
-      </Page>
+      <Outlet />
     </>
   );
 }

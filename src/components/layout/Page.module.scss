@@ -2,4 +2,14 @@
   max-width: var(--expanded-min-width);
   min-height: var(--fill-height);
   margin: 0 auto;
+  overflow: hidden;
+}
+
+.PageBackground {
+  width: 100%;
+  background-color: var(--primary-background-color);
+}
+
+.Display {
+  background-color: var(--display-background-color);
 }

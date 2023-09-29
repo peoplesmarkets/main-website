@@ -5,7 +5,6 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import ICU from "i18next-icu";
 import { Show, onMount } from "solid-js";
 
-import styles from "./App.module.scss";
 import Footer from "./Footer";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
@@ -36,31 +35,29 @@ export default function App() {
       <TransProvider instance={i18nextInstance}>
         <ThemeProvider>
           <AccessTokenProvider>
-            <div class={styles.App}>
-              <Routes>
-                <Show when={isCustomDomain()}>
-                  <ShopRoutes />
-                </Show>
+            <Routes>
+              <Show when={isCustomDomain()}>
+                <ShopRoutes />
+              </Show>
 
-                <Show when={!isCustomDomain()}>
-                  <MainRoutes />
+              <Show when={!isCustomDomain()}>
+                <MainRoutes />
 
-                  <ShopRoutes />
+                <ShopRoutes />
 
-                  <UserRoutes />
+                <UserRoutes />
 
-                  <CommunityRoutes />
+                <CommunityRoutes />
 
-                  <InfoRoutes />
-                </Show>
+                <InfoRoutes />
+              </Show>
 
-                <Route path="*" component={MainRoutesWrapper}>
-                  <Route path="*" component={NotFound} />
-                </Route>
-              </Routes>
+              <Route path="*" component={MainRoutesWrapper}>
+                <Route path="*" component={NotFound} />
+              </Route>
+            </Routes>
 
-              <Footer />
-            </div>
+            <Footer />
           </AccessTokenProvider>
         </ThemeProvider>
       </TransProvider>
