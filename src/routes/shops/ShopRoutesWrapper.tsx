@@ -21,20 +21,29 @@ import {
 } from "../../components/navigation";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
-import { buildAuthorizationRequest, isCssColor } from "../../lib";
-import { TKEYS, getNextLanguageKey, setDocumentLanguage } from "../../locales";
+import {
+  buildAuthorizationRequest,
+  isCssColor,
+  setDocumentLanguage,
+  setDocumentTitle,
+  setFaviconHref,
+} from "../../lib";
+import { isCustomDomain } from "../../lib/env";
+import { TKEYS, getNextLanguageKey } from "../../locales";
 import { ShopData } from "./ShopData";
 import {
+  buildMediasPath,
   buildShopDetailPath,
   buildShopPathOrUrl,
   buildShopSettingsPath,
 } from "./ShopRoutes";
 import styles from "./ShopRoutesWrapper.module.scss";
-import { isCustomDomain } from "../../lib/env";
+import { SHOP_FAVICON } from "../../lib/constants";
+import { InventoryIcon } from "../../components/icons/InventoryIcon";
 
 export default function ShopRoutesWrapper() {
   const location = useLocation();
-  const [trans, { changeLanguage, getI18next }] = useTransContext();
+  const [, { changeLanguage, getI18next }] = useTransContext();
   const { theme, setTheme } = useThemeContext();
   const { isAuthenticated, currentSession, endSession } =
     useAccessTokensContext();
@@ -70,8 +79,13 @@ export default function ShopRoutesWrapper() {
   }
 
   createEffect(() => {
-    const styles = shopData.shopCustomization.data();
+    const shopName = shopData?.shop?.data()?.name;
+    if (!_.isNil(shopName) && !_.isEmpty(shopName)) {
+      setDocumentTitle(shopName);
+    }
+    setFaviconHref(SHOP_FAVICON);
 
+    const styles = shopData?.shopCustomization?.data();
     if (_.isNil(styles)) {
       return;
     }
@@ -199,8 +213,8 @@ export default function ShopRoutesWrapper() {
         <Cover pageLoad />
       </Show>
 
-      <Show when={isResolved(shopData.shop.data.state)}>
-        <Panel style={customShopStyle} close={signingIn}>
+      <Panel style={customShopStyle} close={signingIn}>
+        <Show when={isResolved(shopData.shop.data.state)}>
           <Slot name="logo">
             <Show
               when={!_.isEmpty(logoImageUrl())}
@@ -226,23 +240,35 @@ export default function ShopRoutesWrapper() {
             <PanelItem
               Icon={StoreFrontIcon}
               path={() => buildShopDetailPath(shopData.shop.data()!.slug)}
-              label={() => trans(TKEYS["main-navigation"].links.home)}
-            />
+            >
+              <Trans key={TKEYS["main-navigation"].links.home} />
+            </PanelItem>
+
+            <Border narrow />
 
             <Show
-              when={
-                isAuthenticated() &&
-                !_.isEmpty(shopData.shop.data()?.slug) &&
-                currentSession().userId === shopData.shop.data()?.userId
-              }
+              when={isAuthenticated() && !_.isEmpty(shopData.shop.data()?.slug)}
             >
-              <Border narrow />
-
-              <PanelItem
-                Icon={SettingsIcon}
-                path={() => buildShopSettingsPath(shopData.shop.data()!.slug)}
-                label={() => trans(TKEYS["shop"].settings.title)}
-              />
+              <Show
+                when={currentSession().userId === shopData.shop.data()?.userId}
+              >
+                <PanelItem
+                  Icon={SettingsIcon}
+                  path={() => buildShopSettingsPath(shopData.shop.data()!.slug)}
+                >
+                  <Trans key={TKEYS["shop"].settings.title} />
+                </PanelItem>
+              </Show>
+              <Show
+                when={currentSession().userId != shopData.shop.data()?.userId}
+              >
+                <PanelItem
+                  Icon={InventoryIcon}
+                  path={() => buildMediasPath(shopData.shop.data()!.slug)}
+                >
+                  <Trans key={TKEYS.media.Inventory} />
+                </PanelItem>
+              </Show>
             </Show>
           </Slot>
 
@@ -298,8 +324,8 @@ export default function ShopRoutesWrapper() {
               </PanelSettingsItem>
             </Show>
           </Slot>
-        </Panel>
-      </Show>
+        </Show>
+      </Panel>
 
       <Page style={customShopStyle}>
         <Outlet />

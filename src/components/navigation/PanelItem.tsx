@@ -1,12 +1,12 @@
 import { A, useMatch } from "@solidjs/router";
-import { Component } from "solid-js";
+import { Component, JSX } from "solid-js";
 
 import styles from "./PanelItem.module.scss";
 
 type Props = {
   Icon: Component<{ class?: string }>;
   path: () => string;
-  label: () => string;
+  children: JSX.Element;
 };
 
 export function PanelItem(props: Props) {
@@ -19,7 +19,7 @@ export function PanelItem(props: Props) {
       }}
     >
       <props.Icon class={styles.Icon} />
-      {props.label()}
+      {props.children}
     </A>
   );
 }

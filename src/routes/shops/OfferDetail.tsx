@@ -7,7 +7,7 @@ import { ContentError, isResolved } from "../../components/content";
 import { Border, Section } from "../../components/layout";
 import { OfferDetailView, OfferList } from "../../components/shops";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { OfferService } from "../../services";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferDetail.module.scss";

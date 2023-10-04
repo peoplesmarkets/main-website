@@ -5,7 +5,7 @@ import { createStore } from "solid-js/store";
 
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { OfferService, listOfferTypeCodes } from "../../services";
 import {
   CreateOfferRequest,

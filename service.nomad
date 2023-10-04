@@ -50,8 +50,8 @@ server {
 	}
 
   location ~* \.(?:ttf|ico|svg)$ {
-      expires 1d;
-      add_header Cache-Control "public";
+    expires 1d;
+    add_header Cache-Control "public";
   }
 }
 EOF

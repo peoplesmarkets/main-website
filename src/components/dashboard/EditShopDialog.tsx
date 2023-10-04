@@ -4,7 +4,7 @@ import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { ShopService } from "../../services";
 import {
   ShopResponse,

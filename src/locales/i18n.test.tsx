@@ -3,7 +3,7 @@ import { assert, describe, expect, test } from "vitest";
 
 import { LANGUAGES, LOCALES, getNextLanguageKey } from ".";
 import { errorPrint } from "../lib/testing";
-import { TKEYS } from "./dev";
+import { TKEYS } from "./keys";
 
 describe("Locales", () => {
   test("Check that no language has TKEYS vaules as value", () => {

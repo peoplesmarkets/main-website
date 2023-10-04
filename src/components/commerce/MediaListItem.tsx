@@ -1,10 +1,11 @@
+import { Trans } from "@mbarzda/solid-i18next";
 import { Show, createSignal } from "solid-js";
+
+import { TKEYS } from "../../locales";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
 import { ActionButton } from "../form";
-import styles from "./MediaListItem.module.scss";
 import { DownloadMediaDialog } from "./DownloadMediaDialog";
-import { Trans } from "@mbarzda/solid-i18next";
-import { TKEYS } from "../../locales";
+import styles from "./MediaListItem.module.scss";
 
 type Props = {
   media: () => MediaResponse;

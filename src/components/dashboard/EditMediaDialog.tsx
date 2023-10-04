@@ -6,7 +6,7 @@ import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { readAsUint8Array } from "../../lib";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { MediaService } from "../../services";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
 import { ProgressBar } from "../assets/ProgressBar";

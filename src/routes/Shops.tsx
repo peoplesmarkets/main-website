@@ -10,7 +10,7 @@ import { RefreshIcon } from "../components/icons/RefreshIcon";
 import { SearchIcon } from "../components/icons/SearchIcon";
 import { StoreFrontIcon } from "../components/icons/StorefrontIcon";
 import { Page, Section } from "../components/layout";
-import { TKEYS } from "../locales/dev";
+import { TKEYS } from "../locales";
 import { ShopService } from "../services";
 import {
   ListShopsRequest,

@@ -66,6 +66,7 @@ export function EditOfferPriceDialog(props: Props) {
 
   const [showDiscardConfirmation, setShowDiscardConfirmation] =
     createSignal(false);
+
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     createSignal(false);
 
@@ -277,10 +278,6 @@ export function EditOfferPriceDialog(props: Props) {
                 offerPrice.price?.priceType === PriceType.PRICE_TYPE_RECURRING
               }
             >
-              <span class={styles.Label}>
-                <Trans key={TKEYS.price["billing-period"]} />:
-              </span>
-
               <div class={styles.FieldSetSmall}>
                 <span class="font-label">
                   <Trans
@@ -292,7 +289,7 @@ export function EditOfferPriceDialog(props: Props) {
                 </span>
                 <div class={styles.FieldSetInput}>
                   <NumberField
-                    label=""
+                    label={trans(TKEYS.price["billing-period"])}
                     value={offerPrice.price?.recurring?.intervalCount}
                     onValue={handleRecurringIntervalCountInput}
                     errors={errors.recurringIntervalCount}
@@ -309,6 +306,7 @@ export function EditOfferPriceDialog(props: Props) {
                   expandHeight
                 />
               </div>
+              <div style={{ width: "100%", height: "6rem" }} />
             </Show>
 
             <div class={styles.DialogFooter}>

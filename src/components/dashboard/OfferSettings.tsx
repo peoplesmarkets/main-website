@@ -12,7 +12,7 @@ import {
 } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import { OfferService } from "../../services";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
