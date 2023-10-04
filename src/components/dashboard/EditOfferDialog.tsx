@@ -5,7 +5,7 @@ import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { OfferService, listOfferTypeCodes } from "../../services";
 import {
   OfferResponse,
@@ -37,9 +37,18 @@ export function EditOfferDialog(props: Props) {
 
   const offerService = new OfferService(accessToken);
 
-  const [offer, setOffer] = createStore<UpdateOfferRequest>(
-    UpdateOfferRequest.create()
-  );
+  const emptyRequest = {
+    offerId: undefined as string | undefined,
+    name: undefined as string | undefined,
+    description: undefined as string | undefined,
+    type: undefined as string | undefined,
+    isActive: undefined as boolean | undefined,
+    isFeatured: undefined as boolean | undefined,
+  } as UpdateOfferRequest;
+
+  const requestFields = Object.keys(emptyRequest);
+
+  const [request, setRequest] = createStore(_.clone(emptyRequest));
 
   const [errors, setErrors] = createStore({
     name: [] as string[],
@@ -49,8 +58,8 @@ export function EditOfferDialog(props: Props) {
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(offer.offerId) || _.isEmpty(offer.offerId)) {
-      setOffer(_.clone(props.offer()));
+    if (_.isNil(request.offerId) || _.isEmpty(request.offerId)) {
+      setRequest(_.clone(_.pick(props.offer(), requestFields)));
     }
   });
 
@@ -62,9 +71,9 @@ export function EditOfferDialog(props: Props) {
   }
 
   function selectedOfferType() {
-    if (!_.isNil(offer.type)) {
+    if (!_.isNil(request.type)) {
       return _.find(offerTypeOptions(), {
-        key: offerTypeToJSON(offer.type),
+        key: offerTypeToJSON(request.type),
       });
     }
   }
@@ -78,7 +87,7 @@ export function EditOfferDialog(props: Props) {
 
   function selectedVisibility() {
     return _.find(visibilityOptions(), {
-      key: offer.isActive,
+      key: request.isActive,
     });
   }
 
@@ -90,7 +99,7 @@ export function EditOfferDialog(props: Props) {
   }
 
   function selectedFeatured() {
-    return _.find(featuredOptions(), { key: offer.isFeatured });
+    return _.find(featuredOptions(), { key: request.isFeatured });
   }
 
   function resetErrors() {
@@ -98,34 +107,34 @@ export function EditOfferDialog(props: Props) {
   }
 
   function dataWasChanged() {
-    return !_.isEqual(props.offer(), offer);
+    return !_.isEqual(_.pick(props.offer(), requestFields), request);
   }
 
   function handleNameInput(value: string) {
     resetErrors();
-    setOffer("name", value.trim());
+    setRequest("name", value.trim());
   }
 
   function handleDescriptionInput(value: string) {
     resetErrors();
-    setOffer("description", value.trim());
+    setRequest("description", value.trim());
   }
 
   function handleOfferTypeChange(value: SelectKey) {
     if (_.isString(value)) {
-      setOffer("type", offerTypeFromJSON(value));
+      setRequest("type", offerTypeFromJSON(value));
     }
   }
 
   function handleVisibilityChange(value: SelectKey) {
     if (_.isBoolean(value)) {
-      setOffer("isActive", value);
+      setRequest("isActive", value);
     }
   }
 
   function handleFeaturedChange(value: SelectKey) {
     if (_.isBoolean(value)) {
-      setOffer("isFeatured", value);
+      setRequest("isFeatured", value);
     }
   }
 
@@ -133,14 +142,12 @@ export function EditOfferDialog(props: Props) {
     event.preventDefault();
 
     if (!dataWasChanged()) {
-      const notModified = trans(TKEYS.form.errors["not-modified"]);
-      setErrors("name", [notModified]);
-      setErrors("description", [notModified]);
+      props.onClose();
       return;
     }
 
     try {
-      await offerService.update(offer);
+      await offerService.update(request);
 
       props.onUpdate?.();
       props.onClose();
@@ -189,7 +196,7 @@ export function EditOfferDialog(props: Props) {
             <TextField
               label={trans(TKEYS.offer.labels.name)}
               required
-              value={offer.name}
+              value={request.name}
               onValue={handleNameInput}
               errors={errors.name}
             />
@@ -197,7 +204,7 @@ export function EditOfferDialog(props: Props) {
             <TextArea
               label={trans(TKEYS.offer.labels.description)}
               rows={8}
-              value={offer.description}
+              value={request.description}
               onValue={handleDescriptionInput}
               errors={errors.description}
             />

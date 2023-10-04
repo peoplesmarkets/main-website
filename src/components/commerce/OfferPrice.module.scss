@@ -3,7 +3,6 @@
 }
 
 .Price {
-  display: block;
   font: var(--font-headline);
 }
 
@@ -15,6 +14,12 @@
   font: var(--font-label);
 }
 
-.RecurringSmall {
+.TrialPeriod {
+  display: block;
+  font: var(--font-label);
+  color: var(--active-content-color);
+}
+
+.Small {
   font: var(--font-body);
 }

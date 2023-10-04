@@ -75,6 +75,9 @@ export const TKEYS = {
     Price: "price.Price",
     "decimal-point": "price.decimal-point",
     "billing-period": "price.billing-period",
+    "add-trial-period": "price.add-trial-period",
+    "trial-period": "price.trial-period",
+    "days-free": "price.days-free",
     currency: {
       title: "price.currency.title",
       [currencyToJSON(Currency.CURRENCY_EUR)]: `price.currency.${currencyToJSON(
@@ -113,7 +116,7 @@ export const TKEYS = {
       )}`,
     },
   },
-  "shop": {
+  shop: {
     title: "shop.title",
     "title-plural": "shop.title-plural",
     "no-description": "shop.no-description",
@@ -203,6 +206,7 @@ export const TKEYS = {
     Download: "media.Download",
     "Download-now": "media.Download-now",
     "download-file": "media.download-file",
+    Inventory: "media.Inventory",
     errors: {
       "still-part-of-an-offer": "media.errors.still-part-of-an-offer",
     },
@@ -221,14 +225,12 @@ export const TKEYS = {
     title: "offers-search.title",
   },
   dashboard: {
-    "shop": {
+    shop: {
       Details: "dashboard.shop.Details",
       "my-shops": "dashboard.shop.my-shops",
       "no-shop-yet": "dashboard.shop.no-shop-yet",
-      "create-new-shop":
-        "dashboard.shop.create-new-shop",
-      "edit-name-and-description":
-        "dashboard.shop.edit-name-and-description",
+      "create-new-shop": "dashboard.shop.create-new-shop",
+      "edit-name-and-description": "dashboard.shop.edit-name-and-description",
       "edit-image": "dashboard.shop.edit-image",
       "delete-image": "dashboard.shop.delete-image",
       "edit-logo": "dashboard.shop.edit-logo",
@@ -236,8 +238,7 @@ export const TKEYS = {
       "edit-theme": "dashboard.shop.edit-theme",
       "edit-path": "dashboard.shop.edit-path",
       "edit-domain": "dashboard.shop.edit-domain",
-      "delete-this-shop":
-        "dashboard.shop.delete-this-shop",
+      "delete-this-shop": "dashboard.shop.delete-this-shop",
       "resulting-url": "dashboard.shop.resulting-url",
       image: {
         "for-light-theme": "dashboard.shop.image.for-light-theme",
@@ -253,10 +254,8 @@ export const TKEYS = {
         title: "dashboard.shop.stripe.title",
         integration: "dashboard.shop.stripe.integration",
         "start-integration": "dashboard.shop.stripe.start-integration",
-        "continue-integration":
-          "dashboard.shop.stripe.continue-integration",
-        "remove-integration":
-          "dashboard.shop.stripe.remove-integration",
+        "continue-integration": "dashboard.shop.stripe.continue-integration",
+        "remove-integration": "dashboard.shop.stripe.remove-integration",
       },
     },
     offers: {
@@ -281,7 +280,7 @@ export const TKEYS = {
     },
     links: {
       home: "main-navigation.links.home",
-      "shops": "main-navigation.links.shops",
+      shops: "main-navigation.links.shops",
       offers: "main-navigation.links.offers",
       dashboard: "main-navigation.links.dashboard",
       "user-settings": "main-navigation.links.user-settings",

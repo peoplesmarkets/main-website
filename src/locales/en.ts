@@ -10,7 +10,7 @@ import {
   priceTypeToJSON,
   recurringIntervalToJSON,
 } from "../services/peoplesmarkets/commerce/v1/price";
-import { TKEYS } from "./dev";
+import { TKEYS } from "./keys";
 
 export const EN: typeof TKEYS = {
   "Peoples-Markets": "People's Markets",
@@ -26,7 +26,7 @@ export const EN: typeof TKEYS = {
     file: "file",
     per: "per",
     every: "every",
-    "per-or-every": "{count, plural, =1 {per} other {every} }",
+    "per-or-every": "{count, plural, =1 {every} other {every} }",
   },
   form: {
     action: {
@@ -76,6 +76,9 @@ export const EN: typeof TKEYS = {
     Price: "Price",
     "decimal-point": ".",
     "billing-period": "Billing period",
+    "add-trial-period": "Add trial period",
+    "trial-period": "Trial period",
+    "days-free": "{periodDays, plural, =1 {day} other {days}} free",
     currency: {
       title: "Currency",
       [currencyToJSON(Currency.CURRENCY_EUR)]: `EUR`,
@@ -176,6 +179,7 @@ export const EN: typeof TKEYS = {
     Download: "Download",
     "Download-now": "Download now",
     "download-file": 'Download the file "{item}"',
+    Inventory: "Inventory",
     errors: {
       "still-part-of-an-offer": "The file is still contained in some offers",
     },

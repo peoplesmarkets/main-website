@@ -1,7 +1,7 @@
 import { Trans } from "@mbarzda/solid-i18next";
 
 import { Page } from "../../components/layout";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import styles from "./Settings.module.scss";
 
 export default function Settings() {

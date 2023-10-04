@@ -1,5 +1,5 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 
 export function ContentError() {
   return (

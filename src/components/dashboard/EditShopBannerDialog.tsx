@@ -7,7 +7,7 @@ import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { readAsUint8Array } from "../../lib";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import { ShopCustomizationService } from "../../services/commerce/shop_customization";
 import { PutBannerImageToShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop_customization";

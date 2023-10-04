@@ -5,7 +5,7 @@ import { JSX, Show, createEffect, createSignal } from "solid-js";
 import { BurgerArrowIcon, BurgerIcon, CloseIcon } from "../../components/icons";
 import { getSlots } from "../../components/layout/Slot";
 import { clickOutside } from "../../directives";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import styles from "./Panel.module.scss";
 
 false && clickOutside;

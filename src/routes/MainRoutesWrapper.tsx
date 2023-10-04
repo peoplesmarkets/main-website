@@ -1,7 +1,7 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { A, Outlet, useLocation } from "@solidjs/router";
+import { A, Outlet } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createSignal } from "solid-js";
+import { Show, createSignal, onMount } from "solid-js";
 
 import { MainLogoText } from "../components/assets";
 import {
@@ -20,32 +20,44 @@ import { Panel, PanelItem, PanelSettingsItem } from "../components/navigation";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { Theme, useThemeContext } from "../contexts/ThemeContext";
 import { clickOutside } from "../directives";
-import { buildAuthorizationRequest } from "../lib";
-import { TKEYS, getNextLanguageKey, setDocumentLanguage } from "../locales";
+import {
+  buildAuthorizationRequest,
+  setDocumentLanguage,
+  setDocumentTitle,
+  setFaviconHref,
+} from "../lib";
+import { TKEYS, getNextLanguageKey } from "../locales";
 import {
   buildDashboardPath,
   buildIndexPathOrUrl,
-  buildShopsPath,
   buildOffersPath,
+  buildShopsPath,
 } from "./MainRoutes";
 import styles from "./MainRoutesWrapper.module.scss";
 import { buildCommunityPathOrUrl } from "./community/CommunityRoutes";
+import { EN } from "../locales/en";
+import { MAIN_FAVICON } from "../lib/constants";
 
 false && clickOutside;
 
 export default function MainRoutesWrapper() {
-  const location = useLocation();
-  const [trans, { changeLanguage, getI18next }] = useTransContext();
+  const [, { changeLanguage, getI18next }] = useTransContext();
   const { theme, setTheme } = useThemeContext();
   const { isAuthenticated, endSession } = useAccessTokensContext();
 
   const [signingIn, setSigningIn] = createSignal(false);
 
+  onMount(() => {
+    setDocumentTitle(EN["Peoples-Markets"]);
+
+    setFaviconHref(MAIN_FAVICON);
+  });
+
   async function handleSignIn() {
     setSigningIn(true);
     const signInUrl = await buildAuthorizationRequest(
       undefined,
-      location.pathname
+      buildDashboardPath()
     );
     setSigningIn(false);
     window.location.href = signInUrl.toString();
@@ -92,40 +104,24 @@ export default function MainRoutesWrapper() {
         </Slot>
 
         <Slot name="items">
-          <PanelItem
-            Icon={StoreFrontIcon}
-            path={buildShopsPath}
-            label={() => trans(TKEYS["main-navigation"].links["shops"])}
-          />
+          <PanelItem Icon={StoreFrontIcon} path={buildShopsPath}>
+            <Trans key={TKEYS["main-navigation"].links["shops"]} />
+          </PanelItem>
 
-          <PanelItem
-            Icon={SearchGlobalIcon}
-            path={buildOffersPath}
-            label={() => trans(TKEYS["main-navigation"].links.offers)}
-          />
+          <PanelItem Icon={SearchGlobalIcon} path={buildOffersPath}>
+            <Trans key={TKEYS["main-navigation"].links.offers} />
+          </PanelItem>
 
-          <PanelItem
-            Icon={CommunityIcon}
-            path={buildCommunityPathOrUrl}
-            label={() => trans(TKEYS["main-navigation"].links.community)}
-          />
+          <PanelItem Icon={CommunityIcon} path={buildCommunityPathOrUrl}>
+            <Trans key={TKEYS["main-navigation"].links.community} />
+          </PanelItem>
 
           <Show when={isAuthenticated()}>
             <Border narrow />
 
-            <PanelItem
-              Icon={DashboardIcon}
-              path={buildDashboardPath}
-              label={() => trans(TKEYS["main-navigation"].links.dashboard)}
-            />
-
-            {/* <PanelItem
-              Icon={UserSettingsIcon}
-              path={buildUserSettingsPath}
-              label={() =>
-                trans(TKEYS["main-navigation"].links["user-settings"])
-              }
-            /> */}
+            <PanelItem Icon={DashboardIcon} path={buildDashboardPath}>
+              <Trans key={TKEYS["main-navigation"].links.dashboard} />
+            </PanelItem>
           </Show>
         </Slot>
 

@@ -8,7 +8,7 @@ import {
   priceTypeToJSON,
   recurringIntervalToJSON,
 } from "../services/peoplesmarkets/commerce/v1/price";
-import { TKEYS } from "./dev";
+import { TKEYS } from "./keys";
 import { EN } from "./en";
 
 export const DE: typeof TKEYS = {
@@ -75,6 +75,9 @@ export const DE: typeof TKEYS = {
     Price: "Preis",
     "decimal-point": ",",
     "billing-period": "Abrechnungszeitraum",
+    "add-trial-period": "Testzeit hinzufügen",
+    "trial-period": "Testzeit",
+    "days-free": "{periodDays, plural, =1 {Tag} other {Tage}} kostenlos",
     currency: {
       ...EN.price.currency,
       title: "Währung",
@@ -175,6 +178,7 @@ export const DE: typeof TKEYS = {
     Download: "Download",
     "Download-now": "Jetzt herrunterladen",
     "download-file": 'Datei "{item}" herunterladen',
+    Inventory: "Inventory",
     errors: {
       "still-part-of-an-offer": "Die Datei ist noch in Angeboten enhalten",
     },

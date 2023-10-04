@@ -8,15 +8,15 @@ import { Show, onMount } from "solid-js";
 import Footer from "./Footer";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { LOCALES, setDocumentLanguage } from "./locales";
+import { isCustomDomain, setDocumentLanguage } from "./lib";
+import { LOCALES } from "./locales";
+import NotFound from "./routes/404";
 import MainRoutes from "./routes/MainRoutes";
 import MainRoutesWrapper from "./routes/MainRoutesWrapper";
 import CommunityRoutes from "./routes/community/CommunityRoutes";
-import NotFound from "./routes/404";
 import InfoRoutes from "./routes/info/InfoRoutes";
 import { ShopRoutes } from "./routes/shops/ShopRoutes";
 import { UserRoutes } from "./routes/user/UserRoutes";
-import { isCustomDomain } from "./lib/env";
 
 export default function App() {
   const i18nextInstance = i18next.createInstance({

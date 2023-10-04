@@ -6,7 +6,7 @@ import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { readAsUint8Array } from "../../lib";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import {
   ActionButton,
   DeleteConfirmation,

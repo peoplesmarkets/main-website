@@ -22,12 +22,22 @@ import { ActionButton, DeleteConfirmation } from "../../components/form";
 import { Page, Section } from "../../components/layout";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { secondsToLocaleString } from "../../lib";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { OfferService } from "../../services";
 import { OfferType } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { buildDashboardPath } from "../MainRoutes";
 import { buildShopSettingsPath } from "../shops/ShopRoutes";
 import styles from "./OfferSettings.module.scss";
+import { PriceType } from "../../services/peoplesmarkets/commerce/v1/price";
+import { EditTrialPeriodDialog } from "../../components/dashboard/EditTrialPeriod";
+
+type DIALOG =
+  | "none"
+  | "delete"
+  | "edit-offer"
+  | "add-image"
+  | "edit-price"
+  | "edit-trial";
 
 export default function OfferSettings() {
   const navigate = useNavigate();
@@ -38,9 +48,8 @@ export default function OfferSettings() {
 
   const offerService = new OfferService(accessToken);
 
-  const [showEditOffer, setShowEditOffer] = createSignal(false);
-  const [showAddImage, setShowAddImage] = createSignal(false);
-  const [showEditPrice, setShowEditPrice] = createSignal(false);
+  const [showDialog, setShowDialog] = createSignal<DIALOG>("none");
+
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     createSignal(false);
 
@@ -58,28 +67,13 @@ export default function OfferSettings() {
     return _.max(offer()?.images?.map((i) => i.ordering)) || 0;
   }
 
-  function handleOpenEditOffer() {
-    setShowEditOffer(true);
+  function handleOpenDialog(dialog: DIALOG) {
+    setShowDialog(dialog);
   }
 
-  function handleCloseEditOffer() {
-    setShowEditOffer(false);
-  }
-
-  function handleOpenAddImage() {
-    setShowAddImage(true);
-  }
-
-  function handleCloseAddImage() {
-    setShowAddImage(false);
-  }
-
-  function handleOpenEditPrice() {
-    setShowEditPrice(true);
-  }
-
-  function handleCloseEditPrice() {
-    setShowEditPrice(false);
+  function handleCloseDialog() {
+    setShowDialog("none");
+    refetch();
   }
 
   function handleRefreshOffer() {
@@ -212,7 +206,7 @@ export default function OfferSettings() {
                 </p>
                 <ActionButton
                   actionType="neutral"
-                  onClick={handleOpenEditOffer}
+                  onClick={() => handleOpenDialog("edit-offer")}
                 >
                   <Trans key={TKEYS.form.action.Edit} />
                 </ActionButton>
@@ -222,7 +216,10 @@ export default function OfferSettings() {
                 <p class={styles.Body}>
                   <Trans key={TKEYS.dashboard.offers["add-image"]} />
                 </p>
-                <ActionButton actionType="neutral" onClick={handleOpenAddImage}>
+                <ActionButton
+                  actionType="neutral"
+                  onClick={() => handleOpenDialog("add-image")}
+                >
                   <Trans key={TKEYS.form.action.Edit} />
                 </ActionButton>
               </div>
@@ -233,11 +230,29 @@ export default function OfferSettings() {
                 </p>
                 <ActionButton
                   actionType="neutral"
-                  onClick={handleOpenEditPrice}
+                  onClick={() => handleOpenDialog("edit-price")}
                 >
                   <Trans key={TKEYS.form.action.Edit} />
                 </ActionButton>
               </div>
+
+              <Show
+                when={
+                  offer()?.price?.priceType === PriceType.PRICE_TYPE_RECURRING
+                }
+              >
+                <div class={styles.EditSection}>
+                  <p class={styles.Body}>
+                    <Trans key={TKEYS.price["add-trial-period"]} />
+                  </p>
+                  <ActionButton
+                    actionType="neutral"
+                    onClick={() => handleOpenDialog("edit-trial")}
+                  >
+                    <Trans key={TKEYS.form.action.Edit} />
+                  </ActionButton>
+                </div>
+              </Show>
             </Section>
 
             <Section danger>
@@ -258,27 +273,35 @@ export default function OfferSettings() {
         </Switch>
       </Page>
 
-      <Show when={showEditOffer()}>
+      <Show when={showDialog() === "edit-offer"}>
         <EditOfferDialog
           offer={() => offer()!}
-          onClose={handleCloseEditOffer}
+          onClose={handleCloseDialog}
           onUpdate={handleRefreshOffer}
         />
       </Show>
 
-      <Show when={showAddImage()}>
+      <Show when={showDialog() === "add-image"}>
         <CreateOfferImageDialog
           offerId={offer()!.offerId}
           lastOrdering={lastImageOrdering()}
-          onClose={handleCloseAddImage}
+          onClose={handleCloseDialog}
           onUpdate={handleRefreshOffer}
         />
       </Show>
 
-      <Show when={showEditPrice()}>
+      <Show when={showDialog() === "edit-price"}>
         <EditOfferPriceDialog
           offer={() => offer()!}
-          onClose={handleCloseEditPrice}
+          onClose={handleCloseDialog}
+          onUpdate={handleRefreshOffer}
+        />
+      </Show>
+
+      <Show when={showDialog() === "edit-trial"}>
+        <EditTrialPeriodDialog
+          offer={() => offer()!}
+          onClose={handleCloseDialog}
           onUpdate={handleRefreshOffer}
         />
       </Show>

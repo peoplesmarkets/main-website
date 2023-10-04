@@ -6,7 +6,7 @@ import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { buildBaseUrl, secondsToLocaleString } from "../../lib";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import { ShopService, StripeService } from "../../services";
 import { ContentError, ContentLoading, isResolved } from "../content";
