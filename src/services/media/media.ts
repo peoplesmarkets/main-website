@@ -18,7 +18,7 @@ export class MediaService extends ServiceClient {
   private readonly rpc: GrpcWebImpl;
   private readonly client: MediaServiceClientImpl;
 
-  constructor(accessToken?: AccessTokenGetter) {
+  constructor(accessToken: AccessTokenGetter) {
     super(accessToken);
 
     this.rpc = new GrpcWebImpl(import.meta.env.VITE_SERIVCE_APIS_URL, {});

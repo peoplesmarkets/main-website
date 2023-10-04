@@ -2,7 +2,7 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 import _ from "lodash";
 import { For, Show } from "solid-js";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 
 import {
   buildOfferPath,

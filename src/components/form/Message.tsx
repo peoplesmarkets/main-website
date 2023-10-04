@@ -2,7 +2,7 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { Dialog } from "../layout";
 import { ActionButton } from "./ActionButton";
 import styles from "./Message.module.scss";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { JSX } from "solid-js";
 
 type Props = {

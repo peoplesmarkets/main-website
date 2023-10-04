@@ -1,6 +1,6 @@
 import { Trans } from "@mbarzda/solid-i18next";
 
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { Dialog } from "../layout/Dialog";
 import { ActionButton } from "./ActionButton";
 import styles from "./DiscardConfirmation.module.scss";

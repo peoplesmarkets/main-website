@@ -15,7 +15,7 @@ const ROOT_PATH = "/shops";
 const SHOP_PATH = "/:shopSlug";
 const SETTINGS_PATH = "/settings";
 const OFFER_PATH = "/offer/:offerId";
-const MEDIAS_PATH = "/media";
+const MEDIAS_PATH = "/files";
 
 export function buildShopDetailPath(slug: string): string {
   if (isCustomDomain()) {
@@ -51,6 +51,10 @@ export function buildOfferSettingsPath(shopSlug: string, offerId: string) {
   return buildPath(buildShopSettingsPath(shopSlug), "offer", offerId);
 }
 
+export function buildMediasPath(shopSlug: string) {
+  return buildPath(buildShopDetailPath(shopSlug), MEDIAS_PATH);
+}
+
 export function buildMediasSettingsPath(shopSlug: string) {
   return buildPath(buildShopSettingsPath(shopSlug), MEDIAS_PATH);
 }
@@ -74,8 +78,16 @@ export function ShopRoutes() {
             component={lazy(() => import("./OfferDetail"))}
           />
 
+          <Route
+            path={MEDIAS_PATH}
+            component={lazy(() => import("./Inventory"))}
+          />
+
           <Route path={SETTINGS_PATH}>
-            <Route path="" component={lazy(() => import("./ShopSettingsPage"))} />
+            <Route
+              path=""
+              component={lazy(() => import("./ShopSettingsPage"))}
+            />
 
             <Route
               path={OFFER_PATH}

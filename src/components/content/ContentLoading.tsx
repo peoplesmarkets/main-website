@@ -2,7 +2,7 @@ import { Trans } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Resource } from "solid-js";
 
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 
 export function isResolved(
   state: "unresolved" | "pending" | "errored" | "ready" | "refreshing"

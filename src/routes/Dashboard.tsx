@@ -11,16 +11,14 @@ import {
   createSignal,
 } from "solid-js";
 
-import { MediaList } from "../components/commerce";
-import { ShopList } from "../components/dashboard";
 import { ContentError, isResolved } from "../components/content";
-import { CreateShopDialog } from "../components/dashboard";
+import { CreateShopDialog, ShopList } from "../components/dashboard";
 import { ActionButton } from "../components/form";
-import { Border, Section } from "../components/layout";
+import { Section } from "../components/layout";
 import { Page } from "../components/layout/Page";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { TKEYS } from "../locales";
-import { ShopService, MediaService } from "../services";
+import { ShopService } from "../services";
 import styles from "./Dashboard.module.scss";
 import { buildUserSettingsPath } from "./user/UserRoutes";
 
@@ -34,15 +32,10 @@ export default function Dashboard() {
   const [showCreateShop, setShowCreateShop] = createSignal(false);
 
   const shopService = new ShopService(accessToken);
-  const mediaService = new MediaService(accessToken);
 
   const [shops, { refetch }] = createResource(
     () => currentSession().userId || undefined,
     fetchShops
-  );
-  const [medias] = createResource(
-    () => currentSession().userId || undefined,
-    fetchMedias
   );
 
   createEffect(() => {
@@ -71,11 +64,6 @@ export default function Dashboard() {
     }
   }
 
-  async function fetchMedias() {
-    const response = await mediaService.listAccessible({});
-    return response.medias;
-  }
-
   async function handleShopUpdate() {
     refetch();
   }
@@ -95,15 +83,9 @@ export default function Dashboard() {
         <Section>
           <div class={styles.TitleSection}>
             <span class={styles.Title}>
-              <Trans
-                key={TKEYS.dashboard["shop"]["my-shops"]}
-              />
-              :
+              <Trans key={TKEYS.dashboard["shop"]["my-shops"]} />:
             </span>
-            <ActionButton
-              actionType="neutral"
-              onClick={handleOpenCreateShop}
-            >
+            <ActionButton actionType="neutral" onClick={handleOpenCreateShop}>
               <Trans key={TKEYS.form.action["Create-new"]} />
             </ActionButton>
           </div>
@@ -116,20 +98,9 @@ export default function Dashboard() {
               <ShopList shops={() => shops()!} />
             </Match>
             <Match when={isResolved(shops.state) && _.isEmpty(shops())}>
-              <Trans
-                key={TKEYS.dashboard["shop"]["no-shop-yet"]}
-              />
+              <Trans key={TKEYS.dashboard["shop"]["no-shop-yet"]} />
             </Match>
           </Switch>
-        </Section>
-
-        <Border />
-
-        <Section>
-          <span class={styles.Title}>
-            <Trans key={TKEYS.dashboard.media["my-media"]} />:
-          </span>
-          <MediaList medias={() => medias()!} />
         </Section>
       </Page>
 

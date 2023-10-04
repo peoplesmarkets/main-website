@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 import { DE } from "./de";
-import { TKEYS } from "./dev";
+import { TKEYS } from "./keys";
 import { EN } from "./en";
 
 export { TKEYS };
@@ -13,7 +13,7 @@ export const LANGUAGES = {
 
 export const LOCALES = {
   dev: {
-    translation: TKEYS,
+    translation: EN,
   },
   [LANGUAGES.english]: {
     translation: EN,
@@ -42,8 +42,4 @@ export function getNextLanguageKey(currentLanguageKey: string) {
   }
 
   return languageKeys[0];
-}
-
-export function setDocumentLanguage(lang: string) {
-  document.documentElement.lang = lang;
 }

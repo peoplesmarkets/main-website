@@ -1,9 +1,9 @@
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show } from "solid-js";
 
 import { centsToDecimal } from "../../lib";
-import { TKEYS } from "../../locales/dev";
+import { TKEYS } from "../../locales";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import {
   currencyToJSON,
@@ -34,12 +34,6 @@ export function OfferPrice(props: Props) {
     }
   }
 
-  function perOrEvery() {
-    return trans(TKEYS.common["per-or-every"], {
-      count: props.offer()?.price?.recurring?.intervalCount,
-    });
-  }
-
   function recurringIntervalCount() {
     const intervalCount = props.offer()?.price?.recurring?.intervalCount;
     if (!_.isNil(intervalCount) && intervalCount > 1) {
@@ -59,6 +53,10 @@ export function OfferPrice(props: Props) {
     }
   }
 
+  function trialPeriodDays() {
+    return props.offer()?.price?.recurring?.trialPeriodDays;
+  }
+
   return (
     <>
       <div class={props.class || styles.OfferPrice}>
@@ -72,9 +70,21 @@ export function OfferPrice(props: Props) {
         <Show when={!_.isNil(props.offer()?.price?.recurring)}>
           <span
             class={styles.Recurring}
-            classList={{ [styles.RecurringSmall]: Boolean(props.small) }}
+            classList={{ [styles.Small]: Boolean(props.small) }}
           >
-            {perOrEvery()} {recurringIntervalCount()} {recurringInterval()}
+            / {recurringIntervalCount()} {recurringInterval()}
+          </span>
+        </Show>
+        <Show when={!_.isNil(trialPeriodDays()) && trialPeriodDays()! > 0}>
+          <span
+            class={styles.TrialPeriod}
+            classList={{ [styles.Small]: Boolean(props.small) }}
+          >
+            {trialPeriodDays()}{" "}
+            <Trans
+              key={TKEYS.price["days-free"]}
+              options={{ periodDays: trialPeriodDays() }}
+            />
           </span>
         </Show>
       </div>
