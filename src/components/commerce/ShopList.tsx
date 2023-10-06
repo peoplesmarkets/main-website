@@ -2,7 +2,7 @@ import { A } from "@solidjs/router";
 import _ from "lodash";
 import { For, Show } from "solid-js";
 
-import { buildShopPathOrUrl } from "../../routes/shops/ShopRoutes";
+import { buildShopPathOrUrl } from "../../routes/shops/shop-routing";
 import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
 import { Multiline } from "../content";
 import styles from "./ShopList.module.scss";

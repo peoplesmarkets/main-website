@@ -3,7 +3,7 @@ import { A, useParams } from "@solidjs/router";
 import { For, JSX } from "solid-js";
 
 import { TKEYS } from "../../locales";
-import { buildDevelopementPostPath } from "./CommunityRoutes";
+import { buildDevelopementPostPath } from "./community-routing";
 import styles from "./PostsNav.module.scss";
 
 const POSTS = [

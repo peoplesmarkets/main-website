@@ -26,17 +26,17 @@ import {
   setDocumentTitle,
   setFaviconHref,
 } from "../lib";
+import { MAIN_FAVICON } from "../lib/constants";
 import { TKEYS, getNextLanguageKey } from "../locales";
+import { EN } from "../locales/en";
+import styles from "./MainRoutesWrapper.module.scss";
+import { buildCommunityPathOrUrl } from "./community/community-routing";
 import {
   buildDashboardPath,
   buildIndexPathOrUrl,
   buildOffersPath,
   buildShopsPath,
-} from "./MainRoutes";
-import styles from "./MainRoutesWrapper.module.scss";
-import { buildCommunityPathOrUrl } from "./community/CommunityRoutes";
-import { EN } from "../locales/en";
-import { MAIN_FAVICON } from "../lib/constants";
+} from "./main-routing";
 
 false && clickOutside;
 

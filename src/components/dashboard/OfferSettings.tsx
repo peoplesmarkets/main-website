@@ -21,7 +21,7 @@ import { ActionButton } from "../form";
 import { Section } from "../layout/Section";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import styles from "./OfferSettings.module.scss";
-import { buildOfferSettingsPath } from "../../routes/shops/ShopRoutes";
+import { buildOfferSettingsPath } from "../../routes/shops/shop-routing";
 
 export function OfferSettings() {
   const shopData = useRouteData<typeof ShopData>();

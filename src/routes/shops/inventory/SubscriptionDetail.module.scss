@@ -1,0 +1,42 @@
+.Title {
+  display: block;
+  font: var(--font-title);
+  margin-bottom: 0.5rem;
+}
+
+.Link {
+  color: var(--primary-content-color);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+.Label {
+  display: block;
+  font: var(--font-label);
+}
+
+.Detail {
+  display: block;
+  font: var(--font-body);
+}
+
+.Action {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.SectionHeader {
+  width: 100%;
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.SectionFooter {
+  @extend .Action;
+  margin-top: 1rem;
+}

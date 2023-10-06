@@ -24,7 +24,7 @@ export function buildSignInCallbackUrl() {
 
 export function UserRoutes() {
   return (
-    <Route path={ROOT_PATH} element={<MainRoutesWrapper />}>
+    <Route path={ROOT_PATH} component={MainRoutesWrapper}>
       <Route
         path={SETTINGS_PATH}
         component={lazy(() => import("./Settings"))}

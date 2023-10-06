@@ -12,6 +12,7 @@ import { TKEYS } from "./keys";
 import { EN } from "./en";
 
 export const DE: typeof TKEYS = {
+  lang: "de",
   "Peoples-Markets": EN["Peoples-Markets"],
   peoplesmarkets_com: EN.peoplesmarkets_com,
   peoplesmarkets_main_link: EN.peoplesmarkets_main_link,
@@ -26,6 +27,8 @@ export const DE: typeof TKEYS = {
     per: "pro",
     every: "alle",
     "per-or-every": "{count, plural, =1 {pro} other {alle} }",
+    cancel: "kündigen",
+    resume: "fortsetzen",
   },
   form: {
     action: {
@@ -42,6 +45,8 @@ export const DE: typeof TKEYS = {
       "Are-you-sure-you-want-to-delete-the-item":
         '{item} namens "{name}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",
+      "Discard-unsafed-changes": "Nicht gespeicherte Änderungen verwerfen?",
+      "Confirm-Cancellation": "Wirklich kündigen?",
     },
     "danger-zone": "Gefahrenzone",
     errors: {
@@ -179,6 +184,7 @@ export const DE: typeof TKEYS = {
     "Download-now": "Jetzt herrunterladen",
     "download-file": 'Datei "{item}" herunterladen',
     Inventory: "Inventory",
+    "download-all": "Alles herunterladen",
     errors: {
       "still-part-of-an-offer": "Die Datei ist noch in Angeboten enhalten",
     },
@@ -186,6 +192,20 @@ export const DE: typeof TKEYS = {
       name: "Name",
       file: "Datei",
     },
+  },
+  subscription: {
+    Title: "Abo",
+    "Title-plural": "Abos",
+    "My-Subscriptions": "Meine Abonnements",
+    "subscription-to": "Abo für",
+    "already-subscribed": "Bereits abonniert",
+    "payed-until": "Bezahlt bis",
+    "cancel-subscription": "Abonnement kündigen",
+    "included-files": "Enhaltene Dateien",
+    "subscription-configuration": "Abonnement Einstellungen",
+    resume: "Abonnement fortsetzen",
+    "canceled-at": "Gekündigt am",
+    "no-subscriptions-yet": "Bisher keine Abonnements ...",
   },
   image: {
     "delete-confirmation-message": "Dieses Bild wirklich löschen?",
