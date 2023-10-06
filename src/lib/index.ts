@@ -4,3 +4,4 @@ export * from "./markdown-it";
 export * from "./path";
 export * from "./html-document";
 export * from "./env";
+export * from "./datetime";

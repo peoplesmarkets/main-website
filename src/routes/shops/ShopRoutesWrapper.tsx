@@ -13,6 +13,7 @@ import {
   StoreFrontIcon,
   ThemeIcon,
 } from "../../components/icons";
+import { InventoryIcon } from "../../components/icons/InventoryIcon";
 import { Border, Cover, Page, Slot } from "../../components/layout";
 import {
   Panel,
@@ -28,18 +29,17 @@ import {
   setDocumentTitle,
   setFaviconHref,
 } from "../../lib";
+import { SHOP_FAVICON } from "../../lib/constants";
 import { isCustomDomain } from "../../lib/env";
 import { TKEYS, getNextLanguageKey } from "../../locales";
 import { ShopData } from "./ShopData";
+import styles from "./ShopRoutesWrapper.module.scss";
 import {
-  buildMediasPath,
+  buildInventoryPath,
   buildShopDetailPath,
   buildShopPathOrUrl,
   buildShopSettingsPath,
-} from "./ShopRoutes";
-import styles from "./ShopRoutesWrapper.module.scss";
-import { SHOP_FAVICON } from "../../lib/constants";
-import { InventoryIcon } from "../../components/icons/InventoryIcon";
+} from "./shop-routing";
 
 export default function ShopRoutesWrapper() {
   const location = useLocation();
@@ -264,7 +264,7 @@ export default function ShopRoutesWrapper() {
               >
                 <PanelItem
                   Icon={InventoryIcon}
-                  path={() => buildMediasPath(shopData.shop.data()!.slug)}
+                  path={() => buildInventoryPath(shopData.shop.data()!.slug)}
                 >
                   <Trans key={TKEYS.media.Inventory} />
                 </PanelItem>

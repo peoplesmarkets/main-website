@@ -13,6 +13,7 @@ import {
 import { TKEYS } from "./keys";
 
 export const EN: typeof TKEYS = {
+  lang: "en",
   "Peoples-Markets": "People's Markets",
   peoplesmarkets_com: "peoplesmarkets.com",
   peoplesmarkets_main_link: "https://peoplesmarkets.com",
@@ -27,6 +28,8 @@ export const EN: typeof TKEYS = {
     per: "per",
     every: "every",
     "per-or-every": "{count, plural, =1 {every} other {every} }",
+    cancel: "cancel",
+    resume: "resume",
   },
   form: {
     action: {
@@ -43,6 +46,8 @@ export const EN: typeof TKEYS = {
       "Are-you-sure-you-want-to-delete-the-item":
         'Are you sure you want to delete the {item}: "{name}"?',
       "Confirm-Deletion?": "Confirm Deletion?",
+      "Discard-unsafed-changes": "Discard unsaved changes?",
+      "Confirm-Cancellation": "Confirm Cancellation?",
     },
     "danger-zone": "Danger Zone",
     errors: {
@@ -180,6 +185,7 @@ export const EN: typeof TKEYS = {
     "Download-now": "Download now",
     "download-file": 'Download the file "{item}"',
     Inventory: "Inventory",
+    "download-all": "Download all",
     errors: {
       "still-part-of-an-offer": "The file is still contained in some offers",
     },
@@ -187,6 +193,20 @@ export const EN: typeof TKEYS = {
       name: "Name",
       file: "File",
     },
+  },
+  subscription: {
+    Title: "Subscription",
+    "Title-plural": "Subscriptions",
+    "My-Subscriptions": "My Subscriptions",
+    "subscription-to": "Subscription for",
+    "already-subscribed": "Already subscribed",
+    "payed-until": "Payed until",
+    "cancel-subscription": "Cancel Subscription",
+    "included-files": "Included files",
+    "subscription-configuration": "Subscription Configuration",
+    resume: "Resume Subscription",
+    "canceled-at": "Canceled at",
+    "no-subscriptions-yet": "No Subscriptions yet ..."
   },
   image: {
     "delete-confirmation-message":

@@ -27,7 +27,11 @@ export function MediaListItem(props: Props) {
     <>
       <div class={styles.MediaListItem}>
         <p>{props.media().name}</p>
-        <ActionButton actionType="active" onClick={handleStartDownloadMedia}>
+        <ActionButton
+          actionType="active"
+          small
+          onClick={handleStartDownloadMedia}
+        >
           <Trans key={TKEYS.media.Download} />
         </ActionButton>
       </div>

@@ -2,7 +2,7 @@ import { Trans } from "@mbarzda/solid-i18next";
 
 import { buildAuthorizationRequest } from "../../lib";
 import { TKEYS } from "../../locales";
-import { buildDashboardPath } from "../../routes/MainRoutes";
+import { buildDashboardPath } from "../../routes/main-routing";
 import styles from "./CallToAction.module.scss";
 
 export function CallToAction() {

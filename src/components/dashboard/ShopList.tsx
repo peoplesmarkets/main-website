@@ -5,7 +5,7 @@ import { For, Show } from "solid-js";
 import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
 import styles from "./ShopList.module.scss";
-import { buildShopSettingsPath } from "../../routes/shops/ShopRoutes";
+import { buildShopSettingsPath } from "../../routes/shops/shop-routing";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 
 type Props = {

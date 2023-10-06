@@ -1,14 +1,13 @@
 import { useNavigate, useSearchParams } from "@solidjs/router";
+import _ from "lodash";
 import { createEffect, createResource } from "solid-js";
 
-import _ from "lodash";
 import { isResolved } from "../../components/content";
+import { Page } from "../../components/layout";
 import { Cover } from "../../components/layout/Cover";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { base64ToUtf8 } from "../../lib";
-import { buildIndexPath } from "../MainRoutes";
-import { buildDashboardPath } from "../MainRoutes";
-import { Page } from "../../components/layout";
+import { buildDashboardPath, buildIndexPath } from "../main-routing";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();

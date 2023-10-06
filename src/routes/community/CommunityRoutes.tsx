@@ -3,31 +3,11 @@ import { lazy } from "solid-js";
 
 import { Page } from "../../components/layout/Page";
 import { Section } from "../../components/layout/Section";
-import { buildPath, buildBaseUrl } from "../../lib";
 import MainRoutesWrapper from "../MainRoutesWrapper";
+import { ROOT_PATH } from "../main-routing";
 import styles from "./CommunityRoutes.module.scss";
 import { PostsNav } from "./PostsNav";
-import { isCustomDomain } from "../../lib/env";
-
-const ROOT_PATH = "/community";
-const DEVELOPMENT_POSTS_PATH = "/development-posts";
-const DEVELOPMENT_POST_PATH = DEVELOPMENT_POSTS_PATH + "/:postSlug";
-
-export function buildCommunityPath() {
-  return buildPath(ROOT_PATH);
-}
-
-export function buildCommunityPathOrUrl() {
-  if (isCustomDomain()) {
-    return buildBaseUrl(buildCommunityPath());
-  }
-
-  return buildCommunityPath();
-}
-
-export function buildDevelopementPostPath(postSlug: string) {
-  return buildPath(ROOT_PATH, DEVELOPMENT_POSTS_PATH, postSlug);
-}
+import { DEVELOPMENT_POST_PATH } from "./community-routing";
 
 function PostsHeader() {
   return (

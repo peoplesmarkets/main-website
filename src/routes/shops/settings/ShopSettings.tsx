@@ -1,18 +1,17 @@
 import { useNavigate, useRouteData } from "@solidjs/router";
+import _ from "lodash";
 import { Show, createEffect } from "solid-js";
 
 import {
+  OfferSettings,
   ShopImage,
   ShopSettings,
-  OfferSettings,
-} from "../../components/dashboard";
-import { Page, Section } from "../../components/layout";
-import { buildDashboardPath } from "../MainRoutes";
-import { ShopData } from "./ShopData";
-import styles from "./ShopSettingsPage.module.scss";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import _ from "lodash";
-import { buildIndexPath } from "../MainRoutes";
+} from "../../../components/dashboard";
+import { Page, Section } from "../../../components/layout";
+import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
+import { buildDashboardPath, buildIndexPath } from "../../main-routing";
+import { ShopData } from "../ShopData";
+import styles from "./ShopSettings.module.scss";
 
 export default function ShopSettingsPage() {
   const navigate = useNavigate();

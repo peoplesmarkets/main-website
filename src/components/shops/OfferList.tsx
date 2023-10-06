@@ -2,7 +2,7 @@ import { A } from "@solidjs/router";
 import _ from "lodash";
 import { For, Show } from "solid-js";
 
-import { buildOfferPath } from "../../routes/shops/ShopRoutes";
+import { buildOfferPath } from "../../routes/shops/shop-routing";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { OfferPrice } from "../commerce/OfferPrice";
 import styles from "./OfferList.module.scss";

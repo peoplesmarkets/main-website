@@ -11,7 +11,7 @@ import { ShopData } from "../../routes/shops/ShopData";
 import {
   buildShopDetailPath,
   buildShopSettingsPath,
-} from "../../routes/shops/ShopRoutes";
+} from "../../routes/shops/shop-routing";
 import { ShopService } from "../../services";
 import { UpdateShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop";
 import {
