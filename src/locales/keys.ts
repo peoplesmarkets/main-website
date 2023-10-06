@@ -12,6 +12,7 @@ import {
 } from "../services/peoplesmarkets/commerce/v1/price";
 
 export const TKEYS = {
+  lang: "lang",
   "Peoples-Markets": "Peoples-Markets",
   peoplesmarkets_com: "peoplesmarkets_com",
   peoplesmarkets_main_link: "peoplesmarkets_main_link",
@@ -26,6 +27,8 @@ export const TKEYS = {
     per: "common.per",
     every: "common.every",
     "per-or-every": "common.per-or-every",
+    cancel: "common.cancel",
+    resume: "common.resume",
   },
   form: {
     action: {
@@ -42,6 +45,8 @@ export const TKEYS = {
       "Are-you-sure-you-want-to-delete-the-item":
         "form.action.Are-you-sure-you-want-to-delete-the-item",
       "Confirm-Deletion?": "form.action.Confirm-Deletion?",
+      "Discard-unsafed-changes": "form.action.Discard-unsafed-changes",
+      "Confirm-Cancellation": "form.action.Confirm-Cancellation",
     },
     "danger-zone": "form.danger-zone",
     errors: {
@@ -207,6 +212,7 @@ export const TKEYS = {
     "Download-now": "media.Download-now",
     "download-file": "media.download-file",
     Inventory: "media.Inventory",
+    "download-all": "media.download-all",
     errors: {
       "still-part-of-an-offer": "media.errors.still-part-of-an-offer",
     },
@@ -214,6 +220,20 @@ export const TKEYS = {
       name: "media.labels.name",
       file: "media.labels.file",
     },
+  },
+  subscription: {
+    Title: "subscription.Title",
+    "Title-plural": "subscription.Title-plural",
+    "My-Subscriptions": "subscription.My-Subscriptions",
+    "subscription-to": "subscription.subscription-to",
+    "already-subscribed": "subscription.already-subscribed",
+    "payed-until": "subscription.payed-until",
+    "cancel-subscription": "subscription.cancel-subscription",
+    "included-files": "subscription.included-files",
+    "subscription-configuration": "subscription.subscription-configuration",
+    resume: "subscription.resume",
+    "canceled-at": "subscription.canceled-at",
+    "no-subscriptions-yet": "subscription.no-subscriptions-yet"
   },
   image: {
     "delete-confirmation-message": "image.delete-confirmation-message",

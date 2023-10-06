@@ -2,16 +2,16 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { useRouteData } from "@solidjs/router";
 import { Show, createResource, createSignal } from "solid-js";
 
-import { isResolved } from "../../components/content";
-import { CreateMediaDialog } from "../../components/dashboard/CreateMediaDialog";
-import { ActionButton } from "../../components/form";
-import { Section } from "../../components/layout";
-import { MediaList } from "../../components/media";
-import { ShopBanner } from "../../components/shops";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { TKEYS } from "../../locales";
-import { MediaService } from "../../services";
-import { ShopData } from "../shops/ShopData";
+import { isResolved } from "../../../components/content";
+import { CreateMediaDialog } from "../../../components/dashboard/CreateMediaDialog";
+import { ActionButton } from "../../../components/form";
+import { Section } from "../../../components/layout";
+import { MediaList } from "../../../components/media";
+import { ShopBanner } from "../../../components/shops";
+import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
+import { TKEYS } from "../../../locales";
+import { MediaService } from "../../../services";
+import { ShopData } from "../ShopData";
 import styles from "./MediaSettings.module.scss";
 
 export default function MediaSettings() {

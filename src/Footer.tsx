@@ -5,13 +5,13 @@ import styles from "./Footer.module.scss";
 import { MainLogoText } from "./components/assets";
 import { GitHubIcon, MainLogoIcon } from "./components/icons";
 import { TKEYS } from "./locales";
-import { buildIndexPathOrUrl } from "./routes/MainRoutes";
-import { buildCommunityPathOrUrl } from "./routes/community/CommunityRoutes";
+import { buildIndexPathOrUrl } from "./routes/main-routing";
+import { buildCommunityPathOrUrl } from "./routes/community/community-routing";
 import {
   buildImprintPathOrUrl,
   buildPrivacyPolicyPathOrUrl,
   buildTermsOfServicePathOrUrl,
-} from "./routes/info/InfoRoutes";
+} from "./routes/info/info-routing";
 
 export default function Footer() {
   return (

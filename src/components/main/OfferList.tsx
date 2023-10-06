@@ -7,7 +7,7 @@ import { TKEYS } from "../../locales";
 import {
   buildOfferPath,
   buildShopPathOrUrl
-} from "../../routes/shops/ShopRoutes";
+} from "../../routes/shops/shop-routing";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { OfferPrice } from "../commerce/OfferPrice";

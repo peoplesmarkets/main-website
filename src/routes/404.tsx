@@ -3,7 +3,7 @@ import { A } from "@solidjs/router";
 
 import { Page } from "../components/layout/Page";
 import { TKEYS } from "../locales";
-import { buildIndexPath } from "./MainRoutes";
+import { buildIndexPath } from "./main-routing";
 
 export default function NotFound() {
   return (

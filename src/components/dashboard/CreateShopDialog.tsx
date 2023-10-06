@@ -17,7 +17,7 @@ import {
 } from "../form";
 import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
-import { buildShopDetailPath } from "../../routes/shops/ShopRoutes";
+import { buildShopDetailPath } from "../../routes/shops/shop-routing";
 import { slugify } from "../../lib";
 
 type Props = {

@@ -5,9 +5,10 @@ import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildBaseUrl, secondsToLocaleString } from "../../lib";
+import { buildBaseUrl, secondsToLocaleDateTime } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
+import { buildMediasSettingsPath } from "../../routes/shops/shop-routing";
 import { ShopService, StripeService } from "../../services";
 import { ContentError, ContentLoading, isResolved } from "../content";
 import { Multiline } from "../content/Multiline";
@@ -16,14 +17,13 @@ import { DeleteConfirmation } from "../form/DeleteConfirmation";
 import { Message } from "../form/Message";
 import { Cover } from "../layout/Cover";
 import { Section } from "../layout/Section";
-import { EditShopDialog } from "./EditShopDialog";
 import { EditShopBannerDialog } from "./EditShopBannerDialog";
+import { EditShopDialog } from "./EditShopDialog";
 import { EditShopDomainDialog } from "./EditShopDomainDialog";
 import { EditShopLogoDialog } from "./EditShopLogoDialog";
 import { EditShopSlugDialog } from "./EditShopSlugDialog";
 import { EditShopThemeDialog } from "./EditShopThemeDialog";
 import styles from "./ShopSettings.module.scss";
-import { buildMediasSettingsPath } from "../../routes/shops/ShopRoutes";
 
 type Props = {
   onUpdate: () => Promise<void>;
@@ -211,12 +211,12 @@ export function ShopSettings(props: Props) {
 
         <span class={styles.Details}>
           <Trans key={TKEYS["shop"].labels["Created-at"]} />:{" "}
-          {secondsToLocaleString(shopData?.shop?.data()?.createdAt)}
+          {secondsToLocaleDateTime(shopData?.shop?.data()?.createdAt)}
         </span>
 
         <span class={styles.Details}>
           <Trans key={TKEYS["shop"].labels["Updated-at"]} />:{" "}
-          {secondsToLocaleString(shopData?.shop?.data()?.updatedAt)}
+          {secondsToLocaleDateTime(shopData?.shop?.data()?.updatedAt)}
         </span>
       </Section>
 

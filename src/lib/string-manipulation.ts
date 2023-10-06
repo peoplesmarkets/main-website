@@ -77,10 +77,6 @@ export async function hashCodeVerifier(codeChallenge: string): Promise<string> {
   return encodeArrayBufferToBase64Url(hashBuffer);
 }
 
-export function secondsToLocaleString(seconds?: number): string {
-  return seconds ? new Date(seconds * 1000).toLocaleString() : "";
-}
-
 export function addHtmlLinebreaks(text?: string): string {
   if (_.isNil(text)) {
     return "";

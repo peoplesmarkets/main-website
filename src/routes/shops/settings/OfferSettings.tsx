@@ -3,33 +3,33 @@ import { useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
-import { PlaceholderImage } from "../../components/assets";
-import { OfferImages, OfferPrice } from "../../components/commerce";
+import { PlaceholderImage } from "../../../components/assets";
+import { OfferImages, OfferPrice } from "../../../components/commerce";
 import {
   Anotation,
   ContentError,
   ContentLoading,
   Multiline,
   isResolved,
-} from "../../components/content";
+} from "../../../components/content";
 import {
   CreateOfferImageDialog,
   EditOfferDialog,
   MediaSettings,
-} from "../../components/dashboard";
-import { EditOfferPriceDialog } from "../../components/dashboard/EditOfferPriceDialog";
-import { ActionButton, DeleteConfirmation } from "../../components/form";
-import { Page, Section } from "../../components/layout";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { secondsToLocaleString } from "../../lib";
-import { TKEYS } from "../../locales";
-import { OfferService } from "../../services";
-import { OfferType } from "../../services/peoplesmarkets/commerce/v1/offer";
-import { buildDashboardPath } from "../MainRoutes";
-import { buildShopSettingsPath } from "../shops/ShopRoutes";
+} from "../../../components/dashboard";
+import { EditOfferPriceDialog } from "../../../components/dashboard/EditOfferPriceDialog";
+import { ActionButton, DeleteConfirmation } from "../../../components/form";
+import { Page, Section } from "../../../components/layout";
+import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
+import { secondsToLocaleDateTime } from "../../../lib";
+import { TKEYS } from "../../../locales";
+import { OfferService } from "../../../services";
+import { OfferType } from "../../../services/peoplesmarkets/commerce/v1/offer";
+import { buildDashboardPath } from "../../main-routing";
+import { buildShopSettingsPath } from "../shop-routing";
 import styles from "./OfferSettings.module.scss";
-import { PriceType } from "../../services/peoplesmarkets/commerce/v1/price";
-import { EditTrialPeriodDialog } from "../../components/dashboard/EditTrialPeriod";
+import { PriceType } from "../../../services/peoplesmarkets/commerce/v1/price";
+import { EditTrialPeriodDialog } from "../../../components/dashboard/EditTrialPeriod";
 
 type DIALOG =
   | "none"
@@ -182,12 +182,12 @@ export default function OfferSettings() {
 
               <span class={styles.Details}>
                 <Trans key={TKEYS.offer.labels["Created-at"]} />:{" "}
-                {secondsToLocaleString(offer()?.createdAt)}
+                {secondsToLocaleDateTime(offer()?.createdAt)}
               </span>
 
               <span class={styles.Details}>
                 <Trans key={TKEYS.offer.labels["Updated-at"]} />:{" "}
-                {secondsToLocaleString(offer()?.updatedAt)}
+                {secondsToLocaleDateTime(offer()?.updatedAt)}
               </span>
             </Section>
 

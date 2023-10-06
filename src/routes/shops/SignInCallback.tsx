@@ -6,8 +6,7 @@ import { isResolved } from "../../components/content";
 import { Cover } from "../../components/layout/Cover";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { base64ToUtf8 } from "../../lib";
-import { buildIndexPath } from "../MainRoutes";
-import { buildDashboardPath } from "../MainRoutes";
+import { buildIndexPath, buildDashboardPath } from "../main-routing";
 import { ShopData } from "./ShopData";
 import { Page } from "../../components/layout";
 

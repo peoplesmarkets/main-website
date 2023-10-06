@@ -6,25 +6,24 @@ import { ActionButton } from "./ActionButton";
 import styles from "./DeleteConfirmation.module.scss";
 
 type Props = {
-  readonly onDiscard: () => void;
+  readonly onConfirmation: () => void;
   readonly onCancel: () => void;
 };
 
-export function DiscardConfirmation(props: Props) {
+export function CancelConfirmation(props: Props) {
   const [trans] = useTransContext();
 
   return (
     <Dialog
-      title={trans(TKEYS.form.action["Discard-unsafed-changes"])}
+      title={trans(TKEYS.form.action["Confirm-Cancellation"])}
       onClose={props.onCancel}
     >
       <div class={styles.Footer}>
-        <ActionButton actionType="neutral-borderless" onClick={props.onCancel}>
+        <ActionButton
+          actionType="danger"
+          onClick={props.onConfirmation}
+        >
           <Trans key={TKEYS.form.action.Cancel} />
-        </ActionButton>
-
-        <ActionButton actionType="neutral-borderless" onClick={props.onDiscard}>
-          <Trans key={TKEYS.form.action.Discard} />
         </ActionButton>
       </div>
     </Dialog>

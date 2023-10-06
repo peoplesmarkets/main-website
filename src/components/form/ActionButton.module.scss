@@ -94,11 +94,12 @@
 }
 
 .Small {
-  height: 28px;
+  min-height: 28px;
   padding: 0 14px;
 }
 
 .Tall {
+  min-height: unset;
   height: 100%;
 }
 

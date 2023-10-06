@@ -1,13 +1,13 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show } from "solid-js";
+import { Show, createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { buildAuthorizationRequest } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
-import { StripeService } from "../../services";
+import { MediaSubscriptionService, StripeService } from "../../services";
 import {
   OfferResponse,
   OfferType,
@@ -16,7 +16,7 @@ import { PriceType } from "../../services/peoplesmarkets/commerce/v1/price";
 import { isResolved } from "../content";
 import { ActionButton } from "../form";
 import styles from "./OfferBuy.module.scss";
-import { buildOfferPath } from "../../routes/shops/ShopRoutes";
+import { buildOfferPath } from "../../routes/shops/shop-routing";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -26,10 +26,25 @@ export function OfferBuy(props: Props) {
   const { accessToken, isAuthenticated } = useAccessTokensContext();
 
   const stripeService = new StripeService(accessToken);
+  const mediaSubscriptionService = new MediaSubscriptionService(accessToken);
 
   const shopData = useRouteData<typeof ShopData>();
 
+  const [mediaSubscription] = createResource(
+    () => props.offer()?.offerId,
+    fetchMediaSubscription
+  );
+
+  async function fetchMediaSubscription(offerId: string) {
+    const response = await mediaSubscriptionService.get({ offerId });
+    return response.mediaSubscription;
+  }
+
   function actionState() {
+    if (isResolved(mediaSubscription.state) && !_.isNil(mediaSubscription())) {
+      return "already-subscribed";
+    }
+
     if (isResolved(shopData.stripeAccount.data.state)) {
       if (!shopData.stripeAccount.data()?.enabled) {
         return "no-payment-method";
@@ -65,10 +80,7 @@ export function OfferBuy(props: Props) {
     window.location.href = (
       await buildAuthorizationRequest(
         "login",
-        buildOfferPath(
-          shopData.shop.data()!.slug,
-          props.offer().offerId
-        )
+        buildOfferPath(shopData.shop.data()!.slug, props.offer().offerId)
       )
     ).toString();
   }
@@ -121,6 +133,17 @@ export function OfferBuy(props: Props) {
             onClick={() => {}}
           >
             {""}
+          </ActionButton>
+        </Show>
+
+        <Show when={actionState() === "already-subscribed"}>
+          <ActionButton
+            actionType="active-filled"
+            wide
+            disabled
+            onClick={() => {}}
+          >
+            <Trans key={TKEYS.subscription["already-subscribed"]} />
           </ActionButton>
         </Show>
       </Show>
