@@ -15,3 +15,8 @@
   width: 1.4rem;
   fill: var(--primary-content-color);
 }
+
+.IconChecked {
+  @extend .Icon;
+  fill: var(--active-content-color);
+}

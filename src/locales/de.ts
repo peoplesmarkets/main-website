@@ -29,6 +29,7 @@ export const DE: typeof TKEYS = {
     "per-or-every": "{count, plural, =1 {pro} other {alle} }",
     cancel: "kündigen",
     resume: "fortsetzen",
+    any: "Alle",
   },
   form: {
     action: {
@@ -42,6 +43,7 @@ export const DE: typeof TKEYS = {
       Discard: "Verwerfen",
       Buy: "Kaufen",
       Subscribe: "Abonnieren",
+      Remove: "Löschen",
       "Are-you-sure-you-want-to-delete-the-item":
         '{item} namens "{name}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",
@@ -54,6 +56,7 @@ export const DE: typeof TKEYS = {
       "required-field": "Eingabe erforderlich",
       "not-modified": "Kein Änderrung",
       "already-exists": "Bereits vergeben",
+      "already-used": "Bereits verwendet",
       "item-too-large": "{item} ist zu groß",
       "wrong-type": "Falscher Dateityp",
       "invalid-css-color": "Ungültige CSS Farbe",
@@ -75,6 +78,10 @@ export const DE: typeof TKEYS = {
         title: "Zufällig",
       },
     },
+  },
+  pagination: {
+    previous: "vorherige",
+    next: "nächste",
   },
   price: {
     Price: "Preis",
@@ -258,6 +265,13 @@ export const DE: typeof TKEYS = {
       "delete-this-offer": "Dieses Angebot löschen",
       "add-image": "Bild hinzufügen",
       "edit-price": "Preis bearbeiten",
+    },
+    "shipping-rate": {
+      "add-shipping-rate": "Versandkosten hinzufügen",
+      "shipping-rates": "Versandkosten",
+      "no-shipping-rates-yet": "Bisher keine Versandkosten ...",
+      country: "Land",
+      "to-all-countries": "In alle Länder",
     },
     media: {
       "my-media": "Meine Dateien",

@@ -12,6 +12,7 @@ type Props = {
   readonly required?: boolean;
   readonly initial?: number;
   readonly onValue: (_value: number) => void;
+  readonly small?: boolean;
 };
 
 const DIGITS = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9"];
@@ -119,12 +120,18 @@ export function PriceField(props: Props) {
   }
 
   return (
-    <div class={styles.PriceInput}>
+    <div
+      class={styles.PriceInput}
+      classList={{ [styles.Small]: Boolean(props.small) }}
+    >
       <input
         type="text"
         inputmode="decimal"
         class={styles.Input}
-        classList={{ [styles.HasErrors]: !_.isEmpty(props.errors) }}
+        classList={{
+          [styles.HasErrors]: !_.isEmpty(props.errors),
+          [styles.Small]: Boolean(props.small),
+        }}
         id={slugify(props.label)}
         name={slugify(props.label)}
         placeholder={props.label}

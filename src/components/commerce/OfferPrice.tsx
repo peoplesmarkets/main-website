@@ -75,6 +75,7 @@ export function OfferPrice(props: Props) {
             / {recurringIntervalCount()} {recurringInterval()}
           </span>
         </Show>
+
         <Show when={!_.isNil(trialPeriodDays()) && trialPeriodDays()! > 0}>
           <span
             class={styles.TrialPeriod}
