@@ -1,11 +1,9 @@
 import _ from "lodash";
 import {
-  AddShippingRateToOfferRequest,
+  PutShippingRateRequest,
   GrpcWebImpl,
-  ListShippingRatesRequest,
-  RemoveShippingRateFromOfferRequest,
   ShippingCountry,
-  ShippingRateServiceClientImpl
+  ShippingRateServiceClientImpl,
 } from "../peoplesmarkets/commerce/v1/shipping_rate";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
@@ -19,22 +17,22 @@ export class ShippingRateService extends ServiceClient {
     this.client = new ShippingRateServiceClientImpl(this.rpc);
   }
 
-  public async addShippingRateToOffer(request: AddShippingRateToOfferRequest) {
-    return this.client.AddShippingRateToOffer(
-      request,
+  public async putShippingRate(request: PutShippingRateRequest) {
+    return this.client.PutShippingRate(request, await this.withAuthHeader());
+  }
+
+  public async getShippingRate(offerId: string) {
+    return this.client.GetShippingRate(
+      { offerId },
       await this.withAuthHeader()
     );
   }
 
-  public async listShippingRates(request: ListShippingRatesRequest) {
-    return this.client.ListShippingRates(request, await this.withAuthHeader());
-  }
-
-  public async removeShippingRateFromOffer(
-    request: RemoveShippingRateFromOfferRequest
-  ) {
-    return this.client.RemoveShippingRateFromOffer(
-      request,
+  public async deleteShippingRate(shippingRateId: string) {
+    return this.client.DeleteShippingRate(
+      {
+        shippingRateId,
+      },
       await this.withAuthHeader()
     );
   }

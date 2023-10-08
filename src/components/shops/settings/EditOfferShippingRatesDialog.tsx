@@ -1,34 +1,22 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { For, Show, createEffect, createResource } from "solid-js";
+import { createEffect, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
+
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
 import { TKEYS } from "../../../locales";
-import {
-  ShippingRateService,
-  listCountryCodes,
-  listCurrencyCodes,
-} from "../../../services";
+import { ShippingRateService, listCurrencyCodes } from "../../../services";
 import { OfferResponse } from "../../../services/peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
   currencyFromJSON,
   currencyToJSON,
 } from "../../../services/peoplesmarkets/commerce/v1/price";
-import {
-  AddShippingRateToOfferRequest,
-  ShippingCountry,
-  ShippingRatesOrderByField,
-  shippingCountryToJSON,
-} from "../../../services/peoplesmarkets/commerce/v1/shipping_rate";
+import { PutShippingRateRequest } from "../../../services/peoplesmarkets/commerce/v1/shipping_rate";
 import { ActionButton, PriceField, Select, SelectKey } from "../../form";
-import { Border, Dialog, Section } from "../../layout";
+import { Dialog } from "../../layout";
 import styles from "./Settings.module.scss";
-import { centsToDecimal } from "../../../lib";
-import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering";
-import { PaginationRequest } from "../../../services/peoplesmarkets/pagination/v1/pagination";
-import { Pagination } from "../../navigation/Pagination";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -43,76 +31,57 @@ export function EditOfferShippingRatesDialog(props: Props) {
 
   const shippingRateService = new ShippingRateService(accessToken);
 
-  const [pagination, setPagination] = createStore<PaginationRequest>({
-    page: 1,
-    size: 5,
-  });
-
-  const [request, setRequest] = createStore<AddShippingRateToOfferRequest>({
+  const emptyRequest = {
     offerId: "",
-    amount: 0,
-    country: ShippingCountry.SHIPPING_COUNTRY_AAALL_COUNTRIES,
+    amount: undefined as any,
     currency: Currency.CURRENCY_EUR,
-  });
+    allCountries: true,
+    specificCountries: [],
+  } as PutShippingRateRequest;
+
+  const [request, setRequest] = createStore(_.clone(emptyRequest));
 
   const [errors, setErrors] = createStore({
     amount: [] as string[],
     currency: [] as string[],
-    country: [] as string[],
   });
 
-  const [response, { refetch }] = createResource(fetchShippingRates);
+  const [shippingRate, { refetch }] = createResource(fetchShippingRate);
 
-  async function fetchShippingRates() {
-    return shippingRateService.listShippingRates({
-      offerId: props.offer().offerId,
-      pagination,
-      orderBy: {
-        field: ShippingRatesOrderByField.SHIPPING_RATES_ORDER_BY_FIELD_COUNTRY,
-        direction: Direction.DIRECTION_ASC,
-      },
-    });
+  async function fetchShippingRate() {
+    try {
+      const response = await shippingRateService.getShippingRate(
+        props.offer().offerId
+      );
+
+      return response.shippingRate;
+    } catch (err: any) {
+      if (err.code && err.code === grpc.Code.NotFound) {
+        return;
+      } else {
+        throw err;
+      }
+    }
   }
 
   createEffect(() => {
     if (_.isNil(request.offerId) || _.isEmpty(request.offerId)) {
       setRequest("offerId", props.offer().offerId);
     }
+
+    const rate = shippingRate();
+    if (!_.isNil(rate)) {
+      setRequest({
+        amount: rate.amount,
+        currency: rate.currency,
+        allCountries: rate.allCountries,
+        specificCountries: rate.specificCountries,
+      });
+    }
   });
 
   function resetErrors() {
-    setErrors({ amount: [], country: [], currency: [] });
-  }
-
-  function countryDisplay(countryCode: number): string {
-    if (countryCode === 1) {
-      return trans(TKEYS.dashboard["shipping-rate"]["to-all-countries"]);
-    }
-
-    return shippingCountryToJSON(countryCode).replace("SHIPPING_COUNTRY_", "");
-  }
-
-  function amountDisplay(cents: number): string {
-    return centsToDecimal(cents, trans(TKEYS.price["decimal-point"]));
-  }
-
-  function currencyDisplay(currency: Currency): string {
-    return trans(TKEYS.price.currency[currencyToJSON(currency)]);
-  }
-
-  function countryOptions() {
-    return listCountryCodes().map((c) => ({
-      name: countryDisplay(c),
-      key: c,
-    }));
-  }
-
-  function selectedCountry() {
-    if (!_.isNil(request.country)) {
-      return _.find(countryOptions(), {
-        key: request.country,
-      });
-    }
+    setErrors({ amount: [], currency: [] });
   }
 
   function currencyOptions() {
@@ -130,34 +99,27 @@ export function EditOfferShippingRatesDialog(props: Props) {
     }
   }
 
-  async function handleAddShippingRate(event: SubmitEvent) {
+  async function handleCreateShippingRate(event: SubmitEvent) {
     event.preventDefault();
     resetErrors();
 
     try {
-      await shippingRateService.addShippingRateToOffer(request);
+      await shippingRateService.putShippingRate(request);
+      handleCloseDialog();
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.AlreadyExists) {
-        setErrors("country", [trans(TKEYS.form.errors["already-used"])]);
+        setErrors("currency", [trans(TKEYS.form.errors["already-used"])]);
       }
     }
     refetch();
   }
 
-  async function handleRemoveShippingRate(shippingRateId: string) {
-    resetErrors();
-    await shippingRateService.removeShippingRateFromOffer({
-      offerId: props.offer().offerId,
-      shippingRateId,
-    });
-    refetch();
-  }
-
-  function handleCountrySelect(value: SelectKey) {
-    resetErrors();
-    if (_.isNumber(value)) {
-      setRequest("country", value as ShippingCountry);
+  async function handleDeleteShippingRate() {
+    const rate = shippingRate();
+    if (!_.isNil(rate)) {
+      await shippingRateService.deleteShippingRate(rate.shippingRateId);
     }
+    handleCloseDialog();
   }
 
   function handleAmountInput(value: number) {
@@ -172,12 +134,6 @@ export function EditOfferShippingRatesDialog(props: Props) {
     }
   }
 
-  function handlePagination(pagination: PaginationRequest) {
-    resetErrors();
-    setPagination(pagination);
-    refetch();
-  }
-
   function handleCloseDialog() {
     props.onClose();
   }
@@ -188,79 +144,13 @@ export function EditOfferShippingRatesDialog(props: Props) {
         title={trans(TKEYS.dashboard["shipping-rate"]["shipping-rates"])}
         onClose={handleCloseDialog}
       >
-        <Section flat>
-          <Show
-            when={!_.isEmpty(response()?.shippingRates)}
-            fallback={
-              <Section flat>
-                <span class={styles.Body}>
-                  <Trans
-                    key={
-                      TKEYS.dashboard["shipping-rate"]["no-shipping-rates-yet"]
-                    }
-                  />
-                </span>
-              </Section>
-            }
-          >
-            <For each={response()?.shippingRates}>
-              {(shippingRate) => (
-                <div class={styles.Row}>
-                  <span class={styles.Label}>
-                    {countryDisplay(shippingRate.country)}
-                  </span>
-                  <span>
-                    {amountDisplay(shippingRate.amount)}{" "}
-                    {currencyDisplay(shippingRate.currency)}
-                  </span>
-                  <ActionButton
-                    actionType="danger"
-                    small
-                    onClick={() =>
-                      handleRemoveShippingRate(shippingRate.shippingRateId)
-                    }
-                  >
-                    <Trans key={TKEYS.form.action.Remove} />
-                  </ActionButton>
-                </div>
-              )}
-            </For>
-            <div class={styles.Pagination}>
-              <Pagination
-                pagination={() => response()?.pagination}
-                onValue={handlePagination}
-              />
-            </div>
-          </Show>
-        </Section>
-
-        <form class={styles.Form} onSubmit={handleAddShippingRate}>
-          <Border />
-          <span class={styles.Body}>
-            <Trans
-              key={TKEYS.dashboard["shipping-rate"]["add-shipping-rate"]}
-            />
-            :
-          </span>
-          <div>
-            <Select
-              class=""
-              label={trans(TKEYS.dashboard["shipping-rate"].country)}
-              options={countryOptions}
-              value={selectedCountry}
-              onValue={handleCountrySelect}
-            />
-            <Show when={!_.isEmpty(errors.country)}>
-              <span class={styles.ErrorInfoText}>{errors.country}</span>
-            </Show>
-          </div>
-
+        <form class={styles.Form} onSubmit={handleCreateShippingRate}>
           <div class={styles.FieldSet}>
             <div class={styles.FieldSetInput}>
               <PriceField
                 label={trans(TKEYS.price.Price)}
                 required
-                initial={request.amount}
+                value={() => request.amount}
                 onValue={handleAmountInput}
                 errors={errors.amount}
               />
@@ -278,11 +168,17 @@ export function EditOfferShippingRatesDialog(props: Props) {
 
           <div class={styles.DialogFooter}>
             <ActionButton
+              actionType="danger"
+              onClick={handleDeleteShippingRate}
+            >
+              <Trans key={TKEYS.form.action.Delete} />
+            </ActionButton>
+            <ActionButton
               actionType="active-filled"
               submit
-              onClick={handleAddShippingRate}
+              onClick={handleCreateShippingRate}
             >
-              <Trans key={TKEYS.form.action.Add} />
+              <Trans key={TKEYS.form.action.Save} />
             </ActionButton>
           </div>
         </form>
