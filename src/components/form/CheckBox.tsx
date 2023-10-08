@@ -31,7 +31,7 @@ export function CheckBox(props: Props) {
     <div class={styles.CheckBox} onClick={handleInput}>
       <label class={styles.Label}>{props.label}</label>
       <Show when={checked()}>
-        <CheckBoxCheckedIcon class={styles.Icon} />
+        <CheckBoxCheckedIcon class={styles.IconChecked} />
       </Show>
       <Show when={!checked()}>
         <CheckBoxUncheckedIcon class={styles.Icon} />

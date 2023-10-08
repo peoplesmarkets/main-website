@@ -17,9 +17,10 @@ import {
   EditOfferDialog,
   MediaSettings,
 } from "../../../components/dashboard";
-import { EditOfferPriceDialog } from "../../../components/dashboard/EditOfferPriceDialog";
 import { ActionButton, DeleteConfirmation } from "../../../components/form";
 import { Page, Section } from "../../../components/layout";
+import { EditOfferShippingRatesDialog } from "../../../components/shops/settings";
+import { EditOfferPriceDialog } from "../../../components/shops/settings/EditOfferPriceDialog";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
 import { secondsToLocaleDateTime } from "../../../lib";
 import { TKEYS } from "../../../locales";
@@ -28,8 +29,6 @@ import { OfferType } from "../../../services/peoplesmarkets/commerce/v1/offer";
 import { buildDashboardPath } from "../../main-routing";
 import { buildShopSettingsPath } from "../shop-routing";
 import styles from "./OfferSettings.module.scss";
-import { PriceType } from "../../../services/peoplesmarkets/commerce/v1/price";
-import { EditTrialPeriodDialog } from "../../../components/dashboard/EditTrialPeriod";
 
 type DIALOG =
   | "none"
@@ -37,7 +36,7 @@ type DIALOG =
   | "edit-offer"
   | "add-image"
   | "edit-price"
-  | "edit-trial";
+  | "edit-shipping-rates";
 
 export default function OfferSettings() {
   const navigate = useNavigate();
@@ -236,23 +235,19 @@ export default function OfferSettings() {
                 </ActionButton>
               </div>
 
-              <Show
-                when={
-                  offer()?.price?.priceType === PriceType.PRICE_TYPE_RECURRING
-                }
-              >
-                <div class={styles.EditSection}>
-                  <p class={styles.Body}>
-                    <Trans key={TKEYS.price["add-trial-period"]} />
-                  </p>
-                  <ActionButton
-                    actionType="neutral"
-                    onClick={() => handleOpenDialog("edit-trial")}
-                  >
-                    <Trans key={TKEYS.form.action.Edit} />
-                  </ActionButton>
-                </div>
-              </Show>
+              <div class={styles.EditSection}>
+                <p class={styles.Body}>
+                  <Trans
+                    key={TKEYS.dashboard["shipping-rate"]["shipping-rates"]}
+                  />
+                </p>
+                <ActionButton
+                  actionType="neutral"
+                  onClick={() => handleOpenDialog("edit-shipping-rates")}
+                >
+                  <Trans key={TKEYS.form.action.Edit} />
+                </ActionButton>
+              </div>
             </Section>
 
             <Section danger>
@@ -298,8 +293,8 @@ export default function OfferSettings() {
         />
       </Show>
 
-      <Show when={showDialog() === "edit-trial"}>
-        <EditTrialPeriodDialog
+      <Show when={showDialog() === "edit-shipping-rates"}>
+        <EditOfferShippingRatesDialog
           offer={() => offer()!}
           onClose={handleCloseDialog}
           onUpdate={handleRefreshOffer}

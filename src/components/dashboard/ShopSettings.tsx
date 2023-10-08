@@ -1,6 +1,6 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { useLocation, useNavigate, useRouteData } from "@solidjs/router";
+import { useLocation, useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
@@ -8,7 +8,6 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { buildBaseUrl, secondsToLocaleDateTime } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
-import { buildMediasSettingsPath } from "../../routes/shops/shop-routing";
 import { ShopService, StripeService } from "../../services";
 import { ContentError, ContentLoading, isResolved } from "../content";
 import { Multiline } from "../content/Multiline";
@@ -43,7 +42,7 @@ type DIALOG =
 
 export function ShopSettings(props: Props) {
   const location = useLocation();
-  const navigate = useNavigate();
+
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
@@ -111,14 +110,7 @@ export function ShopSettings(props: Props) {
     shopData.refetch();
   }
 
-  function handleEditMedias() {
-    const slug = shopData?.shop?.data()?.slug;
-    if (!_.isNil(slug)) {
-      navigate(buildMediasSettingsPath(slug));
-    }
-  }
-
-  async function confirmDeleteion() {
+  async function handleConfirmDeletion() {
     if (!_.isNil(shopData?.shop?.data())) {
       try {
         await shopService.delete(shopData?.shop?.data()!.shopId);
@@ -239,6 +231,47 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
+            <Trans key={stripeTkeys().integration} />
+          </p>
+          <Switch
+            fallback={
+              <span>
+                <Trans key={TKEYS.dashboard["shop"]["no-shop-yet"]} />
+              </span>
+            }
+          >
+            <Match when={stripeAccountState() === "errored"}>
+              <ContentError />
+            </Match>
+            <Match when={stripeAccountState() === "pending"}>
+              <ContentLoading />
+            </Match>
+            <Match when={stripeAccountState() === "missing"}>
+              <ActionButton
+                actionType="active-filled"
+                onClick={handleCreateStripeIntegration}
+              >
+                <Trans key={stripeTkeys()["start-integration"]} />
+              </ActionButton>
+            </Match>
+            <Match when={stripeAccountState() === "in-progress"}>
+              <ActionButton
+                actionType="active-filled"
+                onClick={handleContinueStripeIntegration}
+              >
+                <Trans key={stripeTkeys()["continue-integration"]} />
+              </ActionButton>
+            </Match>
+            <Match when={stripeAccountState() === "configured"}>
+              <span class={styles.Ok}>
+                <Trans key={TKEYS.form.action.OK} />
+              </span>
+            </Match>
+          </Switch>
+        </div>
+
+        <div class={styles.EditSection}>
+          <p class={styles.Body}>
             <Trans key={TKEYS.dashboard["shop"]["edit-image"]} />
           </p>
           <ActionButton
@@ -296,56 +329,6 @@ export function ShopSettings(props: Props) {
             <Trans key={TKEYS.form.action.Edit} />
           </ActionButton>
         </div>
-
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={stripeTkeys().integration} />
-          </p>
-          <Switch
-            fallback={
-              <span>
-                <Trans key={TKEYS.dashboard["shop"]["no-shop-yet"]} />
-              </span>
-            }
-          >
-            <Match when={stripeAccountState() === "errored"}>
-              <ContentError />
-            </Match>
-            <Match when={stripeAccountState() === "pending"}>
-              <ContentLoading />
-            </Match>
-            <Match when={stripeAccountState() === "missing"}>
-              <ActionButton
-                actionType="active-filled"
-                onClick={handleCreateStripeIntegration}
-              >
-                <Trans key={stripeTkeys()["start-integration"]} />
-              </ActionButton>
-            </Match>
-            <Match when={stripeAccountState() === "in-progress"}>
-              <ActionButton
-                actionType="active-filled"
-                onClick={handleContinueStripeIntegration}
-              >
-                <Trans key={stripeTkeys()["continue-integration"]} />
-              </ActionButton>
-            </Match>
-            <Match when={stripeAccountState() === "configured"}>
-              <span class={styles.Ok}>
-                <Trans key={TKEYS.form.action.OK} />
-              </span>
-            </Match>
-          </Switch>
-        </div>
-
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={TKEYS.media["Title-plural"]} />
-          </p>
-          <ActionButton actionType="neutral" onClick={handleEditMedias}>
-            <Trans key={TKEYS.form.action.Edit} />
-          </ActionButton>
-        </div>
       </Section>
 
       <Section danger>
@@ -381,7 +364,7 @@ export function ShopSettings(props: Props) {
           item={trans(TKEYS["shop"].title)}
           itemName={shopData?.shop?.data()?.name}
           onCancel={handleCloseDialog}
-          onConfirmation={confirmDeleteion}
+          onConfirmation={handleConfirmDeletion}
         />
       </Show>
       <Show when={showDialog() === "message"}>

@@ -29,6 +29,7 @@ export const TKEYS = {
     "per-or-every": "common.per-or-every",
     cancel: "common.cancel",
     resume: "common.resume",
+    any: "common.any",
   },
   form: {
     action: {
@@ -40,6 +41,7 @@ export const TKEYS = {
       Delete: "form.action.Delete",
       Cancel: "form.action.Cancel",
       Discard: "form.action.Discard",
+      Remove: "form.action.Remove",
       Buy: "form.action.Buy",
       Subscribe: "form.action.Subscribe",
       "Are-you-sure-you-want-to-delete-the-item":
@@ -54,6 +56,7 @@ export const TKEYS = {
       "required-field": "form.errors.required-field",
       "not-modified": "form.errors.not-modified",
       "already-exists": "form.errors.already-exists",
+      "already-used": "form.errors.already-used",
       "item-too-large": "form.errors.item-too-large",
       "wrong-type": "form.errors.wrong-type",
       "invalid-css-color": "form.errors.invalid-css-color",
@@ -75,6 +78,10 @@ export const TKEYS = {
         title: "query.order-by.random.title",
       },
     },
+  },
+  pagination: {
+    previous: "pagination.previous",
+    next: "pagination.next",
   },
   price: {
     Price: "price.Price",
@@ -233,7 +240,7 @@ export const TKEYS = {
     "subscription-configuration": "subscription.subscription-configuration",
     resume: "subscription.resume",
     "canceled-at": "subscription.canceled-at",
-    "no-subscriptions-yet": "subscription.no-subscriptions-yet"
+    "no-subscriptions-yet": "subscription.no-subscriptions-yet",
   },
   image: {
     "delete-confirmation-message": "image.delete-confirmation-message",
@@ -286,6 +293,13 @@ export const TKEYS = {
       "delete-this-offer": "dashboard.offers.delete-this-offer",
       "add-image": "dashboard.offers.add-image",
       "edit-price": "dashboard.offers.edit-price",
+    },
+    "shipping-rate": {
+      "add-shipping-rate": "dashboard.shipping-rate.add-shipping-rate",
+      "shipping-rates": "dashboard.shipping-rate.shipping-rates",
+      "no-shipping-rates-yet": "dashboard.shipping-rate.no-shipping-rates-yet",
+      country: "dashboard.shipping-rate.country",
+      "to-all-countries": "dashboard.shipping-rate.to-all-countries",
     },
     media: {
       "my-media": "dashboard.media.my-media",
