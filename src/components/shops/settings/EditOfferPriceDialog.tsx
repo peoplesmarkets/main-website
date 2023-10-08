@@ -3,18 +3,18 @@ import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { TKEYS } from "../../locales";
+import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
+import { TKEYS } from "../../../locales";
 import {
   OfferService,
   listCurrencyCodes,
   listPriceTypeCodes,
   listRecurringIntervalCodes,
-} from "../../services";
+} from "../../../services";
 import {
   OfferResponse,
   PutPriceToOfferRequest,
-} from "../../services/peoplesmarkets/commerce/v1/offer";
+} from "../../../services/peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
   PriceBillingScheme,
@@ -27,7 +27,7 @@ import {
   priceTypeToJSON,
   recurringIntervalFromJSON,
   recurringIntervalToJSON,
-} from "../../services/peoplesmarkets/commerce/v1/price";
+} from "../../../services/peoplesmarkets/commerce/v1/price";
 import {
   ActionButton,
   DeleteConfirmation,
@@ -35,10 +35,11 @@ import {
   PriceField,
   Select,
   SelectKey,
-} from "../form";
-import { NumberField } from "../form/NumberField";
-import { Dialog } from "../layout";
-import styles from "./CreateEditDialg.module.scss";
+} from "../../form";
+import { NumberField } from "../../form/NumberField";
+import { Border, Dialog } from "../../layout";
+import styles from "./Settings.module.scss";
+import { CheckBox } from "../../form/CheckBox";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -53,7 +54,7 @@ export function EditOfferPriceDialog(props: Props) {
 
   const offerService = new OfferService(accessToken);
 
-  const [offerPrice, setOfferPrice] = createStore<PutPriceToOfferRequest>({
+  const [request, setRequest] = createStore<PutPriceToOfferRequest>({
     offerId: "",
     price: undefined,
   });
@@ -62,7 +63,10 @@ export function EditOfferPriceDialog(props: Props) {
     unitAmount: [] as string[],
     recurringInterval: [] as string[],
     recurringIntervalCount: [] as string[],
+    trialPeriod: [] as string[],
   });
+
+  const [showTrialPeriodInput, setShowTrialPeriodInput] = createSignal(false);
 
   const [showDiscardConfirmation, setShowDiscardConfirmation] =
     createSignal(false);
@@ -73,14 +77,17 @@ export function EditOfferPriceDialog(props: Props) {
   createEffect(() => {
     const offer = _.cloneDeep(props.offer());
 
-    if (_.isEmpty(offerPrice.offerId)) {
-      setOfferPrice("offerId", offer.offerId);
+    if (_.isEmpty(request.offerId)) {
+      setRequest("offerId", offer.offerId);
     }
-    if (_.isNil(offerPrice.price)) {
+    if (_.isNil(request.price)) {
       if (!_.isNil(offer.price)) {
-        setOfferPrice("price", offer.price);
+        setRequest("price", offer.price);
+        if (!_.isNil(offer.price.recurring?.trialPeriodDays)) {
+          setShowTrialPeriodInput(true);
+        }
       } else {
-        setOfferPrice("price", {
+        setRequest("price", {
           unitAmount: 0.0,
           priceType: PriceType.PRICE_TYPE_ONE_TIME,
           currency: Currency.CURRENCY_EUR,
@@ -107,32 +114,32 @@ export function EditOfferPriceDialog(props: Props) {
   function recurringIntervalOptions() {
     return listRecurringIntervalCodes().map((i) => ({
       name: trans(TKEYS.price["recurring-interval"][i], {
-        intervalCount: offerPrice.price?.recurring?.intervalCount || 1,
+        intervalCount: request.price?.recurring?.intervalCount || 1,
       }),
       key: i,
     }));
   }
 
   function selectedCurrency() {
-    if (!_.isNil(offerPrice.price?.currency)) {
+    if (!_.isNil(request.price?.currency)) {
       return _.find(currencyOptions(), {
-        key: currencyToJSON(offerPrice.price!.currency),
+        key: currencyToJSON(request.price!.currency),
       });
     }
   }
 
   function selectedPriceType() {
-    if (!_.isNil(offerPrice.price?.priceType)) {
+    if (!_.isNil(request.price?.priceType)) {
       return _.find(priceTypeOptions(), {
-        key: priceTypeToJSON(offerPrice.price!.priceType),
+        key: priceTypeToJSON(request.price!.priceType),
       });
     }
   }
 
   function selectedRecurringInterval() {
-    if (!_.isNil(offerPrice.price?.recurring?.interval)) {
+    if (!_.isNil(request.price?.recurring?.interval)) {
       return _.find(recurringIntervalOptions(), {
-        key: recurringIntervalToJSON(offerPrice.price!.recurring!.interval),
+        key: recurringIntervalToJSON(request.price!.recurring!.interval),
       });
     }
   }
@@ -140,28 +147,28 @@ export function EditOfferPriceDialog(props: Props) {
   async function handleUpdateOfferPrice(event: SubmitEvent) {
     event.preventDefault();
 
-    await offerService.putPrice(offerPrice);
+    await offerService.putPrice(request);
     props.onUpdate?.();
     props.onClose();
   }
 
   async function handleConfirmDeletion() {
-    await offerService.removePrice(offerPrice);
+    await offerService.removePrice(request);
     props.onUpdate?.();
     props.onClose();
   }
 
   function handlePriceInput(value: number) {
-    setOfferPrice("price", {
-      ...offerPrice.price,
+    setRequest("price", {
+      ...request.price,
       unitAmount: value,
     });
   }
 
   function handleCurrencyChange(value: SelectKey) {
     if (_.isString(value)) {
-      setOfferPrice("price", {
-        ...offerPrice.price,
+      setRequest("price", {
+        ...request.price,
         currency: currencyFromJSON(value),
       });
     }
@@ -171,11 +178,11 @@ export function EditOfferPriceDialog(props: Props) {
     if (_.isString(value)) {
       const priceType = priceTypeFromJSON(value);
       let price = {
-        ...offerPrice.price,
+        ...request.price,
         priceType,
       };
       if (
-        offerPrice.price?.priceType === PriceType.PRICE_TYPE_ONE_TIME &&
+        request.price?.priceType === PriceType.PRICE_TYPE_ONE_TIME &&
         priceType === PriceType.PRICE_TYPE_RECURRING
       ) {
         price.recurring = {
@@ -184,21 +191,21 @@ export function EditOfferPriceDialog(props: Props) {
         };
       }
       if (
-        offerPrice.price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
+        request.price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
         priceType === PriceType.PRICE_TYPE_ONE_TIME
       ) {
         price.recurring = undefined;
       }
 
-      setOfferPrice("price", price);
+      setRequest("price", price);
     }
   }
 
   function handleRecurringIntervalCountInput(value: number) {
-    setOfferPrice("price", {
-      ...offerPrice.price,
+    setRequest("price", {
+      ...request.price,
       recurring: {
-        ...offerPrice.price?.recurring,
+        ...request.price?.recurring,
         intervalCount: value,
       } as Recurring,
     });
@@ -206,18 +213,41 @@ export function EditOfferPriceDialog(props: Props) {
 
   function handleRecurringIntervalChange(value: SelectKey) {
     if (_.isString(value)) {
-      setOfferPrice("price", {
-        ...offerPrice.price,
+      setRequest("price", {
+        ...request.price,
         recurring: {
-          ...offerPrice.price?.recurring,
+          ...request.price?.recurring,
           interval: recurringIntervalFromJSON(value),
         } as Recurring,
       });
     }
   }
 
+  function handleToggleTrialPeriodInput(value: boolean) {
+    setShowTrialPeriodInput(value);
+    if (!value) {
+      setRequest("price", {
+        ...request.price,
+        recurring: {
+          ...request.price?.recurring,
+          trialPeriodDays: undefined,
+        } as Recurring,
+      });
+    }
+  }
+
+  function handleTrialPeriodInput(value: number) {
+    setRequest("price", {
+      ...request.price,
+      recurring: {
+        ...request.price?.recurring,
+        trialPeriodDays: value,
+      } as Recurring,
+    });
+  }
+
   function handleCloseDialog() {
-    if (!_.isEqual(props.offer().price, offerPrice.price)) {
+    if (!_.isEqual(props.offer().price, request.price)) {
       setShowDiscardConfirmation(true);
     } else {
       props.onClose();
@@ -257,7 +287,7 @@ export function EditOfferPriceDialog(props: Props) {
               <div class={styles.FieldSetInput}>
                 <PriceField
                   label={trans(TKEYS.price.Price)}
-                  initial={offerPrice.price?.unitAmount}
+                  initial={request.price?.unitAmount}
                   onValue={handlePriceInput}
                   errors={errors.unitAmount}
                 />
@@ -274,23 +304,21 @@ export function EditOfferPriceDialog(props: Props) {
             </div>
 
             <Show
-              when={
-                offerPrice.price?.priceType === PriceType.PRICE_TYPE_RECURRING
-              }
+              when={request.price?.priceType === PriceType.PRICE_TYPE_RECURRING}
             >
               <div class={styles.FieldSetSmall}>
-                <span class="font-label">
+                <span class={styles.Body}>
                   <Trans
                     key={TKEYS.common["per-or-every"]}
                     options={{
-                      count: offerPrice.price?.recurring?.intervalCount,
+                      count: request.price?.recurring?.intervalCount,
                     }}
                   />
                 </span>
                 <div class={styles.FieldSetInput}>
                   <NumberField
                     label={trans(TKEYS.price["billing-period"])}
-                    value={offerPrice.price?.recurring?.intervalCount}
+                    value={request.price?.recurring?.intervalCount}
                     onValue={handleRecurringIntervalCountInput}
                     errors={errors.recurringIntervalCount}
                     integer
@@ -306,7 +334,34 @@ export function EditOfferPriceDialog(props: Props) {
                   expandHeight
                 />
               </div>
-              <div style={{ width: "100%", height: "6rem" }} />
+
+              <Border tall />
+
+              <CheckBox
+                label={trans(TKEYS.price["trial-period"])}
+                value={showTrialPeriodInput()}
+                onValue={handleToggleTrialPeriodInput}
+              />
+
+              <Show
+                when={showTrialPeriodInput()}
+                fallback={<div style={{ width: "100%", height: "1.6rem" }} />}
+              >
+                <div class={styles.FieldSetSmall}>
+                  <NumberField
+                    label={trans(TKEYS.price["trial-period"])}
+                    value={request.price?.recurring?.trialPeriodDays}
+                    onValue={handleTrialPeriodInput}
+                    errors={errors.trialPeriod}
+                    integer
+                    small
+                  />
+                  <Trans
+                    key={TKEYS.price["days-free"]}
+                    options={{ periodDays: 2 }}
+                  />
+                </div>
+              </Show>
             </Show>
 
             <div class={styles.DialogFooter}>

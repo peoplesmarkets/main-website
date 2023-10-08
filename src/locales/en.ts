@@ -30,6 +30,7 @@ export const EN: typeof TKEYS = {
     "per-or-every": "{count, plural, =1 {every} other {every} }",
     cancel: "cancel",
     resume: "resume",
+    any: "Any",
   },
   form: {
     action: {
@@ -42,6 +43,7 @@ export const EN: typeof TKEYS = {
       Cancel: "Cancel",
       Discard: "Discard",
       Buy: "Buy",
+      Remove: "Remove",
       Subscribe: "Subscribe",
       "Are-you-sure-you-want-to-delete-the-item":
         'Are you sure you want to delete the {item}: "{name}"?',
@@ -55,6 +57,7 @@ export const EN: typeof TKEYS = {
       "required-field": "Required field",
       "not-modified": "Not modified",
       "already-exists": "Already exists",
+      "already-used": "Already exists",
       "item-too-large": "{item} is too large",
       "wrong-type": "Wrong file type",
       "invalid-css-color": "Invalid CSS color",
@@ -76,6 +79,10 @@ export const EN: typeof TKEYS = {
         title: "Random",
       },
     },
+  },
+  pagination: {
+    previous: "previous",
+    next: "next",
   },
   price: {
     Price: "Price",
@@ -206,7 +213,7 @@ export const EN: typeof TKEYS = {
     "subscription-configuration": "Subscription Configuration",
     resume: "Resume Subscription",
     "canceled-at": "Canceled at",
-    "no-subscriptions-yet": "No Subscriptions yet ..."
+    "no-subscriptions-yet": "No Subscriptions yet ...",
   },
   image: {
     "delete-confirmation-message":
@@ -246,7 +253,7 @@ export const EN: typeof TKEYS = {
       },
       stripe: {
         title: "Stripe",
-        integration: "Stripe Integraion",
+        integration: "Stripe Integration",
         "start-integration": "Integrate Stripe",
         "continue-integration": "Continue Stripe integration",
         "remove-integration": "Remove Stripe integration",
@@ -260,6 +267,13 @@ export const EN: typeof TKEYS = {
       "delete-this-offer": "Delete this Offer",
       "add-image": "Add image",
       "edit-price": "Edit Price",
+    },
+    "shipping-rate": {
+      "add-shipping-rate": "Add Shipping Rate",
+      "shipping-rates": "Shipping Rates",
+      "no-shipping-rates-yet": "No Shipping Rates yet ...",
+      country: "Country",
+      "to-all-countries": "To all countries",
     },
     media: {
       "my-media": "My Files",
