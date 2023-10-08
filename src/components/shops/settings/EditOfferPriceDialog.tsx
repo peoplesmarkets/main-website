@@ -287,7 +287,7 @@ export function EditOfferPriceDialog(props: Props) {
               <div class={styles.FieldSetInput}>
                 <PriceField
                   label={trans(TKEYS.price.Price)}
-                  initial={request.price?.unitAmount}
+                  value={() => request.price?.unitAmount}
                   onValue={handlePriceInput}
                   errors={errors.unitAmount}
                 />

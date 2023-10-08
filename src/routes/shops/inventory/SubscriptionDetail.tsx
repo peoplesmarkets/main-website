@@ -49,7 +49,6 @@ export default function SubscriptionDetail() {
     const response = await mediaSubscriptionService.get({
       mediaSubscriptionId: subscriptionId,
     });
-    console.log(response.mediaSubscription);
     return response.mediaSubscription;
   }
 

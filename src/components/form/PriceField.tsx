@@ -1,16 +1,16 @@
 import { useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { Show, createSignal, onMount } from "solid-js";
+import { Show, createEffect, createSignal } from "solid-js";
 
+import { slugify } from "../../lib";
 import { LANGUAGES } from "../../locales";
 import styles from "./PriceField.module.scss";
-import { slugify } from "../../lib";
 
 type Props = {
   readonly label: string;
   readonly errors: string[];
   readonly required?: boolean;
-  readonly initial?: number;
+  readonly value?: () => number | undefined;
   readonly onValue: (_value: number) => void;
   readonly small?: boolean;
 };
@@ -25,14 +25,16 @@ export function PriceField(props: Props) {
 
   const [value, setValue] = createSignal("");
 
-  onMount(() => {
-    if (!_.isNil(props.initial) && _.isNumber(props.initial)) {
-      let decimal = (props.initial / 100).toString();
-      if (getI18next().language === LANGUAGES.german) {
-        decimal = decimal.replace(EN_DECIMAL_POINT, DE_DECIMAL_POINT);
+  createEffect(() => {
+    if (!_.isNil(props.value?.())) {
+      const val = props.value!()!;
+      if (!_.isNil(val) && _.isNumber(val)) {
+        let decimal = (val / 100).toString();
+        if (getI18next().language === LANGUAGES.german) {
+          decimal = decimal.replace(EN_DECIMAL_POINT, DE_DECIMAL_POINT);
+        }
+        setValue(decimal);
       }
-      setValue(decimal);
-      handleLeaveInput();
     }
   });
 
