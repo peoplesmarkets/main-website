@@ -92,8 +92,26 @@ export default function ShopDetail() {
             <ContentLoading />
           </Match>
           <Match when={isResolved(offers.state)}>
-            <Show when={!_.isEmpty(featuredOffers())}>
-              <Border />
+            <Show when={!_.isEmpty(offers())}>
+              <Show when={!_.isEmpty(featuredOffers())}>
+                <Border />
+              </Show>
+
+              <Section>
+                <span class={styles.Title}>
+                  <Show
+                    when={!_.isEmpty(featuredOffers())}
+                    fallback={
+                      <>
+                        <Trans key={TKEYS.offer["title-plural"]} />:
+                      </>
+                    }
+                  >
+                    <Trans key={TKEYS.offer["other-offers"]} />:
+                  </Show>
+                </span>
+                <OfferList offers={() => offers()!} />
+              </Section>
             </Show>
 
             <Section>
