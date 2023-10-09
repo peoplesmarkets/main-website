@@ -113,6 +113,22 @@ export default function ShopDetail() {
                 <OfferList offers={() => offers()!} />
               </Section>
             </Show>
+
+            <Section>
+              <span class={styles.Title}>
+                <Show
+                  when={!_.isEmpty(featuredOffers())}
+                  fallback={
+                    <>
+                      <Trans key={TKEYS.offer["title-plural"]} />:
+                    </>
+                  }
+                >
+                  <Trans key={TKEYS.offer["other-offers"]} />:
+                </Show>
+              </span>
+              <OfferList offers={() => offers()!} />
+            </Section>
           </Match>
         </Switch>
       </Show>
