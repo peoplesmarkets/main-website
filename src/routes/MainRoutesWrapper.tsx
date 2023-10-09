@@ -29,6 +29,7 @@ import {
 import { MAIN_FAVICON } from "../lib/constants";
 import { TKEYS, getNextLanguageKey } from "../locales";
 import { EN } from "../locales/en";
+import MainFooter from "./MainFooter";
 import styles from "./MainRoutesWrapper.module.scss";
 import { buildCommunityPathOrUrl } from "./community/community-routing";
 import {
@@ -157,7 +158,11 @@ export default function MainRoutesWrapper() {
         </Slot>
       </Panel>
 
+      {/* PAGE CONTENT */}
       <Outlet />
+      {/* PAGE CONTENT */}
+
+      <MainFooter />
     </>
   );
 }

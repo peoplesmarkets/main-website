@@ -40,10 +40,11 @@ export function buildOfferPath(shopSlug: string, offerId: string): string {
 }
 
 export function buildOfferUrl(shopSlug: string, offerId: string): string {
+  const offerPath = buildOfferPath(shopSlug, offerId);
   if (isCustomDomain()) {
-    return `${getOriginFromWindow()}${buildOfferPath(shopSlug, offerId)}`;
+    return `${getOriginFromWindow()}${offerPath}`;
   } else {
-    return buildBaseUrl(buildOfferPath(shopSlug, offerId));
+    return buildBaseUrl(offerPath);
   }
 }
 
@@ -53,6 +54,14 @@ export function buildOfferSettingsPath(shopSlug: string, offerId: string) {
 
 export function buildInventoryPath(shopSlug: string) {
   return buildPath(buildShopDetailPath(shopSlug), INVENTORY_PATH);
+}
+
+export function buildInventoryUrl(shopSlug: string) {
+  const inventoryPath = buildInventoryPath(shopSlug);
+  if (isCustomDomain()) {
+    return `${getOriginFromWindow()}${inventoryPath}`;
+  }
+  return buildBaseUrl(inventoryPath);
 }
 
 export function buildMediasSettingsPath(shopSlug: string) {

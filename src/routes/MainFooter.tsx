@@ -1,26 +1,23 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 
-import styles from "./Footer.module.scss";
-import { MainLogoText } from "./components/assets";
-import { GitHubIcon, MainLogoIcon } from "./components/icons";
-import { TKEYS } from "./locales";
-import { buildIndexPathOrUrl } from "./routes/main-routing";
-import { buildCommunityPathOrUrl } from "./routes/community/community-routing";
+import { MainLogoText } from "../components/assets";
+import { GitHubIcon, MainLogoIcon } from "../components/icons";
+import { TKEYS } from "../locales";
+import styles from "./MainFooter.module.scss";
+import { buildCommunityPathOrUrl } from "./community/community-routing";
 import {
   buildImprintPathOrUrl,
   buildPrivacyPolicyPathOrUrl,
   buildTermsOfServicePathOrUrl,
-} from "./routes/info/info-routing";
+} from "./info/info-routing";
+import { buildIndexPathOrUrl } from "./main-routing";
 
-export default function Footer() {
+export default function MainFooter() {
   return (
     <>
       <footer class={styles.FooterContainer}>
         <div class={styles.Footer}>
-          <div class={styles.Title}>
-            <Trans key={TKEYS.footer["powered-by"]} />:
-          </div>
           <div class={styles.Logo}>
             <A
               class={styles.LogoLink}

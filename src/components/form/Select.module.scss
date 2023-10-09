@@ -32,6 +32,9 @@
   font: var(--font-label-small);
   padding: 0 2px;
   line-height: 1;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .LabelSelecting {

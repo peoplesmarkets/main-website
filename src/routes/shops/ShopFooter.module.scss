@@ -1,0 +1,45 @@
+.Footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+  border-top: var(--primary-border);
+  background-color: var(--footer-background-color);
+}
+
+.Label {
+  padding-left: 0.5rem;
+  font: var(--font-label);
+  font-weight: 300;
+}
+
+.Logo {
+  margin: 0.5rem 0;
+}
+
+.LogoLink {
+  width: fit-content;
+  padding: 0 0.5rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.LogoLink:hover {
+  background-color: rgba(0, 0, 0, 0);
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.MainLogoIcon {
+  height: 22px;
+  fill: var(--footer-content-color);
+  user-select: none;
+}
+
+.MainLogoText {
+  max-width: 100%;
+  height: 34px;
+  fill: var(--footer-content-color);
+  user-select: none;
+}
