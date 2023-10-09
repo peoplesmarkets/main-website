@@ -5,7 +5,6 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import ICU from "i18next-icu";
 import { Show, onMount } from "solid-js";
 
-import Footer from "./Footer";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { isCustomDomain, setDocumentLanguage } from "./lib";
@@ -56,8 +55,6 @@ export default function App() {
                 <Route path="*" component={NotFound} />
               </Route>
             </Routes>
-
-            <Footer />
           </AccessTokenProvider>
         </ThemeProvider>
       </TransProvider>

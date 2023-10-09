@@ -7,6 +7,11 @@ import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { buildAuthorizationRequest } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
+import {
+  buildInventoryUrl,
+  buildOfferPath,
+  buildOfferUrl,
+} from "../../routes/shops/shop-routing";
 import { MediaSubscriptionService, StripeService } from "../../services";
 import {
   OfferResponse,
@@ -16,7 +21,6 @@ import { PriceType } from "../../services/peoplesmarkets/commerce/v1/price";
 import { isResolved } from "../content";
 import { ActionButton } from "../form";
 import styles from "./OfferBuy.module.scss";
-import { buildOfferPath } from "../../routes/shops/shop-routing";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -69,10 +73,17 @@ export function OfferBuy(props: Props) {
   }
 
   async function handleCheckout() {
+    const offerId = props.offer().offerId;
+    const shopSlug = props.offer().shopSlug;
+    const inventoryUrl = buildInventoryUrl(shopSlug);
+    const offerUrl = buildOfferUrl(props.offer().shopSlug, offerId);
+
     const response = await stripeService.createCheckoutSession(
-      props.offer().shopSlug,
-      props.offer().offerId
+      offerId,
+      inventoryUrl,
+      offerUrl
     );
+
     window.location.href = response.link;
   }
 

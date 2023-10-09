@@ -1,7 +1,7 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useNavigate, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { For, Show, createResource } from "solid-js";
+import { For, Show, createResource, onMount } from "solid-js";
 
 import { ActionButton } from "../../../components/form";
 import { Section } from "../../../components/layout";
@@ -24,10 +24,14 @@ export default function Inventory() {
   const offerService = new OfferService(accessToken);
   const mediaSubscriptionService = new MediaSubscriptionService(accessToken);
 
-  const [mediaSubscriptions] = createResource(
+  const [mediaSubscriptions, { refetch }] = createResource(
     () => shopData?.shop?.data()?.shopId,
     fetchMediaSubscriptions
   );
+
+  onMount(async () => {
+    setTimeout(refetch, 2000);
+  });
 
   async function fetchMediaSubscriptions(shopId: string) {
     const result = [];

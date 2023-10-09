@@ -1,4 +1,3 @@
-import { buildOfferUrl } from "../../routes/shops/shop-routing";
 import {
   GrpcWebImpl,
   StripeServiceClientImpl,
@@ -47,14 +46,16 @@ export class StripeService extends ServiceClient {
     );
   }
 
-  public async createCheckoutSession(shopSlug: string, offerId: string) {
-    const offerUrl = buildOfferUrl(shopSlug, offerId);
-
+  public async createCheckoutSession(
+    offerId: string,
+    successUrl: string,
+    cancelUrl: string
+  ) {
     return this.client.CreateCheckoutSession(
       {
         offerId,
-        successUrl: offerUrl,
-        cancelUrl: offerUrl,
+        successUrl,
+        cancelUrl,
       },
       await this.withAuthHeader()
     );

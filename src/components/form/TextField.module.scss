@@ -49,6 +49,9 @@
   background-color: inherit;
   border-radius: 2px;
   pointer-events: none;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .LabelEdited {

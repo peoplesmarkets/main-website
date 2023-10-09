@@ -1,14 +1,14 @@
 import { Route, useNavigate } from "@solidjs/router";
 import { lazy } from "solid-js";
 
-import { ROOT_PATH } from "../main-routing";
+import MainRoutesWrapper from "../MainRoutesWrapper";
 import {
   IMPRINT_PATH,
   PRIVACY_POLICY_PATH,
+  ROOT_PATH,
   TERMS_OF_SERVICE_PATH,
   buildImprintPath,
 } from "./info-routing";
-import MainRoutesWrapper from "../MainRoutesWrapper";
 
 export default function InfoRoutes() {
   function InfoRedirect() {
