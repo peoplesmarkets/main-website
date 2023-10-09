@@ -33,6 +33,7 @@ import { SHOP_FAVICON } from "../../lib/constants";
 import { isCustomDomain } from "../../lib/env";
 import { TKEYS, getNextLanguageKey } from "../../locales";
 import { ShopData } from "./ShopData";
+import { ShopFooter } from "./ShopFooter";
 import styles from "./ShopRoutesWrapper.module.scss";
 import {
   buildInventoryPath,
@@ -330,6 +331,8 @@ export default function ShopRoutesWrapper() {
       <Page style={customShopStyle}>
         <Outlet />
       </Page>
+
+      <ShopFooter />
     </>
   );
 }

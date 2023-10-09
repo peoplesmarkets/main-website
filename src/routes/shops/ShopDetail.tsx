@@ -8,7 +8,7 @@ import {
   Multiline,
   isResolved,
 } from "../../components/content";
-import { Section } from "../../components/layout";
+import { Border, Section } from "../../components/layout";
 import { OfferDetailView, OfferList, ShopBanner } from "../../components/shops";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { OfferService } from "../../services";
@@ -19,6 +19,8 @@ import {
 import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
 import { ShopData } from "./ShopData";
 import styles from "./ShopDetail.module.scss";
+import { Trans } from "@mbarzda/solid-i18next";
+import { TKEYS } from "../../locales";
 
 export default function ShopDetail() {
   const { accessToken } = useAccessTokensContext();
@@ -90,11 +92,25 @@ export default function ShopDetail() {
             <ContentLoading />
           </Match>
           <Match when={isResolved(offers.state)}>
-            <Show when={!_.isEmpty(offers())}>
-              <Section>
-                <OfferList offers={() => offers()!} />
-              </Section>
+            <Show when={!_.isEmpty(featuredOffers())}>
+              <Border />
             </Show>
+
+            <Section>
+              <span class={styles.Title}>
+                <Show
+                  when={!_.isEmpty(featuredOffers())}
+                  fallback={
+                    <>
+                      <Trans key={TKEYS.offer["title-plural"]} />:
+                    </>
+                  }
+                >
+                  <Trans key={TKEYS.offer["other-offers"]} />:
+                </Show>
+              </span>
+              <OfferList offers={() => offers()!} />
+            </Section>
           </Match>
         </Switch>
       </Show>

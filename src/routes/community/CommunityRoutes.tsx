@@ -4,10 +4,9 @@ import { lazy } from "solid-js";
 import { Page } from "../../components/layout/Page";
 import { Section } from "../../components/layout/Section";
 import MainRoutesWrapper from "../MainRoutesWrapper";
-import { ROOT_PATH } from "../main-routing";
 import styles from "./CommunityRoutes.module.scss";
 import { PostsNav } from "./PostsNav";
-import { DEVELOPMENT_POST_PATH } from "./community-routing";
+import { DEVELOPMENT_POST_PATH, ROOT_PATH } from "./community-routing";
 
 function PostsHeader() {
   return (
