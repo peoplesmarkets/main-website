@@ -5,8 +5,8 @@ import { For, Show } from "solid-js";
 import { TKEYS } from "../../locales";
 
 import {
-  buildOfferPath,
-  buildShopPathOrUrl
+  buildOfferPathOrUrl,
+  buildShopPathOrUrl,
 } from "../../routes/shops/shop-routing";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
@@ -26,7 +26,11 @@ export function OfferList(props: Props) {
             <div class={styles.Card}>
               <A
                 class={styles.CardImage}
-                href={buildOfferPath(offer.shopSlug, offer.offerId)}
+                href={buildOfferPathOrUrl(
+                  offer.shopSlug,
+                  offer.offerId,
+                  offer.shopDomain
+                )}
               >
                 <Show when={!_.isEmpty(offer.images)}>
                   <img
@@ -44,7 +48,11 @@ export function OfferList(props: Props) {
               <div class={styles.CardInfo}>
                 <A
                   class={styles.Name}
-                  href={buildOfferPath(offer.shopSlug, offer.offerId)}
+                  href={buildOfferPathOrUrl(
+                    offer.shopSlug,
+                    offer.offerId,
+                    offer.shopDomain
+                  )}
                 >
                   {offer.name}
                 </A>

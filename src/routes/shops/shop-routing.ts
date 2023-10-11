@@ -48,6 +48,17 @@ export function buildOfferUrl(shopSlug: string, offerId: string): string {
   }
 }
 
+export function buildOfferPathOrUrl(
+  shopSlug: string,
+  offerId: string,
+  shopDomain?: string | undefined
+) {
+  if (!_.isNil(shopDomain) && !_.isEmpty(shopDomain)) {
+    return `${getSchemeFromWindow()}${shopDomain}/offer/${offerId}`;
+  }
+  return buildOfferPath(shopSlug, offerId);
+}
+
 export function buildOfferSettingsPath(shopSlug: string, offerId: string) {
   return buildPath(buildShopSettingsPath(shopSlug), "offer", offerId);
 }
