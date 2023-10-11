@@ -12,7 +12,7 @@ export default function LandingPage() {
 
   onMount(() => {
     if (isAuthenticated()) {
-      navigate(buildDashboardPath());
+      navigate(buildDashboardPath(), { replace: true });
     }
   });
 

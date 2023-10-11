@@ -49,8 +49,8 @@ export function OfferBuy(props: Props) {
       return "already-subscribed";
     }
 
-    if (isResolved(shopData.stripeAccount.data.state)) {
-      if (!shopData.stripeAccount.data()?.enabled) {
+    if (!_.isNil(shopData.stripeAccount())) {
+      if (!shopData.stripeAccount()?.enabled) {
         return "no-payment-method";
       } else if (
         props.offer().price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
@@ -65,8 +65,6 @@ export function OfferBuy(props: Props) {
       } else {
         return "buy";
       }
-    } else if (shopData.stripeAccount.data.state === "errored") {
-      return "no-payment-method";
     }
 
     return "loading";
@@ -91,7 +89,7 @@ export function OfferBuy(props: Props) {
     window.location.href = (
       await buildAuthorizationRequest(
         "login",
-        buildOfferPath(shopData.shop.data()!.slug, props.offer().offerId)
+        buildOfferPath(shopData.shop()!.slug, props.offer().offerId)
       )
     ).toString();
   }

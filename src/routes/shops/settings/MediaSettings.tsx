@@ -1,6 +1,6 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { useRouteData } from "@solidjs/router";
-import { Show, createResource, createSignal } from "solid-js";
+import { useLocation, useRouteData } from "@solidjs/router";
+import { Show, createResource, createSignal, onMount } from "solid-js";
 
 import { isResolved } from "../../../components/content";
 import { CreateMediaDialog } from "../../../components/dashboard/CreateMediaDialog";
@@ -13,8 +13,11 @@ import { TKEYS } from "../../../locales";
 import { MediaService } from "../../../services";
 import { ShopData } from "../ShopData";
 import styles from "./MediaSettings.module.scss";
+import _ from "lodash";
+import { requireAuthentication } from "../../../lib";
 
 export default function MediaSettings() {
+  const location = useLocation();
   const { accessToken } = useAccessTokensContext();
 
   const shopData = useRouteData<typeof ShopData>();
@@ -22,12 +25,15 @@ export default function MediaSettings() {
   const mediaService = new MediaService(accessToken);
 
   const [medias, mediasActions] = createResource(
-    () => shopData?.shop?.data()?.shopId,
+    () => shopData?.shop()?.shopId,
     fetchMedias
   );
 
   const [showCreateMedia, setShowCreateMedia] = createSignal(false);
 
+  onMount(async () => {
+    await requireAuthentication(location.pathname);
+  });
   async function fetchMedias(shopId: string) {
     const response = await mediaService.list({ shopId });
     return response.medias;
@@ -47,12 +53,10 @@ export default function MediaSettings() {
 
   return (
     <>
-      <ShopBanner
-        shopCustomization={() => shopData.shopCustomization.data()!}
-      />
+      <ShopBanner shopCustomization={() => shopData.shopCustomization()} />
 
       <Section>
-        <Show when={isResolved(shopData.shop.data.state)}>
+        <Show when={!_.isNil(shopData.shop())}>
           <span class={styles.Title}>
             <Trans key={TKEYS.media["Title-plural"]} />
           </span>
@@ -72,9 +76,9 @@ export default function MediaSettings() {
         </Show>
       </Section>
 
-      <Show when={showCreateMedia()}>
+      <Show when={showCreateMedia() && !_.isNil(shopData.shop())}>
         <CreateMediaDialog
-          shopId={shopData.shop.data()?.shopId!}
+          shopId={shopData.shop()!.shopId}
           onClose={handleCancelEdit}
           onUpdate={handleRefreshMedias}
         />

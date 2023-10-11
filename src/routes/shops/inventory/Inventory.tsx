@@ -1,5 +1,5 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { useNavigate, useRouteData } from "@solidjs/router";
+import { useLocation, useNavigate, useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import { For, Show, createResource, onMount } from "solid-js";
 
@@ -7,7 +7,7 @@ import { ActionButton } from "../../../components/form";
 import { Section } from "../../../components/layout";
 import { ShopBanner } from "../../../components/shops";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
-import { secondsToLocaleDate } from "../../../lib";
+import { requireAuthentication, secondsToLocaleDate } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import { MediaSubscriptionService, OfferService } from "../../../services";
 import { ShopData } from "../ShopData";
@@ -15,7 +15,9 @@ import { buildSubscriptionPath } from "../shop-routing";
 import styles from "./Inventory.module.scss";
 
 export default function Inventory() {
+  const location = useLocation();
   const navigate = useNavigate();
+
   const [trans] = useTransContext();
   const { accessToken } = useAccessTokensContext();
 
@@ -25,11 +27,15 @@ export default function Inventory() {
   const mediaSubscriptionService = new MediaSubscriptionService(accessToken);
 
   const [mediaSubscriptions, { refetch }] = createResource(
-    () => shopData?.shop?.data()?.shopId,
+    () => shopData?.shop()?.shopId,
     fetchMediaSubscriptions
   );
 
   onMount(async () => {
+    await requireAuthentication(
+      location.pathname,
+      shopData?.shopDomain()?.clientId
+    );
     setTimeout(refetch, 2000);
   });
 
@@ -53,16 +59,14 @@ export default function Inventory() {
   }
 
   function handleViewSubscription(mediaSubscriptionId: string) {
-    const shopSlug = shopData.shop.data()?.slug;
+    const shopSlug = shopData.shop()?.slug;
     if (!_.isNil(shopSlug)) {
       navigate(buildSubscriptionPath(shopSlug, mediaSubscriptionId));
     }
   }
   return (
     <>
-      <ShopBanner
-        shopCustomization={() => shopData.shopCustomization.data()!}
-      />
+      <ShopBanner shopCustomization={() => shopData.shopCustomization()} />
 
       <Section>
         <span class={styles.Title}>

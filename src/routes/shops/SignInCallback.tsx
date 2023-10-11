@@ -18,7 +18,7 @@ export default function SignInCallback() {
   const shopData = useRouteData<typeof ShopData>();
 
   const [startSession] = createResource(
-    () => shopData?.shopDomain?.data()?.clientId,
+    () => shopData?.shopDomain()?.clientId,
     async (clientId) => startSessionWithCode(code, clientId)
   );
 

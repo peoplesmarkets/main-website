@@ -56,7 +56,7 @@ export function ShopSettings(props: Props) {
   const [redirecting, setRedirecting] = createSignal(false);
 
   const [stripeAccountDetails] = createResource(
-    () => shopData?.shop?.data()?.shopId,
+    () => shopData?.shop()?.shopId,
     fetchStripeAccountDetails
   );
 
@@ -84,10 +84,7 @@ export function ShopSettings(props: Props) {
     if (stripeAccountDetails.state === "pending") {
       return "pending";
     }
-    if (
-      isResolved(stripeAccountDetails.state) &&
-      !_.isNil(shopData.shop.data())
-    ) {
+    if (isResolved(stripeAccountDetails.state) && !_.isNil(shopData.shop())) {
       if (_.isNil(stripeAccountDetails())) {
         return "missing";
       } else if (
@@ -111,9 +108,9 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleConfirmDeletion() {
-    if (!_.isNil(shopData?.shop?.data())) {
+    if (!_.isNil(shopData?.shop())) {
       try {
-        await shopService.delete(shopData?.shop?.data()!.shopId);
+        await shopService.delete(shopData?.shop()!.shopId);
       } catch (err: any) {
         if (err.code && err.code === grpc.Code.FailedPrecondition) {
           setShowDialog("message");
@@ -128,13 +125,13 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleCreateStripeIntegration() {
-    if (_.isNil(shopData?.shop?.data())) {
+    if (_.isNil(shopData?.shop())) {
       return;
     }
 
     setRedirecting(true);
     try {
-      await stripeService.createAccount(shopData?.shop?.data()!.shopId);
+      await stripeService.createAccount(shopData?.shop()!.shopId);
       handleContinueStripeIntegration();
     } catch (err) {
       setRedirecting(false);
@@ -143,14 +140,14 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleContinueStripeIntegration() {
-    if (_.isNil(shopData?.shop?.data())) {
+    if (_.isNil(shopData?.shop())) {
       return;
     }
 
     setRedirecting(true);
     try {
       const { link } = await stripeService.createAccountLink(
-        shopData?.shop?.data()!.shopId,
+        shopData?.shop()!.shopId,
         buildBaseUrl(location.pathname)
       );
       setRedirecting(false);
@@ -169,14 +166,14 @@ export function ShopSettings(props: Props) {
         </span>
 
         <Show
-          when={!_.isEmpty(shopData?.shop?.data()?.description)}
+          when={!_.isEmpty(shopData?.shop()?.description)}
           fallback={
             <span class={styles.Details}>
               <Trans key={TKEYS["shop"]["no-description"]} />
             </span>
           }
         >
-          <Multiline text={() => shopData?.shop?.data()?.description} />
+          <Multiline text={() => shopData?.shop()?.description} />
         </Show>
       </Section>
 
@@ -188,7 +185,7 @@ export function ShopSettings(props: Props) {
         <span class={styles.Details}>
           <Trans key={TKEYS.offer.visibility.title} />:{" "}
           <Show
-            when={Boolean(shopData?.shop?.data()?.isActive)}
+            when={Boolean(shopData?.shop()?.isActive)}
             fallback={
               <span class={styles.Warning}>
                 <Trans key={TKEYS.offer.visibility["not-visible"]} />
@@ -203,12 +200,12 @@ export function ShopSettings(props: Props) {
 
         <span class={styles.Details}>
           <Trans key={TKEYS["shop"].labels["Created-at"]} />:{" "}
-          {secondsToLocaleDateTime(shopData?.shop?.data()?.createdAt)}
+          {secondsToLocaleDateTime(shopData?.shop()?.createdAt)}
         </span>
 
         <span class={styles.Details}>
           <Trans key={TKEYS["shop"].labels["Updated-at"]} />:{" "}
-          {secondsToLocaleDateTime(shopData?.shop?.data()?.updatedAt)}
+          {secondsToLocaleDateTime(shopData?.shop()?.updatedAt)}
         </span>
       </Section>
 
@@ -349,11 +346,9 @@ export function ShopSettings(props: Props) {
         </div>
       </Section>
 
-      <Show
-        when={showDialog() === "edit-shop" && !_.isNil(shopData?.shop?.data())}
-      >
+      <Show when={showDialog() === "edit-shop" && !_.isNil(shopData?.shop())}>
         <EditShopDialog
-          shop={() => shopData?.shop?.data()!}
+          shop={() => shopData?.shop()!}
           class={styles.EditShop}
           onClose={handleCloseDialog}
           onUpdate={() => props.onUpdate()}
@@ -362,7 +357,7 @@ export function ShopSettings(props: Props) {
       <Show when={showDialog() === "delete"}>
         <DeleteConfirmation
           item={trans(TKEYS["shop"].title)}
-          itemName={shopData?.shop?.data()?.name}
+          itemName={shopData?.shop()?.name}
           onCancel={handleCloseDialog}
           onConfirmation={handleConfirmDeletion}
         />
@@ -375,42 +370,30 @@ export function ShopSettings(props: Props) {
           <Trans key={TKEYS["shop"].errors["ensure-offers-deleted"]} />
         </Message>
       </Show>
-      <Show
-        when={showDialog() === "edit-image" && !_.isNil(shopData?.shop?.data())}
-      >
+      <Show when={showDialog() === "edit-image" && !_.isNil(shopData?.shop())}>
         <EditShopBannerDialog
-          shopId={shopData?.shop?.data()!.shopId}
+          shopId={shopData?.shop()!.shopId}
           onClose={handleCloseDialog}
           onUpdate={() => props.onUpdate()}
         />
       </Show>
-      <Show
-        when={showDialog() === "edit-logo" && !_.isNil(shopData?.shop?.data())}
-      >
+      <Show when={showDialog() === "edit-logo" && !_.isNil(shopData?.shop())}>
         <EditShopLogoDialog
-          shopId={shopData?.shop?.data()!.shopId}
+          shopId={shopData?.shop()!.shopId}
           onClose={handleCloseDialog}
           onUpdate={() => props.onUpdate()}
         />
       </Show>
-      <Show
-        when={showDialog() === "edit-theme" && !_.isNil(shopData?.shop?.data())}
-      >
+      <Show when={showDialog() === "edit-theme" && !_.isNil(shopData?.shop())}>
         <EditShopThemeDialog
           onClose={handleCloseDialog}
           onUpdate={() => props.onUpdate()}
         />
       </Show>
-      <Show
-        when={showDialog() === "edit-slug" && !_.isNil(shopData?.shop?.data())}
-      >
+      <Show when={showDialog() === "edit-slug" && !_.isNil(shopData?.shop())}>
         <EditShopSlugDialog onClose={handleCloseDialog} />
       </Show>
-      <Show
-        when={
-          showDialog() === "edit-domain" && !_.isNil(shopData?.shop?.data())
-        }
-      >
+      <Show when={showDialog() === "edit-domain" && !_.isNil(shopData?.shop())}>
         <EditShopDomainDialog onClose={handleCloseDialog} />
       </Show>
       <Show when={redirecting()}>
