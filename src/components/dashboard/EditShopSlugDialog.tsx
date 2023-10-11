@@ -37,8 +37,7 @@ export function EditShopSlugDialog(props: Props) {
 
   const emptyUpdateRequest = UpdateShopRequest.create();
   const updateFields = ["shopId", "slug"];
-  const [shop, setShop] =
-    createStore<UpdateShopRequest>(emptyUpdateRequest);
+  const [shop, setShop] = createStore<UpdateShopRequest>(emptyUpdateRequest);
 
   const [errors, setErrors] = createStore({ slug: [] as string[] });
 
@@ -46,11 +45,8 @@ export function EditShopSlugDialog(props: Props) {
     createSignal(false);
 
   createEffect(() => {
-    if (
-      _.isNil(shop.shopId) ||
-      _.isEmpty(shop.shopId)
-    ) {
-      setShop(_.clone(_.pick(shopData.shop.data(), updateFields)));
+    if (_.isNil(shop.shopId) || _.isEmpty(shop.shopId)) {
+      setShop(_.clone(_.pick(shopData.shop(), updateFields)));
     }
   });
 
@@ -96,7 +92,7 @@ export function EditShopSlugDialog(props: Props) {
 
   function dataWasChanged() {
     return !_.isEqual(
-      _.pick(shopData.shop.data(), updateFields),
+      _.pick(shopData.shop(), updateFields),
       _.pick(shop, updateFields)
     );
   }

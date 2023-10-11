@@ -30,15 +30,15 @@ export function ShopImage(props: Props) {
   function bannerImageUrl() {
     if (
       theme() === Theme.DefaultLight &&
-      !_.isEmpty(shopData?.shopCustomization.data()?.bannerImageLightUrl)
+      !_.isEmpty(shopData?.shopCustomization()?.bannerImageLightUrl)
     ) {
-      return shopData?.shopCustomization.data()?.bannerImageLightUrl;
+      return shopData?.shopCustomization()?.bannerImageLightUrl;
     }
     if (
       theme() === Theme.DefaultDark &&
-      !_.isEmpty(shopData?.shopCustomization.data()?.bannerImageDarkUrl)
+      !_.isEmpty(shopData?.shopCustomization()?.bannerImageDarkUrl)
     ) {
-      return shopData?.shopCustomization.data()?.bannerImageDarkUrl;
+      return shopData?.shopCustomization()?.bannerImageDarkUrl;
     }
   }
 
@@ -56,9 +56,9 @@ export function ShopImage(props: Props) {
         </button>
       </div>
 
-      <Show when={showEditDialog() && !_.isNil(shopData?.shop?.data())}>
+      <Show when={showEditDialog() && !_.isNil(shopData?.shop())}>
         <EditShopBannerDialog
-          shopId={shopData.shop.data()!.shopId}
+          shopId={shopData.shop()!.shopId}
           onUpdate={props.onUpdate}
           onClose={handleCloseEditDialog}
         />

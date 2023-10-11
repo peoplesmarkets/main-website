@@ -1,7 +1,7 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { A, useParams } from "@solidjs/router";
+import { A, useLocation, useParams } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createResource, createSignal } from "solid-js";
+import { Show, createResource, createSignal, onMount } from "solid-js";
 
 import { MediaList } from "../../../components/commerce";
 import { TextBody, isResolved } from "../../../components/content";
@@ -9,7 +9,7 @@ import { ActionButton } from "../../../components/form";
 import { CancelConfirmation } from "../../../components/form/CancelConfirmation";
 import { Section } from "../../../components/layout";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
-import { secondsToLocaleDate } from "../../../lib";
+import { requireAuthentication, secondsToLocaleDate } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import {
   MediaService,
@@ -21,6 +21,8 @@ import { buildOfferPath } from "../shop-routing";
 import styles from "./SubscriptionDetail.module.scss";
 
 export default function SubscriptionDetail() {
+  const location = useLocation();
+
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
@@ -44,6 +46,10 @@ export default function SubscriptionDetail() {
     () => mediaSubscription()?.offerId,
     fetchFiles
   );
+
+  onMount(async () => {
+    await requireAuthentication(location.pathname);
+  });
 
   async function fetchMediaSubscription(subscriptionId: string) {
     const response = await mediaSubscriptionService.get({

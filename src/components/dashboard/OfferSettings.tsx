@@ -41,7 +41,7 @@ export function OfferSettings() {
   async function fetchOffers() {
     const response = await offerService.list({
       userId: currentSession().userId || undefined,
-      shopId: shopData.shop.data()?.shopId,
+      shopId: shopData.shop()?.shopId,
     });
 
     return response.offers;
@@ -106,9 +106,9 @@ export function OfferSettings() {
         </Switch>
       </Section>
 
-      <Show when={showCreateOffer() && !_.isNil(shopData.shop.data())}>
+      <Show when={showCreateOffer() && !_.isNil(shopData.shop())}>
         <CreateOfferDialog
-          shopId={shopData.shop.data()!.shopId}
+          shopId={shopData.shop()!.shopId}
           onClose={handleCloseCreateOffer}
           onUpdate={refreshOffers}
         />

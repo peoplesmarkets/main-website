@@ -40,8 +40,8 @@ export function EditShopDomainDialog(props: Props) {
   createEffect(() => {
     if (_.isNil(shopDomain.shopId) || _.isEmpty(shopDomain.shopId)) {
       setShopDomain({
-        shopId: shopData.shop.data()?.shopId,
-        domain: shopData.shopDomain.data()?.domain,
+        shopId: shopData.shop()?.shopId,
+        domain: shopData.shopDomain()?.domain,
       });
     }
   });
@@ -82,8 +82,8 @@ export function EditShopDomainDialog(props: Props) {
 
   async function handleRemoveDomain() {
     try {
-      const shopId = shopData?.shop?.data()?.shopId;
-      const domain = shopData?.shopDomain?.data()?.domain;
+      const shopId = shopData?.shop()?.shopId;
+      const domain = shopData?.shopDomain()?.domain;
       if (!_.isNil(shopId) && !_.isNil(domain)) {
         await shopDomainService.removeDomain({
           shopId,
@@ -91,7 +91,7 @@ export function EditShopDomainDialog(props: Props) {
         });
       }
       setShopDomain("domain", "");
-      shopData.shopDomain.refetch();
+      shopData.refetch();
     } catch (err: any) {
       if (err.code) {
         setErrors("domain", [err.message]);
@@ -101,7 +101,7 @@ export function EditShopDomainDialog(props: Props) {
 
   function dataWasChanged() {
     return !_.isEqual(
-      _.pick(shopData.shop.data(), updateFields),
+      _.pick(shopData.shop(), updateFields),
       _.pick(shopDomain, updateFields)
     );
   }
@@ -135,7 +135,7 @@ export function EditShopDomainDialog(props: Props) {
 
             <Show
               when={
-                shopData?.shopDomain?.data()?.status ===
+                shopData?.shopDomain()?.status ===
                 DomainStatus.DOMAIN_STATUS_PENDING
               }
             >
@@ -145,7 +145,7 @@ export function EditShopDomainDialog(props: Props) {
             </Show>
             <Show
               when={
-                shopData?.shopDomain?.data()?.status ===
+                shopData?.shopDomain()?.status ===
                 DomainStatus.DOMAIN_STATUS_ACTIVE
               }
             >
@@ -157,7 +157,7 @@ export function EditShopDomainDialog(props: Props) {
             <div class={styles.DialogFooter}>
               <ActionButton
                 actionType="danger"
-                disabled={_.isEmpty(shopData?.shopDomain?.data()?.domain)}
+                disabled={_.isEmpty(shopData?.shopDomain()?.domain)}
                 onClick={handleRemoveDomain}
               >
                 <Trans key={TKEYS.form.action.Delete} />
@@ -165,7 +165,7 @@ export function EditShopDomainDialog(props: Props) {
               <ActionButton
                 actionType="active-filled"
                 submit
-                disabled={!_.isEmpty(shopData?.shopDomain?.data()?.domain)}
+                disabled={!_.isEmpty(shopData?.shopDomain()?.domain)}
                 onClick={(e) => handleAddDomain(e)}
               >
                 <Trans key={TKEYS.form.action.Save} />

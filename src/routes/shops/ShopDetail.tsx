@@ -30,7 +30,7 @@ export default function ShopDetail() {
   const shopData = useRouteData<typeof ShopData>();
 
   function shopId() {
-    return shopData?.shop?.data?.()?.shopId;
+    return shopData?.shop()?.shopId;
   }
 
   const [featuredOffers] = createResource(shopId, fetchFeaturedOffers);
@@ -61,17 +61,15 @@ export default function ShopDetail() {
 
   return (
     <>
-      <Show when={isResolved(shopData?.shopCustomization?.data?.state)}>
-        <ShopBanner
-          shopCustomization={() => shopData.shopCustomization.data()!}
-        />
+      <Show when={!_.isNil(shopData?.shopCustomization())}>
+        <ShopBanner shopCustomization={() => shopData.shopCustomization()} />
       </Show>
 
-      <Show when={isResolved(shopData?.shop?.data?.state)}>
-        <Show when={!_.isEmpty(shopData?.shop?.data()?.description)}>
+      <Show when={!_.isNil(shopData?.shop())}>
+        <Show when={!_.isEmpty(shopData.shop()?.description)}>
           <Section>
             <span class={styles.Description}>
-              <Multiline text={() => shopData.shop.data()?.description} />
+              <Multiline text={() => shopData.shop()?.description} />
             </span>
           </Section>
         </Show>

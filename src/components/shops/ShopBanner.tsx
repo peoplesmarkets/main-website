@@ -6,7 +6,7 @@ import styles from "./ShopBanner.module.scss";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 
 type Props = {
-  shopCustomization: () => ShopCustomizationResponse;
+  shopCustomization: () => ShopCustomizationResponse | undefined;
 };
 
 export function ShopBanner(props: Props) {

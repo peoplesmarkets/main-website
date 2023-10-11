@@ -1,4 +1,3 @@
-import { useNavigate } from "@solidjs/router";
 import _ from "lodash";
 
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
@@ -132,20 +131,20 @@ export async function endSession(redirectTo?: string, clientId?: string) {
   window.location.href = requestUri.toString();
 }
 
-export async function authGuardRedirect(
-  path: string,
-  redirectWhenAuthenticated?: boolean
+export async function requireAuthentication(
+  redirectTo: string,
+  clientId?: string | undefined
 ) {
   const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();
-  const navigate = useNavigate();
 
   await ensureFreshTokens();
 
-  if (redirectWhenAuthenticated && isAuthenticated()) {
-    navigate(path, { replace: true });
-  }
-
-  if (!redirectWhenAuthenticated && !isAuthenticated()) {
-    navigate(path, { replace: true });
+  if (!isAuthenticated()) {
+    const signInUrl = await buildAuthorizationRequest(
+      "select_account",
+      redirectTo,
+      clientId
+    );
+    window.location.href = signInUrl.toString();
   }
 }
