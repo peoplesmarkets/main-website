@@ -25,6 +25,10 @@ export class ShopDomainService extends ServiceClient {
     return this.client.GetDomainStatus({ shopId }, await this.withAuthHeader());
   }
 
+  public async getClientIdForDomain(domain: string) {
+    return this.client.GetClientIdForDomain({ domain });
+  }
+
   public async removeDomain(request: RemoveDomainFromShopRequest) {
     return this.client.RemoveDomainFromShop(
       request,

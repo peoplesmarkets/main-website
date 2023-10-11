@@ -26,10 +26,7 @@ export default function ShopSettingsPage() {
     const ownerUserId = shopData?.shop()?.userId;
 
     if (!isAuthenticated()) {
-      requireAuthentication(
-        location.pathname,
-        shopData?.shopDomain()?.clientId
-      );
+      requireAuthentication(location.pathname);
       return;
     } else if (shopData.error()) {
       navigate(buildDashboardPath(), { replace: true });

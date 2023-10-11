@@ -86,12 +86,11 @@ export function OfferBuy(props: Props) {
   }
 
   async function handleSignIn() {
-    window.location.href = (
-      await buildAuthorizationRequest(
-        "login",
-        buildOfferPath(shopData.shop()!.slug, props.offer().offerId)
-      )
-    ).toString();
+    const signInUrl = await buildAuthorizationRequest(
+      "login",
+      buildOfferPath(shopData.shop()!.slug, props.offer().offerId)
+    );
+    window.location.href = signInUrl.toString();
   }
 
   return (
