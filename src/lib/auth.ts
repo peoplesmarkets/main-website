@@ -1,16 +1,21 @@
 import _ from "lodash";
 
+import { useNavigate } from "@solidjs/router";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { buildIndexPath } from "../routes/main-routing";
 import { buildSignInCallbackUrl } from "../routes/user/UserRoutes";
+import { ShopDomainService } from "../services";
+import { getDomainFromWindow, isCustomDomain } from "./env";
 import { hashCodeVerifier, utf8ToBase64 } from "./string-manipulation";
 
 export const CODE_CHALLENGE_STORAGE_KEY = "sign-in-code-challange";
 
 export async function buildAuthorizationRequest(
   prompt?: "create" | "select_account" | "login",
-  redirectTo?: string,
-  clientId?: string
+  redirectTo?: string
 ) {
+  const navigate = useNavigate();
+
   // sha256 hash of random string in base64 encoded
   const codeVerifier = crypto.randomUUID();
   sessionStorage.setItem(CODE_CHALLENGE_STORAGE_KEY, codeVerifier);
@@ -20,7 +25,15 @@ export async function buildAuthorizationRequest(
     `${import.meta.env.VITE_AUTH_OAUTH_URL}/oauth/v2/authorize`
   );
 
-  if (!_.isNil(clientId) && !_.isEmpty(clientId)) {
+  if (isCustomDomain()) {
+    const shopDomainService = new ShopDomainService(async () => null);
+    const domain = getDomainFromWindow();
+    const { clientId } = await shopDomainService.getClientIdForDomain(domain);
+    if (_.isNil(clientId) || _.isEmpty(clientId)) {
+      navigate(buildIndexPath());
+      throw new Error(`Could not get clientId for domain '${domain}'`);
+    }
+
     requestUri.searchParams.set("client_id", clientId);
   } else {
     requestUri.searchParams.set(
@@ -131,10 +144,7 @@ export async function endSession(redirectTo?: string, clientId?: string) {
   window.location.href = requestUri.toString();
 }
 
-export async function requireAuthentication(
-  redirectTo: string,
-  clientId?: string | undefined
-) {
+export async function requireAuthentication(redirectTo: string) {
   const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();
 
   await ensureFreshTokens();
@@ -142,8 +152,7 @@ export async function requireAuthentication(
   if (!isAuthenticated()) {
     const signInUrl = await buildAuthorizationRequest(
       "select_account",
-      redirectTo,
-      clientId
+      redirectTo
     );
     window.location.href = signInUrl.toString();
   }

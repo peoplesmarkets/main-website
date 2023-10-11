@@ -29,7 +29,6 @@ import {
   setFaviconHref,
 } from "../../lib";
 import { SHOP_FAVICON } from "../../lib/constants";
-import { isCustomDomain } from "../../lib/env";
 import { TKEYS, getNextLanguageKey } from "../../locales";
 import { ShopData } from "./ShopData";
 import { ShopFooter } from "./ShopFooter";
@@ -155,20 +154,6 @@ export default function ShopRoutesWrapper() {
     window.location.href = signInUrl.toString();
   }
 
-  async function handleSignInForCustomDomain() {
-    const clientId = shopData?.shopDomain()?.clientId;
-    if (!_.isNil(clientId) && !_.isEmpty(clientId)) {
-      setSigningIn(true);
-      const signInUrl = await buildAuthorizationRequest(
-        undefined,
-        location.pathname,
-        clientId
-      );
-      setSigningIn(false);
-      window.location.href = signInUrl.toString();
-    }
-  }
-
   function handleSwitchTheme() {
     if (theme() === Theme.DefaultDark) {
       setTheme(Theme.DefaultLight);
@@ -268,24 +253,9 @@ export default function ShopRoutesWrapper() {
 
           <Slot name="settings">
             <Show when={!isAuthenticated()}>
-              <Show when={!isCustomDomain()}>
-                <PanelSettingsItem Icon={SignInIcon} onClick={handleSignIn}>
-                  <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
-                </PanelSettingsItem>
-              </Show>
-              <Show
-                when={
-                  isCustomDomain() &&
-                  !_.isEmpty(shopData?.shopDomain()?.clientId)
-                }
-              >
-                <PanelSettingsItem
-                  Icon={SignInIcon}
-                  onClick={handleSignInForCustomDomain}
-                >
-                  <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
-                </PanelSettingsItem>
-              </Show>
+              <PanelSettingsItem Icon={SignInIcon} onClick={handleSignIn}>
+                <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
+              </PanelSettingsItem>
             </Show>
 
             <PanelSettingsItem

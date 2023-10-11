@@ -32,10 +32,7 @@ export default function Inventory() {
   );
 
   onMount(async () => {
-    await requireAuthentication(
-      location.pathname,
-      shopData?.shopDomain()?.clientId
-    );
+    await requireAuthentication(location.pathname);
     setTimeout(refetch, 2000);
   });
 
