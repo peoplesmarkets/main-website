@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import _ from "lodash";
-import { createEffect, createResource } from "solid-js";
+import { createEffect, createResource, onMount } from "solid-js";
 
 import { isResolved } from "../../components/content";
 import { Page } from "../../components/layout";
@@ -29,6 +29,12 @@ export default function SignInCallback() {
     }
 
     if (startSession.state === "errored") {
+      navigate(buildIndexPath(), { replace: true });
+    }
+  });
+
+  onMount(() => {
+    if (_.isNil(code) || _.isEmpty(code)) {
       navigate(buildIndexPath(), { replace: true });
     }
   });
