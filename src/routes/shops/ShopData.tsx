@@ -3,14 +3,11 @@ import _ from "lodash";
 import { createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import {
-  ShopService,
-  ShopDomainService,
-  StripeService,
-} from "../../services";
+import { ShopService, ShopDomainService, StripeService } from "../../services";
 import { StripeAccount } from "../../services/peoplesmarkets/payment/v1/stripe";
 import { ShopCustomizationService } from "../../services/commerce/shop_customization";
 import { getDomainFromWindow, isCustomDomain } from "../../lib/env";
+import { isResolved } from "../../components/content";
 
 export function ShopData({ params }: RouteDataFuncArgs) {
   const { accessToken } = useAccessTokensContext();
@@ -24,18 +21,24 @@ export function ShopData({ params }: RouteDataFuncArgs) {
     ? createResource(() => getDomainFromWindow(), fetchShopByDomain)
     : createResource(() => params.shopSlug, fetchShop);
 
+  function shopId() {
+    if (_.isNil(shop.error) && isResolved(shop.state)) {
+      return shop()?.shopId;
+    }
+  }
+
   const [shopCustomization, shopCustomizationActions] = createResource(
-    () => shop?.()?.shopId,
+    shopId,
     fetchShopCustomization
   );
 
   const [shopDomain, shopDomainActions] = createResource(
-    () => shop?.()?.shopId,
+    shopId,
     fetchShopDomain
   );
 
   const [stripeAccount, stripeAccountActions] = createResource(
-    () => shop?.()?.shopId,
+    shopId,
     fetchStripeAccount
   );
 
@@ -103,21 +106,31 @@ export function ShopData({ params }: RouteDataFuncArgs) {
       shopDomainActions.refetch();
       stripeAccountActions.refetch();
     },
-    shop: {
-      data: shop,
-      refetch: shopActions.refetch,
+    error: () => {
+      return shop.error;
     },
-    shopCustomization: {
-      data: shopCustomization,
-      refetch: shopCustomizationActions.refetch,
+    shop: () => {
+      if (_.isNil(shop.error) && isResolved(shop.state)) {
+        return shop();
+      }
     },
-    shopDomain: {
-      data: shopDomain,
-      refetch: shopDomainActions.refetch,
+    shopCustomization: () => {
+      if (
+        _.isNil(shopCustomization.error) &&
+        isResolved(shopCustomization.state)
+      ) {
+        return shopCustomization();
+      }
     },
-    stripeAccount: {
-      data: stripeAccount,
-      refetch: stripeAccountActions.refetch,
+    shopDomain: () => {
+      if (_.isNil(shopDomain.error) && isResolved(shopDomain.state)) {
+        return shopDomain();
+      }
+    },
+    stripeAccount: () => {
+      if (_.isNil(stripeAccount.error) && isResolved(stripeAccount.state)) {
+        return stripeAccount();
+      }
     },
   };
 }

@@ -1,7 +1,14 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { useNavigate, useParams } from "@solidjs/router";
+import { useLocation, useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
-import { Match, Show, Switch, createResource, createSignal } from "solid-js";
+import {
+  Match,
+  Show,
+  Switch,
+  createResource,
+  createSignal,
+  onMount,
+} from "solid-js";
 
 import { PlaceholderImage } from "../../../components/assets";
 import { OfferImages, OfferPrice } from "../../../components/commerce";
@@ -22,7 +29,7 @@ import { Page, Section } from "../../../components/layout";
 import { EditOfferShippingRatesDialog } from "../../../components/shops/settings";
 import { EditOfferPriceDialog } from "../../../components/shops/settings/EditOfferPriceDialog";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
-import { secondsToLocaleDateTime } from "../../../lib";
+import { requireAuthentication, secondsToLocaleDateTime } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import { OfferService } from "../../../services";
 import { OfferType } from "../../../services/peoplesmarkets/commerce/v1/offer";
@@ -39,6 +46,7 @@ type DIALOG =
   | "edit-shipping-rates";
 
 export default function OfferSettings() {
+  const location = useLocation();
   const navigate = useNavigate();
 
   const [trans] = useTransContext();
@@ -56,6 +64,10 @@ export default function OfferSettings() {
     () => useParams().offerId,
     fetchOffer
   );
+
+  onMount(async () => {
+    await requireAuthentication(location.pathname);
+  });
 
   async function fetchOffer(offerId: string) {
     const response = await offerService.get(offerId);

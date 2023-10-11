@@ -61,12 +61,9 @@ export function EditShopBannerDialog(props: Props) {
       setForm("shopId", props.shopId);
       setForm(
         "showInListing",
-        shopData?.shopCustomization?.data()?.showBannerInListing
+        shopData?.shopCustomization()?.showBannerInListing
       );
-      setForm(
-        "showOnHome",
-        shopData?.shopCustomization?.data()?.showBannerOnHome
-      );
+      setForm("showOnHome", shopData?.shopCustomization()?.showBannerOnHome);
     }
   });
 
@@ -189,34 +186,26 @@ export function EditShopBannerDialog(props: Props) {
           <form class={styles.Form} onSubmit={updateImage}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
-                label={trans(
-                  TKEYS.dashboard["shop"].image["for-light-theme"]
-                )}
+                label={trans(TKEYS.dashboard["shop"].image["for-light-theme"])}
                 errors={errors.image}
                 onValue={handleImageInput}
                 showLabel
               />
 
               <FileField
-                label={trans(
-                  TKEYS.dashboard["shop"].image["for-dark-theme"]
-                )}
+                label={trans(TKEYS.dashboard["shop"].image["for-dark-theme"])}
                 errors={errors.imageDark}
                 onValue={handleImageDarkInput}
                 showLabel
               />
 
               <CheckBox
-                label={trans(
-                  TKEYS.dashboard["shop"].image["show-in-listings"]
-                )}
+                label={trans(TKEYS.dashboard["shop"].image["show-in-listings"])}
                 value={form.showInListing}
                 onValue={handleShowInListingsInput}
               />
               <CheckBox
-                label={trans(
-                  TKEYS.dashboard["shop"].image["show-on-home"]
-                )}
+                label={trans(TKEYS.dashboard["shop"].image["show-on-home"])}
                 value={form.showOnHome}
                 onValue={handleShowOnHome}
               />

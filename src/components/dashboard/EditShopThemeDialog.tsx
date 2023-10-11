@@ -52,11 +52,11 @@ export function EditShopThemeDialog(props: Props) {
 
   createEffect(() => {
     if (_.isEmpty(shopCustomization.shopId)) {
-      const customization = shopData.shopCustomization.data();
+      const customization = shopData.shopCustomization();
       if (!_.isEmpty(customization)) {
         setShopCustomization(_.clone(customization));
       } else {
-        setShopCustomization("shopId", shopData.shop.data()!.shopId);
+        setShopCustomization("shopId", shopData.shop()!.shopId);
       }
     }
   });
@@ -88,7 +88,7 @@ export function EditShopThemeDialog(props: Props) {
 
   function dataWasChanged() {
     return !_.isEqual(
-      _.pick(shopData.shopCustomization.data(), _.keys(emptyPutRequest)),
+      _.pick(shopData.shopCustomization(), _.keys(emptyPutRequest)),
       _.pick(shopCustomization, _.keys(emptyPutRequest))
     );
   }
