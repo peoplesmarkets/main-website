@@ -1,8 +1,6 @@
 import _ from "lodash";
 
-import { useNavigate } from "@solidjs/router";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { buildIndexPath } from "../routes/main-routing";
 import { buildSignInCallbackUrl } from "../routes/user/UserRoutes";
 import { ShopDomainService } from "../services";
 import { getDomainFromWindow, isCustomDomain } from "./env";
@@ -14,8 +12,6 @@ export async function buildAuthorizationRequest(
   prompt?: "create" | "select_account" | "login",
   redirectTo?: string
 ) {
-  const navigate = useNavigate();
-
   // sha256 hash of random string in base64 encoded
   const codeVerifier = crypto.randomUUID();
   sessionStorage.setItem(CODE_CHALLENGE_STORAGE_KEY, codeVerifier);
@@ -30,7 +26,6 @@ export async function buildAuthorizationRequest(
     const domain = getDomainFromWindow();
     const { clientId } = await shopDomainService.getClientIdForDomain(domain);
     if (_.isNil(clientId) || _.isEmpty(clientId)) {
-      navigate(buildIndexPath());
       throw new Error(`Could not get clientId for domain '${domain}'`);
     }
 
