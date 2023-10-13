@@ -7,7 +7,11 @@ import { createStore } from "solid-js/store";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales";
-import { OfferService } from "../../services";
+import {
+  OfferService,
+  getAllowedTypesFromError,
+  getMaxSizeFromError,
+} from "../../services";
 import { ActionButton, DiscardConfirmation, FileField } from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
@@ -68,18 +72,25 @@ export function CreateOfferImageDialog(props: Props) {
       props.onClose();
     } catch (err: any) {
       setUploading(false);
-
-      if (err.code === grpc.Code.ResourceExhausted) {
-        setErrors("image", [
-          trans(TKEYS.form.errors["item-too-large"], {
+      if (err.code) {
+        if (err.code === grpc.Code.ResourceExhausted) {
+          const toLarge = trans(TKEYS.form.errors["item-too-large-size"], {
             item: trans(TKEYS.common.file),
-          }),
-        ]);
-      } else if (err.code === grpc.Code.InvalidArgument) {
-        setErrors("image", [trans(TKEYS.form.errors["wrong-type"])]);
-      } else {
-        throw err;
+            maxSize: getMaxSizeFromError(err),
+          });
+          setErrors("image", [toLarge]);
+          return;
+        }
+        if (err.code === grpc.Code.InvalidArgument) {
+          const wrongType = trans(TKEYS.form.errors["wrong-type"], {
+            types: getAllowedTypesFromError(err),
+          });
+          setErrors("image", [wrongType]);
+          return;
+        }
       }
+
+      throw err;
     }
   }
 
@@ -93,9 +104,10 @@ export function CreateOfferImageDialog(props: Props) {
             item: trans(TKEYS.common.file),
           }),
         ]);
-      } else {
-        setForm("image", file);
+        return;
       }
+
+      setForm("image", file);
     }
   }
 
