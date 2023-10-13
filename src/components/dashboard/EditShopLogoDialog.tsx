@@ -5,8 +5,16 @@ import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales";
+import {
+  ShopCustomizationService,
+  getAllowedTypesFromError,
+  getMaxSizeFromError,
+} from "../../services/commerce/shop_customization";
+import { PutLogoImageToShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop_customization";
+import { ProgressBar } from "../assets";
 import {
   ActionButton,
   DeleteConfirmation,
@@ -15,9 +23,6 @@ import {
 } from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
-import { ProgressBar } from "../assets";
-import { ShopCustomizationService } from "../../services/commerce/shop_customization";
-import { PutLogoImageToShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop_customization";
 
 type Props = {
   readonly shopId: string;
@@ -26,6 +31,7 @@ type Props = {
 };
 
 export function EditShopLogoDialog(props: Props) {
+  const { theme } = useThemeContext();
   const [trans] = useTransContext();
 
   const { accessToken } = useAccessTokensContext();
@@ -35,11 +41,9 @@ export function EditShopLogoDialog(props: Props) {
   const [form, setForm] = createStore({
     shopId: undefined as string | undefined,
     image: undefined as File | undefined,
-    imageDark: undefined as File | undefined,
   });
   const [errors, setErrors] = createStore({
     image: [] as string[],
-    imageDark: [] as string[],
   });
 
   const [uploading, setUploading] = createSignal(false);
@@ -57,17 +61,19 @@ export function EditShopLogoDialog(props: Props) {
 
     if (!_.isNil(form.image)) {
       setUploading(true);
-      request.image = {
-        contentType: "",
-        data: await readAsUint8Array(form.image, 0, form.image.size),
-      };
-    }
-    if (!_.isNil(form.imageDark)) {
-      setUploading(true);
-      request.imageDark = {
-        contentType: "",
-        data: await readAsUint8Array(form.imageDark, 0, form.imageDark.size),
-      };
+      const data = await readAsUint8Array(form.image, 0, form.image.size);
+
+      if (theme() === Theme.DefaultLight) {
+        request.image = {
+          contentType: "",
+          data,
+        };
+      } else {
+        request.imageDark = {
+          contentType: "",
+          data,
+        };
+      }
     }
 
     try {
@@ -80,17 +86,18 @@ export function EditShopLogoDialog(props: Props) {
 
       if (err.code) {
         if (err.code === grpc.Code.ResourceExhausted) {
-          const toLarge = trans(TKEYS.form.errors["item-too-large"], {
+          const toLarge = trans(TKEYS.form.errors["item-too-large-size"], {
             item: trans(TKEYS.common.file),
+            maxSize: getMaxSizeFromError(err),
           });
           setErrors("image", [toLarge]);
-          setErrors("imageDark", [toLarge]);
           return;
         }
         if (err.code === grpc.Code.InvalidArgument) {
-          const wrongType = trans(TKEYS.form.errors["wrong-type"]);
+          const wrongType = trans(TKEYS.form.errors["wrong-type"], {
+            types: getAllowedTypesFromError(err),
+          });
           setErrors("image", [wrongType]);
-          setErrors("imageDark", [wrongType]);
           return;
         }
       }
@@ -108,19 +115,22 @@ export function EditShopLogoDialog(props: Props) {
   function handleImageInput(files: FileList | null) {
     resetErrors();
     if (!_.isNil(files) && !_.isEmpty(files)) {
-      setForm("image", _.first(files));
-    }
-  }
+      const file = _.first(files)!;
+      if (file.size > import.meta.env.VITE_IMAGE_MAX_SIZE) {
+        setErrors("image", [
+          trans(TKEYS.form.errors["item-too-large"], {
+            item: trans(TKEYS.common.file),
+          }),
+        ]);
+        return;
+      }
 
-  function handleImageDarkInput(files: FileList | null) {
-    resetErrors();
-    if (!_.isNil(files) && !_.isEmpty(files)) {
-      setForm("imageDark", _.first(files));
+      setForm("image", file);
     }
   }
 
   function resetErrors() {
-    setErrors({ image: [], imageDark: [] });
+    setErrors({ image: [] });
   }
 
   function removeImage() {
@@ -155,20 +165,9 @@ export function EditShopLogoDialog(props: Props) {
           <form class={styles.Form} onSubmit={updateImage}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
-                label={trans(
-                  TKEYS.dashboard["shop"].image["for-light-theme"]
-                )}
+                label={trans(TKEYS.dashboard["shop"]["logo-image"])}
                 errors={errors.image}
                 onValue={handleImageInput}
-                showLabel
-              />
-
-              <FileField
-                label={trans(
-                  TKEYS.dashboard["shop"].image["for-dark-theme"]
-                )}
-                errors={errors.image}
-                onValue={handleImageDarkInput}
                 showLabel
               />
             </Show>

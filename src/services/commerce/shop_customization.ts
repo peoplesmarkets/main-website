@@ -1,3 +1,4 @@
+import _ from "lodash";
 import {
   GrpcWebImpl,
   PutBannerImageToShopRequest,
@@ -67,4 +68,20 @@ export class ShopCustomizationService extends ServiceClient {
       await this.withAuthHeader()
     );
   }
+}
+
+export function getMaxSizeFromError(err: any) {
+  const message = err?.message;
+  if (!_.isEmpty(message) && _.isString(message)) {
+    return message.replace("image.size: max_size=", "");
+  }
+  return ""
+}
+
+export function getAllowedTypesFromError(err: any) {
+  const message = err?.message;
+  if (!_.isEmpty(message) && _.isString(message)) {
+    return message.replace("image.type: allowed_types=", "");
+  }
+  return ""
 }
