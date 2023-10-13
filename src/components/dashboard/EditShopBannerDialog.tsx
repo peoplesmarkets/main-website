@@ -6,10 +6,15 @@ import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
-import { ShopCustomizationService } from "../../services/commerce/shop_customization";
+import {
+  ShopCustomizationService,
+  getAllowedTypesFromError,
+  getMaxSizeFromError,
+} from "../../services/commerce/shop_customization";
 import { PutBannerImageToShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop_customization";
 import { ProgressBar } from "../assets";
 import {
@@ -30,6 +35,7 @@ type Props = {
 
 export function EditShopBannerDialog(props: Props) {
   const [trans] = useTransContext();
+  const { theme } = useThemeContext();
 
   const { accessToken } = useAccessTokensContext();
 
@@ -40,14 +46,12 @@ export function EditShopBannerDialog(props: Props) {
   const [form, setForm] = createStore({
     shopId: undefined as string | undefined,
     image: undefined as File | undefined,
-    imageDark: undefined as File | undefined,
     showInListing: undefined as boolean | undefined,
     showOnHome: undefined as boolean | undefined,
   });
 
   const [errors, setErrors] = createStore({
     image: [] as string[],
-    imageDark: [] as string[],
   });
 
   const [uploading, setUploading] = createSignal(false);
@@ -78,17 +82,18 @@ export function EditShopBannerDialog(props: Props) {
 
     if (!_.isNil(form.image)) {
       setUploading(true);
-      request.image = {
-        contentType: "",
-        data: await readAsUint8Array(form.image, 0, form.image.size),
-      };
-    }
-    if (!_.isNil(form.imageDark)) {
-      setUploading(true);
-      request.imageDark = {
-        contentType: "",
-        data: await readAsUint8Array(form.imageDark, 0, form.imageDark.size),
-      };
+      const data = await readAsUint8Array(form.image, 0, form.image.size);
+      if (theme() === Theme.DefaultLight) {
+        request.image = {
+          contentType: "",
+          data,
+        };
+      } else {
+        request.imageDark = {
+          contentType: "",
+          data,
+        };
+      }
     }
 
     try {
@@ -101,17 +106,18 @@ export function EditShopBannerDialog(props: Props) {
 
       if (err.code) {
         if (err.code === grpc.Code.ResourceExhausted) {
-          const toLarge = trans(TKEYS.form.errors["item-too-large"], {
+          const toLarge = trans(TKEYS.form.errors["item-too-large-size"], {
             item: trans(TKEYS.common.file),
+            maxSize: getMaxSizeFromError(err),
           });
           setErrors("image", [toLarge]);
-          setErrors("imageDark", [toLarge]);
           return;
         }
         if (err.code === grpc.Code.InvalidArgument) {
-          const wrongType = trans(TKEYS.form.errors["wrong-type"]);
+          const wrongType = trans(TKEYS.form.errors["wrong-type"], {
+            types: getAllowedTypesFromError(err),
+          });
           setErrors("image", [wrongType]);
-          setErrors("imageDark", [wrongType]);
           return;
         }
       }
@@ -128,15 +134,18 @@ export function EditShopBannerDialog(props: Props) {
 
   function handleImageInput(files: FileList | null) {
     resetErrors();
-    if (!_.isNil(files) && !_.isEmpty(files)) {
-      setForm("image", _.first(files));
-    }
-  }
+    const file = _.first(files);
+    if (!_.isNil(file)) {
+      if (file.size > import.meta.env.VITE_IMAGE_MAX_SIZE) {
+        setErrors("image", [
+          trans(TKEYS.form.errors["item-too-large"], {
+            item: trans(TKEYS.common.file),
+          }),
+        ]);
+        return;
+      }
 
-  function handleImageDarkInput(files: FileList | null) {
-    resetErrors();
-    if (!_.isNil(files) && !_.isEmpty(files)) {
-      setForm("imageDark", _.first(files));
+      setForm("image", file);
     }
   }
 
@@ -151,7 +160,7 @@ export function EditShopBannerDialog(props: Props) {
   }
 
   function resetErrors() {
-    setErrors({ image: [], imageDark: [] });
+    setErrors({ image: [] });
   }
 
   function removeImage() {
@@ -178,60 +187,53 @@ export function EditShopBannerDialog(props: Props) {
 
   return (
     <>
-      <Show when={!showDiscardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard["shop"]["edit-image"])}
-          onClose={closeDialog}
-        >
-          <form class={styles.Form} onSubmit={updateImage}>
-            <Show when={!uploading()} fallback={<ProgressBar />}>
-              <FileField
-                label={trans(TKEYS.dashboard["shop"].image["for-light-theme"])}
-                errors={errors.image}
-                onValue={handleImageInput}
-                showLabel
-              />
+      <Dialog
+        title={trans(TKEYS.dashboard["shop"]["edit-image"])}
+        onClose={closeDialog}
+      >
+        <form class={styles.Form} onSubmit={updateImage}>
+          <FileField
+            label={trans(TKEYS.dashboard["shop"].image.label)}
+            errors={errors.image}
+            onValue={handleImageInput}
+            showLabel
+          />
 
-              <FileField
-                label={trans(TKEYS.dashboard["shop"].image["for-dark-theme"])}
-                errors={errors.imageDark}
-                onValue={handleImageDarkInput}
-                showLabel
-              />
+          <Show when={uploading()}>
+            <ProgressBar />
+          </Show>
 
-              <CheckBox
-                label={trans(TKEYS.dashboard["shop"].image["show-in-listings"])}
-                value={form.showInListing}
-                onValue={handleShowInListingsInput}
-              />
-              <CheckBox
-                label={trans(TKEYS.dashboard["shop"].image["show-on-home"])}
-                value={form.showOnHome}
-                onValue={handleShowOnHome}
-              />
-            </Show>
+          <CheckBox
+            label={trans(TKEYS.dashboard["shop"].image["show-in-listings"])}
+            value={form.showInListing}
+            onValue={handleShowInListingsInput}
+          />
+          <CheckBox
+            label={trans(TKEYS.dashboard["shop"].image["show-on-home"])}
+            value={form.showOnHome}
+            onValue={handleShowOnHome}
+          />
 
-            <div class={styles.DialogFooter}>
-              <ActionButton
-                actionType="danger"
-                onClick={removeImage}
-                disabled={uploading()}
-              >
-                <Trans key={TKEYS.dashboard["shop"]["delete-image"]} />
-              </ActionButton>
+          <div class={styles.DialogFooter}>
+            <ActionButton
+              actionType="danger"
+              onClick={removeImage}
+              disabled={uploading()}
+            >
+              <Trans key={TKEYS.dashboard["shop"]["delete-image"]} />
+            </ActionButton>
 
-              <ActionButton
-                actionType="active-filled"
-                onClick={updateImage}
-                disabled={uploading()}
-                submit
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+            <ActionButton
+              actionType="active-filled"
+              onClick={updateImage}
+              disabled={uploading()}
+              submit
+            >
+              <Trans key={TKEYS.form.action.Save} />
+            </ActionButton>
+          </div>
+        </form>
+      </Dialog>
 
       <Show when={showDeleteConfirmation()}>
         <DeleteConfirmation
