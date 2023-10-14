@@ -72,7 +72,7 @@ export function EditShopDomainDialog(props: Props) {
 
     try {
       await shopDomainService.addDomain(shopDomain);
-      props.onClose();
+      shopData.refetch();
     } catch (err: any) {
       if (err.code) {
         if (err.code === grpc.Code.AlreadyExists) {
@@ -96,8 +96,8 @@ export function EditShopDomainDialog(props: Props) {
           domain,
         });
       }
-      setShopDomain("domain", "");
       shopData.refetch();
+      setShopDomain("domain", "");
     } catch (err: any) {
       if (err.code) {
         setErrors("domain", [err.message]);
@@ -145,18 +145,23 @@ export function EditShopDomainDialog(props: Props) {
                 DomainStatus.DOMAIN_STATUS_PENDING
               }
             >
+              <Anotation warn>
+                <Trans key={TKEYS.dashboard.shop.domain.pending} />
+              </Anotation>
               <Anotation>
                 <Trans
                   key={TKEYS.dashboard["shop"].domain["pending-information"]}
                 />
               </Anotation>
-              <Anotation warn center>
-                <Trans
-                  key={
-                    TKEYS.dashboard.shop.domain["pending-information-sample"]
-                  }
-                  options={{ item: shopDomain.domain }}
-                />
+              <Anotation>
+                <span class={styles.Strong}>
+                  <Trans
+                    key={
+                      TKEYS.dashboard.shop.domain["pending-information-sample"]
+                    }
+                    options={{ item: shopDomain.domain }}
+                  />
+                </span>
               </Anotation>
             </Show>
             <Show

@@ -11,6 +11,12 @@
   font: var(--font-body);
 }
 
+.Strong {
+  display: block;
+  font: var(--font-body);
+  font-weight: 500;
+}
+
 .DialogFooter {
   padding: 0.5rem 0;
   display: flex;

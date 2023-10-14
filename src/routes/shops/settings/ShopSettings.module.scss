@@ -10,3 +10,34 @@
   text-align: start;
   color: var(--primary-content-color);
 }
+
+.Label {
+  font: var(--font-label);
+  margin-bottom: 0.5rem;
+}
+
+.Body {
+  font: var(--font-body);
+}
+
+.Details {
+  display: block;
+  font: var(--font-body);
+}
+
+.Details strong {
+  font: var(--font-body);
+}
+
+
+.Active {
+  font: var(--font-body);
+  font-weight: 500;
+  color: var(--active-content-color);
+}
+
+.Warning {
+  font: var(--font-body);
+  font-weight: 500;
+  color: var(--warning-content-color);
+}

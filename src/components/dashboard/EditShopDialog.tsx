@@ -13,11 +13,9 @@ import {
 import {
   ActionButton,
   DiscardConfirmation,
-  SelectKey,
   TextArea,
   TextField,
 } from "../form";
-import { CheckBox } from "../form/CheckBox";
 import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
 
@@ -39,7 +37,6 @@ export function EditShopDialog(props: Props) {
     shopId: undefined as string | undefined,
     name: undefined as string | undefined,
     description: undefined as string | undefined,
-    isActive: undefined as string | undefined,
   } as UpdateShopRequest;
   const updateFields = Object.keys(emptyUpdateRequest);
 
@@ -70,12 +67,6 @@ export function EditShopDialog(props: Props) {
   function handleDescriptionInput(value: string) {
     resetErrors();
     setShop("description", value.trim());
-  }
-
-  function handleVisibilityChange(value: SelectKey) {
-    if (_.isBoolean(value)) {
-      setShop("isActive", value);
-    }
   }
 
   async function handleUpdateShop(event: SubmitEvent) {
@@ -141,12 +132,6 @@ export function EditShopDialog(props: Props) {
               value={shop.description}
               onValue={handleDescriptionInput}
               errors={errors.description}
-            />
-
-            <CheckBox
-              label={trans(TKEYS.shop.labels["is-publicly-visible"])}
-              value={shop.isActive}
-              onValue={handleVisibilityChange}
             />
 
             <div class={styles.DialogFooter}>

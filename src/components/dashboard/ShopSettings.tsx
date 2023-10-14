@@ -5,13 +5,13 @@ import _ from "lodash";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildBaseUrl, secondsToLocaleDateTime } from "../../lib";
+import { buildBaseUrl } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import { ShopService, StripeService } from "../../services";
 import { ContentError, ContentLoading, isResolved } from "../content";
-import { Multiline } from "../content/Multiline";
 import { ActionButton } from "../form";
+import { ConfirmationDialog } from "../form/ConfirmationDialog";
 import { DeleteConfirmation } from "../form/DeleteConfirmation";
 import { Message } from "../form/Message";
 import { Cover } from "../layout/Cover";
@@ -34,6 +34,8 @@ type DIALOG =
   | "delete"
   | "message"
   | "edit-shop"
+  | "make-visible"
+  | "make-not-visible"
   | "edit-image"
   | "edit-logo"
   | "edit-theme"
@@ -74,7 +76,7 @@ export function ShopSettings(props: Props) {
   }
 
   function stripeTkeys() {
-    return TKEYS.dashboard["shop"].stripe;
+    return TKEYS.dashboard.shop.stripe;
   }
 
   function stripeAccountState() {
@@ -105,6 +107,22 @@ export function ShopSettings(props: Props) {
   function handleCloseDialog() {
     setShowDialog("none");
     shopData.refetch();
+  }
+
+  async function handleVisibility(isActive: boolean) {
+    const shopId = shopData?.shop()?.shopId;
+    if (!_.isNil(shopId) && !_.isEmpty(shopId)) {
+      try {
+        await shopService.update({
+          shopId,
+          isActive,
+        });
+        props.onUpdate();
+        setShowDialog("none");
+      } catch (err: any) {
+        setShowDialog("message");
+      }
+    }
   }
 
   async function handleConfirmDeletion() {
@@ -160,55 +178,6 @@ export function ShopSettings(props: Props) {
 
   return (
     <>
-      <Section>
-        <span class={styles.Label}>
-          <Trans key={TKEYS["shop"].labels.Description} />:
-        </span>
-
-        <Show
-          when={!_.isEmpty(shopData?.shop()?.description)}
-          fallback={
-            <span class={styles.Details}>
-              <Trans key={TKEYS["shop"]["no-description"]} />
-            </span>
-          }
-        >
-          <Multiline text={() => shopData?.shop()?.description} />
-        </Show>
-      </Section>
-
-      <Section>
-        <span class={styles.Label}>
-          <Trans key={TKEYS.dashboard["shop"].Details} />:
-        </span>
-
-        <span class={styles.Details}>
-          <Trans key={TKEYS.offer.visibility.title} />:{" "}
-          <Show
-            when={Boolean(shopData?.shop()?.isActive)}
-            fallback={
-              <span class={styles.Warning}>
-                <Trans key={TKEYS.offer.visibility["not-visible"]} />
-              </span>
-            }
-          >
-            <span class={styles.Active}>
-              <Trans key={TKEYS.offer.visibility.visible} />
-            </span>
-          </Show>
-        </span>
-
-        <span class={styles.Details}>
-          <Trans key={TKEYS["shop"].labels["Created-at"]} />:{" "}
-          {secondsToLocaleDateTime(shopData?.shop()?.createdAt)}
-        </span>
-
-        <span class={styles.Details}>
-          <Trans key={TKEYS["shop"].labels["Updated-at"]} />:{" "}
-          {secondsToLocaleDateTime(shopData?.shop()?.updatedAt)}
-        </span>
-      </Section>
-
       <Section bordered>
         <span class={styles.Title}>
           <Trans key={TKEYS.form.action.Edit} />
@@ -216,7 +185,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["shop"]["edit-name-and-description"]} />
+            <Trans key={TKEYS.dashboard.shop["edit-name-and-description"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -233,7 +202,7 @@ export function ShopSettings(props: Props) {
           <Switch
             fallback={
               <span>
-                <Trans key={TKEYS.dashboard["shop"]["no-shop-yet"]} />
+                <Trans key={TKEYS.dashboard.shop["no-shop-yet"]} />
               </span>
             }
           >
@@ -269,7 +238,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["shop"]["edit-image"]} />
+            <Trans key={TKEYS.dashboard.shop["edit-image"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -281,7 +250,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["shop"]["edit-logo"]} />
+            <Trans key={TKEYS.dashboard.shop["edit-logo"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -293,7 +262,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["shop"]["edit-theme"]} />
+            <Trans key={TKEYS.dashboard.shop["edit-theme"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -305,7 +274,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["shop"]["edit-path"]} />
+            <Trans key={TKEYS.dashboard.shop["edit-path"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -317,7 +286,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["shop"]["edit-domain"]} />
+            <Trans key={TKEYS.dashboard.shop["edit-domain"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -326,6 +295,24 @@ export function ShopSettings(props: Props) {
             <Trans key={TKEYS.form.action.Edit} />
           </ActionButton>
         </div>
+
+        <Show
+          when={
+            !_.isNil(shopData?.shop()?.isActive) && !shopData.shop()?.isActive
+          }
+        >
+          <div class={styles.EditSection}>
+            <p class={styles.Body}>
+              <Trans key={TKEYS.dashboard.shop["public-visibility"]} />
+            </p>
+            <ActionButton
+              actionType="active"
+              onClick={() => handleOpenDialog("make-visible")}
+            >
+              <Trans key={TKEYS.form.action.Publish} />
+            </ActionButton>
+          </div>
+        </Show>
       </Section>
 
       <Section danger>
@@ -333,9 +320,27 @@ export function ShopSettings(props: Props) {
           <Trans key={TKEYS.form["danger-zone"]} />
         </span>
 
+        <Show
+          when={
+            !_.isNil(shopData?.shop()?.isActive) && shopData.shop()?.isActive
+          }
+        >
+          <div class={styles.EditSection}>
+            <p class={styles.Body}>
+              <Trans key={TKEYS.dashboard.shop["public-visibility"]} />
+            </p>
+            <ActionButton
+              actionType="danger"
+              onClick={() => handleOpenDialog("make-not-visible")}
+            >
+              <Trans key={TKEYS.form.action.Hide} />
+            </ActionButton>
+          </div>
+        </Show>
+
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard["shop"]["delete-this-shop"]} />
+            <Trans key={TKEYS.dashboard.shop["delete-this-shop"]} />
           </p>
           <ActionButton
             actionType="danger"
@@ -354,9 +359,33 @@ export function ShopSettings(props: Props) {
           onUpdate={() => props.onUpdate()}
         />
       </Show>
+      <Show
+        when={showDialog() === "make-visible" && !_.isNil(shopData?.shop())}
+      >
+        <ConfirmationDialog
+          actionType="active"
+          title={trans(TKEYS.dashboard.shop["publish-notification-title"])}
+          message={trans(TKEYS.dashboard.shop["publish-notification-message"])}
+          onCancel={handleCloseDialog}
+          onOk={() => handleVisibility(true)}
+        />
+      </Show>
+      <Show
+        when={showDialog() === "make-not-visible" && !_.isNil(shopData?.shop())}
+      >
+        <ConfirmationDialog
+          actionType="danger"
+          title={trans(TKEYS.dashboard.shop["unpublish-notification-title"])}
+          message={trans(
+            TKEYS.dashboard.shop["unpublish-notification-message"]
+          )}
+          onCancel={handleCloseDialog}
+          onOk={() => handleVisibility(false)}
+        />
+      </Show>
       <Show when={showDialog() === "delete"}>
         <DeleteConfirmation
-          item={trans(TKEYS["shop"].title)}
+          item={trans(TKEYS.shop.title)}
           itemName={shopData?.shop()?.name}
           onCancel={handleCloseDialog}
           onConfirmation={handleConfirmDeletion}
@@ -367,7 +396,7 @@ export function ShopSettings(props: Props) {
           title={trans(TKEYS.form.errors.Conflict)}
           onClose={handleCloseDialog}
         >
-          <Trans key={TKEYS["shop"].errors["ensure-offers-deleted"]} />
+          <Trans key={TKEYS.shop.errors["ensure-offers-deleted"]} />
         </Message>
       </Show>
       <Show when={showDialog() === "edit-image" && !_.isNil(shopData?.shop())}>
