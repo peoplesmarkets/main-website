@@ -130,3 +130,10 @@ export function slugify(value: string): string {
 export function isCssColor(value: any): boolean {
   return !_.isNil(value) && !_.isEmpty(value) && CSS.supports("color", value);
 }
+
+// Stolen from: https://www.regextester.com/103452
+export function isValidHostname(value: string): boolean {
+  return /(?=^.{4,253}$)(^((?!-)[a-zA-Z0-9-]{0,62}[a-zA-Z0-9]\.)+[a-zA-Z]{2,63}$)/.test(
+    value
+  );
+}

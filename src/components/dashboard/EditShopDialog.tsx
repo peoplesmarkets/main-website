@@ -13,11 +13,11 @@ import {
 import {
   ActionButton,
   DiscardConfirmation,
-  Select,
   SelectKey,
   TextArea,
   TextField,
 } from "../form";
+import { CheckBox } from "../form/CheckBox";
 import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
 
@@ -60,19 +60,6 @@ export function EditShopDialog(props: Props) {
 
   function resetErrors() {
     setErrors({ name: [], description: [] });
-  }
-
-  function visibilityOptions() {
-    return [
-      { name: trans(TKEYS.offer.visibility.visible), key: true },
-      { name: trans(TKEYS.offer.visibility["not-visible"]), key: false },
-    ];
-  }
-
-  function selectedVisibility() {
-    return _.find(visibilityOptions(), {
-      key: shop.isActive,
-    });
   }
 
   function handleNameInput(value: string) {
@@ -136,12 +123,12 @@ export function EditShopDialog(props: Props) {
     <>
       <Show when={!discardConfirmation()}>
         <Dialog
-          title={trans(TKEYS.dashboard["shop"]["edit-name-and-description"])}
+          title={trans(TKEYS.dashboard.shop["edit-name-and-description"])}
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={handleUpdateShop}>
             <TextField
-              label={trans(TKEYS["shop"].labels.name)}
+              label={trans(TKEYS.shop.labels.name)}
               required
               value={shop.name}
               onValue={handleNameInput}
@@ -149,17 +136,16 @@ export function EditShopDialog(props: Props) {
             />
 
             <TextArea
-              label={trans(TKEYS["shop"].labels.description)}
+              label={trans(TKEYS.shop.labels.description)}
               rows={8}
               value={shop.description}
               onValue={handleDescriptionInput}
               errors={errors.description}
             />
 
-            <Select
-              label={trans(TKEYS.offer.visibility.title)}
-              value={selectedVisibility}
-              options={visibilityOptions}
+            <CheckBox
+              label={trans(TKEYS.shop.labels["is-publicly-visible"])}
+              value={shop.isActive}
               onValue={handleVisibilityChange}
             />
 
