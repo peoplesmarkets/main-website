@@ -73,9 +73,13 @@ export class ShopCustomizationService extends ServiceClient {
 export function getMaxSizeFromError(err: any) {
   const message = err?.message;
   if (!_.isEmpty(message) && _.isString(message)) {
-    return message.replace("image.size: max_size=", "");
+    const bytes = parseInt(message.replace("image.size: max_size=", ""), 10);
+    if (bytes < 1000000) {
+      return bytes / 1000 + "KB";
+    }
+    return bytes / 1000000 + "MB";
   }
-  return ""
+  return "";
 }
 
 export function getAllowedTypesFromError(err: any) {
@@ -83,5 +87,5 @@ export function getAllowedTypesFromError(err: any) {
   if (!_.isEmpty(message) && _.isString(message)) {
     return message.replace("image.type: allowed_types=", "");
   }
-  return ""
+  return "";
 }
