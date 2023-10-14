@@ -16,6 +16,7 @@ import { Anotation } from "../content";
 import { ActionButton, DiscardConfirmation, TextField } from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
+import { isValidHostname } from "../../lib";
 
 type Props = {
   onClose: () => void;
@@ -25,6 +26,7 @@ export function EditShopDomainDialog(props: Props) {
   const [trans] = useTransContext();
   const shopData = useRouteData<typeof ShopData>();
   const { accessToken } = useAccessTokensContext();
+
   const shopDomainService = new ShopDomainService(accessToken);
 
   const emptyUpdateRequest = AddDomainToShopRequest.create();
@@ -50,9 +52,13 @@ export function EditShopDomainDialog(props: Props) {
     setErrors({ domain: [] });
   }
 
-  function handleSlugInput(value: string) {
+  function handleDomainInput(value: string) {
     resetErrors();
-    setShopDomain("domain", value);
+    if (isValidHostname(value)) {
+      setShopDomain("domain", value);
+    } else {
+      setErrors("domain", trans(TKEYS.shop.errors["invalid-url"]));
+    }
   }
 
   async function handleAddDomain(event: SubmitEvent) {
@@ -129,7 +135,7 @@ export function EditShopDomainDialog(props: Props) {
               required
               small
               value={shopDomain.domain}
-              onValue={handleSlugInput}
+              onValue={handleDomainInput}
               errors={errors.domain}
             />
 
@@ -139,8 +145,18 @@ export function EditShopDomainDialog(props: Props) {
                 DomainStatus.DOMAIN_STATUS_PENDING
               }
             >
-              <Anotation warn>
-                <Trans key={TKEYS.dashboard["shop"].domain.pending} />
+              <Anotation>
+                <Trans
+                  key={TKEYS.dashboard["shop"].domain["pending-information"]}
+                />
+              </Anotation>
+              <Anotation warn center>
+                <Trans
+                  key={
+                    TKEYS.dashboard.shop.domain["pending-information-sample"]
+                  }
+                  options={{ item: shopDomain.domain }}
+                />
               </Anotation>
             </Show>
             <Show
@@ -166,7 +182,7 @@ export function EditShopDomainDialog(props: Props) {
                 actionType="active-filled"
                 submit
                 disabled={!_.isEmpty(shopData?.shopDomain()?.domain)}
-                onClick={(e) => handleAddDomain(e)}
+                onClick={handleAddDomain}
               >
                 <Trans key={TKEYS.form.action.Save} />
               </ActionButton>
