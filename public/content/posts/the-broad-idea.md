@@ -14,7 +14,7 @@ Community- and customer-driven ...
 
 ## Community- and customer-driven values and principles
 
-The fundamental values and principles the project is based on should be open to the public and open for discussion. It is important that those values and principles, including this document, can be changed or extended. Project governance as well as product design have to conform to those values and principles. They are a part of the general appearance of the project and can serve as an additional reference point for customers’ trust.
+The fundamental values and principles this project is based on should be open to the public and open for discussion. It is important that those values and principles, including this document, can be changed or extended. Project governance as well as product design have to conform to those values and principles. They are a part of the general appearance of the project and can serve as an additional reference point for customers’ trust.
 
 Currently, the focus lies on:
 

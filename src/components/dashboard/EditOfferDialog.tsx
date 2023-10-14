@@ -23,6 +23,7 @@ import {
 } from "../form";
 import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
+import { CheckBox } from "../form/CheckBox";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -76,30 +77,6 @@ export function EditOfferDialog(props: Props) {
         key: offerTypeToJSON(request.type),
       });
     }
-  }
-
-  function visibilityOptions() {
-    return [
-      { name: trans(TKEYS.offer.visibility.visible), key: true },
-      { name: trans(TKEYS.offer.visibility["not-visible"]), key: false },
-    ];
-  }
-
-  function selectedVisibility() {
-    return _.find(visibilityOptions(), {
-      key: request.isActive,
-    });
-  }
-
-  function featuredOptions() {
-    return [
-      { name: trans(TKEYS.offer["is-featured"].featured), key: true },
-      { name: trans(TKEYS.offer["is-featured"]["not-featured"]), key: false },
-    ];
-  }
-
-  function selectedFeatured() {
-    return _.find(featuredOptions(), { key: request.isFeatured });
   }
 
   function resetErrors() {
@@ -209,17 +186,15 @@ export function EditOfferDialog(props: Props) {
               errors={errors.description}
             />
 
-            <Select
-              label={trans(TKEYS.offer.visibility.title)}
-              value={selectedVisibility}
-              options={visibilityOptions}
+            <CheckBox
+              label={trans(TKEYS.offer.labels["is-publicly-visible"])}
+              value={request.isActive}
               onValue={handleVisibilityChange}
             />
 
-            <Select
-              label={trans(TKEYS.offer["is-featured"].title)}
-              value={selectedFeatured}
-              options={featuredOptions}
+            <CheckBox
+              label={trans(TKEYS.offer.labels["show-on-home-page"])}
+              value={request.isFeatured}
               onValue={handleFeaturedChange}
             />
 

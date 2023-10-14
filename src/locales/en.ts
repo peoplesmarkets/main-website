@@ -62,6 +62,7 @@ export const EN: typeof TKEYS = {
       "item-too-large-size": "{item} is too large. maximum: {maxSize}",
       "wrong-type": "Wrong file type. Currently supported: {types}",
       "invalid-css-color": "Invalid CSS color",
+      remove: "Remove: {item}",
     },
   },
   query: {
@@ -125,6 +126,7 @@ export const EN: typeof TKEYS = {
     },
     errors: {
       "ensure-offers-deleted": "Ensure all Offers are deleted first.",
+      "invalid-url": "Invalid URL",
     },
     labels: {
       Details: "Details",
@@ -138,6 +140,7 @@ export const EN: typeof TKEYS = {
       "Updated-at": "Updated at",
       Domain: "Domain",
       domain: "domain",
+      "is-publicly-visible": "This Shop is publicly visible",
     },
   },
   "shop-customization": {
@@ -166,11 +169,6 @@ export const EN: typeof TKEYS = {
       visible: "Publicly visible",
       "not-visible": "Not publicly visible",
     },
-    "is-featured": {
-      title: "Featured",
-      featured: "Featured",
-      "not-featured": "Not featured",
-    },
     labels: {
       Price: "Price",
       Name: "Name",
@@ -179,6 +177,8 @@ export const EN: typeof TKEYS = {
       description: "Description",
       "Created-at": "Created at",
       "Updated-at": "Updated at",
+      "is-publicly-visible": "This Offer is publicly visible",
+      "show-on-home-page": "Show this Offer on home page",
     },
     types: {
       [offerTypeToJSON(OfferType.OFFER_TYPE_PHYSICAL)]: `physical`,
@@ -252,6 +252,10 @@ export const EN: typeof TKEYS = {
       },
       domain: {
         pending: "Pending verification",
+        "pending-information":
+          "Please ensure to configure a DNS CNAME record for the specified domain",
+        "pending-information-sample":
+          "{item}. CNAME mysite.peoplesmarkets.com.",
         active: "Verified",
       },
       stripe: {

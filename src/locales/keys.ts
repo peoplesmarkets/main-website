@@ -61,6 +61,7 @@ export const TKEYS = {
       "item-too-large-size": "form.errors.item-too-large-size",
       "wrong-type": "form.errors.wrong-type",
       "invalid-css-color": "form.errors.invalid-css-color",
+      remove: "form.errors.remove",
     },
   },
   query: {
@@ -138,6 +139,7 @@ export const TKEYS = {
     },
     errors: {
       "ensure-offers-deleted": "shop.errors.ensure-offers-deleted",
+      "invalid-url": "shop.errors.invalid-url",
     },
     labels: {
       Details: "shop.labels.Details",
@@ -151,6 +153,7 @@ export const TKEYS = {
       "Updated-at": "shop.labels.Updated-at",
       Domain: "shop.labels.Domain",
       domain: "shop.labels.domain",
+      "is-publicly-visible": "shop.labels.is-publicly-visible",
     },
   },
   "shop-customization": {
@@ -187,11 +190,6 @@ export const TKEYS = {
       visible: "offer.visibility.visible",
       "not-visible": "offer.visibility.not-visible",
     },
-    "is-featured": {
-      title: "offer.is-featured.title",
-      featured: "offer.is-featured.featured",
-      "not-featured": "offer.is-featured.not-featured",
-    },
     labels: {
       Price: "offer.labels.Price",
       Name: "offer.labels.Name",
@@ -200,6 +198,8 @@ export const TKEYS = {
       description: "offer.labels.description",
       "Created-at": "offer.labels.Created-at",
       "Updated-at": "offer.labels.Updated-at",
+      "is-publicly-visible": "offer.labels.is-publicly-visible",
+      "show-on-home-page": "offer.labels.show-on-home-page",
     },
     types: {
       [offerTypeToJSON(
@@ -278,6 +278,9 @@ export const TKEYS = {
       },
       domain: {
         pending: "dashboard.shop.domain.pending",
+        "pending-information": "dashboard.shop.domain.pending-information",
+        "pending-information-sample":
+          "dashboard.shop.domain.pending-information-sample",
         active: "dashboard.shop.domain.active",
       },
       stripe: {
