@@ -41,9 +41,14 @@ export const DE: typeof TKEYS = {
       Delete: "Löschen",
       Cancel: "Abbrechen",
       Discard: "Verwerfen",
-      Buy: "Kaufen",
       Subscribe: "Abonnieren",
       Remove: "Löschen",
+      Enable: "Aktivieren",
+      Disable: "Deaktivieren",
+      Publish: "Veröffentlichen",
+      Hide: "Verbergen",
+      Accept: "Akzeptieren",
+      Buy: "Kaufen",
       "Are-you-sure-you-want-to-delete-the-item":
         '{item} namens "{name}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",
@@ -230,7 +235,12 @@ export const DE: typeof TKEYS = {
       "my-shops": "Meine Shops",
       "no-shop-yet": "Bisher keinen Shop erstellt",
       "create-new-shop": "Neuen Shop erstellen",
-      "edit-name-and-description": "Name, Beschreibung und Sichtbarkeit",
+      "edit-name-and-description": "Name und Beschreibung",
+      "public-visibility": "Öffentliche Sichtbarkeit",
+      "publish-notification-title": "Shop veröffentlichen?",
+      "publish-notification-message": "Mit der Veröffentlichung des Shops ...",
+      "unpublish-notification-title": "Shop verbergen?",
+      "unpublish-notification-message": "Mit dem Verbergen des Shops ...",
       "edit-image": "Bild bearbeiten",
       "delete-image": "Bild löschen",
       "logo-image": "Bild",
@@ -251,7 +261,7 @@ export const DE: typeof TKEYS = {
       domain: {
         pending: "Wird verifiziert",
         "pending-information":
-          "Bitte konfiguriere einen DNS CNAME Eintrag für die angegebene Domain",
+          "Bitte konfiguriere den folgenden DNS CNAME Eintrag für die angegebene Domain:",
         "pending-information-sample":
           "{item}. CNAME mysite.peoplesmarkets.com.",
         active: "Verifiziert",

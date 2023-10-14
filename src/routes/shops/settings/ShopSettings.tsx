@@ -9,10 +9,13 @@ import {
 } from "../../../components/dashboard";
 import { Page, Section } from "../../../components/layout";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
-import { requireAuthentication } from "../../../lib";
+import { requireAuthentication, secondsToLocaleDateTime } from "../../../lib";
 import { buildDashboardPath } from "../../main-routing";
 import { ShopData } from "../ShopData";
 import styles from "./ShopSettings.module.scss";
+import { Trans } from "@mbarzda/solid-i18next";
+import { Multiline } from "../../../components/content";
+import { TKEYS } from "../../../locales";
 
 export default function ShopSettingsPage() {
   const location = useLocation();
@@ -55,6 +58,55 @@ export default function ShopSettingsPage() {
 
             <Section flat>
               <span class={styles.Title}>{shopData.shop()?.name}</span>
+            </Section>
+
+            <Section>
+              <span class={styles.Label}>
+                <Trans key={TKEYS["shop"].labels.Description} />:
+              </span>
+
+              <Show
+                when={!_.isEmpty(shopData?.shop()?.description)}
+                fallback={
+                  <span class={styles.Details}>
+                    <Trans key={TKEYS["shop"]["no-description"]} />
+                  </span>
+                }
+              >
+                <Multiline text={() => shopData?.shop()?.description} />
+              </Show>
+            </Section>
+
+            <Section>
+              <span class={styles.Label}>
+                <Trans key={TKEYS.dashboard["shop"].Details} />:
+              </span>
+
+              <span class={styles.Details}>
+                <Trans key={TKEYS.offer.visibility.title} />:{" "}
+                <Show
+                  when={Boolean(shopData?.shop()?.isActive)}
+                  fallback={
+                    <span class={styles.Warning}>
+                      <Trans key={TKEYS.offer.visibility["not-visible"]} />
+                    </span>
+                  }
+                >
+                  <span class={styles.Active}>
+                    <Trans key={TKEYS.offer.visibility.visible} />
+                  </span>
+                </Show>
+              </span>
+
+              <span class={styles.Details}>
+                <Trans key={TKEYS["shop"].labels["Created-at"]} />:{" "}
+                {secondsToLocaleDateTime(shopData?.shop()?.createdAt)}
+              </span>
+
+              <span class={styles.Details}>
+                <Trans key={TKEYS["shop"].labels["Updated-at"]} />:{" "}
+                {secondsToLocaleDateTime(shopData?.shop()?.updatedAt)}
+              </span>
             </Section>
 
             <OfferSettings />

@@ -42,6 +42,11 @@ export const TKEYS = {
       Cancel: "form.action.Cancel",
       Discard: "form.action.Discard",
       Remove: "form.action.Remove",
+      Enable: "form.action.Enable",
+      Disable: "form.action.Disable",
+      Publish: "form.action.Publish",
+      Hide: "form.action.Hide",
+      Accept: "form.action.Accept",
       Buy: "form.action.Buy",
       Subscribe: "form.action.Subscribe",
       "Are-you-sure-you-want-to-delete-the-item":
@@ -259,6 +264,14 @@ export const TKEYS = {
       "no-shop-yet": "dashboard.shop.no-shop-yet",
       "create-new-shop": "dashboard.shop.create-new-shop",
       "edit-name-and-description": "dashboard.shop.edit-name-and-description",
+      "public-visibility": "dashboard.shop.public-visibility",
+      "publish-notification-title": "dashboard.shop.publish-notification-title",
+      "publish-notification-message":
+        "dashboard.shop.publish-notification-message",
+      "unpublish-notification-title":
+        "dashboard.shop.unpublish-notification-title",
+      "unpublish-notification-message":
+        "dashboard.shop.unpublish-notification-message",
       "edit-image": "dashboard.shop.edit-image",
       "delete-image": "dashboard.shop.delete-image",
       "logo-image": "dashboard.shop.logo-image",
