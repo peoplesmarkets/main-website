@@ -2,17 +2,19 @@ import { JSX } from "solid-js";
 
 import styles from "./ActionButton.module.scss";
 
+export type ActionType =
+  | "active"
+  | "active-borderless"
+  | "active-filled"
+  | "danger"
+  | "danger-borderless"
+  | "danger-filled"
+  | "neutral"
+  | "neutral-borderless"
+  | "neutral-filled";
+
 type Props = {
-  actionType:
-    | "active"
-    | "active-borderless"
-    | "active-filled"
-    | "danger"
-    | "danger-borderless"
-    | "danger-filled"
-    | "neutral"
-    | "neutral-borderless"
-    | "neutral-filled";
+  actionType: ActionType;
   children: JSX.Element;
   onClick: (_event?: any) => void;
   submit?: boolean;
