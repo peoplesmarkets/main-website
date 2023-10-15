@@ -49,7 +49,6 @@ export const DE: typeof TKEYS = {
       Hide: "Verbergen",
       Accept: "Akzeptieren",
       Buy: "Kaufen",
-      Contact: "Kontakt",
       "Are-you-sure-you-want-to-delete-the-item":
         '{item} namens "{name}" wirklich löschen?',
       "Confirm-Deletion?": "Wirklich löschen?",
@@ -173,6 +172,7 @@ export const DE: typeof TKEYS = {
     "no-description": "Keine Beschreibung vorhanden ...",
     "currently-not-available": "Derzeit nicht verfügbar",
     "sign-in-to-subscribe": "Anmelden",
+    "contact-shop": "Shop kontaktieren",
     "other-offers": "Weitere Angebote",
     "downloadable-content": "downloadbarer Inhalt",
     visibility: {

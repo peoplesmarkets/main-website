@@ -6,6 +6,12 @@
   font: var(--font-title);
 }
 
-.Email {
+.Contact {
+  width: 100%;
+  box-sizing: content-box;
+}
+
+.Label {
+  display: block;
   font: var(--font-label);
 }

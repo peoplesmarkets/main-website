@@ -49,7 +49,6 @@ export const TKEYS = {
       Accept: "form.action.Accept",
       Buy: "form.action.Buy",
       Subscribe: "form.action.Subscribe",
-      Contact: "form.action.Contact",
       "Are-you-sure-you-want-to-delete-the-item":
         "form.action.Are-you-sure-you-want-to-delete-the-item",
       "Confirm-Deletion?": "form.action.Confirm-Deletion?",
@@ -195,6 +194,7 @@ export const TKEYS = {
     "no-description": "offer.no-description",
     "currently-not-available": "offer.currently-not-available",
     "sign-in-to-subscribe": "offer.sign-in-to-subscribe",
+    "contact-shop": "offer.contact-shop",
     "other-offers": "offer.other-offers",
     "downloadable-content": "offer.downloadable-content",
     visibility: {

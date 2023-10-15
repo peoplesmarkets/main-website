@@ -50,7 +50,6 @@ export const EN: typeof TKEYS = {
       Accept: "Accept",
       Buy: "Buy",
       Subscribe: "Subscribe",
-      Contact: "Contact",
       "Are-you-sure-you-want-to-delete-the-item":
         'Are you sure you want to delete the {item}: "{name}"?',
       "Confirm-Deletion?": "Confirm Deletion?",
@@ -174,6 +173,7 @@ export const EN: typeof TKEYS = {
     "no-description": "No description ...",
     "currently-not-available": "Currently not available",
     "sign-in-to-subscribe": "Sign in",
+    "contact-shop": "Contact Shop",
     "other-offers": "Other Offers",
     "downloadable-content": "downloadable content",
     visibility: {

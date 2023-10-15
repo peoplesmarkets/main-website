@@ -136,9 +136,10 @@ export function OfferBuy(props: Props) {
           <LinkButton
             actionType="active-filled"
             href={"mailto:" + contactEmailAddress()}
+            mail
             wide
           >
-            <Trans key={TKEYS.form.action.Contact} />: {contactEmailAddress()}
+            <Trans key={TKEYS.offer["contact-shop"]} />
           </LinkButton>
         </Show>
 
