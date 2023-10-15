@@ -8,6 +8,9 @@
   text-decoration: none;
   outline: 0;
   user-select: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .ActionButton:hover {
@@ -105,4 +108,8 @@
 
 .Wide {
   width: 100%;
+}
+
+.Mail {
+  text-decoration: underline;
 }

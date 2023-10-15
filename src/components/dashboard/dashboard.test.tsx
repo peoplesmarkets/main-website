@@ -51,20 +51,13 @@ describe("Render once", () => {
   });
   test("EditShopDialog", () => {
     const { container } = renderIntoRoot(() => (
-      <EditShopDialog
-        shop={() => ({ shopId: "" } as any)}
-        onClose={noOp}
-      />
+      <EditShopDialog shop={() => ({ shopId: "" } as any)} onClose={noOp} />
     ));
     expect(container).toBeDefined();
   });
   test("EditShopBannerDialog", () => {
     const { container } = renderIntoRoot(() => (
-      <EditShopBannerDialog
-        shopId=""
-        onClose={noOp}
-        onUpdate={noOp}
-      />
+      <EditShopBannerDialog shopId="" onClose={noOp} onUpdate={noOp} />
     ));
     expect(container).toBeDefined();
   });
@@ -75,9 +68,7 @@ describe("Render once", () => {
     expect(container).toBeDefined();
   });
   test("ShopImage", () => {
-    const { container } = renderIntoRoot(() => (
-      <ShopImage onUpdate={noOp} />
-    ));
+    const { container } = renderIntoRoot(() => <ShopImage onUpdate={noOp} />);
     expect(container).toBeDefined();
   });
   test("ShopSettings", () => {
@@ -93,7 +84,9 @@ describe("Render once", () => {
     expect(container).toBeDefined();
   });
   test("OfferSettings", () => {
-    const { container } = renderIntoRoot(() => <OfferSettings />);
+    const { container } = renderIntoRoot(() => (
+      <OfferSettings shop={getNoObj} />
+    ));
     expect(container).toBeDefined();
   });
 });

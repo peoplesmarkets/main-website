@@ -20,6 +20,7 @@ import {
 import { PriceType } from "../../services/peoplesmarkets/commerce/v1/price";
 import { isResolved } from "../content";
 import { ActionButton } from "../form";
+import { LinkButton } from "../form/LinkButton";
 import styles from "./OfferBuy.module.scss";
 
 type Props = {
@@ -49,25 +50,33 @@ export function OfferBuy(props: Props) {
       return "already-subscribed";
     }
 
-    if (!_.isNil(shopData.stripeAccount())) {
-      if (!shopData.stripeAccount()?.enabled) {
-        return "no-payment-method";
-      } else if (
-        props.offer().price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
-        props.offer().type === OfferType.OFFER_TYPE_DIGITAL &&
-        !isAuthenticated()
-      ) {
-        return "login";
-      } else if (
-        props.offer().price?.priceType === PriceType.PRICE_TYPE_RECURRING
-      ) {
-        return "subscribe";
-      } else {
-        return "buy";
-      }
+    if (_.isNil(shopData?.stripeAccount())) {
+      return "loading";
     }
 
-    return "loading";
+    if (!shopData.stripeAccount()?.enabled) {
+      if (shopData?.shop()?.contactEmailAddress) {
+        return "contact-email";
+      }
+      return "no-payment-method";
+    } else if (
+      props.offer().price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
+      props.offer().type === OfferType.OFFER_TYPE_DIGITAL &&
+      !isAuthenticated()
+    ) {
+      return "login";
+    } else if (
+      props.offer().price?.priceType === PriceType.PRICE_TYPE_RECURRING
+    ) {
+      return "subscribe";
+    } else {
+      return "buy";
+    }
+  }
+
+  function contactEmailAddress() {
+    const contactEmailAddress = shopData?.shop()?.contactEmailAddress;
+    return contactEmailAddress || "";
   }
 
   async function handleCheckout() {
@@ -121,6 +130,17 @@ export function OfferBuy(props: Props) {
           >
             <Trans key={TKEYS.form.action.Subscribe} />
           </ActionButton>
+        </Show>
+
+        <Show when={actionState() === "contact-email"}>
+          <LinkButton
+            actionType="active-filled"
+            href={"mailto:" + contactEmailAddress()}
+            mail
+            wide
+          >
+            <Trans key={TKEYS.offer["contact-shop"]} />
+          </LinkButton>
         </Show>
 
         <Show when={actionState() === "buy"}>

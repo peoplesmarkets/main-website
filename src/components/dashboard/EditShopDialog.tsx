@@ -112,40 +112,38 @@ export function EditShopDialog(props: Props) {
 
   return (
     <>
-      <Show when={!discardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard.shop["edit-name-and-description"])}
-          onClose={closeDialog}
-        >
-          <form class={styles.Form} onSubmit={handleUpdateShop}>
-            <TextField
-              label={trans(TKEYS.shop.labels.name)}
-              required
-              value={shop.name}
-              onValue={handleNameInput}
-              errors={errors.name}
-            />
+      <Dialog
+        title={trans(TKEYS.dashboard.shop["edit-name-and-description"])}
+        onClose={closeDialog}
+      >
+        <form class={styles.Form} onSubmit={handleUpdateShop}>
+          <TextField
+            label={trans(TKEYS.shop.labels.name)}
+            required
+            value={shop.name}
+            onValue={handleNameInput}
+            errors={errors.name}
+          />
 
-            <TextArea
-              label={trans(TKEYS.shop.labels.description)}
-              rows={8}
-              value={shop.description}
-              onValue={handleDescriptionInput}
-              errors={errors.description}
-            />
+          <TextArea
+            label={trans(TKEYS.shop.labels.description)}
+            rows={8}
+            value={shop.description}
+            onValue={handleDescriptionInput}
+            errors={errors.description}
+          />
 
-            <div class={styles.DialogFooter}>
-              <ActionButton
-                actionType="active-filled"
-                submit
-                onClick={(e) => handleUpdateShop(e)}
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+          <div class={styles.DialogFooter}>
+            <ActionButton
+              actionType="active-filled"
+              submit
+              onClick={(e) => handleUpdateShop(e)}
+            >
+              <Trans key={TKEYS.form.action.Save} />
+            </ActionButton>
+          </div>
+        </form>
+      </Dialog>
 
       <Show when={discardConfirmation()}>
         <DiscardConfirmation

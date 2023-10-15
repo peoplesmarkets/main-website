@@ -23,6 +23,7 @@ import { EditShopLogoDialog } from "./EditShopLogoDialog";
 import { EditShopSlugDialog } from "./EditShopSlugDialog";
 import { EditShopThemeDialog } from "./EditShopThemeDialog";
 import styles from "./ShopSettings.module.scss";
+import { EditShopContactEmailDialog } from "../shops/settings/EditShopContactEmailDialog";
 
 type Props = {
   onUpdate: () => Promise<void>;
@@ -31,16 +32,17 @@ type Props = {
 
 type DIALOG =
   | "none"
-  | "delete"
   | "message"
   | "edit-shop"
-  | "make-visible"
-  | "make-not-visible"
+  | "edit-contact-email"
   | "edit-image"
   | "edit-logo"
   | "edit-theme"
   | "edit-slug"
-  | "edit-domain";
+  | "edit-domain"
+  | "make-visible"
+  | "make-not-visible"
+  | "delete";
 
 export function ShopSettings(props: Props) {
   const location = useLocation();
@@ -106,21 +108,16 @@ export function ShopSettings(props: Props) {
 
   function handleCloseDialog() {
     setShowDialog("none");
-    shopData.refetch();
   }
 
   async function handleVisibility(isActive: boolean) {
     const shopId = shopData?.shop()?.shopId;
     if (!_.isNil(shopId) && !_.isEmpty(shopId)) {
-      try {
-        await shopService.update({
-          shopId,
-          isActive,
-        });
-        handleCloseDialog();
-      } catch (err: any) {
-        setShowDialog("message");
-      }
+      await shopService.update({
+        shopId,
+        isActive,
+      });
+      handleCloseDialog();
     }
   }
 
@@ -184,7 +181,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard.shop["edit-name-and-description"]} />
+            <Trans key={TKEYS.shop.labels["Name-and-Description"]} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -237,7 +234,19 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard.shop["edit-image"]} />
+            <Trans key={TKEYS.shop.labels["contact-email-address"]} />
+          </p>
+          <ActionButton
+            actionType="neutral"
+            onClick={() => handleOpenDialog("edit-contact-email")}
+          >
+            <Trans key={TKEYS.form.action.Edit} />
+          </ActionButton>
+        </div>
+
+        <div class={styles.EditSection}>
+          <p class={styles.Body}>
+            <Trans key={TKEYS.shop.labels.Image} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -249,7 +258,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard.shop["edit-logo"]} />
+            <Trans key={TKEYS.shop.labels.Logo} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -261,7 +270,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard.shop["edit-theme"]} />
+            <Trans key={TKEYS.shop.labels.Theme} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -273,7 +282,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard.shop["edit-path"]} />
+            <Trans key={TKEYS.shop.labels.Path} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -285,7 +294,7 @@ export function ShopSettings(props: Props) {
 
         <div class={styles.EditSection}>
           <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard.shop["edit-domain"]} />
+            <Trans key={TKEYS.shop.labels.Domain} />
           </p>
           <ActionButton
             actionType="neutral"
@@ -350,6 +359,16 @@ export function ShopSettings(props: Props) {
         </div>
       </Section>
 
+      {/* DIALOGS */}
+      <Show when={showDialog() === "message"}>
+        <Message
+          title={trans(TKEYS.form.errors.Conflict)}
+          onClose={handleCloseDialog}
+        >
+          <Trans key={TKEYS.shop.errors["ensure-offers-deleted"]} />
+        </Message>
+      </Show>
+
       <Show when={showDialog() === "edit-shop" && !_.isNil(shopData?.shop())}>
         <EditShopDialog
           shop={() => shopData?.shop()!}
@@ -358,6 +377,46 @@ export function ShopSettings(props: Props) {
           onUpdate={() => props.onUpdate()}
         />
       </Show>
+
+      <Show when={showDialog() === "edit-contact-email"}>
+        <EditShopContactEmailDialog
+          shop={() => shopData?.shop()}
+          onClose={handleCloseDialog}
+          onUpdate={() => props.onUpdate()}
+        />
+      </Show>
+
+      <Show when={showDialog() === "edit-image" && !_.isNil(shopData?.shop())}>
+        <EditShopBannerDialog
+          shopId={shopData?.shop()!.shopId}
+          onClose={handleCloseDialog}
+          onUpdate={() => props.onUpdate()}
+        />
+      </Show>
+
+      <Show when={showDialog() === "edit-logo" && !_.isNil(shopData?.shop())}>
+        <EditShopLogoDialog
+          shopId={shopData?.shop()!.shopId}
+          onClose={handleCloseDialog}
+          onUpdate={() => props.onUpdate()}
+        />
+      </Show>
+
+      <Show when={showDialog() === "edit-theme" && !_.isNil(shopData?.shop())}>
+        <EditShopThemeDialog
+          onClose={handleCloseDialog}
+          onUpdate={() => props.onUpdate()}
+        />
+      </Show>
+
+      <Show when={showDialog() === "edit-slug" && !_.isNil(shopData?.shop())}>
+        <EditShopSlugDialog onClose={handleCloseDialog} />
+      </Show>
+
+      <Show when={showDialog() === "edit-domain" && !_.isNil(shopData?.shop())}>
+        <EditShopDomainDialog onClose={handleCloseDialog} />
+      </Show>
+
       <Show
         when={showDialog() === "make-visible" && !_.isNil(shopData?.shop())}
       >
@@ -369,6 +428,7 @@ export function ShopSettings(props: Props) {
           onOk={() => handleVisibility(true)}
         />
       </Show>
+
       <Show
         when={showDialog() === "make-not-visible" && !_.isNil(shopData?.shop())}
       >
@@ -382,6 +442,7 @@ export function ShopSettings(props: Props) {
           onOk={() => handleVisibility(false)}
         />
       </Show>
+
       <Show when={showDialog() === "delete"}>
         <DeleteConfirmation
           item={trans(TKEYS.shop.title)}
@@ -390,40 +451,7 @@ export function ShopSettings(props: Props) {
           onConfirmation={handleConfirmDeletion}
         />
       </Show>
-      <Show when={showDialog() === "message"}>
-        <Message
-          title={trans(TKEYS.form.errors.Conflict)}
-          onClose={handleCloseDialog}
-        >
-          <Trans key={TKEYS.shop.errors["ensure-offers-deleted"]} />
-        </Message>
-      </Show>
-      <Show when={showDialog() === "edit-image" && !_.isNil(shopData?.shop())}>
-        <EditShopBannerDialog
-          shopId={shopData?.shop()!.shopId}
-          onClose={handleCloseDialog}
-          onUpdate={() => props.onUpdate()}
-        />
-      </Show>
-      <Show when={showDialog() === "edit-logo" && !_.isNil(shopData?.shop())}>
-        <EditShopLogoDialog
-          shopId={shopData?.shop()!.shopId}
-          onClose={handleCloseDialog}
-          onUpdate={() => props.onUpdate()}
-        />
-      </Show>
-      <Show when={showDialog() === "edit-theme" && !_.isNil(shopData?.shop())}>
-        <EditShopThemeDialog
-          onClose={handleCloseDialog}
-          onUpdate={() => props.onUpdate()}
-        />
-      </Show>
-      <Show when={showDialog() === "edit-slug" && !_.isNil(shopData?.shop())}>
-        <EditShopSlugDialog onClose={handleCloseDialog} />
-      </Show>
-      <Show when={showDialog() === "edit-domain" && !_.isNil(shopData?.shop())}>
-        <EditShopDomainDialog onClose={handleCloseDialog} />
-      </Show>
+
       <Show when={redirecting()}>
         <Cover pageLoad />
       </Show>

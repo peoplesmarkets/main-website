@@ -15,18 +15,19 @@ export type ActionType =
 
 type Props = {
   actionType: ActionType;
+  href: string;
   children: JSX.Element;
-  onClick: (_event?: any) => void;
   submit?: boolean;
   disabled?: boolean;
   small?: boolean;
   tall?: boolean;
   wide?: boolean;
+  mail?: boolean;
 };
 
-export function ActionButton(props: Props) {
+export function LinkButton(props: Props) {
   return (
-    <button
+    <a
       classList={{
         [styles.ActionButton]: true,
         [styles.Active]: props.actionType === "active",
@@ -42,12 +43,11 @@ export function ActionButton(props: Props) {
         [styles.Small]: Boolean(props.small),
         [styles.Tall]: Boolean(props.tall),
         [styles.Wide]: Boolean(props.wide),
+        [styles.Mail]: Boolean(props.mail),
       }}
-      disabled={Boolean(props.disabled)}
-      type={props.submit ? "submit" : "button"}
-      onClick={(e) => props.onClick(e)}
+      href={props.href}
     >
       {props.children}
-    </button>
+    </a>
   );
 }
