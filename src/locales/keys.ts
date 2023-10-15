@@ -55,7 +55,7 @@ export const TKEYS = {
       "Discard-unsafed-changes": "form.action.Discard-unsafed-changes",
       "Confirm-Cancellation": "form.action.Confirm-Cancellation",
     },
-    "danger-zone": "form.danger-zone",
+    "critical-settings": "form.critical-settings",
     errors: {
       Conflict: "form.errors.Conflict",
       "required-field": "form.errors.required-field",
@@ -312,6 +312,15 @@ export const TKEYS = {
       "delete-this-offer": "dashboard.offers.delete-this-offer",
       "add-image": "dashboard.offers.add-image",
       "edit-price": "dashboard.offers.edit-price",
+      "public-visibility": "dashboard.offers.public-visibility",
+      "publish-notification-title":
+        "dashboard.offers.publish-notification-title",
+      "publish-notification-message":
+        "dashboard.offers.publish-notification-message",
+      "unpublish-notification-title":
+        "dashboard.offers.unpublish-notification-title",
+      "unpublish-notification-message":
+        "dashboard.offers.unpublish-notification-message",
     },
     "shipping-rate": {
       "add-shipping-rate": "dashboard.shipping-rate.add-shipping-rate",

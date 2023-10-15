@@ -43,7 +43,6 @@ export function EditOfferDialog(props: Props) {
     name: undefined as string | undefined,
     description: undefined as string | undefined,
     type: undefined as string | undefined,
-    isActive: undefined as boolean | undefined,
     isFeatured: undefined as boolean | undefined,
   } as UpdateOfferRequest;
 
@@ -100,12 +99,6 @@ export function EditOfferDialog(props: Props) {
   function handleOfferTypeChange(value: SelectKey) {
     if (_.isString(value)) {
       setRequest("type", offerTypeFromJSON(value));
-    }
-  }
-
-  function handleVisibilityChange(value: SelectKey) {
-    if (_.isBoolean(value)) {
-      setRequest("isActive", value);
     }
   }
 
@@ -184,12 +177,6 @@ export function EditOfferDialog(props: Props) {
               value={request.description}
               onValue={handleDescriptionInput}
               errors={errors.description}
-            />
-
-            <CheckBox
-              label={trans(TKEYS.offer.labels["is-publicly-visible"])}
-              value={request.isActive}
-              onValue={handleVisibilityChange}
             />
 
             <CheckBox

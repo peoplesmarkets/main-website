@@ -56,7 +56,7 @@ export const EN: typeof TKEYS = {
       "Discard-unsafed-changes": "Discard unsaved changes?",
       "Confirm-Cancellation": "Confirm Cancellation?",
     },
-    "danger-zone": "Danger Zone",
+    "critical-settings": "Critical Settings",
     errors: {
       Conflict: "Conflict",
       "required-field": "Required field",
@@ -285,6 +285,12 @@ export const EN: typeof TKEYS = {
       "delete-this-offer": "Delete this Offer",
       "add-image": "Add image",
       "edit-price": "Edit Price",
+      "public-visibility": "Public Visibility",
+      "publish-notification-title": "Are you sure you want publish this Offer?",
+      "publish-notification-message": "By publishing this Offer ...",
+      "unpublish-notification-title":
+        "Are you sure you want to unpublish this Offer?",
+      "unpublish-notification-message": "By unpublishing this Offer ...",
     },
     "shipping-rate": {
       "add-shipping-rate": "Add Shipping Rate",
