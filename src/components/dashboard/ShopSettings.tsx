@@ -117,8 +117,7 @@ export function ShopSettings(props: Props) {
           shopId,
           isActive,
         });
-        props.onUpdate();
-        setShowDialog("none");
+        handleCloseDialog();
       } catch (err: any) {
         setShowDialog("message");
       }
@@ -179,7 +178,7 @@ export function ShopSettings(props: Props) {
   return (
     <>
       <Section bordered>
-        <span class={styles.Title}>
+        <span class={styles.Label}>
           <Trans key={TKEYS.form.action.Edit} />
         </span>
 
@@ -316,8 +315,8 @@ export function ShopSettings(props: Props) {
       </Section>
 
       <Section danger>
-        <span class={styles.Title}>
-          <Trans key={TKEYS.form["danger-zone"]} />
+        <span class={styles.Label}>
+          <Trans key={TKEYS.form["critical-settings"]} />
         </span>
 
         <Show

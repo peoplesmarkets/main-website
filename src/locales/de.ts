@@ -55,7 +55,7 @@ export const DE: typeof TKEYS = {
       "Discard-unsafed-changes": "Nicht gespeicherte Änderungen verwerfen?",
       "Confirm-Cancellation": "Wirklich kündigen?",
     },
-    "danger-zone": "Gefahrenzone",
+    "critical-settings": "Kritische Einstellungen",
     errors: {
       Conflict: "Konflikt",
       "required-field": "Eingabe erforderlich",
@@ -282,6 +282,12 @@ export const DE: typeof TKEYS = {
       "delete-this-offer": "Dieses Angebot löschen",
       "add-image": "Bild hinzufügen",
       "edit-price": "Preis bearbeiten",
+      "public-visibility": "Öffentliche Sichtbarkeit",
+      "publish-notification-title": "Angebot veröffentlichen?",
+      "publish-notification-message":
+        "Mit der Veröffentlichung des Angebots ...",
+      "unpublish-notification-title": "Angebot verbergen?",
+      "unpublish-notification-message": "Mit dem Verbergen des Angebots ...",
     },
     "shipping-rate": {
       "add-shipping-rate": "Versandkosten hinzufügen",

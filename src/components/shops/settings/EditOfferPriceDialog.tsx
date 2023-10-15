@@ -59,6 +59,13 @@ export function EditOfferPriceDialog(props: Props) {
     price: undefined,
   });
 
+  const defaultPriceRequest = {
+    unitAmount: 0.0,
+    priceType: PriceType.PRICE_TYPE_ONE_TIME,
+    currency: Currency.CURRENCY_EUR,
+    billingScheme: PriceBillingScheme.PRICE_BILLING_SCHEME_PER_UNIT,
+  };
+
   const [errors] = createStore({
     unitAmount: [] as string[],
     recurringInterval: [] as string[],
@@ -87,12 +94,7 @@ export function EditOfferPriceDialog(props: Props) {
           setShowTrialPeriodInput(true);
         }
       } else {
-        setRequest("price", {
-          unitAmount: 0.0,
-          priceType: PriceType.PRICE_TYPE_ONE_TIME,
-          currency: Currency.CURRENCY_EUR,
-          billingScheme: PriceBillingScheme.PRICE_BILLING_SCHEME_PER_UNIT,
-        });
+        setRequest("price", _.clone(defaultPriceRequest));
       }
     }
   });
@@ -247,7 +249,10 @@ export function EditOfferPriceDialog(props: Props) {
   }
 
   function handleCloseDialog() {
-    if (!_.isEqual(props.offer().price, request.price)) {
+    if (
+      !_.isEqual(props.offer().price, request.price) &&
+      !_.isEqual(defaultPriceRequest, request.price)
+    ) {
       setShowDiscardConfirmation(true);
     } else {
       props.onClose();
