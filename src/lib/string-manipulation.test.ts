@@ -2,6 +2,7 @@ import { afterEach, beforeEach, describe, expect, test } from "vitest";
 
 import {
   base64ToUtf8,
+  centsToDecimal,
   encodeArrayBufferToBase64Url,
   getInitials,
   parseJwtPayload,
@@ -113,6 +114,53 @@ describe("string-manipulation", () => {
         expectNoError(err);
       }
       expect(res).toEqual("NL");
+    });
+  });
+
+  describe("centsToDecimal", () => {
+    test("0 : ok", () => {
+      expect(centsToDecimal(0, ",")).toEqual("0,00");
+      expect(centsToDecimal(0, ".")).toEqual("0.00");
+    });
+    test("-0 : ok", () => {
+      expect(centsToDecimal(-0, ",")).toEqual("0,00");
+      expect(centsToDecimal(-0, ".")).toEqual("0.00");
+    });
+    test("5 : ok", () => {
+      expect(centsToDecimal(5, ",")).toEqual("0,05");
+      expect(centsToDecimal(5, ".")).toEqual("0.05");
+    });
+    test("-5 : ok", () => {
+      expect(centsToDecimal(-5, ",")).toEqual("-0,05");
+      expect(centsToDecimal(-5, ".")).toEqual("-0.05");
+    });
+    test("50 : ok", () => {
+      expect(centsToDecimal(50, ",")).toEqual("0,50");
+      expect(centsToDecimal(50, ".")).toEqual("0.50");
+    });
+    test("-50 : ok", () => {
+      expect(centsToDecimal(-50, ",")).toEqual("-0,50");
+      expect(centsToDecimal(-50, ".")).toEqual("-0.50");
+    });
+    test("55 : ok", () => {
+      expect(centsToDecimal(55, ",")).toEqual("0,55");
+      expect(centsToDecimal(55, ".")).toEqual("0.55");
+    });
+    test("500 : ok", () => {
+      expect(centsToDecimal(500, ",")).toEqual("5,00");
+      expect(centsToDecimal(500, ".")).toEqual("5.00");
+    });
+    test("505 : ok", () => {
+      expect(centsToDecimal(505, ",")).toEqual("5,05");
+      expect(centsToDecimal(505, ".")).toEqual("5.05");
+    });
+    test("550 : ok", () => {
+      expect(centsToDecimal(550, ",")).toEqual("5,50");
+      expect(centsToDecimal(550, ".")).toEqual("5.50");
+    });
+    test("555 : ok", () => {
+      expect(centsToDecimal(555, ",")).toEqual("5,55");
+      expect(centsToDecimal(555, ".")).toEqual("5.55");
     });
   });
 });

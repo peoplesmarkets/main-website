@@ -1,21 +1,21 @@
 import { useLocation, useNavigate, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createEffect } from "solid-js";
+import { ErrorBoundary, Show, Suspense, createEffect } from "solid-js";
 
+import { Trans } from "@mbarzda/solid-i18next";
+import { ContentError, Multiline } from "../../../components/content";
 import {
   OfferSettings,
   ShopImage,
   ShopSettings,
 } from "../../../components/dashboard";
-import { Page, Section } from "../../../components/layout";
+import { Section } from "../../../components/layout";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
 import { requireAuthentication, secondsToLocaleDateTime } from "../../../lib";
+import { TKEYS } from "../../../locales";
 import { buildDashboardPath } from "../../main-routing";
 import { ShopData } from "../ShopData";
 import styles from "./ShopSettings.module.scss";
-import { Trans } from "@mbarzda/solid-i18next";
-import { Multiline } from "../../../components/content";
-import { TKEYS } from "../../../locales";
 
 export default function ShopSettingsPage() {
   const location = useLocation();
@@ -50,9 +50,9 @@ export default function ShopSettingsPage() {
   }
 
   return (
-    <Page>
-      <div class={styles.ShopSettings}>
-        <Show when={!_.isNil(shopData?.shop())}>
+    <ErrorBoundary fallback={<ContentError />}>
+      <Suspense>
+        <div class={styles.ShopSettings}>
           <div class={styles.Settings}>
             <ShopImage onUpdate={handleShopUpdate} />
 
@@ -62,14 +62,14 @@ export default function ShopSettingsPage() {
 
             <Section>
               <span class={styles.Label}>
-                <Trans key={TKEYS["shop"].labels.Description} />:
+                <Trans key={TKEYS.shop.labels.Description} />:
               </span>
 
               <Show
                 when={!_.isEmpty(shopData?.shop()?.description)}
                 fallback={
                   <span class={styles.Details}>
-                    <Trans key={TKEYS["shop"]["no-description"]} />
+                    <Trans key={TKEYS.shop["no-description"]} />
                   </span>
                 }
               >
@@ -79,7 +79,7 @@ export default function ShopSettingsPage() {
 
             <Section>
               <span class={styles.Label}>
-                <Trans key={TKEYS.dashboard["shop"].Details} />:
+                <Trans key={TKEYS.dashboard.shop.Details} />:
               </span>
 
               <span class={styles.Details}>
@@ -98,26 +98,33 @@ export default function ShopSettingsPage() {
                 </Show>
               </span>
 
+              <Show when={!_.isEmpty(shopData?.shop()?.contactEmailAddress)}>
+                <span class={styles.Details}>
+                  <Trans key={TKEYS.shop.labels["contact-email-address"]} />:{" "}
+                  {shopData?.shop()?.contactEmailAddress}
+                </span>
+              </Show>
+
               <span class={styles.Details}>
-                <Trans key={TKEYS["shop"].labels["Created-at"]} />:{" "}
+                <Trans key={TKEYS.shop.labels["Created-at"]} />:{" "}
                 {secondsToLocaleDateTime(shopData?.shop()?.createdAt)}
               </span>
 
               <span class={styles.Details}>
-                <Trans key={TKEYS["shop"].labels["Updated-at"]} />:{" "}
+                <Trans key={TKEYS.shop.labels["Updated-at"]} />:{" "}
                 {secondsToLocaleDateTime(shopData?.shop()?.updatedAt)}
               </span>
             </Section>
 
-            <OfferSettings />
+            <OfferSettings shop={() => shopData?.shop()} />
 
             <ShopSettings
               onUpdate={handleShopUpdate}
               onDelete={handleDeleteShop}
             />
           </div>
-        </Show>
-      </div>
-    </Page>
+        </div>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
