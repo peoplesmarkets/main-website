@@ -1,16 +1,13 @@
+import { Trans } from "@mbarzda/solid-i18next";
 import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { For, Match, Show, Switch, createResource } from "solid-js";
+import { ErrorBoundary, For, Show, Suspense, createResource } from "solid-js";
 
-import {
-  ContentError,
-  ContentLoading,
-  Multiline,
-  isResolved,
-} from "../../components/content";
+import { ContentError, Multiline } from "../../components/content";
 import { Border, Section } from "../../components/layout";
 import { OfferDetailView, OfferList, ShopBanner } from "../../components/shops";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { TKEYS } from "../../locales";
 import { OfferService } from "../../services";
 import {
   OffersFilterField,
@@ -19,8 +16,6 @@ import {
 import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
 import { ShopData } from "./ShopData";
 import styles from "./ShopDetail.module.scss";
-import { Trans } from "@mbarzda/solid-i18next";
-import { TKEYS } from "../../locales";
 
 export default function ShopDetail() {
   const { accessToken } = useAccessTokensContext();
@@ -60,13 +55,13 @@ export default function ShopDetail() {
   }
 
   return (
-    <>
-      <Show when={!_.isNil(shopData?.shopCustomization())}>
-        <ShopBanner shopCustomization={() => shopData.shopCustomization()} />
-      </Show>
+    <ErrorBoundary fallback={<ContentError />}>
+      <Suspense>
+        <Show when={!_.isNil(shopData?.shopCustomization())}>
+          <ShopBanner shopCustomization={() => shopData.shopCustomization()} />
+        </Show>
 
-      <Show when={!_.isNil(shopData?.shop())}>
-        <Show when={!_.isEmpty(shopData.shop()?.description)}>
+        <Show when={!_.isEmpty(shopData?.shop()?.description)}>
           <Section>
             <span class={styles.Description}>
               <Multiline text={() => shopData.shop()?.description} />
@@ -82,38 +77,28 @@ export default function ShopDetail() {
           </Section>
         </Show>
 
-        <Switch>
-          <Match when={offers.state === "errored"}>
-            <ContentError />
-          </Match>
-          <Match when={offers.state === "pending"}>
-            <ContentLoading />
-          </Match>
-          <Match when={isResolved(offers.state)}>
-            <Show when={!_.isEmpty(offers())}>
-              <Show when={!_.isEmpty(featuredOffers())}>
-                <Border />
-              </Show>
+        <Show when={!_.isEmpty(offers())}>
+          <Show when={!_.isEmpty(featuredOffers())}>
+            <Border />
+          </Show>
 
-              <Section>
-                <span class={styles.Title}>
-                  <Show
-                    when={!_.isEmpty(featuredOffers())}
-                    fallback={
-                      <>
-                        <Trans key={TKEYS.offer["title-plural"]} />:
-                      </>
-                    }
-                  >
-                    <Trans key={TKEYS.offer["other-offers"]} />:
-                  </Show>
-                </span>
-                <OfferList offers={() => offers()!} />
-              </Section>
-            </Show>
-          </Match>
-        </Switch>
-      </Show>
-    </>
+          <Section>
+            <span class={styles.Title}>
+              <Show
+                when={!_.isEmpty(featuredOffers())}
+                fallback={
+                  <>
+                    <Trans key={TKEYS.offer["title-plural"]} />:
+                  </>
+                }
+              >
+                <Trans key={TKEYS.offer["other-offers"]} />:
+              </Show>
+            </span>
+            <OfferList offers={() => offers()!} />
+          </Section>
+        </Show>
+      </Suspense>
+    </ErrorBoundary>
   );
 }

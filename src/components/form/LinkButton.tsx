@@ -15,8 +15,8 @@ export type ActionType =
 
 type Props = {
   actionType: ActionType;
+  href: string;
   children: JSX.Element;
-  onClick: (_event?: any) => void;
   submit?: boolean;
   disabled?: boolean;
   small?: boolean;
@@ -24,9 +24,9 @@ type Props = {
   wide?: boolean;
 };
 
-export function ActionButton(props: Props) {
+export function LinkButton(props: Props) {
   return (
-    <button
+    <a
       classList={{
         [styles.ActionButton]: true,
         [styles.Active]: props.actionType === "active",
@@ -43,11 +43,9 @@ export function ActionButton(props: Props) {
         [styles.Tall]: Boolean(props.tall),
         [styles.Wide]: Boolean(props.wide),
       }}
-      disabled={Boolean(props.disabled)}
-      type={props.submit ? "submit" : "button"}
-      onClick={(e) => props.onClick(e)}
+      href={props.href}
     >
       {props.children}
-    </button>
+    </a>
   );
 }

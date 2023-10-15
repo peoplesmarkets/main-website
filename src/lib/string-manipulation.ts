@@ -117,6 +117,10 @@ export function centsToDecimal(cents: number, decimalPoint: string): string {
     maybeFloat += ".00";
   }
 
+  if (maybeFloat.split(".")[1].length === 1) {
+    maybeFloat += "0";
+  }
+
   return maybeFloat.replace(".", decimalPoint);
 }
 
