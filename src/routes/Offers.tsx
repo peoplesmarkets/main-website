@@ -72,7 +72,9 @@ export default function Offers() {
       listRequest.orderBy?.field ===
       OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT
     ) {
-      return listRequest.orderBy?.direction;
+      return _.find(createdAtOrderByOptions(), {
+        key: listRequest?.orderBy?.direction,
+      });
     }
   }
 
@@ -81,7 +83,9 @@ export default function Offers() {
       listRequest.orderBy?.field ===
       OffersOrderByField.OFFERS_ORDER_BY_FIELD_UPDATED_AT
     ) {
-      return listRequest.orderBy?.direction;
+      return _.find(updatedAtOrderByOptions(), {
+        key: listRequest?.orderBy?.direction,
+      });
     }
   }
 
