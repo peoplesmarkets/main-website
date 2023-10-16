@@ -27,6 +27,10 @@ const POSTS = [
     title: "Infrastructure - Nomad",
     path: "infrastructure-nomad",
   },
+  {
+    title: "Infrastructure - CockroachDB",
+    path: "infrastructure-cockroachdb",
+  },
 ];
 
 function PostLink(props: { path: string; children: JSX.Element }) {
