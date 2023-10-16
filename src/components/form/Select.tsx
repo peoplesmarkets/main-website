@@ -65,16 +65,15 @@ export function Select(props: Props) {
 
     const value = props.value();
 
-    if (
-      _.isNil(value) ||
-      _.isString(value) ||
-      _.isNumber(value) ||
-      _.isBoolean(value)
-    ) {
-      return props.label;
+    if (_.isString(value)) {
+      return value;
     }
 
-    return value.name;
+    if (_.has(value, "name") && !_.isNil((value as Option).name)) {
+      return (value as Option).name;
+    }
+
+    return props.label;
   }
 
   function showClearIcon() {
