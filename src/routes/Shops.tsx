@@ -63,7 +63,9 @@ export default function Shops() {
       listRequest.orderBy?.field ===
       ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT
     ) {
-      return listRequest.orderBy?.direction;
+      return _.find(createdAtOrderByOptions(), {
+        key: listRequest?.orderBy?.direction,
+      });
     }
   }
 
@@ -131,13 +133,13 @@ export default function Shops() {
             <Select
               label={trans(TKEYS.query["order-by"]["created-at"].title)}
               options={createdAtOrderByOptions}
+              value={selectedCreatedAtOrderByKey}
               onValue={(direction) =>
                 handleOrderByInput(
                   ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT,
                   direction
                 )
               }
-              value={selectedCreatedAtOrderByKey}
             />
           </div>
         </div>
