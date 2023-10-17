@@ -10,6 +10,7 @@ import {
   priceTypeToJSON,
   recurringIntervalToJSON,
 } from "../services/peoplesmarkets/commerce/v1/price";
+import { ReportType } from "../services/peoplesmarkets/report/v1/report";
 import { TKEYS } from "./keys";
 
 export const EN: typeof TKEYS = {
@@ -38,6 +39,7 @@ export const EN: typeof TKEYS = {
       Add: "Add",
       OK: "OK",
       Save: "Save",
+      Send: "Send",
       Edit: "Edit",
       Delete: "Delete",
       Cancel: "Cancel",
@@ -232,11 +234,21 @@ export const EN: typeof TKEYS = {
     "delete-confirmation-message":
       "Are you sure you want to delete the current image?",
   },
-  "shops-search": {
-    title: "Search for a Shop",
-  },
-  "offers-search": {
-    title: "Search all Offers",
+  report: {
+    title: "Submit feedback",
+    "link-information":
+      "Your feedback was successfully created as GitHub issue. You can check the status of it using the following link.",
+
+    labels: {
+      type: "Type",
+      title: "Title",
+      content: "Message",
+    },
+    types: {
+      [ReportType.REPORT_TYPE_BUG]: "Bug report",
+      [ReportType.REPORT_TYPE_FEATURE_REQUEST]: "Feature request",
+      [ReportType.REPORT_TYPE_QUESTION]: "Question",
+    },
   },
   dashboard: {
     shop: {
@@ -330,7 +342,14 @@ export const EN: typeof TKEYS = {
       "switch-to-light-mode": "Switch to light theme",
       "switch-to-dark-mode": "Switch to dark theme",
       "change-language": "Language / Sprache",
+      report: "Feedback",
     },
+  },
+  "shops-search": {
+    title: "Search for a Shop",
+  },
+  "offers-search": {
+    title: "Search all Offers",
   },
   "user-settings-page": {
     title: "User Settings",
