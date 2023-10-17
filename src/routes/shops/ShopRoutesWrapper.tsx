@@ -49,6 +49,7 @@ export default function ShopRoutesWrapper() {
 
   const shopData = useRouteData<typeof ShopData>();
 
+  const [showSlider, setShowSlider] = createSignal(false);
   const [signingIn, setSigningIn] = createSignal(false);
 
   const emptyShopStyle = {
@@ -146,12 +147,15 @@ export default function ShopRoutesWrapper() {
 
   async function handleSignIn() {
     setSigningIn(true);
-    const signInUrl = await buildAuthorizationRequest(
-      undefined,
-      location.pathname
-    );
-    setSigningIn(false);
-    window.location.href = signInUrl.toString();
+    try {
+      const signInUrl = await buildAuthorizationRequest(
+        undefined,
+        location.pathname
+      );
+      window.location.href = signInUrl.toString();
+    } catch (err) {
+      setSigningIn(false);
+    }
   }
 
   function handleSwitchTheme() {
@@ -198,7 +202,11 @@ export default function ShopRoutesWrapper() {
         <Cover pageLoad />
       </Show>
 
-      <Panel style={customShopStyle} close={signingIn}>
+      <Panel
+        style={customShopStyle}
+        showSlider={showSlider}
+        setShowSlider={setShowSlider}
+      >
         <Show when={!_.isNil(shopData.shop())}>
           <Slot name="logo">
             <Show

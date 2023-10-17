@@ -21,6 +21,20 @@
   font: var(--font-label);
 }
 
+.Link {
+  color: var(--content-font-color);
+  font: var(--font-label);
+  text-decoration: underline;
+
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+}
+
+.Link:hover {
+  color: var(--active-content-color);
+}
+
 .DialogFooter {
   padding: 0.5rem 0;
   display: flex;

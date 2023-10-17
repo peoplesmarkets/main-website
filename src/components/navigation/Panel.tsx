@@ -12,7 +12,8 @@ false && clickOutside;
 
 type Props = {
   children: JSX.Element;
-  close?: () => boolean;
+  showSlider: () => boolean;
+  setShowSlider: (_: boolean) => void;
   style?: string | JSX.CSSProperties | undefined;
 };
 
@@ -24,20 +25,14 @@ export function Panel(props: Props) {
   /* eslint-disable-next-line */
   const slots = getSlots(props.children);
 
-  const [showSlider, setShowSlider] = createSignal(false);
+  // const [showSlider, setShowSlider] = createSignal(false);
   const [showEnvironmentBanner, setShowEnvironmentBanner] = createSignal(true);
 
   createEffect(() => {
-    if (showSlider()) {
+    if (props.showSlider()) {
       document.body.classList.add("no-scroll");
     } else {
       document.body.classList.remove("no-scroll");
-    }
-  });
-
-  createEffect(() => {
-    if (props.close?.()) {
-      handleCloseSlider();
     }
   });
 
@@ -46,11 +41,11 @@ export function Panel(props: Props) {
   });
 
   function handleToggleSlider() {
-    setShowSlider(!showSlider());
+    props.setShowSlider(!props.showSlider());
   }
 
   function handleCloseSlider() {
-    setShowSlider(false);
+    props.setShowSlider(false);
   }
 
   function handleCloseBanner() {
@@ -68,17 +63,17 @@ export function Panel(props: Props) {
       <div
         class={styles.SliderBackground}
         classList={{
-          [styles.SliderBackgroundIn]: showSlider(),
-          [styles.SliderBackgroundOut]: !showSlider(),
+          [styles.SliderBackgroundIn]: props.showSlider(),
+          [styles.SliderBackgroundOut]: !props.showSlider(),
         }}
       />
       <nav
         class={styles.Slider}
         classList={{
-          [styles.SlideIn]: showSlider(),
-          [styles.SlideOut]: !showSlider(),
+          [styles.SlideIn]: props.showSlider(),
+          [styles.SlideOut]: !props.showSlider(),
         }}
-        use:clickOutside={handleCloseSlider}
+        use:clickOutside={() => handleCloseSlider()}
       >
         <div class={styles.Menu}>
           <BurgerArrowIcon

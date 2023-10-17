@@ -5,6 +5,7 @@ import {
   cleanupDOM,
   renderIntoRoot,
   getNoObj,
+  noOp,
 } from "../../lib/testing";
 import { Slider } from "./Slider";
 import { Panel } from "./Panel";
@@ -19,8 +20,10 @@ describe("Render once", () => {
 
   test("Panel + PanelItem", () => {
     const { container } = renderIntoRoot(() => (
-      <Panel>
-        <PanelItem Icon={getNoObj} label={() => ""} path={() => ""} />
+      <Panel showSlider={() => true} setShowSlider={noOp}>
+        <PanelItem Icon={getNoObj} path={() => ""}>
+          <></>
+        </PanelItem>
       </Panel>
     ));
     expect(container).toBeDefined();

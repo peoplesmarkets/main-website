@@ -10,6 +10,7 @@ import {
 } from "../services/peoplesmarkets/commerce/v1/price";
 import { TKEYS } from "./keys";
 import { EN } from "./en";
+import { ReportType } from "../services/peoplesmarkets/report/v1/report";
 
 export const DE: typeof TKEYS = {
   lang: "de",
@@ -37,6 +38,7 @@ export const DE: typeof TKEYS = {
       Add: "Hinzufügen",
       OK: "Okay",
       Save: "Speichern",
+      Send: "Senden",
       Edit: "Bearbeiten",
       Delete: "Löschen",
       Cancel: "Abbrechen",
@@ -148,7 +150,7 @@ export const DE: typeof TKEYS = {
       Domain: EN["shop"].labels.Domain,
       domain: EN["shop"].labels.domain,
       "is-publicly-visible": "Dieser Shop ist öffentlich sichtbar",
-      "contact-email-address": "Kontakt-E-Mailadresse",
+      "contact-email-address": "Kontakt E-Mail",
       "Created-at": "Erstellt am",
       "Updated-at": "Bearbeitet am",
     },
@@ -230,11 +232,20 @@ export const DE: typeof TKEYS = {
   image: {
     "delete-confirmation-message": "Dieses Bild wirklich löschen?",
   },
-  "shops-search": {
-    title: "Finde einen Shop",
-  },
-  "offers-search": {
-    title: "Durchsuche alle Angebote",
+  report: {
+    title: "Feedback geben",
+    "link-information":
+      "Dein Feedback wurde als Issue in GitHub angelegt. Unter dem folgenden Link kannst du den Status einsehen.",
+    labels: {
+      type: "Typ",
+      title: "Titel",
+      content: "Nachricht",
+    },
+    types: {
+      [ReportType.REPORT_TYPE_BUG]: "Fehlermeldung",
+      [ReportType.REPORT_TYPE_FEATURE_REQUEST]: "Featureanfrage",
+      [ReportType.REPORT_TYPE_QUESTION]: "Frage",
+    },
   },
   dashboard: {
     shop: {
@@ -243,7 +254,7 @@ export const DE: typeof TKEYS = {
       "no-shop-yet": "Bisher keinen Shop erstellt",
       "create-new-shop": "Neuen Shop erstellen",
       "edit-name-and-description": "Name und Beschreibung bearbeiten",
-      "edit-contact-email": "Kontakt-E-Mailadresse bearbeiten",
+      "edit-contact-email": "Kontakt E-Mail bearbeiten",
       "public-visibility": "Öffentliche Sichtbarkeit",
       "publish-notification-title": "Shop veröffentlichen?",
       "publish-notification-message": "Mit der Veröffentlichung des Shops ...",
@@ -327,7 +338,14 @@ export const DE: typeof TKEYS = {
       "switch-to-light-mode": "Hellmodus aktivieren",
       "switch-to-dark-mode": "Dunkelmodus aktivieren",
       "change-language": "Sprache / Language",
+      report: EN["main-navigation"].settings.report,
     },
+  },
+  "shops-search": {
+    title: "Finde einen Shop",
+  },
+  "offers-search": {
+    title: "Durchsuche alle Angebote",
   },
   "user-settings-page": {
     title: "Benutzereinstellungen",
