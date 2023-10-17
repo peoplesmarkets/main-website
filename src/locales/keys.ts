@@ -10,6 +10,7 @@ import {
   priceTypeToJSON,
   recurringIntervalToJSON,
 } from "../services/peoplesmarkets/commerce/v1/price";
+import { ReportType } from "../services/peoplesmarkets/report/v1/report";
 
 export const TKEYS = {
   lang: "lang",
@@ -37,6 +38,7 @@ export const TKEYS = {
       Add: "form.action.Add",
       OK: "form.action.OK",
       Save: "form.action.Save",
+      Send: "form.action.Send",
       Edit: "form.action.Edit",
       Delete: "form.action.Delete",
       Cancel: "form.action.Cancel",
@@ -258,11 +260,19 @@ export const TKEYS = {
   image: {
     "delete-confirmation-message": "image.delete-confirmation-message",
   },
-  "shops-search": {
-    title: "shops-search.title",
-  },
-  "offers-search": {
-    title: "offers-search.title",
+  report: {
+    title: "report.title",
+    "link-information": "report.link-information",
+    labels: {
+      type: "report.labels.type",
+      title: "report.labels.title",
+      content: "report.labels.content",
+    },
+    types: {
+      [ReportType.REPORT_TYPE_BUG]: "report.types.1",
+      [ReportType.REPORT_TYPE_FEATURE_REQUEST]: "report.types.2",
+      [ReportType.REPORT_TYPE_QUESTION]: "report.types.3",
+    } as Record<number, string>,
   },
   dashboard: {
     shop: {
@@ -360,7 +370,14 @@ export const TKEYS = {
       "switch-to-light-mode": "main-navigation.settings.switch-to-light-mode",
       "switch-to-dark-mode": "main-navigation.settings.switch-to-dark-mode",
       "change-language": "main-navigation.settings.change-language",
+      report: "main-navigation.settings.report",
     },
+  },
+  "shops-search": {
+    title: "shops-search.title",
+  },
+  "offers-search": {
+    title: "offers-search.title",
   },
   "user-settings-page": {
     title: "user-settings-page.title",

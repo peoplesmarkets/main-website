@@ -10,6 +10,7 @@ import {
   LanguageIcon,
   LogoutIcon,
   MainLogoIcon,
+  ReportIcon,
   SearchGlobalIcon,
   SignInIcon,
   StoreFrontIcon,
@@ -17,6 +18,7 @@ import {
 } from "../components/icons";
 import { Border, Cover, Slot } from "../components/layout";
 import { Panel, PanelItem, PanelSettingsItem } from "../components/navigation";
+import { ReportDialog } from "../components/report/ReportDialog";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { Theme, useThemeContext } from "../contexts/ThemeContext";
 import { clickOutside } from "../directives";
@@ -47,21 +49,39 @@ export default function MainRoutesWrapper() {
   const { isAuthenticated, endSession } = useAccessTokensContext();
 
   const [signingIn, setSigningIn] = createSignal(false);
+  const [showSlider, setShowSlider] = createSignal(false);
+  const [showReportDialog, setShowReportDialog] = createSignal(false);
 
   onMount(() => {
     setDocumentTitle(EN["Peoples-Markets"]);
 
     setFaviconHref(MAIN_FAVICON);
+    setSigningIn(false);
   });
 
   async function handleSignIn() {
     setSigningIn(true);
-    const signInUrl = await buildAuthorizationRequest(
-      undefined,
-      buildDashboardPath()
-    );
-    setSigningIn(false);
-    window.location.href = signInUrl.toString();
+    setShowSlider(false);
+    try {
+      const signInUrl = await buildAuthorizationRequest(
+        undefined,
+        buildDashboardPath()
+      );
+      window.location.href = signInUrl.toString();
+    } catch (err) {
+      console.log(err);
+      setSigningIn(false);
+    }
+  }
+
+  function handleOpenReportDialog() {
+    setShowSlider(false);
+    setShowReportDialog(true);
+  }
+
+  function handleCloseReportDialog() {
+    setShowSlider(false);
+    setShowReportDialog(false);
   }
 
   function handleSwichtLanguage() {
@@ -92,7 +112,7 @@ export default function MainRoutesWrapper() {
         <Cover pageLoad />
       </Show>
 
-      <Panel close={signingIn}>
+      <Panel showSlider={showSlider} setShowSlider={setShowSlider}>
         <Slot name="logo">
           <A
             class={styles.MainLink}
@@ -133,6 +153,10 @@ export default function MainRoutesWrapper() {
             </PanelSettingsItem>
           </Show>
 
+          <PanelSettingsItem Icon={ReportIcon} onClick={handleOpenReportDialog}>
+            <Trans key={TKEYS["main-navigation"].settings.report} />
+          </PanelSettingsItem>
+
           <PanelSettingsItem Icon={LanguageIcon} onClick={handleSwichtLanguage}>
             <Trans key={TKEYS["main-navigation"].settings["change-language"]} />
           </PanelSettingsItem>
@@ -163,6 +187,10 @@ export default function MainRoutesWrapper() {
       {/* PAGE CONTENT */}
 
       <MainFooter />
+
+      <Show when={showReportDialog()}>
+        <ReportDialog onClose={handleCloseReportDialog} />
+      </Show>
     </>
   );
 }
