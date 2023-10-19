@@ -333,8 +333,10 @@ export const DE: typeof TKEYS = {
       dashboard: EN["main-navigation"].links.dashboard,
       "user-settings": "Benutzereinstellungen",
       community: EN["main-navigation"].links.community,
+      "get-started": "Get started",
     },
     settings: {
+      Title: "Einstellungen",
       "switch-to-light-mode": "Hellmodus aktivieren",
       "switch-to-dark-mode": "Dunkelmodus aktivieren",
       "change-language": "Sprache / Language",
@@ -342,10 +344,10 @@ export const DE: typeof TKEYS = {
     },
   },
   "shops-search": {
-    title: "Finde einen Shop",
+    title: "Suche Shops",
   },
   "offers-search": {
-    title: "Durchsuche alle Angebote",
+    title: "Suche Angebote",
   },
   "user-settings-page": {
     title: "Benutzereinstellungen",
@@ -363,7 +365,7 @@ export const DE: typeof TKEYS = {
   },
   "landing-page": {
     "get-started": "Los geht's",
-    "GET-STARTED": "LOS GEHT'S",
+    REGISTER: "JETZT REGISTRIEREN",
     "establish-your-online-appearance": "Erstelle dir eine Online-Präsenz",
     "create-your-online-shop-and-build-your-brand":
       "Baue deine Marke mit einem Online-Shop auf",

@@ -6,9 +6,9 @@ import { createStore } from "solid-js/store";
 
 import {
   LanguageIcon,
-  LogoutIcon,
   SettingsIcon,
   SignInIcon,
+  SignOutIcon,
   StoreFrontIcon,
   ThemeIcon,
 } from "../../components/icons";
@@ -291,7 +291,7 @@ export default function ShopRoutesWrapper() {
             </PanelSettingsItem>
 
             <Show when={isAuthenticated()}>
-              <PanelSettingsItem Icon={LogoutIcon} onClick={handleLogout}>
+              <PanelSettingsItem Icon={SignOutIcon} onClick={handleLogout}>
                 <Trans key={TKEYS["main-navigation"].actions["sign-out"]} />
               </PanelSettingsItem>
             </Show>

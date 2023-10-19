@@ -1,0 +1,36 @@
+.EnvironmentBanner {
+  position: fixed;
+  top: 0;
+  z-index: 100;
+  width: 100%;
+  color: red;
+  background-color: #fff;
+  padding: 1rem 0;
+  text-align: center;
+
+  svg {
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    right: 0;
+    top: 0;
+    fill: black;
+  }
+
+  svg:hover {
+    background-color: grey;
+  }
+
+  p {
+    font-size: 24px;
+  }
+
+  span {
+    font-size: 16px;
+    font-weight: 400;
+  }
+
+  a {
+    color: blue;
+  }
+}

@@ -108,27 +108,3 @@ $slider-width: 320px;
   align-items: center;
   margin-bottom: 1rem;
 }
-
-.EnvironmentBanner {
-  position: relative;
-  color: var(--danger-content-color);
-  background-color: #dde4e9;
-  padding: 1rem 0;
-  text-align: center;
-  svg {
-    width: 16px;
-    height: 16px;
-    position: absolute;
-    right: 0;
-    top: 0;
-  }
-  p {
-    font: var(--font-headline);
-  }
-  span {
-    font: var(--font-label);
-  }
-  a {
-    color: var(--active-content-color);
-  }
-}

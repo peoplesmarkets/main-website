@@ -49,7 +49,7 @@ server {
 		try_files $uri $uri/index.html /index.html;
 	}
 
-  location ~* \.(?:ttf|ico|svg)$ {
+  location ~* \.(?:ttf|ico|svg|woff2|css)$ {
     expires 1d;
     add_header Cache-Control "public";
   }

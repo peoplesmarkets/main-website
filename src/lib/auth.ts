@@ -12,9 +12,14 @@ export async function buildAuthorizationRequest(
   prompt?: "create" | "select_account" | "login",
   redirectTo?: string
 ) {
-  // sha256 hash of random string in base64 encoded
-  const codeVerifier = crypto.randomUUID();
-  sessionStorage.setItem(CODE_CHALLENGE_STORAGE_KEY, codeVerifier);
+  let codeVerifier = sessionStorage.getItem(CODE_CHALLENGE_STORAGE_KEY);
+
+  if (_.isNil(codeVerifier) || _.isEmpty(codeVerifier)) {
+    // sha256 hash of random string in base64 encoded
+    codeVerifier = crypto.randomUUID();
+    sessionStorage.setItem(CODE_CHALLENGE_STORAGE_KEY, codeVerifier);
+  }
+
   const codeChallenge = await hashCodeVerifier(codeVerifier);
 
   const requestUri = new URL(

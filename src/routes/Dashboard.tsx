@@ -14,12 +14,12 @@ import {
 import { ContentError, isResolved } from "../components/content";
 import { CreateShopDialog, ShopList } from "../components/dashboard";
 import { ActionButton } from "../components/form";
-import { Section } from "../components/layout";
-import { Page } from "../components/layout/Page";
+import { Section, Slot } from "../components/layout";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { TKEYS } from "../locales";
 import { ShopService } from "../services";
 import styles from "./Dashboard.module.scss";
+import MainRoutesWrapper from "./MainRoutesWrapper";
 import { buildUserSettingsPath } from "./user/UserRoutes";
 
 export default function Dashboard() {
@@ -78,8 +78,8 @@ export default function Dashboard() {
   }
 
   return (
-    <>
-      <Page>
+    <MainRoutesWrapper>
+      <Slot name="content">
         <Section>
           <div class={styles.TitleSection}>
             <span class={styles.Title}>
@@ -102,14 +102,14 @@ export default function Dashboard() {
             </Match>
           </Switch>
         </Section>
-      </Page>
 
-      <Show when={showCreateShop()}>
-        <CreateShopDialog
-          onClose={handleCloseCreateShop}
-          onUpdate={handleShopUpdate}
-        />
-      </Show>
-    </>
+        <Show when={showCreateShop()}>
+          <CreateShopDialog
+            onClose={handleCloseCreateShop}
+            onUpdate={handleShopUpdate}
+          />
+        </Show>
+      </Slot>
+    </MainRoutesWrapper>
   );
 }

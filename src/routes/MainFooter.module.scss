@@ -1,38 +1,23 @@
-.FooterContainer {
-  background-color: var(--footer-background-color);
-  border-top: var(--primary-border);
-}
-
 .Footer {
-  max-width: 80rem;
-  margin: 0 auto;
+  padding-top: 4rem;
 }
 
-.Title {
+.Content {
+  max-width: 720px;
+  display: block;
   font: var(--font-body);
-  padding: 2rem 2rem 0 2rem;
 }
 
-.Logo {
-  margin: 1rem 0 1rem 2rem;
-}
-
-.LogoLink {
+.MainLogo {
   width: fit-content;
-  padding: 0.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
-}
-
-.LogoLink:hover {
-  background-color: rgba(0, 0, 0, 0);
-  background: var(--hovered-background);
-  cursor: pointer;
+  gap: 8px;
+  margin-bottom: 2rem;
 }
 
 .MainLogoIcon {
-  height: 32px;
+  height: 28px;
   fill: var(--footer-content-color);
   user-select: none;
 }
@@ -42,12 +27,6 @@
   height: 44px;
   fill: var(--footer-content-color);
   user-select: none;
-}
-
-.Content {
-  max-width: 600px;
-  padding: 0 2rem 1rem 2rem;
-  font: var(--font-body);
 }
 
 .SiteLinks {
@@ -77,12 +56,7 @@
   margin-bottom: 0.5rem;
 }
 
-.SocialContainer {
-  @extend .FooterContainer;
-}
-
 .Social {
-  @extend .Footer;
   box-sizing: border-box;
   padding: 1rem 2rem;
   display: flex;

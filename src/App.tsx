@@ -11,7 +11,6 @@ import { isCustomDomain, setDocumentLanguage } from "./lib";
 import { LOCALES } from "./locales";
 import NotFound from "./routes/404";
 import MainRoutes from "./routes/MainRoutes";
-import MainRoutesWrapper from "./routes/MainRoutesWrapper";
 import CommunityRoutes from "./routes/community/CommunityRoutes";
 import InfoRoutes from "./routes/info/InfoRoutes";
 import { ShopRoutes } from "./routes/shops/ShopRoutes";
@@ -51,9 +50,7 @@ export default function App() {
                 <InfoRoutes />
               </Show>
 
-              <Route path="*" component={MainRoutesWrapper}>
-                <Route path="*" component={NotFound} />
-              </Route>
+              <Route path="*" component={NotFound} />
             </Routes>
           </AccessTokenProvider>
         </ThemeProvider>

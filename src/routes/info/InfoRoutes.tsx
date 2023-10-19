@@ -1,7 +1,6 @@
 import { Route, useNavigate } from "@solidjs/router";
 import { lazy } from "solid-js";
 
-import MainRoutesWrapper from "../MainRoutesWrapper";
 import {
   IMPRINT_PATH,
   PRIVACY_POLICY_PATH,
@@ -18,7 +17,7 @@ export default function InfoRoutes() {
   }
 
   return (
-    <Route path={ROOT_PATH} component={MainRoutesWrapper}>
+    <Route path={ROOT_PATH}>
       <Route path="" element={<InfoRedirect />} />
       <Route path={IMPRINT_PATH} component={lazy(() => import("./Imprint"))} />
       <Route
