@@ -1,15 +1,18 @@
 import { Trans } from "@mbarzda/solid-i18next";
 
-import { Page } from "../../components/layout";
+import { Slot } from "../../components/layout";
 import { TKEYS } from "../../locales";
+import MainRoutesWrapper from "../MainRoutesWrapper";
 import styles from "./Settings.module.scss";
 
 export default function Settings() {
   return (
-    <Page>
-      <span class={styles.Headline}>
-        <Trans key={TKEYS["user-settings-page"].title} />
-      </span>
-    </Page>
+    <MainRoutesWrapper>
+      <Slot name="content">
+        <span class={styles.Headline}>
+          <Trans key={TKEYS["user-settings-page"].title} />
+        </span>
+      </Slot>
+    </MainRoutesWrapper>
   );
 }
