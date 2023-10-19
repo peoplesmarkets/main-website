@@ -1,3 +1,28 @@
+.HeaderContainer {
+  width: 100%;
+  height: var(--main-header-height);
+  position: fixed;
+  top: 0;
+  z-index: 10;
+  box-sizing: border-box;
+  background: var(--main-header-background);
+
+  @media only screen and (min-width: 720px) {
+    padding-left: var(--main-navigation-rail-width);
+  }
+}
+
+.Header {
+  max-width: var(--expanded-max-width);
+  height: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 8px;
+}
+
 .MainLink {
   display: flex;
   justify-content: center;
@@ -20,9 +45,103 @@
   stroke: transparent;
 }
 
-.MainLogo {
-  max-width: 100%;
-  height: 42px;
-  margin-left: 10px;
+.MainLogoText {
+  display: none;
+
+  @media only screen and (min-width: 1080px) {
+    display: block;
+    height: 44px;
+  }
+}
+
+.MainSearch {
+  flex: 1;
+  padding-left: 8px;
+
+  @media only screen and (min-width: 1080px) {
+    padding: 0 16px;
+  }
+}
+
+.HeaderActions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 8px;
+}
+
+.HeaderIcon {
+  width: 24px;
+  height: 24px;
+  padding: 12px;
+  border-radius: 50%;
   fill: var(--primary-content-color);
+  color: var(--primary-content-color);
+}
+
+.HeaderIcon:hover {
+  cursor: pointer;
+  background: var(--hovered-background);
+}
+
+.HeaderIcon:active:focus {
+  background: var(--hovered-background);
+}
+
+.Main {
+  width: 100%;
+  background-color: var(--main-background-color);
+
+  padding-top: var(--main-header-height);
+  padding-bottom: var(--main-navigation-bar-height);
+  box-sizing: border-box;
+
+  @media only screen and (min-width: 720px) {
+    padding-bottom: 0;
+    padding-left: var(--main-navigation-rail-width);
+  }
+}
+
+.Content {
+  max-width: var(--expanded-max-width);
+  min-height: 100vh;
+  margin: 0 auto;
+  overflow: hidden;
+}
+
+.Footer {
+  max-width: var(--expanded-max-width);
+  margin: 0 auto;
+}
+
+.Navbar {
+  width: 100%;
+  height: var(--main-navigation-bar-height);
+  position: fixed;
+  bottom: 0;
+  z-index: 30;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  padding: 8px 0;
+  box-sizing: border-box;
+  background-color: var(--main-navigation-background-color);
+  background: var(--main-navigation-background);
+  gap: unset;
+
+  @media only screen and (min-width: 720px) {
+    width: var(--main-navigation-rail-width);
+    height: 100%;
+    top: 0;
+    left: 0;
+    flex-direction: column;
+    align-items: center;
+    justify-content: start;
+    gap: 16px;
+  }
+}
+
+.Display {
+  background: none;
+  background-color: var(--main-display-background-color);
 }

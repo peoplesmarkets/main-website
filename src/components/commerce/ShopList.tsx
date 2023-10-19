@@ -9,7 +9,7 @@ import styles from "./ShopList.module.scss";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 
 type Props = {
-  readonly shops: () => ShopResponse[];
+  readonly shops: () => ShopResponse[] | undefined;
 };
 
 export function ShopList(props: Props) {
