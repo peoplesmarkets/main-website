@@ -3,7 +3,6 @@ import { lazy } from "solid-js";
 
 import { buildPath } from "../../lib";
 import { getOriginFromWindow } from "../../lib/env";
-import MainRoutesWrapper from "../MainRoutesWrapper";
 
 const ROOT_PATH = "/user";
 const SETTINGS_PATH = "/settings";
@@ -24,7 +23,7 @@ export function buildSignInCallbackUrl() {
 
 export function UserRoutes() {
   return (
-    <Route path={ROOT_PATH} component={MainRoutesWrapper}>
+    <Route path={ROOT_PATH}>
       <Route
         path={SETTINGS_PATH}
         component={lazy(() => import("./Settings"))}

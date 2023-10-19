@@ -1,14 +1,15 @@
 import { Trans } from "@mbarzda/solid-i18next";
 
-import { Page } from "../../components/layout/Page";
+import { Slot } from "../../components/layout";
 import { Section } from "../../components/layout/Section";
 import { TKEYS } from "../../locales";
+import MainRoutesWrapper from "../MainRoutesWrapper";
 import styles from "./Imprint.module.scss";
 
 export default function Imprint() {
   return (
-    <>
-      <Page>
+    <MainRoutesWrapper>
+      <Slot name="content">
         <Section>
           <h1>
             <Trans key={TKEYS.peoplesmarkets_com} /> -{" "}
@@ -38,7 +39,7 @@ export default function Imprint() {
             </a>
           </address>
         </Section>
-      </Page>
-    </>
+      </Slot>
+    </MainRoutesWrapper>
   );
 }

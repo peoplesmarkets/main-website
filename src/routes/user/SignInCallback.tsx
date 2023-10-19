@@ -3,11 +3,12 @@ import _ from "lodash";
 import { createEffect, createResource, onMount } from "solid-js";
 
 import { isResolved } from "../../components/content";
-import { Page } from "../../components/layout";
+import { Slot } from "../../components/layout";
 import { Cover } from "../../components/layout/Cover";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { base64ToUtf8 } from "../../lib";
 import { buildDashboardPath, buildIndexPath } from "../main-routing";
+import MainRoutesWrapper from "../MainRoutesWrapper";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
@@ -40,8 +41,10 @@ export default function SignInCallback() {
   });
 
   return (
-    <Page>
-      <Cover pageLoad />
-    </Page>
+    <MainRoutesWrapper>
+      <Slot name="content">
+        <Cover pageLoad />
+      </Slot>
+    </MainRoutesWrapper>
   );
 }
