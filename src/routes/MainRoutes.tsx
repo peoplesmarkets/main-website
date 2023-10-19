@@ -6,12 +6,11 @@ import {
   ROOT_PATH,
   SHOPS_PATH,
 } from "./main-routing";
-import MainRoutesWrapper from "./MainRoutesWrapper";
 
 export default function MainRoutes() {
   return (
     <>
-      <Route path={ROOT_PATH} component={MainRoutesWrapper}>
+      <Route path={ROOT_PATH}>
         <Route path="" component={lazy(() => import("./LandingPage"))} />
 
         <Route path={SHOPS_PATH} component={lazy(() => import("./Shops"))} />

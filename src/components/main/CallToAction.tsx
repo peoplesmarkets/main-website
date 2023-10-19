@@ -17,7 +17,7 @@ export function CallToAction() {
   return (
     <div class={styles.CallToAction}>
       <button class={styles.CallToActionButton} onClick={handleGetStarted}>
-        <Trans key={TKEYS["landing-page"]["GET-STARTED"]} />
+        <Trans key={TKEYS["landing-page"]["REGISTER"]} />
       </button>
     </div>
   );

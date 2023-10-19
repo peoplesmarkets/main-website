@@ -365,8 +365,10 @@ export const TKEYS = {
       dashboard: "main-navigation.links.dashboard",
       "user-settings": "main-navigation.links.user-settings",
       community: "main-navigation.links.community",
+      "get-started": "main-navigation.links.get-started",
     },
     settings: {
+      Title: "main-navigation.settings.Title",
       "switch-to-light-mode": "main-navigation.settings.switch-to-light-mode",
       "switch-to-dark-mode": "main-navigation.settings.switch-to-dark-mode",
       "change-language": "main-navigation.settings.change-language",
@@ -394,7 +396,7 @@ export const TKEYS = {
   },
   "landing-page": {
     "get-started": "landing-page.get-started",
-    "GET-STARTED": "landing-page.GET-STARTED",
+    "REGISTER": "landing-page.REGISTER",
     "establish-your-online-appearance":
       "landing-page.establish-your-online-appearance",
     "create-your-online-shop-and-build-your-brand":

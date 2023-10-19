@@ -4,7 +4,7 @@ type Props = {
   class?: string;
 };
 
-export function LogoutIcon(props: Props) {
+export function SignOutIcon(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"

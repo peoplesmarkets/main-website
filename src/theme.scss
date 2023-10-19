@@ -28,6 +28,16 @@
 
   --hover-filter: brightness(90%);
 
+  // main background colors
+  --main-background-color: #f8f9fa;
+  --main-display-background-color: #fff;
+  --main-header-background: linear-gradient(0deg, transparent 0, #f8f9fa 16px);
+  --main-navigation-background-color: #f8f9fa;
+  --main-navigation-background: linear-gradient(0deg, #6991d614, #6991d614),
+    #f8f9fa;
+  --main-menu-background-color: #f8f9fa;
+  --highlighted-background: linear-gradient(0deg, #6991d614, #6991d614), #f8f9fa;
+
   // customizable variables
   --header-content-color: #141414;
   --header-background-color: #f8f9fa;
@@ -65,6 +75,16 @@
 
   --hover-filter: brightness(90%);
 
+  // main background colors
+  --main-background-color: #1e1e1e;
+  --main-display-background-color: #141414;
+  --main-header-background: linear-gradient(0deg, transparent 0, #1e1e1e 16px);
+  --main-navigation-background-color: #1f1f1f;
+  --main-navigation-background: linear-gradient(0deg, #d1e1ff14, #d1e1ff14),
+    #1f1f1f;
+  --main-menu-background-color: #303134;
+  --highlighted-background: linear-gradient(0deg, #6991d614, #6991d614);
+
   // customizable variables
   --header-content-color: #f8f9fa;
   --header-background-color: #141414;
@@ -74,9 +94,9 @@
 
 :root {
   // Layout sizes
-  --top-app-bar-height: 64px;
-  --footer-height: 128px;
-  --fill-height: calc(100vh - var(--top-app-bar-height));
+  --main-header-height: 86px;
+  --main-navigation-bar-height: 80px;
+  --main-navigation-rail-width: 96px;
 
   $small-min-width: 330px;
   $medium-min-width: 600px;
@@ -85,6 +105,7 @@
   --small-min-width: 330px;
   --medium-min-width: 600px;
   --expanded-min-width: 1080px;
+  --expanded-max-width: 1440px;
 
   // Spacing
   --smallest-spacer: 4px;

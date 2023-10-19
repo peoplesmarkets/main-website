@@ -1,14 +1,15 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 
-import { Page } from "../components/layout/Page";
+import { Slot } from "../components/layout";
 import { TKEYS } from "../locales";
+import MainRoutesWrapper from "./MainRoutesWrapper";
 import { buildIndexPath } from "./main-routing";
 
 export default function NotFound() {
   return (
-    <>
-      <Page>
+    <MainRoutesWrapper>
+      <Slot name="content">
         <p
           style={{
             "font-size": "48px",
@@ -31,7 +32,7 @@ export default function NotFound() {
         >
           <Trans key={TKEYS["page-not-found"]["back-to-home"]} />
         </A>
-      </Page>
-    </>
+      </Slot>
+    </MainRoutesWrapper>
   );
 }

@@ -14,7 +14,7 @@ import { OfferPrice } from "../commerce/OfferPrice";
 import styles from "../shops/OfferList.module.scss";
 
 type Props = {
-  readonly offers: () => OfferResponse[];
+  readonly offers: () => OfferResponse[] | undefined;
 };
 
 export function OfferList(props: Props) {

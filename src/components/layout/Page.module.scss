@@ -1,6 +1,6 @@
 .Page {
-  max-width: var(--expanded-min-width);
-  min-height: var(--fill-height);
+  max-width: var(--expanded-max-width);
+  min-height: 100vh;
   margin: 0 auto;
   overflow: hidden;
 }

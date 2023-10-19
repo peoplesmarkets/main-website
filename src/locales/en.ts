@@ -337,8 +337,10 @@ export const EN: typeof TKEYS = {
       dashboard: "Dashboard",
       "user-settings": "User Settings",
       community: "Community",
+      "get-started": "Get started",
     },
     settings: {
+      Title: "Settings",
       "switch-to-light-mode": "Switch to light theme",
       "switch-to-dark-mode": "Switch to dark theme",
       "change-language": "Language / Sprache",
@@ -346,10 +348,10 @@ export const EN: typeof TKEYS = {
     },
   },
   "shops-search": {
-    title: "Search for a Shop",
+    title: "Search shops",
   },
   "offers-search": {
-    title: "Search all Offers",
+    title: "Search offers",
   },
   "user-settings-page": {
     title: "User Settings",
@@ -367,7 +369,7 @@ export const EN: typeof TKEYS = {
   },
   "landing-page": {
     "get-started": "Get started",
-    "GET-STARTED": "GET STARTED",
+    REGISTER: "REGISTER NOW",
     "establish-your-online-appearance": "Establish Your Online Appearance",
     "create-your-online-shop-and-build-your-brand":
       "Create your online store and build your brand",

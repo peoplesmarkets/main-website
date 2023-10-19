@@ -1,18 +1,15 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { Match, Switch, createResource } from "solid-js";
+import { ErrorBoundary, Suspense, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import {
-  ContentError,
-  ContentLoading,
-  isResolved,
-} from "../components/content";
+import { ContentError } from "../components/content";
 import { Select, SelectKey } from "../components/form";
-import { SearchGlobalIcon, SearchIcon } from "../components/icons";
+import { SearchIcon } from "../components/icons";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
-import { Page, Section } from "../components/layout";
+import { Section, Slot } from "../components/layout";
 import { OfferList } from "../components/main";
+import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { TKEYS } from "../locales";
 import { OfferService } from "../services";
 import {
@@ -21,8 +18,8 @@ import {
   OffersOrderByField,
 } from "../services/peoplesmarkets/commerce/v1/offer";
 import { Direction } from "../services/peoplesmarkets/ordering/v1/ordering";
-import styles from "./Offers.module.scss";
-import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import MainRoutesWrapper from "./MainRoutesWrapper";
+import styles from "./ShopsOffers.module.scss";
 
 export default function Offers() {
   const [trans] = useTransContext();
@@ -146,31 +143,27 @@ export default function Offers() {
   }
 
   return (
-    <Page>
-      <Section>
-        <div class={styles.Shops}>
-          <div class={styles.Headline}>
-            <SearchGlobalIcon class={styles.HeadlineIcon} />
-            <span>
-              <Trans key={TKEYS["offers-search"].title} />
-            </span>
-          </div>
+    <MainRoutesWrapper>
+      <Slot name="search">
+        <form class={styles.Search} onSubmit={handleSearchSubmit}>
+          <SearchIcon class={styles.SearchIcon} />
 
-          <form class={styles.Search} onSubmit={handleSearchSubmit}>
-            <SearchIcon class={styles.SearchIcon} />
+          <input
+            class={styles.SearchInput}
+            id="search"
+            type="search"
+            placeholder={trans(TKEYS["offers-search"].title)}
+            value={listRequest.filter?.query || ""}
+            onInput={(event) => handleSearchInput(event.currentTarget.value)}
+            aria-label="search"
+          />
 
-            <input
-              class={styles.SearchInput}
-              id="search"
-              type="search"
-              value={listRequest.filter?.query || ""}
-              onInput={(event) => handleSearchInput(event.currentTarget.value)}
-              aria-label="search"
-            />
+          <RefreshIcon class={styles.RefreshIcon} onClick={refetch} />
+        </form>
+      </Slot>
 
-            <RefreshIcon class={styles.RefreshIcon} onClick={refetch} />
-          </form>
-
+      <Slot name="content">
+        <Section>
           <div class={styles.Filters}>
             <Select
               label={trans(TKEYS.query["order-by"]["created-at"].title)}
@@ -201,22 +194,16 @@ export default function Offers() {
               <Trans key={TKEYS.query["order-by"].random.title} />
             </button>
           </div>
-        </div>
-      </Section>
+        </Section>
 
-      <Section>
-        <Switch>
-          <Match when={offers.state === "errored"}>
-            <ContentError />
-          </Match>
-          <Match when={offers.state === "pending"}>
-            <ContentLoading />
-          </Match>
-          <Match when={isResolved(offers.state)}>
-            <OfferList offers={() => offers()!} />
-          </Match>
-        </Switch>
-      </Section>
-    </Page>
+        <Section>
+          <ErrorBoundary fallback={<ContentError />}>
+            <Suspense>
+              <OfferList offers={() => offers()} />
+            </Suspense>
+          </ErrorBoundary>
+        </Section>
+      </Slot>
+    </MainRoutesWrapper>
   );
 }
