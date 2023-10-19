@@ -10,6 +10,7 @@ import {
 } from "solid-js";
 
 import { MainLogoLink, MaterialIcon } from "../components/assets";
+import { EnvironmentBanner } from "../components/content/EnvironmentBanner";
 import { Cover, getSlots } from "../components/layout";
 import { NavbarItem, SettingsSlider } from "../components/main";
 import { ReportDialog } from "../components/report";
@@ -160,6 +161,8 @@ export default function MainRoutesWrapper(props: Props) {
       <Show when={showSlider() === "report"}>
         <ReportDialog onClose={() => handleShowSlider("none")} />
       </Show>
+
+      <EnvironmentBanner />
     </>
   );
 }
