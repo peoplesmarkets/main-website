@@ -25,10 +25,10 @@ export default function ShopDetail() {
     shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
   );
   const [featuredOffers] = createResource(shopData?.shopId, async (shopId) =>
-    fetchOffers(shopId, "false")
+    fetchOffers(shopId, "true")
   );
   const [offers] = createResource(shopData?.shopId, async (shopId) =>
-    fetchOffers(shopId, "true")
+    fetchOffers(shopId, "false")
   );
 
   async function fetchOffers(shopId: string, isFeatured: string) {
