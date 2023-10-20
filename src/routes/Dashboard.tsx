@@ -3,21 +3,22 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { useNavigate } from "@solidjs/router";
 import _ from "lodash";
 import {
-  Match,
+  ErrorBoundary,
   Show,
-  Switch,
+  Suspense,
   createEffect,
   createResource,
   createSignal,
 } from "solid-js";
 
-import { ContentError, isResolved } from "../components/content";
+import { ContentError } from "../components/content";
 import { CreateShopDialog, ShopList } from "../components/dashboard";
 import { ActionButton } from "../components/form";
 import { Section, Slot } from "../components/layout";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../contexts/ServiceClientContext";
+import { resourceIsReady } from "../lib";
 import { TKEYS } from "../locales";
-import { ShopService } from "../services";
 import styles from "./Dashboard.module.scss";
 import MainRoutesWrapper from "./MainRoutesWrapper";
 import { buildUserSettingsPath } from "./user/UserRoutes";
@@ -25,13 +26,13 @@ import { buildUserSettingsPath } from "./user/UserRoutes";
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  const { accessToken, currentSession } = useAccessTokensContext();
+  const { currentSession } = useAccessTokensContext();
 
   const [initiallyShowCreateShop, setInitiallyShowCreateShop] =
     createSignal(true);
   const [showCreateShop, setShowCreateShop] = createSignal(false);
 
-  const shopService = new ShopService(accessToken);
+  const { shopService } = useServiceClientContext();
 
   const [shops, { refetch }] = createResource(
     () => currentSession().userId || undefined,
@@ -40,7 +41,7 @@ export default function Dashboard() {
 
   createEffect(() => {
     if (
-      isResolved(shops.state) &&
+      resourceIsReady(shops) &&
       _.isEmpty(shops()) &&
       initiallyShowCreateShop()
     ) {
@@ -90,17 +91,18 @@ export default function Dashboard() {
             </ActionButton>
           </div>
 
-          <Switch>
-            <Match when={shops.state === "errored"}>
-              <ContentError />
-            </Match>
-            <Match when={isResolved(shops.state) && !_.isEmpty(shops())}>
-              <ShopList shops={() => shops()!} />
-            </Match>
-            <Match when={isResolved(shops.state) && _.isEmpty(shops())}>
-              <Trans key={TKEYS.dashboard["shop"]["no-shop-yet"]} />
-            </Match>
-          </Switch>
+          <ErrorBoundary fallback={<ContentError />}>
+            <Suspense>
+              <Show
+                when={!_.isEmpty(shops())}
+                fallback={
+                  <Trans key={TKEYS.dashboard["shop"]["no-shop-yet"]} />
+                }
+              >
+                <ShopList shops={() => shops()!} />
+              </Show>
+            </Suspense>
+          </ErrorBoundary>
         </Section>
 
         <Show when={showCreateShop()}>

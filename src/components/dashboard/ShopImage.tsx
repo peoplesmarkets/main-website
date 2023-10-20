@@ -1,13 +1,15 @@
 import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createSignal } from "solid-js";
+import { Show, createResource, createSignal } from "solid-js";
 
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { Theme, useThemeContext } from "../../contexts/ThemeContext";
+import { resourceIsReady } from "../../lib";
 import { ShopData } from "../../routes/shops/ShopData";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { EditIcon } from "../icons";
-import styles from "./ShopImage.module.scss";
 import { EditShopBannerDialog } from "./EditShopBannerDialog";
-import { Theme, useThemeContext } from "../../contexts/ThemeContext";
+import styles from "./ShopImage.module.scss";
 
 type Props = {
   onUpdate: () => void;
@@ -15,7 +17,14 @@ type Props = {
 
 export function ShopImage(props: Props) {
   const { theme } = useThemeContext();
+
+  const { shopCustomizationService } = useServiceClientContext();
+
   const shopData = useRouteData<typeof ShopData>();
+
+  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
+    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
+  );
 
   const [showEditDialog, setShowEditDialog] = createSignal(false);
 
@@ -28,17 +37,17 @@ export function ShopImage(props: Props) {
   }
 
   function bannerImageUrl() {
-    if (
-      theme() === Theme.DefaultLight &&
-      !_.isEmpty(shopData?.shopCustomization()?.bannerImageLightUrl)
-    ) {
-      return shopData?.shopCustomization()?.bannerImageLightUrl;
+    if (!resourceIsReady(shopCustomization)) {
+      return;
     }
-    if (
-      theme() === Theme.DefaultDark &&
-      !_.isEmpty(shopData?.shopCustomization()?.bannerImageDarkUrl)
-    ) {
-      return shopData?.shopCustomization()?.bannerImageDarkUrl;
+    const bannerImageLightUrl = shopCustomization()?.bannerImageLightUrl;
+    if (!_.isEmpty(bannerImageLightUrl) && theme() === Theme.DefaultLight) {
+      return bannerImageLightUrl;
+    }
+
+    const bannerImageDarkUrl = shopCustomization()?.bannerImageDarkUrl;
+    if (!_.isEmpty(bannerImageDarkUrl) && theme() === Theme.DefaultDark) {
+      return bannerImageDarkUrl;
     }
   }
 
@@ -56,9 +65,8 @@ export function ShopImage(props: Props) {
         </button>
       </div>
 
-      <Show when={showEditDialog() && !_.isNil(shopData?.shop())}>
+      <Show when={showEditDialog()}>
         <EditShopBannerDialog
-          shopId={shopData.shop()!.shopId}
           onUpdate={props.onUpdate}
           onClose={handleCloseEditDialog}
         />

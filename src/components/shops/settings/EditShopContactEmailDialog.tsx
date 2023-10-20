@@ -1,17 +1,16 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { Dialog } from "../../layout";
-import styles from "./Settings.module.scss";
+import _ from "lodash";
+import { Show, createEffect, createSignal } from "solid-js";
+import { createStore } from "solid-js/store";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
 import {
   ShopResponse,
   UpdateShopRequest,
 } from "../../../services/peoplesmarkets/commerce/v1/shop";
-import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
-import { ShopService } from "../../../services";
-import { createStore } from "solid-js/store";
-import _ from "lodash";
-import { Show, createEffect, createSignal } from "solid-js";
 import { ActionButton, DiscardConfirmation, TextField } from "../../form";
+import { Dialog } from "../../layout";
+import styles from "./Settings.module.scss";
 
 type Props = {
   readonly shop: () => ShopResponse | undefined;
@@ -22,9 +21,7 @@ type Props = {
 export function EditShopContactEmailDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const shopService = new ShopService(accessToken);
+  const { shopService } = useServiceClientContext();
 
   const emptyUpdateRequest = {
     shopId: undefined as string | undefined,

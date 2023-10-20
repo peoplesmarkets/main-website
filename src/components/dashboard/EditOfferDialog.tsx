@@ -4,9 +4,9 @@ import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { OfferService, listOfferTypeCodes } from "../../services";
+import { listOfferTypeCodes } from "../../services";
 import {
   OfferResponse,
   UpdateOfferRequest,
@@ -21,9 +21,9 @@ import {
   TextArea,
   TextField,
 } from "../form";
+import { CheckBox } from "../form/CheckBox";
 import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
-import { CheckBox } from "../form/CheckBox";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -34,9 +34,7 @@ type Props = {
 export function EditOfferDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const offerService = new OfferService(accessToken);
+  const { offerService } = useServiceClientContext();
 
   const emptyRequest = {
     offerId: undefined as string | undefined,

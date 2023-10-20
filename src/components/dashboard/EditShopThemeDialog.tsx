@@ -1,18 +1,23 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { For, Show, createEffect, createSignal } from "solid-js";
+import {
+  For,
+  Show,
+  createEffect,
+  createResource,
+  createSignal,
+} from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { isCssColor, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
-import { ShopCustomizationService } from "../../services/commerce/shop_customization";
 import { PutShopCustomizationRequest } from "../../services/peoplesmarkets/commerce/v1/shop_customization";
 import { ActionButton, DiscardConfirmation, TextField } from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
-import { isCssColor } from "../../lib";
 
 type Props = {
   onClose: () => void;
@@ -22,15 +27,17 @@ type Props = {
 export function EditShopThemeDialog(props: Props) {
   const [trans] = useTransContext();
 
+  const { shopCustomizationService } = useServiceClientContext();
+
   const shopData = useRouteData<typeof ShopData>();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const shopCustomizationService = new ShopCustomizationService(accessToken);
+  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
+    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
+  );
 
   const emptyPutRequest = PutShopCustomizationRequest.create();
 
-  const [shopCustomization, setShopCustomization] =
+  const [request, setRequest] =
     createStore<PutShopCustomizationRequest>(emptyPutRequest);
 
   const emptyErrors: Record<keyof PutShopCustomizationRequest, string[]> = {
@@ -51,12 +58,20 @@ export function EditShopThemeDialog(props: Props) {
     createSignal(false);
 
   createEffect(() => {
-    if (_.isEmpty(shopCustomization.shopId)) {
-      const customization = shopData.shopCustomization();
+    if (
+      !resourceIsReady(shopData.shop) ||
+      !resourceIsReady(shopCustomization)
+    ) {
+      return;
+    }
+
+    if (_.isEmpty(request.shopId)) {
+      const customization = shopCustomization();
+
       if (!_.isEmpty(customization)) {
-        setShopCustomization(_.clone(customization));
+        setRequest(_.clone(customization));
       } else {
-        setShopCustomization("shopId", shopData.shop()!.shopId);
+        setRequest("shopId", shopData.shopId()!);
       }
     }
   });
@@ -71,7 +86,7 @@ export function EditShopThemeDialog(props: Props) {
   ) {
     resetErrors();
     if (_.isEmpty(value) || isCssColor(value)) {
-      setShopCustomization(field, value);
+      setRequest(field, value);
     } else {
       setErrors(field, trans(TKEYS.form.errors["invalid-css-color"]));
     }
@@ -80,7 +95,7 @@ export function EditShopThemeDialog(props: Props) {
   async function handlePutShopCustomization(event: SubmitEvent) {
     event.preventDefault();
 
-    await shopCustomizationService.put(shopCustomization);
+    await shopCustomizationService.put(request);
 
     props.onUpdate?.();
     props.onClose();
@@ -88,8 +103,8 @@ export function EditShopThemeDialog(props: Props) {
 
   function dataWasChanged() {
     return !_.isEqual(
-      _.pick(shopData.shopCustomization(), _.keys(emptyPutRequest)),
-      _.pick(shopCustomization, _.keys(emptyPutRequest))
+      _.pick(shopCustomization(), _.keys(emptyPutRequest)),
+      _.pick(request, _.keys(emptyPutRequest))
     );
   }
 
@@ -113,44 +128,42 @@ export function EditShopThemeDialog(props: Props) {
 
   return (
     <>
-      <Show when={!showDiscardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard["shop"]["edit-theme"])}
-          onClose={handleCloseDialog}
-        >
-          <form class={styles.Form} onSubmit={handlePutShopCustomization}>
-            <For each={_.keys(emptyPutRequest)}>
-              {(field) => (
-                <Show when={field !== "shopId"}>
-                  <TextField
-                    label={trans(
-                      _.get(TKEYS["shop-customization"].labels, field)
-                    )}
-                    value={_.get(shopCustomization, field)}
-                    onValue={(value) =>
-                      handleInput(
-                        field as keyof PutShopCustomizationRequest,
-                        value
-                      )
-                    }
-                    errors={_.get(errors, field)}
-                  />
-                </Show>
-              )}
-            </For>
+      <Dialog
+        title={trans(TKEYS.dashboard["shop"]["edit-theme"])}
+        onClose={handleCloseDialog}
+      >
+        <form class={styles.Form} onSubmit={handlePutShopCustomization}>
+          <For each={_.keys(emptyPutRequest)}>
+            {(field) => (
+              <Show when={field !== "shopId"}>
+                <TextField
+                  label={trans(
+                    _.get(TKEYS["shop-customization"].labels, field)
+                  )}
+                  value={_.get(request, field)}
+                  onValue={(value) =>
+                    handleInput(
+                      field as keyof PutShopCustomizationRequest,
+                      value
+                    )
+                  }
+                  errors={_.get(errors, field)}
+                />
+              </Show>
+            )}
+          </For>
 
-            <div class={styles.DialogFooter}>
-              <ActionButton
-                actionType="active-filled"
-                submit
-                onClick={(e) => handlePutShopCustomization(e)}
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+          <div class={styles.DialogFooter}>
+            <ActionButton
+              actionType="active-filled"
+              submit
+              onClick={(e) => handlePutShopCustomization(e)}
+            >
+              <Trans key={TKEYS.form.action.Save} />
+            </ActionButton>
+          </div>
+        </form>
+      </Dialog>
 
       <Show when={showDiscardConfirmation()}>
         <DiscardConfirmation

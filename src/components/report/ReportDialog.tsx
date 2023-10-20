@@ -4,16 +4,13 @@ import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
 import {
   CreateReportRequest,
   ReportType,
 } from "../../services/peoplesmarkets/report/v1/report";
-import {
-  ReportService,
-  listReportTypeCodes,
-} from "../../services/report/report";
+import { listReportTypeCodes } from "../../services/report/report";
 import {
   ActionButton,
   Anotation,
@@ -33,9 +30,7 @@ type Props = {
 export function ReportDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const reportService = new ReportService(accessToken);
+  const { reportService } = useServiceClientContext();
 
   const emptyRequest: CreateReportRequest = {
     reportType: ReportType.REPORT_TYPE_BUG,

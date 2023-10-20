@@ -4,9 +4,9 @@ import _ from "lodash";
 import { createEffect, createResource } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
-import { ShippingRateService, listCurrencyCodes } from "../../../services";
+import { listCurrencyCodes } from "../../../services";
 import { OfferResponse } from "../../../services/peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
@@ -27,9 +27,7 @@ type Props = {
 export function EditOfferShippingRatesDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const shippingRateService = new ShippingRateService(accessToken);
+  const { shippingRateService } = useServiceClientContext();
 
   const emptyRequest = {
     offerId: "",

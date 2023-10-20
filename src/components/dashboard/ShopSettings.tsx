@@ -2,20 +2,28 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useLocation, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Match, Show, Switch, createResource, createSignal } from "solid-js";
+import {
+  ErrorBoundary,
+  Match,
+  Show,
+  Suspense,
+  Switch,
+  createResource,
+  createSignal,
+} from "solid-js";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildBaseUrl } from "../../lib";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { buildBaseUrl, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
-import { ShopService, StripeService } from "../../services";
-import { ContentError, ContentLoading, isResolved } from "../content";
+import { ContentError, ContentLoading } from "../content";
 import { ActionButton } from "../form";
 import { ConfirmationDialog } from "../form/ConfirmationDialog";
 import { DeleteConfirmation } from "../form/DeleteConfirmation";
 import { Message } from "../form/Message";
 import { Cover } from "../layout/Cover";
 import { Section } from "../layout/Section";
+import { EditShopContactEmailDialog } from "../shops/settings/EditShopContactEmailDialog";
 import { EditShopBannerDialog } from "./EditShopBannerDialog";
 import { EditShopDialog } from "./EditShopDialog";
 import { EditShopDomainDialog } from "./EditShopDomainDialog";
@@ -23,7 +31,6 @@ import { EditShopLogoDialog } from "./EditShopLogoDialog";
 import { EditShopSlugDialog } from "./EditShopSlugDialog";
 import { EditShopThemeDialog } from "./EditShopThemeDialog";
 import styles from "./ShopSettings.module.scss";
-import { EditShopContactEmailDialog } from "../shops/settings/EditShopContactEmailDialog";
 
 type Props = {
   onUpdate: () => Promise<void>;
@@ -49,18 +56,15 @@ export function ShopSettings(props: Props) {
 
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
+  const { shopService, stripeService } = useServiceClientContext();
 
   const shopData = useRouteData<typeof ShopData>();
-
-  const shopService = new ShopService(accessToken);
-  const stripeService = new StripeService(accessToken);
 
   const [showDialog, setShowDialog] = createSignal<DIALOG>("none");
   const [redirecting, setRedirecting] = createSignal(false);
 
   const [stripeAccountDetails] = createResource(
-    () => shopData?.shop()?.shopId,
+    shopData?.shopId,
     fetchStripeAccountDetails
   );
 
@@ -88,7 +92,7 @@ export function ShopSettings(props: Props) {
     if (stripeAccountDetails.state === "pending") {
       return "pending";
     }
-    if (isResolved(stripeAccountDetails.state) && !_.isNil(shopData.shop())) {
+    if (resourceIsReady(stripeAccountDetails)) {
       if (_.isNil(stripeAccountDetails())) {
         return "missing";
       } else if (
@@ -111,7 +115,7 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleVisibility(isActive: boolean) {
-    const shopId = shopData?.shop()?.shopId;
+    const shopId = shopData.shopId();
     if (!_.isNil(shopId) && !_.isEmpty(shopId)) {
       await shopService.update({
         shopId,
@@ -122,30 +126,36 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleConfirmDeletion() {
-    if (!_.isNil(shopData?.shop())) {
-      try {
-        await shopService.delete(shopData?.shop()!.shopId);
-      } catch (err: any) {
-        if (err.code && err.code === grpc.Code.FailedPrecondition) {
-          setShowDialog("message");
-          return;
-        } else {
-          throw err;
-        }
-      }
+    const shopId = shopData.shopId();
+    if (_.isNil(shopId)) {
+      setShowDialog("message");
+      return;
     }
+
+    try {
+      await shopService.delete(shopId);
+    } catch (err: any) {
+      if (err.code && err.code === grpc.Code.FailedPrecondition) {
+        setShowDialog("message");
+        return;
+      }
+
+      throw err;
+    }
+
     props.onDelete();
     setShowDialog("none");
   }
 
   async function handleCreateStripeIntegration() {
-    if (_.isNil(shopData?.shop())) {
+    const shopId = shopData.shopId();
+    if (_.isNil(shopId)) {
       return;
     }
 
     setRedirecting(true);
     try {
-      await stripeService.createAccount(shopData?.shop()!.shopId);
+      await stripeService.createAccount(shopId);
       handleContinueStripeIntegration();
     } catch (err) {
       setRedirecting(false);
@@ -154,14 +164,15 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleContinueStripeIntegration() {
-    if (_.isNil(shopData?.shop())) {
+    const shopId = shopData.shopId();
+    if (_.isNil(shopId)) {
       return;
     }
 
     setRedirecting(true);
     try {
       const { link } = await stripeService.createAccountLink(
-        shopData?.shop()!.shopId,
+        shopId,
         buildBaseUrl(location.pathname)
       );
       setRedirecting(false);
@@ -173,288 +184,286 @@ export function ShopSettings(props: Props) {
   }
 
   return (
-    <>
-      <Section bordered>
-        <span class={styles.Label}>
-          <Trans key={TKEYS.form.action.Edit} />
-        </span>
-
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={TKEYS.shop.labels["Name-and-Description"]} />
-          </p>
-          <ActionButton
-            actionType="neutral"
-            onClick={() => handleOpenDialog("edit-shop")}
-          >
+    <ErrorBoundary fallback={<ContentError />}>
+      <Suspense>
+        <Section bordered>
+          <span class={styles.Label}>
             <Trans key={TKEYS.form.action.Edit} />
-          </ActionButton>
-        </div>
+          </span>
 
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={stripeTkeys().integration} />
-          </p>
-          <Switch
-            fallback={
-              <span>
-                <Trans key={TKEYS.dashboard.shop["no-shop-yet"]} />
-              </span>
-            }
-          >
-            <Match when={stripeAccountState() === "errored"}>
-              <ContentError />
-            </Match>
-            <Match when={stripeAccountState() === "pending"}>
-              <ContentLoading />
-            </Match>
-            <Match when={stripeAccountState() === "missing"}>
-              <ActionButton
-                actionType="active-filled"
-                onClick={handleCreateStripeIntegration}
-              >
-                <Trans key={stripeTkeys()["start-integration"]} />
-              </ActionButton>
-            </Match>
-            <Match when={stripeAccountState() === "in-progress"}>
-              <ActionButton
-                actionType="active-filled"
-                onClick={handleContinueStripeIntegration}
-              >
-                <Trans key={stripeTkeys()["continue-integration"]} />
-              </ActionButton>
-            </Match>
-            <Match when={stripeAccountState() === "configured"}>
-              <span class={styles.Ok}>
-                <Trans key={TKEYS.form.action.OK} />
-              </span>
-            </Match>
-          </Switch>
-        </div>
-
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={TKEYS.shop.labels["contact-email-address"]} />
-          </p>
-          <ActionButton
-            actionType="neutral"
-            onClick={() => handleOpenDialog("edit-contact-email")}
-          >
-            <Trans key={TKEYS.form.action.Edit} />
-          </ActionButton>
-        </div>
-
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={TKEYS.shop.labels.Image} />
-          </p>
-          <ActionButton
-            actionType="neutral"
-            onClick={() => handleOpenDialog("edit-image")}
-          >
-            <Trans key={TKEYS.form.action.Edit} />
-          </ActionButton>
-        </div>
-
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={TKEYS.shop.labels.Logo} />
-          </p>
-          <ActionButton
-            actionType="neutral"
-            onClick={() => handleOpenDialog("edit-logo")}
-          >
-            <Trans key={TKEYS.form.action.Edit} />
-          </ActionButton>
-        </div>
-
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={TKEYS.shop.labels.Theme} />
-          </p>
-          <ActionButton
-            actionType="neutral"
-            onClick={() => handleOpenDialog("edit-theme")}
-          >
-            <Trans key={TKEYS.form.action.Edit} />
-          </ActionButton>
-        </div>
-
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={TKEYS.shop.labels.Path} />
-          </p>
-          <ActionButton
-            actionType="neutral"
-            onClick={() => handleOpenDialog("edit-slug")}
-          >
-            <Trans key={TKEYS.form.action.Edit} />
-          </ActionButton>
-        </div>
-
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={TKEYS.shop.labels.Domain} />
-          </p>
-          <ActionButton
-            actionType="neutral"
-            onClick={() => handleOpenDialog("edit-domain")}
-          >
-            <Trans key={TKEYS.form.action.Edit} />
-          </ActionButton>
-        </div>
-
-        <Show
-          when={
-            !_.isNil(shopData?.shop()?.isActive) && !shopData.shop()?.isActive
-          }
-        >
           <div class={styles.EditSection}>
             <p class={styles.Body}>
-              <Trans key={TKEYS.dashboard.shop["public-visibility"]} />
+              <Trans key={TKEYS.shop.labels["Name-and-Description"]} />
             </p>
             <ActionButton
-              actionType="active"
-              onClick={() => handleOpenDialog("make-visible")}
+              actionType="neutral"
+              onClick={() => handleOpenDialog("edit-shop")}
             >
-              <Trans key={TKEYS.form.action.Publish} />
+              <Trans key={TKEYS.form.action.Edit} />
             </ActionButton>
           </div>
-        </Show>
-      </Section>
 
-      <Section danger>
-        <span class={styles.Label}>
-          <Trans key={TKEYS.form["critical-settings"]} />
-        </span>
-
-        <Show
-          when={
-            !_.isNil(shopData?.shop()?.isActive) && shopData.shop()?.isActive
-          }
-        >
           <div class={styles.EditSection}>
             <p class={styles.Body}>
-              <Trans key={TKEYS.dashboard.shop["public-visibility"]} />
+              <Trans key={stripeTkeys().integration} />
+            </p>
+            <Switch
+              fallback={
+                <span>
+                  <Trans key={TKEYS.dashboard.shop["no-shop-yet"]} />
+                </span>
+              }
+            >
+              <Match when={stripeAccountState() === "errored"}>
+                <ContentError />
+              </Match>
+              <Match when={stripeAccountState() === "pending"}>
+                <ContentLoading />
+              </Match>
+              <Match when={stripeAccountState() === "missing"}>
+                <ActionButton
+                  actionType="active-filled"
+                  onClick={handleCreateStripeIntegration}
+                >
+                  <Trans key={stripeTkeys()["start-integration"]} />
+                </ActionButton>
+              </Match>
+              <Match when={stripeAccountState() === "in-progress"}>
+                <ActionButton
+                  actionType="active-filled"
+                  onClick={handleContinueStripeIntegration}
+                >
+                  <Trans key={stripeTkeys()["continue-integration"]} />
+                </ActionButton>
+              </Match>
+              <Match when={stripeAccountState() === "configured"}>
+                <span class={styles.Ok}>
+                  <Trans key={TKEYS.form.action.OK} />
+                </span>
+              </Match>
+            </Switch>
+          </div>
+
+          <div class={styles.EditSection}>
+            <p class={styles.Body}>
+              <Trans key={TKEYS.shop.labels["contact-email-address"]} />
+            </p>
+            <ActionButton
+              actionType="neutral"
+              onClick={() => handleOpenDialog("edit-contact-email")}
+            >
+              <Trans key={TKEYS.form.action.Edit} />
+            </ActionButton>
+          </div>
+
+          <div class={styles.EditSection}>
+            <p class={styles.Body}>
+              <Trans key={TKEYS.shop.labels.Image} />
+            </p>
+            <ActionButton
+              actionType="neutral"
+              onClick={() => handleOpenDialog("edit-image")}
+            >
+              <Trans key={TKEYS.form.action.Edit} />
+            </ActionButton>
+          </div>
+
+          <div class={styles.EditSection}>
+            <p class={styles.Body}>
+              <Trans key={TKEYS.shop.labels.Logo} />
+            </p>
+            <ActionButton
+              actionType="neutral"
+              onClick={() => handleOpenDialog("edit-logo")}
+            >
+              <Trans key={TKEYS.form.action.Edit} />
+            </ActionButton>
+          </div>
+
+          <div class={styles.EditSection}>
+            <p class={styles.Body}>
+              <Trans key={TKEYS.shop.labels.Theme} />
+            </p>
+            <ActionButton
+              actionType="neutral"
+              onClick={() => handleOpenDialog("edit-theme")}
+            >
+              <Trans key={TKEYS.form.action.Edit} />
+            </ActionButton>
+          </div>
+
+          <div class={styles.EditSection}>
+            <p class={styles.Body}>
+              <Trans key={TKEYS.shop.labels.Path} />
+            </p>
+            <ActionButton
+              actionType="neutral"
+              onClick={() => handleOpenDialog("edit-slug")}
+            >
+              <Trans key={TKEYS.form.action.Edit} />
+            </ActionButton>
+          </div>
+
+          <div class={styles.EditSection}>
+            <p class={styles.Body}>
+              <Trans key={TKEYS.shop.labels.Domain} />
+            </p>
+            <ActionButton
+              actionType="neutral"
+              onClick={() => handleOpenDialog("edit-domain")}
+            >
+              <Trans key={TKEYS.form.action.Edit} />
+            </ActionButton>
+          </div>
+
+          <Show
+            when={
+              !_.isNil(shopData?.shop()?.isActive) && !shopData.shop()?.isActive
+            }
+          >
+            <div class={styles.EditSection}>
+              <p class={styles.Body}>
+                <Trans key={TKEYS.dashboard.shop["public-visibility"]} />
+              </p>
+              <ActionButton
+                actionType="active"
+                onClick={() => handleOpenDialog("make-visible")}
+              >
+                <Trans key={TKEYS.form.action.Publish} />
+              </ActionButton>
+            </div>
+          </Show>
+        </Section>
+
+        <Section danger>
+          <span class={styles.Label}>
+            <Trans key={TKEYS.form["critical-settings"]} />
+          </span>
+
+          <Show
+            when={
+              !_.isNil(shopData?.shop()?.isActive) && shopData.shop()?.isActive
+            }
+          >
+            <div class={styles.EditSection}>
+              <p class={styles.Body}>
+                <Trans key={TKEYS.dashboard.shop["public-visibility"]} />
+              </p>
+              <ActionButton
+                actionType="danger"
+                onClick={() => handleOpenDialog("make-not-visible")}
+              >
+                <Trans key={TKEYS.form.action.Hide} />
+              </ActionButton>
+            </div>
+          </Show>
+
+          <div class={styles.EditSection}>
+            <p class={styles.Body}>
+              <Trans key={TKEYS.dashboard.shop["delete-this-shop"]} />
             </p>
             <ActionButton
               actionType="danger"
-              onClick={() => handleOpenDialog("make-not-visible")}
+              onClick={() => handleOpenDialog("delete")}
             >
-              <Trans key={TKEYS.form.action.Hide} />
+              <Trans key={TKEYS.form.action.Delete} />
             </ActionButton>
           </div>
+        </Section>
+
+        {/* DIALOGS */}
+        <Show when={showDialog() === "message"}>
+          <Message
+            title={trans(TKEYS.form.errors.Conflict)}
+            onClose={handleCloseDialog}
+          >
+            <Trans key={TKEYS.shop.errors["ensure-offers-deleted"]} />
+          </Message>
         </Show>
 
-        <div class={styles.EditSection}>
-          <p class={styles.Body}>
-            <Trans key={TKEYS.dashboard.shop["delete-this-shop"]} />
-          </p>
-          <ActionButton
+        <Show when={showDialog() === "edit-shop"}>
+          <EditShopDialog
+            shop={() => shopData.shop()}
+            class={styles.EditShop}
+            onClose={handleCloseDialog}
+            onUpdate={() => props.onUpdate()}
+          />
+        </Show>
+
+        <Show when={showDialog() === "edit-contact-email"}>
+          <EditShopContactEmailDialog
+            shop={() => shopData.shop()}
+            onClose={handleCloseDialog}
+            onUpdate={() => props.onUpdate()}
+          />
+        </Show>
+
+        <Show when={showDialog() === "edit-image"}>
+          <EditShopBannerDialog
+            onClose={handleCloseDialog}
+            onUpdate={() => props.onUpdate()}
+          />
+        </Show>
+
+        <Show when={showDialog() === "edit-logo"}>
+          <EditShopLogoDialog
+            onClose={handleCloseDialog}
+            onUpdate={() => props.onUpdate()}
+          />
+        </Show>
+
+        <Show when={showDialog() === "edit-theme"}>
+          <EditShopThemeDialog
+            onClose={handleCloseDialog}
+            onUpdate={() => props.onUpdate()}
+          />
+        </Show>
+
+        <Show when={showDialog() === "edit-slug"}>
+          <EditShopSlugDialog onClose={handleCloseDialog} />
+        </Show>
+
+        <Show when={showDialog() === "edit-domain"}>
+          <EditShopDomainDialog onClose={handleCloseDialog} />
+        </Show>
+
+        <Show when={showDialog() === "make-visible"}>
+          <ConfirmationDialog
+            actionType="active"
+            title={trans(TKEYS.dashboard.shop["publish-notification-title"])}
+            message={trans(
+              TKEYS.dashboard.shop["publish-notification-message"]
+            )}
+            onCancel={handleCloseDialog}
+            onOk={() => handleVisibility(true)}
+          />
+        </Show>
+
+        <Show when={showDialog() === "make-not-visible"}>
+          <ConfirmationDialog
             actionType="danger"
-            onClick={() => handleOpenDialog("delete")}
-          >
-            <Trans key={TKEYS.form.action.Delete} />
-          </ActionButton>
-        </div>
-      </Section>
+            title={trans(TKEYS.dashboard.shop["unpublish-notification-title"])}
+            message={trans(
+              TKEYS.dashboard.shop["unpublish-notification-message"]
+            )}
+            onCancel={handleCloseDialog}
+            onOk={() => handleVisibility(false)}
+          />
+        </Show>
 
-      {/* DIALOGS */}
-      <Show when={showDialog() === "message"}>
-        <Message
-          title={trans(TKEYS.form.errors.Conflict)}
-          onClose={handleCloseDialog}
-        >
-          <Trans key={TKEYS.shop.errors["ensure-offers-deleted"]} />
-        </Message>
-      </Show>
+        <Show when={showDialog() === "delete"}>
+          <DeleteConfirmation
+            item={trans(TKEYS.shop.title)}
+            itemName={shopData.shop()?.name}
+            onCancel={handleCloseDialog}
+            onConfirmation={handleConfirmDeletion}
+          />
+        </Show>
 
-      <Show when={showDialog() === "edit-shop" && !_.isNil(shopData?.shop())}>
-        <EditShopDialog
-          shop={() => shopData?.shop()!}
-          class={styles.EditShop}
-          onClose={handleCloseDialog}
-          onUpdate={() => props.onUpdate()}
-        />
-      </Show>
-
-      <Show when={showDialog() === "edit-contact-email"}>
-        <EditShopContactEmailDialog
-          shop={() => shopData?.shop()}
-          onClose={handleCloseDialog}
-          onUpdate={() => props.onUpdate()}
-        />
-      </Show>
-
-      <Show when={showDialog() === "edit-image" && !_.isNil(shopData?.shop())}>
-        <EditShopBannerDialog
-          shopId={shopData?.shop()!.shopId}
-          onClose={handleCloseDialog}
-          onUpdate={() => props.onUpdate()}
-        />
-      </Show>
-
-      <Show when={showDialog() === "edit-logo" && !_.isNil(shopData?.shop())}>
-        <EditShopLogoDialog
-          shopId={shopData?.shop()!.shopId}
-          onClose={handleCloseDialog}
-          onUpdate={() => props.onUpdate()}
-        />
-      </Show>
-
-      <Show when={showDialog() === "edit-theme" && !_.isNil(shopData?.shop())}>
-        <EditShopThemeDialog
-          onClose={handleCloseDialog}
-          onUpdate={() => props.onUpdate()}
-        />
-      </Show>
-
-      <Show when={showDialog() === "edit-slug" && !_.isNil(shopData?.shop())}>
-        <EditShopSlugDialog onClose={handleCloseDialog} />
-      </Show>
-
-      <Show when={showDialog() === "edit-domain" && !_.isNil(shopData?.shop())}>
-        <EditShopDomainDialog onClose={handleCloseDialog} />
-      </Show>
-
-      <Show
-        when={showDialog() === "make-visible" && !_.isNil(shopData?.shop())}
-      >
-        <ConfirmationDialog
-          actionType="active"
-          title={trans(TKEYS.dashboard.shop["publish-notification-title"])}
-          message={trans(TKEYS.dashboard.shop["publish-notification-message"])}
-          onCancel={handleCloseDialog}
-          onOk={() => handleVisibility(true)}
-        />
-      </Show>
-
-      <Show
-        when={showDialog() === "make-not-visible" && !_.isNil(shopData?.shop())}
-      >
-        <ConfirmationDialog
-          actionType="danger"
-          title={trans(TKEYS.dashboard.shop["unpublish-notification-title"])}
-          message={trans(
-            TKEYS.dashboard.shop["unpublish-notification-message"]
-          )}
-          onCancel={handleCloseDialog}
-          onOk={() => handleVisibility(false)}
-        />
-      </Show>
-
-      <Show when={showDialog() === "delete"}>
-        <DeleteConfirmation
-          item={trans(TKEYS.shop.title)}
-          itemName={shopData?.shop()?.name}
-          onCancel={handleCloseDialog}
-          onConfirmation={handleConfirmDeletion}
-        />
-      </Show>
-
-      <Show when={redirecting()}>
-        <Cover pageLoad />
-      </Show>
-    </>
+        <Show when={redirecting()}>
+          <Cover pageLoad />
+        </Show>
+      </Suspense>
+    </ErrorBoundary>
   );
 }

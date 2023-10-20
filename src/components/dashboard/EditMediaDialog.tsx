@@ -4,10 +4,9 @@ import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales";
-import { MediaService } from "../../services";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
 import { ProgressBar } from "../assets/ProgressBar";
 import {
@@ -28,9 +27,7 @@ type Props = {
 export function EditMediaDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const mediaService = new MediaService(accessToken);
+  const { mediaService } = useServiceClientContext();
 
   const [form, setForm] = createStore({
     name: undefined as string | undefined,

@@ -4,9 +4,8 @@ import _ from "lodash";
 import { For, Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { MediaService } from "../../services";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
 import { EditMediaDialog } from "../dashboard/EditMediaDialog";
@@ -14,7 +13,7 @@ import { ActionButton, DeleteConfirmation } from "../form";
 import styles from "./MediaList.module.scss";
 
 type Props = {
-  medias: () => MediaResponse[];
+  medias: () => MediaResponse[] | undefined;
   onUpdate: () => void;
   offer?: () => OfferResponse;
 };
@@ -22,9 +21,7 @@ type Props = {
 export function MediaList(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const mediaService = new MediaService(accessToken);
+  const { mediaService } = useServiceClientContext();
 
   const [showEditMedia, setShowEditMedia] = createSignal(false);
   const [showDeleteConfirmation, setShowDeleteConfirmation] =

@@ -2,28 +2,33 @@ import { useNavigate, useRouteData, useSearchParams } from "@solidjs/router";
 import _ from "lodash";
 import { createEffect, createResource } from "solid-js";
 
-import { isResolved } from "../../components/content";
+import { Page } from "../../components/layout";
 import { Cover } from "../../components/layout/Cover";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { base64ToUtf8 } from "../../lib";
-import { buildIndexPath, buildDashboardPath } from "../main-routing";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { base64ToUtf8, resourceIsReady } from "../../lib";
+import { buildDashboardPath, buildIndexPath } from "../main-routing";
 import { ShopData } from "./ShopData";
-import { Page } from "../../components/layout";
 
 export default function SignInCallback() {
   const { startSessionWithCode } = useAccessTokensContext();
   const [{ code, state }] = useSearchParams();
   const navigate = useNavigate();
 
+  const { shopDomainService } = useServiceClientContext();
+
   const shopData = useRouteData<typeof ShopData>();
 
+  const [shopDomain] = createResource(shopData?.shopId, async (shopId) =>
+    shopDomainService.getDomainStatus(shopId).then((res) => res.domainStatus)
+  );
   const [startSession] = createResource(
-    () => shopData?.shopDomain()?.clientId,
+    () => (resourceIsReady(shopDomain) ? shopDomain()?.clientId : undefined),
     async (clientId) => startSessionWithCode(code, clientId)
   );
 
   createEffect(() => {
-    if (isResolved(startSession.state)) {
+    if (resourceIsReady(startSession)) {
       if (!_.isNil(state) && !_.isEmpty(state)) {
         navigate(base64ToUtf8(state), { replace: true });
       } else {

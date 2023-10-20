@@ -4,9 +4,10 @@ import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { slugify } from "../../lib";
 import { TKEYS } from "../../locales";
-import { ShopService } from "../../services";
+import { buildShopDetailPath } from "../../routes/shops/shop-routing";
 import { CreateShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop";
 import {
   ActionButton,
@@ -17,8 +18,6 @@ import {
 } from "../form";
 import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
-import { buildShopDetailPath } from "../../routes/shops/shop-routing";
-import { slugify } from "../../lib";
 
 type Props = {
   onClose: () => void;
@@ -28,9 +27,7 @@ type Props = {
 export function CreateShopDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const shopService = new ShopService(accessToken);
+  const { shopService } = useServiceClientContext();
 
   const [shop, setShop] = createStore<CreateShopRequest>({
     name: "",
@@ -112,9 +109,7 @@ export function CreateShopDialog(props: Props) {
     <>
       <Show when={!discardConfirmation()}>
         <Dialog
-          title={trans(
-            TKEYS.dashboard["shop"]["create-new-shop"]
-          )}
+          title={trans(TKEYS.dashboard["shop"]["create-new-shop"])}
           onClose={closeDialog}
         >
           <form class={styles.Form} onSubmit={(e) => createShop(e)}>
