@@ -1,7 +1,12 @@
 import { useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { ErrorBoundary, Suspense, createResource } from "solid-js";
-import { createStore } from "solid-js/store";
+import {
+  ErrorBoundary,
+  Suspense,
+  createResource,
+  createSignal,
+  resetErrorBoundaries,
+} from "solid-js";
 
 import { ShopList } from "../components/commerce/ShopList";
 import { ContentError } from "../components/content";
@@ -9,11 +14,11 @@ import { Select, SelectKey } from "../components/form";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
 import { SearchIcon } from "../components/icons/SearchIcon";
 import { Section, Slot } from "../components/layout";
-import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../contexts/ServiceClientContext";
 import { TKEYS } from "../locales";
-import { ShopService } from "../services";
 import {
   ListShopsRequest,
+  ShopsFilter,
   ShopsFilterField,
   ShopsOrderByField,
 } from "../services/peoplesmarkets/commerce/v1/shop";
@@ -24,11 +29,41 @@ import styles from "./ShopsOffers.module.scss";
 export default function Shops() {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const shopService = new ShopService(accessToken);
+  const { shopService } = useServiceClientContext();
 
   const searchField = ShopsFilterField.SHOPS_FILTER_FIELD_NAME_AND_DESCRIPTION;
+
+  const defaultOrderBy = {
+    field: ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT,
+    direction: Direction.DIRECTION_DESC,
+  };
+
+  const [orderBy, setOrderBy] = createSignal(_.clone(defaultOrderBy));
+  const [filter, setFilter] = createSignal<ShopsFilter | undefined>();
+
+  function request() {
+    if (_.isNil(filter())) {
+      return {
+        orderBy: orderBy(),
+        extended: true,
+      };
+    }
+
+    return {
+      orderBy: orderBy(),
+      filter: filter(),
+      extended: true,
+    };
+  }
+
+  const [shops, { refetch }] = createResource(request, fetchShops);
+
+  async function fetchShops(request: ListShopsRequest) {
+    return shopService
+      .list(request)
+      .then((res) => res.shops)
+      .catch(() => []);
+  }
 
   function createdAtOrderByOptions() {
     return [
@@ -43,51 +78,22 @@ export default function Shops() {
     ];
   }
 
-  const [listRequest, setListRequest] = createStore<ListShopsRequest>({
-    orderBy: {
-      field: ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT,
-      direction: Direction.DIRECTION_DESC,
-    },
-    extended: true,
-  });
-
-  const [shops, { refetch }] = createResource(() => listRequest, fetchShops);
-
-  async function fetchShops(request: ListShopsRequest) {
-    const response = await shopService.list(request);
-    return response.shops;
-  }
-
   function selectedCreatedAtOrderByKey() {
-    if (
-      listRequest.orderBy?.field ===
-      ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT
-    ) {
+    if (orderBy().field === ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT) {
       return _.find(createdAtOrderByOptions(), {
-        key: listRequest?.orderBy?.direction,
+        key: orderBy().direction,
       });
     }
   }
 
-  function handleSearchInput(value: string) {
-    const trimmed = value.trim();
-
-    if (_.isEmpty(trimmed)) {
-      if (_.isNil(listRequest.filter)) {
-        return;
-      }
-
-      setListRequest({ ...listRequest, ...{ filter: undefined } });
-      refetch();
-      return;
+  function handleSearchInput(query: string) {
+    if (!_.isEmpty(_.trim(query))) {
+      setFilter({ field: searchField, query });
+    } else {
+      setFilter();
     }
 
-    setListRequest({
-      ...listRequest,
-      ...{ filter: { field: searchField, query: trimmed } },
-    });
-
-    refetch();
+    resetErrorBoundaries();
   }
 
   function handleOrderByInput(field: ShopsOrderByField, direction: SelectKey) {
@@ -95,8 +101,7 @@ export default function Shops() {
       return;
     }
 
-    setListRequest({ ...listRequest, ...{ orderBy: { field, direction } } });
-    refetch();
+    setOrderBy({ field, direction });
   }
 
   async function handleSearchSubmit(event: SubmitEvent) {
@@ -114,7 +119,7 @@ export default function Shops() {
             id="search"
             type="search"
             placeholder={trans(TKEYS["shops-search"].title)}
-            value={listRequest.filter?.query || ""}
+            value={filter()?.query || ""}
             onInput={(event) => handleSearchInput(event.currentTarget.value)}
             aria-label="search"
           />
@@ -141,11 +146,11 @@ export default function Shops() {
         </Section>
 
         <Section>
-          <ErrorBoundary fallback={<ContentError />}>
-            <Suspense>
+          <Suspense>
+            <ErrorBoundary fallback={<ContentError />}>
               <ShopList shops={() => shops()} />
-            </Suspense>
-          </ErrorBoundary>
+            </ErrorBoundary>
+          </Suspense>
         </Section>
       </Slot>
     </MainRoutesWrapper>

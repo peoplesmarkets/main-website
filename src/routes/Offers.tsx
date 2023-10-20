@@ -1,7 +1,12 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { ErrorBoundary, Suspense, createResource } from "solid-js";
-import { createStore } from "solid-js/store";
+import {
+  ErrorBoundary,
+  Suspense,
+  createResource,
+  createSignal,
+  resetErrorBoundaries,
+} from "solid-js";
 
 import { ContentError } from "../components/content";
 import { Select, SelectKey } from "../components/form";
@@ -9,11 +14,11 @@ import { SearchIcon } from "../components/icons";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
 import { Section, Slot } from "../components/layout";
 import { OfferList } from "../components/main";
-import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../contexts/ServiceClientContext";
 import { TKEYS } from "../locales";
-import { OfferService } from "../services";
 import {
   ListOffersRequest,
+  OffersFilter,
   OffersFilterField,
   OffersOrderByField,
 } from "../services/peoplesmarkets/commerce/v1/offer";
@@ -24,19 +29,40 @@ import styles from "./ShopsOffers.module.scss";
 export default function Offers() {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const offerService = new OfferService(accessToken);
+  const { offerService } = useServiceClientContext();
 
   const searchField =
     OffersFilterField.OFFERS_FILTER_FIELD_NAME_AND_DESCRIPTION;
 
-  const defaultRequest = {
-    orderBy: {
-      field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT,
-      direction: Direction.DIRECTION_DESC,
-    },
+  const defaultOrderBy = {
+    field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT,
+    direction: Direction.DIRECTION_DESC,
   };
+
+  const [orderBy, setOrderBy] = createSignal(_.clone(defaultOrderBy));
+  const [filter, setFilter] = createSignal<OffersFilter | undefined>();
+
+  function request() {
+    if (_.isNil(filter())) {
+      return {
+        orderBy: orderBy(),
+      };
+    }
+
+    return {
+      orderBy: orderBy(),
+      filter: filter(),
+    };
+  }
+
+  const [offers, { refetch }] = createResource(request, fetchOffers);
+
+  async function fetchOffers(request: ListOffersRequest) {
+    return offerService
+      .list(request)
+      .then((res) => res.offers)
+      .catch(() => []);
+  }
 
   function createdAtOrderByOptions() {
     return [
@@ -66,53 +92,32 @@ export default function Offers() {
 
   function selectedCreatedAtOrderByKey() {
     if (
-      listRequest.orderBy?.field ===
-      OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT
+      orderBy().field === OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT
     ) {
       return _.find(createdAtOrderByOptions(), {
-        key: listRequest?.orderBy?.direction,
+        key: orderBy().direction,
       });
     }
   }
 
   function selectedUpdatedAtOrderByKey() {
     if (
-      listRequest.orderBy?.field ===
-      OffersOrderByField.OFFERS_ORDER_BY_FIELD_UPDATED_AT
+      orderBy().field === OffersOrderByField.OFFERS_ORDER_BY_FIELD_UPDATED_AT
     ) {
       return _.find(updatedAtOrderByOptions(), {
-        key: listRequest?.orderBy?.direction,
+        key: orderBy().direction,
       });
     }
   }
 
-  const [listRequest, setListRequest] =
-    createStore<ListOffersRequest>(defaultRequest);
-
-  const [offers, { refetch }] = createResource(() => listRequest, fetchOffers);
-
-  async function fetchOffers(request: ListOffersRequest) {
-    const response = await offerService.list(request);
-    return response.offers;
-  }
-
-  function handleSearchInput(value: string) {
-    const trimmed = value.trim();
-
-    if (_.isEmpty(trimmed)) {
-      if (_.isNil(listRequest.filter)) {
-        return;
-      }
-
-      setListRequest({ ...listRequest, ...{ filter: undefined } });
+  function handleSearchInput(query: string) {
+    if (!_.isEmpty(_.trim(query))) {
+      setFilter({ field: searchField, query });
     } else {
-      setListRequest({
-        ...listRequest,
-        ...{ filter: { field: searchField, query: trimmed } },
-      });
+      setFilter();
     }
 
-    refetch();
+    resetErrorBoundaries();
   }
 
   function handleOrderByInput(field: OffersOrderByField, direction: SelectKey) {
@@ -120,22 +125,14 @@ export default function Offers() {
       return;
     }
 
-    setListRequest({ ...listRequest, ...{ orderBy: { field, direction } } });
-    refetch();
+    setOrderBy({ field, direction });
   }
 
   function handleOrderByRandomInput() {
-    setListRequest({
-      ...listRequest,
-      ...{
-        orderBy: {
-          field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_RANDOM,
-          direction: Direction.DIRECTION_ASC,
-        },
-      },
+    setOrderBy({
+      field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_RANDOM,
+      direction: Direction.DIRECTION_ASC,
     });
-
-    refetch();
   }
 
   async function handleSearchSubmit(event: SubmitEvent) {
@@ -153,7 +150,7 @@ export default function Offers() {
             id="search"
             type="search"
             placeholder={trans(TKEYS["offers-search"].title)}
-            value={listRequest.filter?.query || ""}
+            value={filter()?.query || ""}
             onInput={(event) => handleSearchInput(event.currentTarget.value)}
             aria-label="search"
           />

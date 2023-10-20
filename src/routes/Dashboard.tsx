@@ -16,8 +16,8 @@ import { CreateShopDialog, ShopList } from "../components/dashboard";
 import { ActionButton } from "../components/form";
 import { Section, Slot } from "../components/layout";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../contexts/ServiceClientContext";
 import { TKEYS } from "../locales";
-import { ShopService } from "../services";
 import styles from "./Dashboard.module.scss";
 import MainRoutesWrapper from "./MainRoutesWrapper";
 import { buildUserSettingsPath } from "./user/UserRoutes";
@@ -25,13 +25,13 @@ import { buildUserSettingsPath } from "./user/UserRoutes";
 export default function Dashboard() {
   const navigate = useNavigate();
 
-  const { accessToken, currentSession } = useAccessTokensContext();
+  const { currentSession } = useAccessTokensContext();
 
   const [initiallyShowCreateShop, setInitiallyShowCreateShop] =
     createSignal(true);
   const [showCreateShop, setShowCreateShop] = createSignal(false);
 
-  const shopService = new ShopService(accessToken);
+  const { shopService } = useServiceClientContext();
 
   const [shops, { refetch }] = createResource(
     () => currentSession().userId || undefined,

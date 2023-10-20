@@ -2,20 +2,18 @@ import { RouteDataFuncArgs } from "@solidjs/router";
 import _ from "lodash";
 import { createResource } from "solid-js";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { ShopService, ShopDomainService, StripeService } from "../../services";
-import { StripeAccount } from "../../services/peoplesmarkets/payment/v1/stripe";
-import { ShopCustomizationService } from "../../services/commerce/shop_customization";
-import { getDomainFromWindow, isCustomDomain } from "../../lib/env";
 import { isResolved } from "../../components/content";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { getDomainFromWindow, isCustomDomain } from "../../lib/env";
+import { StripeAccount } from "../../services/peoplesmarkets/payment/v1/stripe";
 
 export function ShopData({ params }: RouteDataFuncArgs) {
-  const { accessToken } = useAccessTokensContext();
-
-  const shopService = new ShopService(accessToken);
-  const shopCustomizationService = new ShopCustomizationService(accessToken);
-  const shopDomainService = new ShopDomainService(accessToken);
-  const stripeService = new StripeService(accessToken);
+  const {
+    shopService,
+    shopCustomizationService,
+    shopDomainService,
+    stripeService,
+  } = useServiceClientContext();
 
   const [shop, shopActions] = isCustomDomain()
     ? createResource(() => getDomainFromWindow(), fetchShopByDomain)
