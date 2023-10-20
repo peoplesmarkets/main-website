@@ -2,21 +2,27 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createEffect, createSignal } from "solid-js";
+import {
+  ErrorBoundary,
+  Show,
+  Suspense,
+  createEffect,
+  createResource,
+  createSignal,
+} from "solid-js";
 import { createStore } from "solid-js/store";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { isValidHostname, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
-import { ShopDomainService } from "../../services";
 import {
   AddDomainToShopRequest,
   DomainStatus,
 } from "../../services/peoplesmarkets/commerce/v1/shop_domain";
-import { Anotation } from "../content";
+import { Anotation, ContentError } from "../content";
 import { ActionButton, DiscardConfirmation, TextField } from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
-import { isValidHostname } from "../../lib";
 
 type Props = {
   onClose: () => void;
@@ -24,14 +30,19 @@ type Props = {
 
 export function EditShopDomainDialog(props: Props) {
   const [trans] = useTransContext();
-  const shopData = useRouteData<typeof ShopData>();
-  const { accessToken } = useAccessTokensContext();
 
-  const shopDomainService = new ShopDomainService(accessToken);
+  const { shopDomainService } = useServiceClientContext();
+
+  const shopData = useRouteData<typeof ShopData>();
+
+  const [shopDomain] = createResource(shopData?.shopId, async (shopId) =>
+    shopDomainService.getDomainStatus(shopId).then((res) => res.domainStatus)
+  );
 
   const emptyUpdateRequest = AddDomainToShopRequest.create();
-  const updateFields = ["shopId", "domain"];
-  const [shopDomain, setShopDomain] =
+  const updateFields = Object.keys(emptyUpdateRequest);
+
+  const [request, setRequest] =
     createStore<AddDomainToShopRequest>(emptyUpdateRequest);
 
   const [errors, setErrors] = createStore({ domain: [] as string[] });
@@ -40,10 +51,14 @@ export function EditShopDomainDialog(props: Props) {
     createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(shopDomain.shopId) || _.isEmpty(shopDomain.shopId)) {
-      setShopDomain({
-        shopId: shopData.shop()?.shopId,
-        domain: shopData.shopDomain()?.domain,
+    if (!resourceIsReady(shopDomain)) {
+      return;
+    }
+
+    if (_.isNil(request.shopId) || _.isEmpty(request.shopId)) {
+      setRequest({
+        shopId: shopData.shopId(),
+        domain: shopDomain()?.domain,
       });
     }
   });
@@ -55,7 +70,7 @@ export function EditShopDomainDialog(props: Props) {
   function handleDomainInput(value: string) {
     resetErrors();
     if (isValidHostname(value)) {
-      setShopDomain("domain", value);
+      setRequest("domain", value);
     } else {
       setErrors("domain", trans(TKEYS.shop.errors["invalid-url"]));
     }
@@ -71,7 +86,7 @@ export function EditShopDomainDialog(props: Props) {
     }
 
     try {
-      await shopDomainService.addDomain(shopDomain);
+      await shopDomainService.addDomain(request);
       shopData.refetch();
     } catch (err: any) {
       if (err.code) {
@@ -88,8 +103,8 @@ export function EditShopDomainDialog(props: Props) {
 
   async function handleRemoveDomain() {
     try {
-      const shopId = shopData?.shop()?.shopId;
-      const domain = shopData?.shopDomain()?.domain;
+      const shopId = shopData.shopId();
+      const domain = shopDomain()?.domain;
       if (!_.isNil(shopId) && !_.isNil(domain)) {
         await shopDomainService.removeDomain({
           shopId,
@@ -97,7 +112,7 @@ export function EditShopDomainDialog(props: Props) {
         });
       }
       shopData.refetch();
-      setShopDomain("domain", "");
+      setRequest("domain", "");
     } catch (err: any) {
       if (err.code) {
         setErrors("domain", [err.message]);
@@ -108,7 +123,7 @@ export function EditShopDomainDialog(props: Props) {
   function dataWasChanged() {
     return !_.isEqual(
       _.pick(shopData.shop(), updateFields),
-      _.pick(shopDomain, updateFields)
+      _.pick(request, updateFields)
     );
   }
 
@@ -124,77 +139,79 @@ export function EditShopDomainDialog(props: Props) {
 
   return (
     <>
-      <Show when={!showDiscardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard["shop"]["edit-domain"])}
-          onClose={props.onClose}
-        >
-          <form class={styles.Form} onSubmit={handleAddDomain}>
-            <TextField
-              label={trans(TKEYS["shop"].labels.domain)}
-              required
-              small
-              value={shopDomain.domain}
-              onValue={handleDomainInput}
-              errors={errors.domain}
-            />
+      <Dialog
+        title={trans(TKEYS.dashboard["shop"]["edit-domain"])}
+        onClose={props.onClose}
+      >
+        <ErrorBoundary fallback={<ContentError />}>
+          <Suspense>
+            <form class={styles.Form} onSubmit={handleAddDomain}>
+              <TextField
+                label={trans(TKEYS["shop"].labels.domain)}
+                required
+                small
+                value={request.domain}
+                onValue={handleDomainInput}
+                errors={errors.domain}
+              />
 
-            <Show
-              when={
-                shopData?.shopDomain()?.status ===
-                DomainStatus.DOMAIN_STATUS_PENDING
-              }
-            >
-              <Anotation warn>
-                <Trans key={TKEYS.dashboard.shop.domain.pending} />
-              </Anotation>
-              <Anotation>
-                <Trans
-                  key={TKEYS.dashboard["shop"].domain["pending-information"]}
-                />
-              </Anotation>
-              <Anotation>
-                <span class={styles.Strong}>
+              <Show
+                when={
+                  shopDomain()?.status === DomainStatus.DOMAIN_STATUS_PENDING
+                }
+              >
+                <Anotation warn>
+                  <Trans key={TKEYS.dashboard.shop.domain.pending} />
+                </Anotation>
+                <Anotation>
                   <Trans
-                    key={
-                      TKEYS.dashboard.shop.domain["pending-information-sample"]
-                    }
-                    options={{ item: shopDomain.domain }}
+                    key={TKEYS.dashboard["shop"].domain["pending-information"]}
                   />
-                </span>
-              </Anotation>
-            </Show>
-            <Show
-              when={
-                shopData?.shopDomain()?.status ===
-                DomainStatus.DOMAIN_STATUS_ACTIVE
-              }
-            >
-              <Anotation active>
-                <Trans key={TKEYS.dashboard["shop"].domain.active} />
-              </Anotation>
-            </Show>
+                </Anotation>
+                <Anotation>
+                  <span class={styles.Strong}>
+                    <Trans
+                      key={
+                        TKEYS.dashboard.shop.domain[
+                          "pending-information-sample"
+                        ]
+                      }
+                      options={{ item: request.domain }}
+                    />
+                  </span>
+                </Anotation>
+              </Show>
+              <Show
+                when={
+                  shopDomain()?.status === DomainStatus.DOMAIN_STATUS_ACTIVE
+                }
+              >
+                <Anotation active>
+                  <Trans key={TKEYS.dashboard["shop"].domain.active} />
+                </Anotation>
+              </Show>
 
-            <div class={styles.DialogFooter}>
-              <ActionButton
-                actionType="danger"
-                disabled={_.isEmpty(shopData?.shopDomain()?.domain)}
-                onClick={handleRemoveDomain}
-              >
-                <Trans key={TKEYS.form.action.Delete} />
-              </ActionButton>
-              <ActionButton
-                actionType="active-filled"
-                submit
-                disabled={!_.isEmpty(shopData?.shopDomain()?.domain)}
-                onClick={handleAddDomain}
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+              <div class={styles.DialogFooter}>
+                <ActionButton
+                  actionType="danger"
+                  disabled={_.isEmpty(shopDomain()?.domain)}
+                  onClick={handleRemoveDomain}
+                >
+                  <Trans key={TKEYS.form.action.Delete} />
+                </ActionButton>
+                <ActionButton
+                  actionType="active-filled"
+                  submit
+                  disabled={!_.isEmpty(shopDomain()?.domain)}
+                  onClick={handleAddDomain}
+                >
+                  <Trans key={TKEYS.form.action.Save} />
+                </ActionButton>
+              </div>
+            </form>
+          </Suspense>
+        </ErrorBoundary>
+      </Dialog>
 
       <Show when={showDiscardConfirmation()}>
         <DiscardConfirmation

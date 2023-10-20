@@ -2,14 +2,13 @@ import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 import { createResource } from "solid-js";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { MediaService } from "../../services";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
-import { isResolved } from "../content";
 import { ActionButton } from "../form";
 import { Dialog } from "../layout";
 import styles from "./DownloadMediaDialog.module.scss";
+import { resourceIsReady } from "../../lib";
 
 type Props = {
   media: () => MediaResponse;
@@ -19,9 +18,7 @@ type Props = {
 export function DownloadMediaDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const mediaService = new MediaService(accessToken);
+  const { mediaService } = useServiceClientContext();
 
   const [mediaDownloadUrl] = createResource(fetchDownloadUrl);
 
@@ -44,7 +41,7 @@ export function DownloadMediaDialog(props: Props) {
             <ActionButton
               actionType="active"
               onClick={props.onClose}
-              disabled={!isResolved(mediaDownloadUrl.state)}
+              disabled={!resourceIsReady(mediaDownloadUrl)}
             >
               <A
                 class={styles.ButtonLink}

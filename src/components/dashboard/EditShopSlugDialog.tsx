@@ -5,14 +5,14 @@ import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import {
   buildShopDetailPath,
   buildShopSettingsPath,
 } from "../../routes/shops/shop-routing";
-import { ShopService } from "../../services";
 import { UpdateShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop";
 import {
   ActionButton,
@@ -29,15 +29,17 @@ type Props = {
 
 export function EditShopSlugDialog(props: Props) {
   const navigate = useNavigate();
-
   const [trans] = useTransContext();
+
+  const { shopService } = useServiceClientContext();
+
   const shopData = useRouteData<typeof ShopData>();
-  const { accessToken } = useAccessTokensContext();
-  const shopService = new ShopService(accessToken);
 
   const emptyUpdateRequest = UpdateShopRequest.create();
   const updateFields = ["shopId", "slug"];
-  const [shop, setShop] = createStore<UpdateShopRequest>(emptyUpdateRequest);
+
+  const [request, setRequest] =
+    createStore<UpdateShopRequest>(emptyUpdateRequest);
 
   const [errors, setErrors] = createStore({ slug: [] as string[] });
 
@@ -45,8 +47,12 @@ export function EditShopSlugDialog(props: Props) {
     createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(shop.shopId) || _.isEmpty(shop.shopId)) {
-      setShop(_.clone(_.pick(shopData.shop(), updateFields)));
+    if (!resourceIsReady(shopData.shop)) {
+      return;
+    }
+
+    if (_.isNil(request.shopId) || _.isEmpty(request.shopId)) {
+      setRequest(_.clone(_.pick(shopData.shop(), updateFields)));
     }
   });
 
@@ -56,7 +62,7 @@ export function EditShopSlugDialog(props: Props) {
 
   function handleSlugInput(value: string) {
     resetErrors();
-    setShop("slug", value);
+    setRequest("slug", value);
   }
 
   async function handleUpdateShop(event: SubmitEvent) {
@@ -69,7 +75,7 @@ export function EditShopSlugDialog(props: Props) {
     }
 
     try {
-      const response = await shopService.update(shop);
+      const response = await shopService.update(request);
 
       if (!_.isNil(response.shop)) {
         navigate(buildShopSettingsPath(response.shop?.slug));
@@ -93,7 +99,7 @@ export function EditShopSlugDialog(props: Props) {
   function dataWasChanged() {
     return !_.isEqual(
       _.pick(shopData.shop(), updateFields),
-      _.pick(shop, updateFields)
+      _.pick(request, updateFields)
     );
   }
 
@@ -109,41 +115,39 @@ export function EditShopSlugDialog(props: Props) {
 
   return (
     <>
-      <Show when={!showDiscardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard["shop"]["edit-path"])}
-          onClose={props.onClose}
-        >
-          <form class={styles.Form} onSubmit={handleUpdateShop}>
-            <TextField
-              label={trans(TKEYS["shop"].labels.slug)}
-              required
-              small
-              value={shop.slug}
-              onValue={handleSlugInput}
-              errors={errors.slug}
-            />
+      <Dialog
+        title={trans(TKEYS.dashboard["shop"]["edit-path"])}
+        onClose={props.onClose}
+      >
+        <form class={styles.Form} onSubmit={handleUpdateShop}>
+          <TextField
+            label={trans(TKEYS["shop"].labels.slug)}
+            required
+            small
+            value={request.slug}
+            onValue={handleSlugInput}
+            errors={errors.slug}
+          />
 
-            <Anotation>
-              <Trans key={TKEYS.dashboard["shop"]["resulting-url"]} />:
-            </Anotation>
-            <Anotation bordered padded>
-              {import.meta.env.VITE_BASE_URL}
-              {buildShopDetailPath(shop.slug!)}
-            </Anotation>
+          <Anotation>
+            <Trans key={TKEYS.dashboard["shop"]["resulting-url"]} />:
+          </Anotation>
+          <Anotation bordered padded>
+            {import.meta.env.VITE_BASE_URL}
+            {buildShopDetailPath(request.slug!)}
+          </Anotation>
 
-            <div class={styles.DialogFooter}>
-              <ActionButton
-                actionType="active-filled"
-                submit
-                onClick={(e) => handleUpdateShop(e)}
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+          <div class={styles.DialogFooter}>
+            <ActionButton
+              actionType="active-filled"
+              submit
+              onClick={(e) => handleUpdateShop(e)}
+            >
+              <Trans key={TKEYS.form.action.Save} />
+            </ActionButton>
+          </div>
+        </form>
+      </Dialog>
 
       <Show when={showDiscardConfirmation()}>
         <DiscardConfirmation

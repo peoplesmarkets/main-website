@@ -1,21 +1,24 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { useParams } from "@solidjs/router";
 import _ from "lodash";
-import { Match, Show, Switch, createEffect, createResource } from "solid-js";
+import {
+  ErrorBoundary,
+  Show,
+  Suspense,
+  createEffect,
+  createResource,
+} from "solid-js";
 
-import { ContentError, isResolved } from "../../components/content";
+import { ContentError } from "../../components/content";
 import { Border, Section } from "../../components/layout";
 import { OfferDetailView, OfferList } from "../../components/shops";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { OfferService } from "../../services";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferDetail.module.scss";
 
 export default function OfferDetail() {
-  const { accessToken } = useAccessTokensContext();
-
-  const offerService = new OfferService(accessToken);
+  const { offerService } = useServiceClientContext();
 
   const [offer, { refetch }] = createResource(
     () => useParams().offerId,
@@ -42,18 +45,13 @@ export default function OfferDetail() {
 
   return (
     <>
-      <Switch>
-        <Match when={offer.state === "errored"}>
-          <Section>
-            <ContentError />
-          </Section>
-        </Match>
-        <Match when={isResolved(offer.state) && !_.isNil(offer())}>
+      <ErrorBoundary fallback={<ContentError />}>
+        <Suspense>
           <Section>
             <OfferDetailView offer={() => offer()!} />
           </Section>
-        </Match>
-      </Switch>
+        </Suspense>
+      </ErrorBoundary>
 
       <Show when={!_.isEmpty(otherOffers())}>
         <Border />
@@ -62,14 +60,13 @@ export default function OfferDetail() {
           <span class={styles.Subtitle}>
             <Trans key={TKEYS.offer["other-offers"]} />:
           </span>
-          <Switch>
-            <Match when={otherOffers.state === "errored"}>
-              <ContentError />
-            </Match>
-            <Match when={isResolved(otherOffers.state)}>
-              <OfferList offers={() => otherOffers()!} />
-            </Match>
-          </Switch>
+          <ErrorBoundary fallback={<ContentError />}>
+            <Suspense>
+              <Section>
+                <OfferList offers={() => otherOffers()!} />
+              </Section>
+            </Suspense>
+          </ErrorBoundary>
         </Section>
       </Show>
     </>

@@ -4,9 +4,9 @@ import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { OfferService, listOfferTypeCodes } from "../../services";
+import { listOfferTypeCodes } from "../../services";
 import {
   CreateOfferRequest,
   OfferType,
@@ -33,9 +33,7 @@ type Props = {
 export function CreateOfferDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const offerService = new OfferService(accessToken);
+  const { offerService } = useServiceClientContext();
 
   const [offer, setOffer] = createStore<CreateOfferRequest>({
     shopId: "",

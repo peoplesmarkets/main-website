@@ -4,18 +4,14 @@ import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales";
-import {
-  OfferService,
-  getAllowedTypesFromError,
-  getMaxSizeFromError,
-} from "../../services";
+import { getAllowedTypesFromError, getMaxSizeFromError } from "../../services";
+import { ProgressBar } from "../assets/ProgressBar";
 import { ActionButton, DiscardConfirmation, FileField } from "../form";
 import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
-import { ProgressBar } from "../assets/ProgressBar";
 
 type Props = {
   readonly offerId: string;
@@ -27,9 +23,7 @@ type Props = {
 export function CreateOfferImageDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const offerService = new OfferService(accessToken);
+  const { offerService } = useServiceClientContext();
 
   const [form, setForm] = createStore({
     image: undefined as File | undefined,

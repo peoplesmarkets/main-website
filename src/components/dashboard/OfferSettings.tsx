@@ -11,9 +11,9 @@ import {
 } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
 import { buildOfferSettingsPath } from "../../routes/shops/shop-routing";
-import { OfferService } from "../../services";
 import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { ContentError } from "../content";
@@ -27,9 +27,9 @@ type Props = {
 };
 
 export function OfferSettings(props: Props) {
-  const { accessToken, currentSession } = useAccessTokensContext();
+  const { currentSession } = useAccessTokensContext();
 
-  const offerService = new OfferService(accessToken);
+  const { offerService } = useServiceClientContext();
 
   const [offers, { refetch }] = createResource(
     () => props.shop()?.shopId,
