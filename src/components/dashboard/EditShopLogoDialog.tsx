@@ -4,12 +4,13 @@ import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useRouteData } from "@solidjs/router";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales";
+import { ShopData } from "../../routes/shops/ShopData";
 import {
-  ShopCustomizationService,
   getAllowedTypesFromError,
   getMaxSizeFromError,
 } from "../../services/commerce/shop_customization";
@@ -25,7 +26,6 @@ import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
-  readonly shopId: string;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
 };
@@ -34,9 +34,9 @@ export function EditShopLogoDialog(props: Props) {
   const { theme } = useThemeContext();
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
+  const { shopCustomizationService } = useServiceClientContext();
 
-  const shopCustomizationService = new ShopCustomizationService(accessToken);
+  const shopData = useRouteData<typeof ShopData>();
 
   const [form, setForm] = createStore({
     shopId: undefined as string | undefined,
@@ -56,7 +56,7 @@ export function EditShopLogoDialog(props: Props) {
     event.preventDefault();
 
     const request = PutLogoImageToShopRequest.create({
-      shopId: props.shopId,
+      shopId: shopData.shopId(),
     });
 
     if (!_.isNil(form.image)) {
@@ -107,9 +107,12 @@ export function EditShopLogoDialog(props: Props) {
   }
 
   async function deleteImage() {
-    await shopCustomizationService.removeLogoImage(props.shopId);
-    props.onUpdate();
-    props.onClose();
+    const shopId = shopData.shopId();
+    if (!_.isNil(shopId)) {
+      await shopCustomizationService.removeLogoImage(shopId);
+      props.onUpdate();
+      props.onClose();
+    }
   }
 
   function handleImageInput(files: FileList | null) {

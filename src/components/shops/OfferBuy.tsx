@@ -4,7 +4,8 @@ import _ from "lodash";
 import { Show, createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { buildAuthorizationRequest } from "../../lib";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { buildAuthorizationRequest, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import {
@@ -12,26 +13,23 @@ import {
   buildOfferPath,
   buildOfferUrl,
 } from "../../routes/shops/shop-routing";
-import { MediaSubscriptionService, StripeService } from "../../services";
 import {
   OfferResponse,
   OfferType,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { PriceType } from "../../services/peoplesmarkets/commerce/v1/price";
-import { isResolved } from "../content";
 import { ActionButton } from "../form";
 import { LinkButton } from "../form/LinkButton";
 import styles from "./OfferBuy.module.scss";
 
 type Props = {
-  readonly offer: () => OfferResponse;
+  readonly offer: () => OfferResponse | undefined;
 };
 
 export function OfferBuy(props: Props) {
-  const { accessToken, isAuthenticated } = useAccessTokensContext();
+  const { isAuthenticated } = useAccessTokensContext();
 
-  const stripeService = new StripeService(accessToken);
-  const mediaSubscriptionService = new MediaSubscriptionService(accessToken);
+  const { stripeService, mediaSubscriptionService } = useServiceClientContext();
 
   const shopData = useRouteData<typeof ShopData>();
 
@@ -40,71 +38,108 @@ export function OfferBuy(props: Props) {
     fetchMediaSubscription
   );
 
+  const [stripeAccount] = createResource(shopData?.shopId, fetchStripeAccount);
+
   async function fetchMediaSubscription(offerId: string) {
     const response = await mediaSubscriptionService.get({ offerId });
     return response.mediaSubscription;
   }
 
+  async function fetchStripeAccount(shopId: string) {
+    let stripeAccount = {
+      shopId,
+      enabled: false,
+    };
+
+    try {
+      const response = await stripeService.getAccount(shopId);
+      if (!_.isNil(response.account)) {
+        stripeAccount = response.account;
+      }
+    } catch (err) {
+      return stripeAccount;
+    }
+
+    return stripeAccount;
+  }
+
   function actionState() {
-    if (isResolved(mediaSubscription.state) && !_.isNil(mediaSubscription())) {
+    if (resourceIsReady(mediaSubscription) && !_.isNil(mediaSubscription())) {
       return "already-subscribed";
     }
 
-    if (_.isNil(shopData?.stripeAccount())) {
+    if (!resourceIsReady(stripeAccount)) {
       return "loading";
     }
 
-    if (!shopData.stripeAccount()?.enabled) {
-      if (shopData?.shop()?.contactEmailAddress) {
+    if (!stripeAccount()?.enabled) {
+      if (!_.isEmpty(shopData.shop()?.contactEmailAddress)) {
         return "contact-email";
       }
       return "no-payment-method";
-    } else if (
-      props.offer().price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
-      props.offer().type === OfferType.OFFER_TYPE_DIGITAL &&
+    }
+
+    if (
+      props.offer()?.price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
+      props.offer()?.type === OfferType.OFFER_TYPE_DIGITAL &&
       !isAuthenticated()
     ) {
       return "login";
-    } else if (
-      props.offer().price?.priceType === PriceType.PRICE_TYPE_RECURRING
-    ) {
-      return "subscribe";
-    } else {
-      return "buy";
     }
+
+    if (props.offer()?.price?.priceType === PriceType.PRICE_TYPE_RECURRING) {
+      return "subscribe";
+    }
+
+    return "buy";
   }
 
   function contactEmailAddress() {
-    const contactEmailAddress = shopData?.shop()?.contactEmailAddress;
-    return contactEmailAddress || "";
+    if (resourceIsReady(shopData.shop)) {
+      return shopData.shop()?.contactEmailAddress || "";
+    }
+    return "";
   }
 
   async function handleCheckout() {
-    const offerId = props.offer().offerId;
-    const shopSlug = props.offer().shopSlug;
-    const inventoryUrl = buildInventoryUrl(shopSlug);
-    const offerUrl = buildOfferUrl(props.offer().shopSlug, offerId);
+    const offerId = props.offer()?.offerId;
+    const shopSlug = props.offer()?.shopSlug;
 
-    const response = await stripeService.createCheckoutSession(
-      offerId,
-      inventoryUrl,
-      offerUrl
-    );
+    if (!_.isNil(offerId) && !_.isNil(shopSlug)) {
+      const inventoryUrl = buildInventoryUrl(shopSlug);
+      const offerUrl = buildOfferUrl(shopSlug, offerId);
 
-    window.location.href = response.link;
+      const response = await stripeService.createCheckoutSession(
+        offerId,
+        inventoryUrl,
+        offerUrl
+      );
+
+      window.location.href = response.link;
+    }
   }
 
   async function handleSignIn() {
+    const offerId = props.offer()?.offerId;
+    const shopSlug = shopData.shop()?.slug;
+    if (
+      !resourceIsReady(shopData.shop) ||
+      _.isNil(shopSlug) ||
+      _.isNil(offerId)
+    ) {
+      return;
+    }
+
     const signInUrl = await buildAuthorizationRequest(
       "login",
-      buildOfferPath(shopData.shop()!.slug, props.offer().offerId)
+      buildOfferPath(shopSlug, offerId)
     );
     window.location.href = signInUrl.toString();
   }
 
   return (
     <div class={styles.OfferBuy}>
-      <Show when={!_.isNil(props.offer().price)}>
+      <Show when={!_.isNil(props.offer()?.price)}>
         <Show when={actionState() === "login"}>
           <ActionButton actionType="active" onClick={handleSignIn} wide>
             <Trans key={TKEYS.offer["sign-in-to-subscribe"]} />

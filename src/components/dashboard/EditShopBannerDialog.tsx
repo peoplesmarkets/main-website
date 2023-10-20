@@ -2,16 +2,15 @@ import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createEffect, createSignal } from "solid-js";
+import { Show, createEffect, createResource, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
-import { readAsUint8Array } from "../../lib";
+import { readAsUint8Array, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import {
-  ShopCustomizationService,
   getAllowedTypesFromError,
   getMaxSizeFromError,
 } from "../../services/commerce/shop_customization";
@@ -28,7 +27,6 @@ import { Dialog } from "../layout";
 import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
-  readonly shopId: string;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
 };
@@ -37,11 +35,13 @@ export function EditShopBannerDialog(props: Props) {
   const [trans] = useTransContext();
   const { theme } = useThemeContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const shopCustomizationService = new ShopCustomizationService(accessToken);
-
   const shopData = useRouteData<typeof ShopData>();
+
+  const { shopCustomizationService } = useServiceClientContext();
+
+  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
+    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
+  );
 
   const [form, setForm] = createStore({
     shopId: undefined as string | undefined,
@@ -61,13 +61,14 @@ export function EditShopBannerDialog(props: Props) {
     createSignal(false);
 
   createEffect(() => {
+    if (!resourceIsReady(shopCustomization)) {
+      return;
+    }
+
     if (_.isNil(form.shopId) && _.isEmpty(form.shopId)) {
-      setForm("shopId", props.shopId);
-      setForm(
-        "showInListing",
-        shopData?.shopCustomization()?.showBannerInListing
-      );
-      setForm("showOnHome", shopData?.shopCustomization()?.showBannerOnHome);
+      setForm("shopId", shopData.shopId());
+      setForm("showInListing", shopCustomization()?.showBannerInListing);
+      setForm("showOnHome", shopCustomization()?.showBannerOnHome);
     }
   });
 
@@ -75,7 +76,7 @@ export function EditShopBannerDialog(props: Props) {
     event.preventDefault();
 
     const request = PutBannerImageToShopRequest.create({
-      shopId: props.shopId,
+      shopId: shopData.shopId(),
       showInListing: form.showInListing,
       showOnHome: form.showOnHome,
     });
@@ -127,9 +128,12 @@ export function EditShopBannerDialog(props: Props) {
   }
 
   async function deleteImage() {
-    await shopCustomizationService.removeBannerImage(props.shopId);
-    props.onUpdate();
-    props.onClose();
+    const shopId = shopData.shopId();
+    if (!_.isNil(shopId)) {
+      await shopCustomizationService.removeBannerImage(shopId);
+      props.onUpdate();
+      props.onClose();
+    }
   }
 
   function handleImageInput(files: FileList | null) {

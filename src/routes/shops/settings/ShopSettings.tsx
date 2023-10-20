@@ -1,6 +1,12 @@
 import { useLocation, useNavigate, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { ErrorBoundary, Show, Suspense, createEffect } from "solid-js";
+import {
+  ErrorBoundary,
+  Show,
+  Suspense,
+  createEffect,
+  createSignal,
+} from "solid-js";
 
 import { Trans } from "@mbarzda/solid-i18next";
 import { ContentError, Multiline } from "../../../components/content";
@@ -9,9 +15,13 @@ import {
   ShopImage,
   ShopSettings,
 } from "../../../components/dashboard";
-import { Section } from "../../../components/layout";
+import { Cover, Section } from "../../../components/layout";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
-import { requireAuthentication, secondsToLocaleDateTime } from "../../../lib";
+import {
+  requireAuthentication,
+  resourceIsReady,
+  secondsToLocaleDateTime,
+} from "../../../lib";
 import { TKEYS } from "../../../locales";
 import { buildDashboardPath } from "../../main-routing";
 import { ShopData } from "../ShopData";
@@ -25,20 +35,29 @@ export default function ShopSettingsPage() {
 
   const shopData = useRouteData<typeof ShopData>();
 
-  createEffect(() => {
-    const ownerUserId = shopData?.shop()?.userId;
+  const [owned, setOwned] = createSignal(false);
 
+  createEffect(() => {
     if (!isAuthenticated()) {
       requireAuthentication(location.pathname);
       return;
-    } else if (shopData.error()) {
-      navigate(buildDashboardPath(), { replace: true });
-    } else if (
-      !_.isNil(ownerUserId) &&
-      currentSession().userId !== ownerUserId
-    ) {
-      navigate(buildDashboardPath(), { replace: true });
     }
+
+    if (!_.isNil(shopData.shop.error)) {
+      navigate(buildDashboardPath(), { replace: true });
+      return;
+    }
+
+    if (!resourceIsReady(shopData.shop)) {
+      return;
+    }
+
+    if (currentSession().userId !== shopData.shop()?.userId) {
+      navigate(buildDashboardPath(), { replace: true });
+      return;
+    }
+
+    setOwned(true);
   });
 
   async function handleShopUpdate() {
@@ -52,78 +71,80 @@ export default function ShopSettingsPage() {
   return (
     <ErrorBoundary fallback={<ContentError />}>
       <Suspense>
-        <div class={styles.ShopSettings}>
-          <div class={styles.Settings}>
-            <ShopImage onUpdate={handleShopUpdate} />
+        <Show when={owned()} fallback={<Cover />}>
+          <div class={styles.ShopSettings}>
+            <div class={styles.Settings}>
+              <ShopImage onUpdate={handleShopUpdate} />
 
-            <Section flat>
-              <span class={styles.Title}>{shopData.shop()?.name}</span>
-            </Section>
+              <Section flat>
+                <span class={styles.Title}>{shopData.shop()?.name}</span>
+              </Section>
 
-            <Section>
-              <span class={styles.Label}>
-                <Trans key={TKEYS.shop.labels.Description} />:
-              </span>
+              <Section>
+                <span class={styles.Label}>
+                  <Trans key={TKEYS.shop.labels.Description} />:
+                </span>
 
-              <Show
-                when={!_.isEmpty(shopData?.shop()?.description)}
-                fallback={
-                  <span class={styles.Details}>
-                    <Trans key={TKEYS.shop["no-description"]} />
-                  </span>
-                }
-              >
-                <Multiline text={() => shopData?.shop()?.description} />
-              </Show>
-            </Section>
-
-            <Section>
-              <span class={styles.Label}>
-                <Trans key={TKEYS.dashboard.shop.Details} />:
-              </span>
-
-              <span class={styles.Details}>
-                <Trans key={TKEYS.offer.visibility.title} />:{" "}
                 <Show
-                  when={Boolean(shopData?.shop()?.isActive)}
+                  when={!_.isEmpty(shopData.shop()?.description)}
                   fallback={
-                    <span class={styles.Warning}>
-                      <Trans key={TKEYS.offer.visibility["not-visible"]} />
+                    <span class={styles.Details}>
+                      <Trans key={TKEYS.shop["no-description"]} />
                     </span>
                   }
                 >
-                  <span class={styles.Active}>
-                    <Trans key={TKEYS.offer.visibility.visible} />
+                  <Multiline text={() => shopData.shop()?.description} />
+                </Show>
+              </Section>
+
+              <Section>
+                <span class={styles.Label}>
+                  <Trans key={TKEYS.dashboard.shop.Details} />:
+                </span>
+
+                <span class={styles.Details}>
+                  <Trans key={TKEYS.offer.visibility.title} />:{" "}
+                  <Show
+                    when={Boolean(shopData.shop()?.isActive)}
+                    fallback={
+                      <span class={styles.Warning}>
+                        <Trans key={TKEYS.offer.visibility["not-visible"]} />
+                      </span>
+                    }
+                  >
+                    <span class={styles.Active}>
+                      <Trans key={TKEYS.offer.visibility.visible} />
+                    </span>
+                  </Show>
+                </span>
+
+                <Show when={!_.isEmpty(shopData.shop()?.contactEmailAddress)}>
+                  <span class={styles.Details}>
+                    <Trans key={TKEYS.shop.labels["contact-email-address"]} />:{" "}
+                    {shopData.shop()?.contactEmailAddress}
                   </span>
                 </Show>
-              </span>
 
-              <Show when={!_.isEmpty(shopData?.shop()?.contactEmailAddress)}>
                 <span class={styles.Details}>
-                  <Trans key={TKEYS.shop.labels["contact-email-address"]} />:{" "}
-                  {shopData?.shop()?.contactEmailAddress}
+                  <Trans key={TKEYS.shop.labels["Created-at"]} />:{" "}
+                  {secondsToLocaleDateTime(shopData.shop()?.createdAt)}
                 </span>
-              </Show>
 
-              <span class={styles.Details}>
-                <Trans key={TKEYS.shop.labels["Created-at"]} />:{" "}
-                {secondsToLocaleDateTime(shopData?.shop()?.createdAt)}
-              </span>
+                <span class={styles.Details}>
+                  <Trans key={TKEYS.shop.labels["Updated-at"]} />:{" "}
+                  {secondsToLocaleDateTime(shopData.shop()?.updatedAt)}
+                </span>
+              </Section>
 
-              <span class={styles.Details}>
-                <Trans key={TKEYS.shop.labels["Updated-at"]} />:{" "}
-                {secondsToLocaleDateTime(shopData?.shop()?.updatedAt)}
-              </span>
-            </Section>
+              <OfferSettings shop={() => shopData.shop()} />
 
-            <OfferSettings shop={() => shopData?.shop()} />
-
-            <ShopSettings
-              onUpdate={handleShopUpdate}
-              onDelete={handleDeleteShop}
-            />
+              <ShopSettings
+                onUpdate={handleShopUpdate}
+                onDelete={handleDeleteShop}
+              />
+            </div>
           </div>
-        </div>
+        </Show>
       </Suspense>
     </ErrorBoundary>
   );

@@ -3,9 +3,8 @@ import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { ShopService } from "../../services";
 import {
   ShopResponse,
   UpdateShopRequest,
@@ -20,7 +19,7 @@ import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
-  shop: () => ShopResponse;
+  shop: () => ShopResponse | undefined;
   class?: string;
   onClose: () => void;
   onUpdate?: () => void;
@@ -29,9 +28,7 @@ type Props = {
 export function EditShopDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const shopService = new ShopService(accessToken);
+  const { shopService } = useServiceClientContext();
 
   const emptyUpdateRequest = {
     shopId: undefined as string | undefined,

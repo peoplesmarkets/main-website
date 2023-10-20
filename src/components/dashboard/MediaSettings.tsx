@@ -1,16 +1,16 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { Match, Show, Switch, createResource, createSignal } from "solid-js";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
-import { MediaService } from "../../services";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import {
   MediaFilterField,
   MediaOrderByField,
 } from "../../services/peoplesmarkets/media/v1/media";
 import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
-import { ContentError, isResolved } from "../content";
+import { ContentError } from "../content";
 import { ActionButton } from "../form";
 import { Section } from "../layout";
 import { MediaList } from "../media";
@@ -22,9 +22,7 @@ type Props = {
 };
 
 export function MediaSettings(props: Props) {
-  const { accessToken } = useAccessTokensContext();
-
-  const mediaService = new MediaService(accessToken);
+  const { mediaService } = useServiceClientContext();
 
   const [showCreateMedia, setShowCreateMedia] = createSignal(false);
 
@@ -74,7 +72,7 @@ export function MediaSettings(props: Props) {
           <Match when={medias.state === "errored"}>
             <ContentError />
           </Match>
-          <Match when={isResolved(medias.state)}>
+          <Match when={resourceIsReady(medias)}>
             <MediaList
               medias={() => medias()!}
               onUpdate={refreshMedias}
@@ -86,7 +84,6 @@ export function MediaSettings(props: Props) {
 
       <Show when={showCreateMedia()}>
         <CreateMediaDialog
-          shopId={props.offer().shopId}
           offerId={props.offer().offerId}
           onClose={handleCloseCreateMedia}
           onUpdate={refreshMedias}

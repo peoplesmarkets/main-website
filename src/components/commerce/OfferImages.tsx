@@ -1,20 +1,19 @@
 import _ from "lodash";
 import { For, Show, createEffect, createSignal } from "solid-js";
 
+import { useTransContext } from "@mbarzda/solid-i18next";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { TKEYS } from "../../locales";
 import {
   OfferImageResponse,
   OfferResponse,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
-import styles from "./OfferImages.module.scss";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
-import { OfferService } from "../../services";
-import { TrashIcon } from "../icons";
 import { DeleteConfirmation } from "../form";
-import { useTransContext } from "@mbarzda/solid-i18next";
-import { TKEYS } from "../../locales";
+import { TrashIcon } from "../icons";
+import styles from "./OfferImages.module.scss";
 
 type Props = {
-  readonly offer: () => OfferResponse;
+  readonly offer: () => OfferResponse | undefined;
   readonly withDelete?: boolean;
   readonly onUpdate?: () => void;
 };
@@ -22,9 +21,7 @@ type Props = {
 export function OfferImages(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const offerService = new OfferService(accessToken);
+  const { offerService } = useServiceClientContext();
 
   const [selectedImage, setSelectedImage] = createSignal<
     OfferImageResponse | undefined
@@ -34,8 +31,8 @@ export function OfferImages(props: Props) {
     createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(props.offer().images.find((i) => isSelectedImage(i)))) {
-      setSelectedImage(_.first(props.offer().images));
+    if (_.isNil(props.offer()?.images.find((i) => isSelectedImage(i)))) {
+      setSelectedImage(_.first(props.offer()?.images));
     }
   });
 
@@ -46,11 +43,11 @@ export function OfferImages(props: Props) {
   }
 
   function images() {
-    return props.offer().images.sort((a, b) => a.ordering - b.ordering);
+    return props.offer()?.images.sort((a, b) => a.ordering - b.ordering);
   }
 
   function handleSelectImage(offerImageId: string) {
-    setSelectedImage(_.find(props.offer().images, { offerImageId }));
+    setSelectedImage(_.find(props.offer()?.images, { offerImageId }));
   }
 
   function handleDeleteImage() {
@@ -88,7 +85,7 @@ export function OfferImages(props: Props) {
           </div>
         </div>
 
-        <Show when={images()?.length > 1}>
+        <Show when={!_.isEmpty(images()) && images()!.length > 1}>
           <div class={styles.ImageGallery}>
             <For each={images()}>
               {(image) => (

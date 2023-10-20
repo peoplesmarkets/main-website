@@ -12,7 +12,8 @@ import {
   SHOP_PATH,
   SUBSCRIPTION_PATH,
 } from "./shop-routing";
-import ShopRoutesWrapper from "./ShopRoutesWrapper";
+
+const ShopRoutesWrapper = lazy(() => import("./ShopRoutesWrapper"));
 
 export function ShopRoutes() {
   const rootPath = isCustomDomain() ? "" : ROOT_PATH;

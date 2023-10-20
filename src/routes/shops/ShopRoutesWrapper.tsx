@@ -1,7 +1,15 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { A, Outlet, useLocation, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createEffect, createSignal } from "solid-js";
+import {
+  ErrorBoundary,
+  Show,
+  Suspense,
+  createEffect,
+  createResource,
+  createSignal,
+  onMount,
+} from "solid-js";
 import { createStore } from "solid-js/store";
 
 import {
@@ -24,6 +32,7 @@ import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 import {
   buildAuthorizationRequest,
   isCssColor,
+  resourceIsReady,
   setDocumentLanguage,
   setDocumentTitle,
   setFaviconHref,
@@ -39,6 +48,8 @@ import {
   buildShopPathOrUrl,
   buildShopSettingsPath,
 } from "./shop-routing";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { ContentError } from "../../components/content";
 
 export default function ShopRoutesWrapper() {
   const location = useLocation();
@@ -47,7 +58,17 @@ export default function ShopRoutesWrapper() {
   const { isAuthenticated, currentSession, endSession } =
     useAccessTokensContext();
 
+  const { shopCustomizationService, shopDomainService } =
+    useServiceClientContext();
+
   const shopData = useRouteData<typeof ShopData>();
+
+  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
+    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
+  );
+  const [shopDomain] = createResource(shopData?.shopId, async (shopId) =>
+    shopDomainService.getDomainStatus(shopId).then((res) => res.domainStatus)
+  );
 
   const [showSlider, setShowSlider] = createSignal(false);
   const [signingIn, setSigningIn] = createSignal(false);
@@ -64,28 +85,44 @@ export default function ShopRoutesWrapper() {
   );
 
   function logoImageUrl() {
-    if (
-      theme() === Theme.DefaultLight &&
-      !_.isEmpty(shopData?.shopCustomization()?.logoImageLightUrl)
-    ) {
-      return shopData.shopCustomization()?.logoImageLightUrl;
+    if (!_.isNil(shopCustomization.error)) {
+      return;
     }
-    if (
-      theme() === Theme.DefaultDark &&
-      !_.isEmpty(shopData?.shopCustomization()?.logoImageDarkUrl)
-    ) {
-      return shopData.shopCustomization()?.logoImageDarkUrl;
+
+    const logoImageLightUrl = shopCustomization()?.logoImageLightUrl;
+    if (!_.isEmpty(logoImageLightUrl) && theme() === Theme.DefaultLight) {
+      return logoImageLightUrl;
+    }
+
+    const logoImageDarkUrl = shopCustomization()?.logoImageDarkUrl;
+    if (!_.isEmpty(logoImageDarkUrl) && theme() === Theme.DefaultDark) {
+      return logoImageDarkUrl;
     }
   }
 
-  createEffect(() => {
-    const shopName = shopData?.shop()?.name;
-    if (!_.isNil(shopName) && !_.isEmpty(shopName)) {
-      setDocumentTitle(shopName);
-    }
+  onMount(() => {
     setFaviconHref(SHOP_FAVICON);
+  });
 
-    const styles = shopData?.shopCustomization();
+  createEffect(() => {
+    if (!_.isNil(shopData.shop.error)) {
+      return;
+    }
+
+    const name = shopData.shop()?.name;
+    if (_.isNil(name) || _.isEmpty(name)) {
+      return;
+    }
+
+    setDocumentTitle(name);
+  });
+
+  createEffect(() => {
+    if (!_.isNil(shopCustomization.error)) {
+      return;
+    }
+
+    const styles = shopCustomization();
     if (_.isNil(styles)) {
       return;
     }
@@ -145,6 +182,19 @@ export default function ShopRoutesWrapper() {
     }
   });
 
+  function shopDetailPath() {
+    if (!resourceIsReady(shopData.shop)) {
+      return "";
+    }
+
+    const shopSlug = shopData.shop()?.slug;
+    if (!_.isNil(shopSlug)) {
+      return buildShopDetailPath(shopSlug);
+    }
+
+    return "";
+  }
+
   async function handleSignIn() {
     setSigningIn(true);
     try {
@@ -177,18 +227,20 @@ export default function ShopRoutesWrapper() {
   }
 
   async function handleLogout() {
-    const shopSlug = shopData?.shop()?.shopId;
-    const clientId = shopData?.shopDomain()?.clientId;
+    if (!_.isNil(shopData.shop.error) || !_.isError(shopDomain.error)) {
+      return;
+    }
+
+    const slug = shopData.shop()?.slug;
+    const domain = shopData.shop()?.domain;
+    const clientId = shopDomain()?.clientId;
     if (
       !_.isNil(clientId) &&
       !_.isEmpty(clientId) &&
-      !_.isNil(shopSlug) &&
-      !_.isEmpty(shopSlug)
+      !_.isNil(slug) &&
+      !_.isEmpty(slug)
     ) {
-      const redirectUrl = buildShopPathOrUrl(
-        shopData?.shopDomain()?.domain,
-        shopSlug
-      );
+      const redirectUrl = buildShopPathOrUrl(domain, slug);
 
       endSession(redirectUrl, clientId);
     } else {
@@ -207,96 +259,88 @@ export default function ShopRoutesWrapper() {
         showSlider={showSlider}
         setShowSlider={setShowSlider}
       >
-        <Show when={!_.isNil(shopData.shop())}>
-          <Slot name="logo">
-            <Show
-              when={!_.isEmpty(logoImageUrl())}
-              fallback={
-                <A
-                  class={styles.MainLink}
-                  href={buildShopDetailPath(shopData.shop()!.slug)}
-                >
-                  {shopData.shop()?.name}
-                </A>
-              }
-            >
-              <A
-                class={styles.LogoLink}
-                href={buildShopDetailPath(shopData.shop()!.slug)}
+        <ErrorBoundary fallback={<ContentError />}>
+          <Suspense>
+            <Slot name="logo">
+              <Show
+                when={!_.isEmpty(logoImageUrl())}
+                fallback={
+                  <A class={styles.MainLink} href={shopDetailPath()}>
+                    {shopData.shop()?.name}
+                  </A>
+                }
               >
-                <img class={styles.Logo} src={logoImageUrl()} alt="" />
-              </A>
-            </Show>
-          </Slot>
-
-          <Slot name="items">
-            <PanelItem
-              Icon={StoreFrontIcon}
-              path={() => buildShopDetailPath(shopData.shop()!.slug)}
-            >
-              <Trans key={TKEYS["main-navigation"].links.home} />
-            </PanelItem>
-
-            <Border narrow />
-
-            <Show when={isAuthenticated() && !_.isEmpty(shopData.shop()?.slug)}>
-              <Show when={currentSession().userId === shopData.shop()?.userId}>
-                <PanelItem
-                  Icon={SettingsIcon}
-                  path={() => buildShopSettingsPath(shopData.shop()!.slug)}
-                >
-                  <Trans key={TKEYS["shop"].settings.title} />
-                </PanelItem>
+                <A class={styles.LogoLink} href={shopDetailPath()}>
+                  <img class={styles.Logo} src={logoImageUrl()} alt="" />
+                </A>
               </Show>
-              <Show when={currentSession().userId != shopData.shop()?.userId}>
-                <PanelItem
-                  Icon={InventoryIcon}
-                  path={() => buildInventoryPath(shopData.shop()!.slug)}
+            </Slot>
+
+            <Slot name="items">
+              <PanelItem Icon={StoreFrontIcon} path={shopDetailPath}>
+                <Trans key={TKEYS["main-navigation"].links.home} />
+              </PanelItem>
+
+              <Border narrow />
+
+              <Show
+                when={isAuthenticated() && !_.isEmpty(shopData.shop()?.slug)}
+              >
+                <Show
+                  when={currentSession().userId === shopData.shop()?.userId}
                 >
-                  <Trans key={TKEYS.media.Inventory} />
-                </PanelItem>
+                  <PanelItem
+                    Icon={SettingsIcon}
+                    path={() => buildShopSettingsPath(shopData.shop()!.slug)}
+                  >
+                    <Trans key={TKEYS["shop"].settings.title} />
+                  </PanelItem>
+                </Show>
+                <Show
+                  when={currentSession().userId !== shopData.shop()?.userId}
+                >
+                  <PanelItem
+                    Icon={InventoryIcon}
+                    path={() => buildInventoryPath(shopData.shop()!.slug)}
+                  >
+                    <Trans key={TKEYS.media.Inventory} />
+                  </PanelItem>
+                </Show>
               </Show>
-            </Show>
-          </Slot>
+            </Slot>
+          </Suspense>
+        </ErrorBoundary>
 
-          <Slot name="settings">
-            <Show when={!isAuthenticated()}>
-              <PanelSettingsItem Icon={SignInIcon} onClick={handleSignIn}>
-                <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
-              </PanelSettingsItem>
-            </Show>
+        <Slot name="settings">
+          <Show when={!isAuthenticated()}>
+            <PanelSettingsItem Icon={SignInIcon} onClick={handleSignIn}>
+              <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
+            </PanelSettingsItem>
+          </Show>
 
-            <PanelSettingsItem
-              Icon={LanguageIcon}
-              onClick={handleSwichtLanguage}
-            >
+          <PanelSettingsItem Icon={LanguageIcon} onClick={handleSwichtLanguage}>
+            <Trans key={TKEYS["main-navigation"].settings["change-language"]} />
+          </PanelSettingsItem>
+
+          <PanelSettingsItem Icon={ThemeIcon} onClick={handleSwitchTheme}>
+            <Show when={theme() === Theme.DefaultDark}>
               <Trans
-                key={TKEYS["main-navigation"].settings["change-language"]}
+                key={TKEYS["main-navigation"].settings["switch-to-light-mode"]}
               />
-            </PanelSettingsItem>
-
-            <PanelSettingsItem Icon={ThemeIcon} onClick={handleSwitchTheme}>
-              <Show when={theme() === Theme.DefaultDark}>
-                <Trans
-                  key={
-                    TKEYS["main-navigation"].settings["switch-to-light-mode"]
-                  }
-                />
-              </Show>
-              <Show when={theme() !== Theme.DefaultDark}>
-                <Trans
-                  key={TKEYS["main-navigation"].settings["switch-to-dark-mode"]}
-                />
-              </Show>
-            </PanelSettingsItem>
-
-            <Show when={isAuthenticated()}>
-              <PanelSettingsItem Icon={SignOutIcon} onClick={handleLogout}>
-                <Trans key={TKEYS["main-navigation"].actions["sign-out"]} />
-              </PanelSettingsItem>
             </Show>
-          </Slot>
-        </Show>
+            <Show when={theme() !== Theme.DefaultDark}>
+              <Trans
+                key={TKEYS["main-navigation"].settings["switch-to-dark-mode"]}
+              />
+            </Show>
+          </PanelSettingsItem>
+
+          <Show when={isAuthenticated()}>
+            <PanelSettingsItem Icon={SignOutIcon} onClick={handleLogout}>
+              <Trans key={TKEYS["main-navigation"].actions["sign-out"]} />
+            </PanelSettingsItem>
+          </Show>
+        </Slot>
       </Panel>
 
       <Page style={customShopStyle}>

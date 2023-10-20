@@ -4,10 +4,11 @@ import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useRouteData } from "@solidjs/router";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales";
-import { MediaService } from "../../services";
+import { ShopData } from "../../routes/shops/ShopData";
 import {
   MediaResponse,
   Part,
@@ -25,7 +26,6 @@ import styles from "./CreateEditDialg.module.scss";
 const CHUNKSIZE = 1024 * 1024 * 5;
 
 type Props = {
-  readonly shopId: string;
   readonly offerId?: string;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
@@ -34,9 +34,9 @@ type Props = {
 export function CreateMediaDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
+  const { mediaService } = useServiceClientContext();
 
-  const mediaService = new MediaService(accessToken);
+  const shopData = useRouteData<typeof ShopData>();
 
   const [form, setForm] = createStore({
     name: "",
@@ -105,7 +105,7 @@ export function CreateMediaDialog(props: Props) {
     }
 
     const response = await mediaService.create({
-      shopId: props.shopId,
+      shopId: shopData.shopId()!,
       name: form.name || form.file.name,
       file: {
         contentType: form.file.type,
@@ -123,7 +123,7 @@ export function CreateMediaDialog(props: Props) {
     }
 
     const response = await mediaService.create({
-      shopId: props.shopId,
+      shopId: shopData.shopId()!,
       name: form.name || form.file.name,
     });
 
@@ -212,49 +212,47 @@ export function CreateMediaDialog(props: Props) {
 
   return (
     <>
-      <Show when={!discardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard.media["create-new-file"])}
-          onClose={handleCloseDialog}
-        >
-          <form class={styles.Form} onSubmit={handleAddMedia}>
-            <Show
-              when={!uploading()}
-              fallback={
-                <ProgressBar
-                  total={form.file?.size}
-                  current={() => uploadedBytes()}
-                />
-              }
+      <Dialog
+        title={trans(TKEYS.dashboard.media["create-new-file"])}
+        onClose={handleCloseDialog}
+      >
+        <form class={styles.Form} onSubmit={handleAddMedia}>
+          <Show
+            when={!uploading()}
+            fallback={
+              <ProgressBar
+                total={form.file?.size}
+                current={() => uploadedBytes()}
+              />
+            }
+          >
+            <TextField
+              label={trans(TKEYS.media.labels.name)}
+              value={form.name}
+              onValue={handleNameInput}
+              errors={errors.name}
+            />
+
+            <FileField
+              label={trans(TKEYS.media.labels.file)}
+              required
+              errors={errors.file}
+              onValue={handleFileInput}
+            />
+          </Show>
+
+          <div class={styles.DialogFooter}>
+            <ActionButton
+              actionType="active-filled"
+              submit
+              onClick={handleAddMedia}
+              disabled={formHasErrors() || uploading()}
             >
-              <TextField
-                label={trans(TKEYS.media.labels.name)}
-                value={form.name}
-                onValue={handleNameInput}
-                errors={errors.name}
-              />
-
-              <FileField
-                label={trans(TKEYS.media.labels.file)}
-                required
-                errors={errors.file}
-                onValue={handleFileInput}
-              />
-            </Show>
-
-            <div class={styles.DialogFooter}>
-              <ActionButton
-                actionType="active-filled"
-                submit
-                onClick={handleAddMedia}
-                disabled={formHasErrors() || uploading()}
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+              <Trans key={TKEYS.form.action.Save} />
+            </ActionButton>
+          </div>
+        </form>
+      </Dialog>
 
       <Show when={discardConfirmation()}>
         <DiscardConfirmation

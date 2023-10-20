@@ -3,10 +3,9 @@ import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
 import {
-  OfferService,
   listCurrencyCodes,
   listPriceTypeCodes,
   listRecurringIntervalCodes,
@@ -36,10 +35,10 @@ import {
   Select,
   SelectKey,
 } from "../../form";
+import { CheckBox } from "../../form/CheckBox";
 import { NumberField } from "../../form/NumberField";
 import { Border, Dialog } from "../../layout";
 import styles from "./Settings.module.scss";
-import { CheckBox } from "../../form/CheckBox";
 
 type Props = {
   readonly offer: () => OfferResponse;
@@ -50,9 +49,7 @@ type Props = {
 export function EditOfferPriceDialog(props: Props) {
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const offerService = new OfferService(accessToken);
+  const { offerService } = useServiceClientContext();
 
   const [request, setRequest] = createStore<PutPriceToOfferRequest>({
     offerId: "",

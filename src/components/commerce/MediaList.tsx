@@ -5,7 +5,7 @@ import styles from "./MediaList.module.scss";
 import { MediaListItem } from "./MediaListItem";
 
 type Props = {
-  medias: () => MediaResponse[];
+  medias: () => MediaResponse[] | undefined;
 };
 
 export function MediaList(props: Props) {

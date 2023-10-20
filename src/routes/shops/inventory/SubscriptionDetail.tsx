@@ -1,21 +1,23 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { A, useLocation, useParams } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createResource, createSignal, onMount } from "solid-js";
+import {
+  ErrorBoundary,
+  Show,
+  Suspense,
+  createResource,
+  createSignal,
+  onMount,
+} from "solid-js";
 
 import { MediaList } from "../../../components/commerce";
-import { TextBody, isResolved } from "../../../components/content";
+import { ContentError, TextBody } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
 import { CancelConfirmation } from "../../../components/form/CancelConfirmation";
 import { Section } from "../../../components/layout";
-import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { requireAuthentication, secondsToLocaleDate } from "../../../lib";
 import { TKEYS } from "../../../locales";
-import {
-  MediaService,
-  MediaSubscriptionService,
-  OfferService,
-} from "../../../services";
 import { MediaFilterField } from "../../../services/peoplesmarkets/media/v1/media";
 import { buildOfferPath } from "../shop-routing";
 import styles from "./SubscriptionDetail.module.scss";
@@ -25,11 +27,8 @@ export default function SubscriptionDetail() {
 
   const [trans] = useTransContext();
 
-  const { accessToken } = useAccessTokensContext();
-
-  const mediaSubscriptionService = new MediaSubscriptionService(accessToken);
-  const offerService = new OfferService(accessToken);
-  const mediaService = new MediaService(accessToken);
+  const { mediaSubscriptionService, offerService, mediaService } =
+    useServiceClientContext();
 
   const [showCancelConfirmation, setShowCancelConfirmation] =
     createSignal(false);
@@ -38,10 +37,12 @@ export default function SubscriptionDetail() {
     () => useParams().subscriptionId,
     fetchMediaSubscription
   );
+
   const [offer] = createResource(
     () => mediaSubscription()?.offerId,
     fetchOffer
   );
+
   const [files] = createResource(
     () => mediaSubscription()?.offerId,
     fetchFiles
@@ -98,9 +99,9 @@ export default function SubscriptionDetail() {
   }
 
   return (
-    <>
-      <Section>
-        <Show when={isResolved(offer.state)}>
+    <ErrorBoundary fallback={<ContentError />}>
+      <Suspense>
+        <Section>
           <div class={styles.SubscriptionDetail}>
             <span class={styles.Title}>
               <Trans key={TKEYS.subscription["subscription-to"]} />{" "}
@@ -125,22 +126,18 @@ export default function SubscriptionDetail() {
               </span>
             </Show>
           </div>
-        </Show>
-      </Section>
+        </Section>
 
-      <Section bordered>
-        <div class={styles.SectionHeader}>
-          <span class={styles.Label}>
-            <Trans key={TKEYS.subscription["included-files"]} />
-          </span>
-        </div>
+        <Section bordered>
+          <div class={styles.SectionHeader}>
+            <span class={styles.Label}>
+              <Trans key={TKEYS.subscription["included-files"]} />
+            </span>
+          </div>
 
-        <Show when={isResolved(files.state)}>
-          <MediaList medias={() => files()!} />
-        </Show>
-      </Section>
+          <MediaList medias={() => files()} />
+        </Section>
 
-      <Show when={isResolved(mediaSubscription.state)}>
         <Show when={_.isNil(mediaSubscription()?.canceledAt)}>
           <Section bordered>
             <div class={styles.SectionHeader}>
@@ -163,14 +160,14 @@ export default function SubscriptionDetail() {
             </div>
           </Section>
         </Show>
-      </Show>
 
-      <Show when={showCancelConfirmation()}>
-        <CancelConfirmation
-          onCancel={handleQuitCancelSubscription}
-          onConfirmation={handleConfirmCancelSubscription}
-        />
-      </Show>
-    </>
+        <Show when={showCancelConfirmation()}>
+          <CancelConfirmation
+            onCancel={handleQuitCancelSubscription}
+            onConfirmation={handleConfirmCancelSubscription}
+          />
+        </Show>
+      </Suspense>
+    </ErrorBoundary>
   );
 }

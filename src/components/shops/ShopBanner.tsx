@@ -17,17 +17,14 @@ export function ShopBanner(props: Props) {
       return;
     }
 
-    if (
-      theme() === Theme.DefaultLight &&
-      !_.isEmpty(props.shopCustomization()?.bannerImageLightUrl)
-    ) {
-      return props.shopCustomization()?.bannerImageLightUrl;
+    const bannerImageLightUrl = props.shopCustomization()?.bannerImageLightUrl;
+    if (!_.isEmpty(bannerImageLightUrl) && theme() === Theme.DefaultLight) {
+      return bannerImageLightUrl;
     }
-    if (
-      theme() === Theme.DefaultDark &&
-      !_.isEmpty(props.shopCustomization()?.bannerImageDarkUrl)
-    ) {
-      return props.shopCustomization()?.bannerImageDarkUrl;
+
+    const bannerImageDarkUrl = props.shopCustomization()?.bannerImageDarkUrl;
+    if (!_.isEmpty(bannerImageDarkUrl) && theme() === Theme.DefaultDark) {
+      return bannerImageDarkUrl;
     }
   }
 

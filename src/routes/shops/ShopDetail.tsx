@@ -6,9 +6,8 @@ import { ErrorBoundary, For, Show, Suspense, createResource } from "solid-js";
 import { ContentError, Multiline } from "../../components/content";
 import { Border, Section } from "../../components/layout";
 import { OfferDetailView, OfferList, ShopBanner } from "../../components/shops";
-import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { OfferService } from "../../services";
 import {
   OffersFilterField,
   OffersOrderByField,
@@ -18,26 +17,19 @@ import { ShopData } from "./ShopData";
 import styles from "./ShopDetail.module.scss";
 
 export default function ShopDetail() {
-  const { accessToken } = useAccessTokensContext();
-
-  const offerService = new OfferService(accessToken);
+  const { shopCustomizationService, offerService } = useServiceClientContext();
 
   const shopData = useRouteData<typeof ShopData>();
 
-  function shopId() {
-    return shopData?.shop()?.shopId;
-  }
-
-  const [featuredOffers] = createResource(shopId, fetchFeaturedOffers);
-  const [offers] = createResource(shopId, fetchNotFeaturedOffers);
-
-  async function fetchNotFeaturedOffers(shopId: string) {
-    return fetchOffers(shopId, "false");
-  }
-
-  async function fetchFeaturedOffers(shopId: string) {
-    return fetchOffers(shopId, "true");
-  }
+  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
+    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
+  );
+  const [featuredOffers] = createResource(shopData?.shopId, async (shopId) =>
+    fetchOffers(shopId, "false")
+  );
+  const [offers] = createResource(shopData?.shopId, async (shopId) =>
+    fetchOffers(shopId, "true")
+  );
 
   async function fetchOffers(shopId: string, isFeatured: string) {
     const response = await offerService.list({
@@ -57,9 +49,7 @@ export default function ShopDetail() {
   return (
     <ErrorBoundary fallback={<ContentError />}>
       <Suspense>
-        <Show when={!_.isNil(shopData?.shopCustomization())}>
-          <ShopBanner shopCustomization={() => shopData.shopCustomization()} />
-        </Show>
+        <ShopBanner shopCustomization={() => shopCustomization()} />
 
         <Show when={!_.isEmpty(shopData?.shop()?.description)}>
           <Section>

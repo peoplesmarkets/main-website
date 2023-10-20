@@ -1,39 +1,70 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { useLocation, useRouteData } from "@solidjs/router";
-import { Show, createResource, createSignal, onMount } from "solid-js";
+import { useLocation, useNavigate, useRouteData } from "@solidjs/router";
+import {
+  ErrorBoundary,
+  Show,
+  Suspense,
+  createEffect,
+  createResource,
+  createSignal,
+} from "solid-js";
 
-import { isResolved } from "../../../components/content";
+import _ from "lodash";
+import { ContentError } from "../../../components/content";
 import { CreateMediaDialog } from "../../../components/dashboard/CreateMediaDialog";
 import { ActionButton } from "../../../components/form";
 import { Section } from "../../../components/layout";
 import { MediaList } from "../../../components/media";
 import { ShopBanner } from "../../../components/shops";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { requireAuthentication, resourceIsReady } from "../../../lib";
 import { TKEYS } from "../../../locales";
-import { MediaService } from "../../../services";
+import { buildDashboardPath } from "../../main-routing";
 import { ShopData } from "../ShopData";
 import styles from "./MediaSettings.module.scss";
-import _ from "lodash";
-import { requireAuthentication } from "../../../lib";
 
 export default function MediaSettings() {
   const location = useLocation();
-  const { accessToken } = useAccessTokensContext();
+  const navigate = useNavigate();
 
   const shopData = useRouteData<typeof ShopData>();
 
-  const mediaService = new MediaService(accessToken);
+  const { currentSession, isAuthenticated } = useAccessTokensContext();
 
-  const [medias, mediasActions] = createResource(
-    () => shopData?.shop()?.shopId,
-    fetchMedias
+  const { mediaService, shopCustomizationService } = useServiceClientContext();
+
+  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
+    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
   );
+  const [medias, mediasActions] = createResource(shopData?.shopId, fetchMedias);
 
+  const [owned, setOwned] = createSignal(false);
   const [showCreateMedia, setShowCreateMedia] = createSignal(false);
 
-  onMount(async () => {
-    await requireAuthentication(location.pathname);
+  createEffect(() => {
+    if (!isAuthenticated()) {
+      requireAuthentication(location.pathname);
+      return;
+    }
+
+    if (!_.isNil(shopData.shop.error)) {
+      navigate(buildDashboardPath(), { replace: true });
+      return;
+    }
+
+    if (!resourceIsReady(shopData.shop)) {
+      return;
+    }
+
+    if (currentSession().userId !== shopData.shop()?.userId) {
+      navigate(buildDashboardPath(), { replace: true });
+      return;
+    }
+
+    setOwned(true);
   });
+
   async function fetchMedias(shopId: string) {
     const response = await mediaService.list({ shopId });
     return response.medias;
@@ -52,37 +83,33 @@ export default function MediaSettings() {
   }
 
   return (
-    <>
-      <ShopBanner shopCustomization={() => shopData.shopCustomization()} />
+    <ErrorBoundary fallback={<ContentError />}>
+      <Suspense>
+        <Show when={owned()}>
+          <ShopBanner shopCustomization={() => shopCustomization()} />
 
-      <Section>
-        <Show when={!_.isNil(shopData.shop())}>
-          <span class={styles.Title}>
-            <Trans key={TKEYS.media["Title-plural"]} />
-          </span>
+          <Section>
+            <span class={styles.Title}>
+              <Trans key={TKEYS.media["Title-plural"]} />
+            </span>
 
-          <Show when={isResolved(medias.state)}>
-            <MediaList
-              medias={() => medias()!}
+            <MediaList medias={() => medias()} onUpdate={handleRefreshMedias} />
+
+            <div class={styles.TableActions}>
+              <ActionButton actionType="active" onClick={handleOpenCreateMedia}>
+                <Trans key={TKEYS.dashboard.media["create-new-file"]} />
+              </ActionButton>
+            </div>
+          </Section>
+
+          <Show when={showCreateMedia()}>
+            <CreateMediaDialog
+              onClose={handleCancelEdit}
               onUpdate={handleRefreshMedias}
             />
           </Show>
-
-          <div class={styles.TableActions}>
-            <ActionButton actionType="active" onClick={handleOpenCreateMedia}>
-              <Trans key={TKEYS.dashboard.media["create-new-file"]} />
-            </ActionButton>
-          </div>
         </Show>
-      </Section>
-
-      <Show when={showCreateMedia() && !_.isNil(shopData.shop())}>
-        <CreateMediaDialog
-          shopId={shopData.shop()!.shopId}
-          onClose={handleCancelEdit}
-          onUpdate={handleRefreshMedias}
-        />
-      </Show>
-    </>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
