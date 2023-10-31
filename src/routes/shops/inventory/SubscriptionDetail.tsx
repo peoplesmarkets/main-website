@@ -74,8 +74,19 @@ export default function SubscriptionDetail() {
     return response.medias;
   }
 
-  function toLocaleDate(timestamp: number) {
-    return secondsToLocaleDate(timestamp, trans(TKEYS.lang));
+  function offerPath() {
+    const shopSlug = offer()?.shopSlug;
+    const offerId = offer()?.offerId;
+    if (!_.isNil(shopSlug) && !_.isNil(offerId)) {
+      return buildOfferPath(shopSlug, offerId);
+    }
+    return "";
+  }
+  function toLocaleDate(timestamp: number | undefined) {
+    if (!_.isNil(timestamp)) {
+      return secondsToLocaleDate(timestamp, trans(TKEYS.lang));
+    }
+    return "";
   }
 
   function handleCancelSubscription() {
@@ -105,10 +116,7 @@ export default function SubscriptionDetail() {
           <div class={styles.SubscriptionDetail}>
             <span class={styles.Title}>
               <Trans key={TKEYS.subscription["subscription-to"]} />{" "}
-              <A
-                class={styles.Link}
-                href={buildOfferPath(offer()!.shopSlug, offer()!.offerId)}
-              >
+              <A class={styles.Link} href={offerPath()}>
                 {offer()?.name}
               </A>
             </span>
@@ -116,13 +124,13 @@ export default function SubscriptionDetail() {
             <Show when={!_.isNil(mediaSubscription()?.payedUntil)}>
               <span class={styles.Detail}>
                 <Trans key={TKEYS.subscription["payed-until"]} />:{" "}
-                {toLocaleDate(mediaSubscription()!.payedUntil)}
+                {toLocaleDate(mediaSubscription()?.payedUntil)}
               </span>
             </Show>
             <Show when={!_.isNil(mediaSubscription()?.canceledAt)}>
               <span class={styles.Detail}>
                 <Trans key={TKEYS.subscription["canceled-at"]} />:{" "}
-                {toLocaleDate(mediaSubscription()!.canceledAt!)}
+                {toLocaleDate(mediaSubscription()?.canceledAt)}
               </span>
             </Show>
           </div>
