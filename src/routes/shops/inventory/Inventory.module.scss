@@ -2,10 +2,27 @@ $small-min-width: 361px;
 $medium-min-width: 640px;
 $expanded-min-width: 900px;
 
+.TitleContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
 .Title {
   display: block;
-  margin-bottom: 2rem;
   font: var(--font-title);
+}
+
+.Refresh {
+  width: 2.4rem;
+  padding: 0.4rem;
+  border-radius: 50%;
+  box-sizing: border-box;
+}
+
+.Refresh:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
 }
 
 .Label {

@@ -12,8 +12,8 @@ import {
 
 import { ContentError } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
+import { RefreshIcon } from "../../../components/icons";
 import { Section } from "../../../components/layout";
-import { ShopBanner } from "../../../components/shops";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import {
   requireAuthentication,
@@ -31,14 +31,9 @@ export default function Inventory() {
 
   const [trans] = useTransContext();
 
-  const { shopCustomizationService, offerService, mediaSubscriptionService } =
-    useServiceClientContext();
+  const { offerService, mediaSubscriptionService } = useServiceClientContext();
 
   const shopData = useRouteData<typeof ShopData>();
-
-  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
-    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
-  );
 
   const [mediaSubscriptions, { refetch }] = createResource(
     shopData.shopId,
@@ -47,7 +42,6 @@ export default function Inventory() {
 
   onMount(async () => {
     await requireAuthentication(location.pathname);
-    setTimeout(refetch, 2000);
   });
 
   async function fetchMediaSubscriptions(shopId: string) {
@@ -81,14 +75,18 @@ export default function Inventory() {
 
   return (
     <ErrorBoundary fallback={<ContentError />}>
-      <Suspense>
-        <ShopBanner shopCustomization={() => shopCustomization()} />
-
-        <Section>
+      <Section>
+        <div class={styles.TitleContainer}>
           <span class={styles.Title}>
             <Trans key={TKEYS.subscription["My-Subscriptions"]} />:
           </span>
 
+          <RefreshIcon class={styles.Refresh} onClick={refetch} />
+        </div>
+      </Section>
+
+      <Suspense>
+        <Section flat>
           <div class={styles.Cards}>
             <Show
               when={!_.isEmpty(mediaSubscriptions())}
