@@ -142,7 +142,7 @@ function initialize() {
     }
 
     if (accessTokens.expiresAt < new Date() && accessTokens.refreshToken) {
-      refreshTokensAndSet();
+      await refreshTokensAndSet();
     }
   }
 
