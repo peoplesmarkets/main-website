@@ -22,6 +22,7 @@
     rgba(68, 71, 70, 0.12),
     rgba(68, 71, 70, 0.12)
   );
+  --hovered-active-background-color: #176dde14;
   --hovered-danger-background-color: #ff3b5c14;
   --blend-color: #000000;
   --blend-opacity: 20%;
@@ -69,6 +70,7 @@
     rgba(196, 199, 197, 0.08),
     rgba(196, 199, 197, 0.08)
   );
+  --hovered-active-background-color: #8ab4f814;
   --hovered-danger-background-color: #ff3b5c14;
   --blend-color: #ffffff;
   --blend-opacity: 10%;
@@ -204,6 +206,15 @@
   // Images
   --item-image-aspect-ratio: 4 / 3;
   --banner-image-aspect-ratio: 4 / 1;
+
+  // Material UI
+  --md-sys-color-background: var(--primary-background-color);
+  --md-sys-color-surface: var(--primary-background-color);
+  --md-sys-color-on-surface: var(--primary-content-color);
+  --md-sys-color-on-surface-variant: var(--secondary-content-color);
+  --md-sys-color-primary: var(--active-content-color);
+  --md-sys-color-error: var(--danger-content-color);
+  // --md-sys-color-error-container:
 }
 
 * {
