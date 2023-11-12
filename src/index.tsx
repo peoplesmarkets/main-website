@@ -7,8 +7,6 @@ import "@material/web/tabs/primary-tab";
 import "@material/web/tabs/secondary-tab";
 import "@material/web/tabs/tabs";
 
-import "croppr/dist/croppr.css";
-
 import { ComponentProps } from "solid-js";
 import App from "./App";
 import { checkEnvironmentVariables } from "./lib/env";
