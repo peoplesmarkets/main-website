@@ -1,0 +1,32 @@
+name: Build and test feature
+on:
+  push:
+    branches:
+      - !dev
+      - !main
+env:
+  NOMAD_ADDR: ${{ secrets.DEV_NOMAD_ADDR }}
+  IMAGE_TAG: ghcr.io/${{ github.repository }}:${{ github.sha }}
+jobs:
+  build:
+    environment: development
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v3
+        with:
+          submodules: "recursive"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Generate grpc stubs
+        run: npm run gen
+
+      - name: Lint
+        run: npm run lint
+
+      - name: Build
+        run: cp .env.dev .env && npm run build
+
+      - name: Test
+        run: npm run test
