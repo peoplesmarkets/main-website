@@ -1,4 +1,4 @@
-.Row {
+.ShopListItem {
   user-select: none;
   background: inherit;
   border: none;
@@ -16,7 +16,7 @@
   border-radius: 2px;
 }
 
-.Row:hover {
+.ShopListItem:hover {
   background: var(--hovered-background);
   cursor: pointer;
 }
@@ -38,4 +38,11 @@
 .Detail {
   display: block;
   font: var(--font-body);
+  max-height: 100px;
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* number of lines to show */
+  line-clamp: 4;
+  -webkit-box-orient: vertical;
 }

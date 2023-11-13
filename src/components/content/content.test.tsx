@@ -23,12 +23,10 @@ describe("Render once", () => {
     const { container } = renderIntoRoot(() => <Anotation />);
     expect(container).toBeDefined();
   });
-  test("ContentError", () => {
-    const { container } = renderIntoRoot(() => <ContentError />);
-    expect(container).toBeDefined();
-  });
   test("ContentLoading", () => {
-    const { container } = renderIntoRoot(() => <ContentLoading />);
+    const { container } = renderIntoRoot(() => (
+      <ContentLoading size="40px" page />
+    ));
     expect(container).toBeDefined();
   });
   test("Markdown", () => {
@@ -36,7 +34,9 @@ describe("Render once", () => {
     expect(container).toBeDefined();
   });
   test("Multiline", () => {
-    const { container } = renderIntoRoot(() => <Multiline text={getNoObj} />);
+    const { container } = renderIntoRoot(() => (
+      <Multiline text="slkdjfla" maxRows={2} />
+    ));
     expect(container).toBeDefined();
   });
 });

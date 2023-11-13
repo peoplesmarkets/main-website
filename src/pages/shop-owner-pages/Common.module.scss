@@ -1,0 +1,165 @@
+.Form {
+  width: 100%;
+  min-height: 540px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1rem;
+  box-sizing: border-box;
+}
+
+.FormSet {
+  @extend .Form;
+  min-height: unset;
+}
+
+.Fields {
+  width: 100%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  margin-bottom: 2rem;
+
+  @media only screen and (min-width: 600px) {
+    row-gap: 4rem;
+    column-gap: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.FieldsSingle {
+  @extend .Fields;
+  margin-bottom: unset;
+}
+
+.FieldSet {
+  width: 100%;
+  grid-column: 1/-1;
+  margin-bottom: 4rem;
+}
+
+.Field {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 1rem;
+
+  @media only screen and (min-width: 600px) {
+    margin-bottom: 0;
+  }
+}
+
+.FieldLast {
+  @extend .Field;
+  margin-bottom: 64px;
+}
+
+.FieldRow {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 0.5rem;
+}
+
+.FieldRowLast {
+  @extend .FieldRow;
+  margin-bottom: 64px;
+}
+
+.SettingsRow {
+  @extend .FieldRow;
+  justify-content: space-between;
+}
+
+.FieldInfo {
+  width: 100%;
+  margin-bottom: 0.5rem;
+}
+
+.Preview {
+  margin-bottom: 64px;
+}
+
+.PreviewInfo {
+  width: 100%;
+  display: block;
+  margin-bottom: 8px;
+  font: var(--font-label);
+  font-weight: 300;
+  text-align: start;
+}
+
+.Headline {
+  display: block;
+  font: var(--font-headline);
+  line-height: 2;
+}
+
+.Title {
+  display: block;
+  font: var(--font-title);
+}
+
+.Label {
+  display: block;
+  font: var(--font-label);
+}
+
+.Warn {
+  color: var(--warning-content-color);
+}
+
+.Strong {
+  font: var(--font-body);
+  font-weight: 500;
+}
+
+.Details {
+  display: inline;
+  font: var(--font-body);
+  line-height: 1.4;
+}
+
+.Link {
+  color: var(--active-content-color);
+  text-decoration: underline;
+}
+
+.Anotation {
+  width: 100%;
+  margin-top: -1rem;
+}
+
+.Actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.ActionsLeft {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ActionsRight {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.OpenInNewIcon {
+  height: 1rem;
+  padding: 0 0 0.2rem 0.2rem;
+  box-sizing: border-box;
+  fill: var(--active-content-color);
+}

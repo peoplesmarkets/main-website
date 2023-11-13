@@ -1,0 +1,46 @@
+.TitleSection {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.List {
+  width: 100%;
+  min-height: 100px;
+  margin-bottom: 1rem;
+}
+
+.Image {
+  width: 64px;
+}
+
+.Thumbnail {
+  display: block;
+  max-width: 64px;
+  max-height: 48px;
+  object-fit: contain;
+}
+
+.Headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.Actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}

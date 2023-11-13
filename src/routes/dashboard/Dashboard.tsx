@@ -6,48 +6,35 @@ import {
   ErrorBoundary,
   Show,
   Suspense,
-  createEffect,
   createResource,
   createSignal,
 } from "solid-js";
 
-import { ContentError } from "../components/content";
-import { CreateShopDialog, ShopList } from "../components/dashboard";
-import { ActionButton } from "../components/form";
-import { Section, Slot } from "../components/layout";
-import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { useServiceClientContext } from "../contexts/ServiceClientContext";
-import { resourceIsReady } from "../lib";
-import { TKEYS } from "../locales";
+import { ContentError, ContentLoading } from "../../components/content";
+import { MdButton } from "../../components/form";
+import { AddIcon } from "../../components/icons";
+import { Section, Slot } from "../../components/layout";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { TKEYS } from "../../locales";
+import MainRoutesWrapper from "../MainRoutesWrapper";
+import { buildUserSettingsPath } from "../user/UserRoutes";
+import { CreateShopDialog } from "./CreateShopDialog";
 import styles from "./Dashboard.module.scss";
-import MainRoutesWrapper from "./MainRoutesWrapper";
-import { buildUserSettingsPath } from "./user/UserRoutes";
+import { ShopList } from "./ShopList";
 
 export default function Dashboard() {
   const navigate = useNavigate();
 
   const { currentSession } = useAccessTokensContext();
-
-  const [initiallyShowCreateShop, setInitiallyShowCreateShop] =
-    createSignal(true);
-  const [showCreateShop, setShowCreateShop] = createSignal(false);
-
   const { shopService } = useServiceClientContext();
+
+  const [showCreateShop, setShowCreateShop] = createSignal(false);
 
   const [shops, { refetch }] = createResource(
     () => currentSession().userId || undefined,
     fetchShops
   );
-
-  createEffect(() => {
-    if (
-      resourceIsReady(shops) &&
-      _.isEmpty(shops()) &&
-      initiallyShowCreateShop()
-    ) {
-      setShowCreateShop(true);
-    }
-  });
 
   async function fetchShops(userId: string) {
     try {
@@ -65,7 +52,7 @@ export default function Dashboard() {
     }
   }
 
-  async function handleShopUpdate() {
+  async function handleShopCreated() {
     refetch();
   }
 
@@ -74,7 +61,6 @@ export default function Dashboard() {
   }
 
   function handleCloseCreateShop() {
-    setInitiallyShowCreateShop(false);
     setShowCreateShop(false);
   }
 
@@ -86,13 +72,10 @@ export default function Dashboard() {
             <span class={styles.Title}>
               <Trans key={TKEYS.dashboard["shop"]["my-shops"]} />:
             </span>
-            <ActionButton actionType="neutral" onClick={handleOpenCreateShop}>
-              <Trans key={TKEYS.form.action["Create-new"]} />
-            </ActionButton>
           </div>
 
           <ErrorBoundary fallback={<ContentError />}>
-            <Suspense>
+            <Suspense fallback={<ContentLoading page />}>
               <Show
                 when={!_.isEmpty(shops())}
                 fallback={
@@ -103,14 +86,22 @@ export default function Dashboard() {
               </Show>
             </Suspense>
           </ErrorBoundary>
+
+          <div class={styles.Actions}>
+            <MdButton type="filled" onClick={handleOpenCreateShop}>
+              <span slot="icon">
+                <AddIcon />
+              </span>
+              <Trans key={TKEYS.dashboard.shop["create-new-shop"]} />
+            </MdButton>
+          </div>
         </Section>
 
-        <Show when={showCreateShop()}>
-          <CreateShopDialog
-            onClose={handleCloseCreateShop}
-            onUpdate={handleShopUpdate}
-          />
-        </Show>
+        <CreateShopDialog
+          show={showCreateShop()}
+          onClose={handleCloseCreateShop}
+          onUpdate={handleShopCreated}
+        />
       </Slot>
     </MainRoutesWrapper>
   );

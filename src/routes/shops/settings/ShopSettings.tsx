@@ -17,15 +17,12 @@ import {
 } from "../../../components/dashboard";
 import { Cover, Section } from "../../../components/layout";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
-import {
-  requireAuthentication,
-  resourceIsReady,
-  secondsToLocaleDateTime,
-} from "../../../lib";
+import { resourceIsReady, secondsToLocaleDateTime } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import { buildDashboardPath } from "../../main-routing";
 import { ShopData } from "../ShopData";
 import styles from "./ShopSettings.module.scss";
+import { requireAuthentication } from "../../../guards/authentication";
 
 export default function ShopSettingsPage() {
   const location = useLocation();
@@ -52,7 +49,7 @@ export default function ShopSettingsPage() {
       return;
     }
 
-    if (currentSession().userId !== shopData.shop()?.userId) {
+    if (currentSession().userId !== shopData?.shop()?.userId) {
       navigate(buildDashboardPath(), { replace: true });
       return;
     }
@@ -93,7 +90,7 @@ export default function ShopSettingsPage() {
                     </span>
                   }
                 >
-                  <Multiline text={() => shopData.shop()?.description} />
+                  <Multiline text={shopData.shop()?.description} />
                 </Show>
               </Section>
 

@@ -13,7 +13,7 @@ import { createStore } from "solid-js/store";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { isCssColor, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
-import { ShopData } from "../../routes/shops/ShopData";
+import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
 import { PutShopCustomizationRequest } from "../../services/peoplesmarkets/commerce/v1/shop_customization";
 import { ActionButton, DiscardConfirmation, TextField } from "../form";
 import { Dialog } from "../layout";
@@ -29,10 +29,12 @@ export function EditShopThemeDialog(props: Props) {
 
   const { shopCustomizationService } = useServiceClientContext();
 
-  const shopData = useRouteData<typeof ShopData>();
+  const shopData = useRouteData<typeof MyShopData>();
 
-  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
-    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
+  const [shopCustomization] = createResource(
+    shopData?.shop()?.shopId,
+    async (shopId) =>
+      shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
   );
 
   const emptyPutRequest = PutShopCustomizationRequest.create();
@@ -68,10 +70,12 @@ export function EditShopThemeDialog(props: Props) {
     if (_.isEmpty(request.shopId)) {
       const customization = shopCustomization();
 
+      const shopId = shopData.shop()?.shopId;
+
       if (!_.isEmpty(customization)) {
         setRequest(_.clone(customization));
-      } else {
-        setRequest("shopId", shopData.shopId()!);
+      } else if (!_.isNil(shopId)) {
+        setRequest("shopId", shopId);
       }
     }
   });

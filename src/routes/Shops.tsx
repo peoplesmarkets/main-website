@@ -8,7 +8,7 @@ import {
   resetErrorBoundaries,
 } from "solid-js";
 
-import { ShopList } from "../components/commerce/ShopList";
+import { ShopList } from "./shops/list/ShopList";
 import { ContentError } from "../components/content";
 import { Select, SelectKey } from "../components/form";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
@@ -148,7 +148,7 @@ export default function Shops() {
         <Section>
           <Suspense>
             <ErrorBoundary fallback={<ContentError />}>
-              <ShopList shops={() => shops()} />
+              <ShopList shops={shops()} />
             </ErrorBoundary>
           </Suspense>
         </Section>

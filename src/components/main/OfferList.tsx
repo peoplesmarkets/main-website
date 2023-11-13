@@ -14,13 +14,13 @@ import { OfferPrice } from "../commerce/OfferPrice";
 import styles from "../shops/OfferList.module.scss";
 
 type Props = {
-  readonly offers: () => OfferResponse[] | undefined;
+  readonly offers: OfferResponse[] | undefined;
 };
 
 export function OfferList(props: Props) {
   return (
     <div class={styles.OfferList}>
-      <For each={props.offers()}>
+      <For each={props.offers}>
         {(offer) => (
           <div class={styles.ListItem}>
             <div class={styles.Card}>
@@ -31,6 +31,7 @@ export function OfferList(props: Props) {
                   offer.offerId,
                   offer.shopDomain
                 )}
+                target="_blank"
               >
                 <Show when={!_.isEmpty(offer.images)}>
                   <img
@@ -53,6 +54,7 @@ export function OfferList(props: Props) {
                     offer.offerId,
                     offer.shopDomain
                   )}
+                  target="_blank"
                 >
                   {offer.name}
                 </A>
@@ -62,6 +64,7 @@ export function OfferList(props: Props) {
                   <A
                     class={styles.InfoLink}
                     href={buildShopPathOrUrl(offer.shopDomain, offer.shopSlug)}
+                    target="_blank"
                   >
                     {offer.shopName}
                   </A>

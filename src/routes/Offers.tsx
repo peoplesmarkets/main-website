@@ -196,7 +196,7 @@ export default function Offers() {
         <Section>
           <ErrorBoundary fallback={<ContentError />}>
             <Suspense>
-              <OfferList offers={() => offers()} />
+              <OfferList offers={offers()} />
             </Suspense>
           </ErrorBoundary>
         </Section>

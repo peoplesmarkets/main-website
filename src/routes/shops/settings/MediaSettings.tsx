@@ -8,8 +8,8 @@ import {
   createResource,
   createSignal,
 } from "solid-js";
-
 import _ from "lodash";
+
 import { ContentError } from "../../../components/content";
 import { CreateMediaDialog } from "../../../components/dashboard/CreateMediaDialog";
 import { ActionButton } from "../../../components/form";
@@ -18,7 +18,8 @@ import { MediaList } from "../../../components/media";
 import { ShopBanner } from "../../../components/shops";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
-import { requireAuthentication, resourceIsReady } from "../../../lib";
+import { resourceIsReady } from "../../../lib";
+import { requireAuthentication } from "../../../guards/authentication";
 import { TKEYS } from "../../../locales";
 import { buildDashboardPath } from "../../main-routing";
 import { ShopData } from "../ShopData";

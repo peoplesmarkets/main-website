@@ -31,13 +31,22 @@ export const DE: typeof TKEYS = {
     cancel: "kündigen",
     resume: "fortsetzen",
     any: "Alle",
+    Preview: "Vorschau",
+    accept: "akzeptieren",
+    reload: "neu laden",
+    public: "öffentlich",
+    hidden: "verborgen",
   },
   form: {
     action: {
       "Create-new": "Erstellen",
       Add: "Hinzufügen",
       OK: "Okay",
+      Next: "Weiter",
+      Back: "Zurück",
+      Previous: "Vorherige",
       Save: "Speichern",
+      "Save-and-continue": "Speichern und weiter",
       Send: "Senden",
       Edit: "Bearbeiten",
       Delete: "Löschen",
@@ -92,6 +101,9 @@ export const DE: typeof TKEYS = {
     previous: "vorherige",
     next: "nächste",
   },
+  navigation: {
+    redirecting: "Redirecting",
+  },
   price: {
     Price: "Preis",
     "decimal-point": ",",
@@ -127,6 +139,13 @@ export const DE: typeof TKEYS = {
     title: "Shop",
     "title-plural": "Shops",
     "no-description": "Keine Beschreibung vorhanden ...",
+    configuration: {
+      title: "Konfiguration",
+      Details: "Details",
+      Payment: "Bezahlung",
+      Appearance: "Erscheinung",
+      Settings: "Einstellungen",
+    },
     settings: {
       title: "Einstellungen",
     },
@@ -138,12 +157,12 @@ export const DE: typeof TKEYS = {
       Details: "Details",
       Name: "Name",
       name: "Name",
-      Slug: "Pfad",
-      slug: "Pfad",
+      Slug: "URL-Pfad",
+      slug: "URL-Pfad",
       Description: "Beschreibung",
       description: "Beschreibung",
       "Name-and-Description": "Name und Beschreibung",
-      Image: "Bild",
+      Image: "Banner Bild",
       Logo: "Logo",
       Theme: "Erscheinungsbild",
       Path: "URL-Pfad",
@@ -229,9 +248,6 @@ export const DE: typeof TKEYS = {
     "canceled-at": "Gekündigt am",
     "no-subscriptions-yet": "Bisher keine Abonnements ...",
   },
-  image: {
-    "delete-confirmation-message": "Dieses Bild wirklich löschen?",
-  },
   report: {
     title: "Feedback geben",
     "link-information":
@@ -251,62 +267,110 @@ export const DE: typeof TKEYS = {
     shop: {
       Details: "Details",
       "my-shops": "Meine Shops",
-      "no-shop-yet": "Bisher keinen Shop erstellt",
+      "no-shop-yet": "Bisher keinen Shop erstellt ...",
       "create-new-shop": "Neuen Shop erstellen",
+      "name-your-shop": "Gib deinem Shop einen Namen.",
       "edit-name-and-description": "Name und Beschreibung bearbeiten",
       "edit-contact-email": "Kontakt E-Mail bearbeiten",
-      "public-visibility": "Öffentliche Sichtbarkeit",
-      "publish-notification-title": "Shop veröffentlichen?",
-      "publish-notification-message": "Mit der Veröffentlichung des Shops ...",
-      "unpublish-notification-title": "Shop verbergen?",
-      "unpublish-notification-message": "Mit dem Verbergen des Shops ...",
       "edit-image": "Bild bearbeiten",
       "delete-image": "Bild löschen",
       "logo-image": "Bild",
       "edit-logo": "Logo bearbeiten",
       "delete-logo": "Logo löschen",
       "edit-theme": "Erscheinungsbild anpassen",
-      "edit-path": "URL-Pfad einstellen",
-      "edit-domain": "Domain einstellen",
       "delete-this-shop": "Diesen Shop löschen",
+      "delete-shop-info":
+        "Bist du dir sicher, dass du den Shop löschen möchtest? Die Daten sind nicht widerherstellbar.",
       "resulting-url": "Resultierende URL",
+      "duplicate-slug-error":
+        "Der automatisch generierte URL-Pfad ist bereits vergeben. Bitter versuche einen anderen zu verwenden.",
+      "empty-offers-warning-title": "Keine Angebote vorhanden",
+      "empty-offers-warning-content":
+        "Derzeit bietet dein Shop noch keine Angebote an. Wenn du fortfährst wird dein Shop leer sein.",
+      logo: {
+        "preview-info": "Vorschau der Navigationsleiste deines Shops",
+        "delete-confirmation-message": "Dieses Logo wirklich löschen?",
+        "logo-info":
+          "Lade ein Bild hoch, das in der Navigationsleiste verwendet wird. Wenn kein Bild vorhanden ist, verwenden wir einfach den Namen deines Shops.",
+      },
       image: {
         label: "Bild",
         "for-dark-theme": "Für Dunkelmodus",
         "use-same-for-dark-mode": "Selbes Bild für Dunkelmodus verwenden",
-        "show-in-listings": "In Listen anzeigen",
-        "show-on-home": "Auf der Hauptseite anzeigen",
+        "show-on-home": "Banner auf der Hauptseite anzeigen",
+        "show-in-listings": "Banner in Suchergebnissen anzeigen",
+        "preview-home-info": "Vorschau der Hauptseite deines Shops",
+        "preview-listing-info": "Vorschau deines Shops in Suchergebnissen",
+        "delete-confirmation-message": "Dieses Bild wirklich löschen?",
+      },
+      stripe: {
+        title: EN.dashboard["shop"].stripe.title,
+        url: "https://stripe.com/de",
+        integration: "Stripe Integration",
+        "integration-info-left": "Registriere dich bei",
+        "integration-info-right":
+          ", um viele gängige Online-Zahlungsmethoden einzurichten.",
+        "start-integration": "Starte mit",
+        "continue-integration": "Fortsetzen mit",
+        "remove-integration": "Stripe Einrichtung aufheben",
+      },
+      contact: {
+        info: "Wenn du keine Online-Zahlungsmethode verwendest, gib hier eine E-Mail-Adresse an, unter der deine Kunden dich erreichen können.",
+      },
+      visibility: {
+        Title: "Öffentliche Sichtbarkeit",
+        Info: "Du kannst jederzeit die öffentliche Sichtbarkeit deines Shops einstellen. Wenn du die Sichtbarkeit veränderst, wird auch die Sichtbarkeit aller Angebote angepasst.",
+        "hide-this-shop": "Shop verbergen",
+        "publish-shop": "Shop veröffentlichen",
+        "publish-notification-title": "Shop veröffentlichen?",
+        "publish-notification-message-left":
+          "Um den Shop zu veröffenlichen, bitte lies und akzeptiere die Allgemeinen Geschäftsbedingungen",
+        "publish-notification-message-right": "",
+        "publish-anyway": "Trotzdem veröffentlichen",
+        "unpublish-notification-title": "Shop verbergen?",
+        "unpublish-notification-message":
+          "Mit Verbergen des Shops, werden auch alle Angebote verborgen.",
+      },
+      settings: {
+        Title: "Einstellungen",
+      },
+      path: {
+        "edit-path": "URL-Pfad anpassen",
+        "edit-path-info":
+          "Wenn du keine eigene Domain verwendest, kannst du hier den Pfad zu deinem Shop anpassen.",
       },
       domain: {
-        pending: "Wird verifiziert",
+        "edit-domain": "Domain einstellen",
+        "edit-domain-info":
+          "Du kannst deine eigene Domain verwenden, unter der dein Shop erreichbar ist. Nach dem Speichern muss ein DNS-CNAME-Eintrag für die Domain eingerichtet werden, der auf mysite.peoplesmarkets.com zeigt. Anschließend werden wir die Einrichtung abschließen.",
+        pending: "Wird eingerichtet",
         "pending-information":
           "Bitte konfiguriere den folgenden DNS CNAME Eintrag für die angegebene Domain:",
         "pending-information-sample":
           "{item}. CNAME mysite.peoplesmarkets.com.",
         active: "Verifiziert",
       },
-      stripe: {
-        title: EN.dashboard["shop"].stripe.title,
-        integration: "Stripe Integration",
-        "start-integration": "Stripe einrichten",
-        "continue-integration": "Stripe Einrichtung fortsetzen",
-        "remove-integration": "Stripe Einrichtung aufheben",
-      },
     },
     offers: {
       Details: "Details",
+      "My-Offers": "Meine Angebote",
       "title-plural": "Angebote",
       "create-new-offer": "Neues Angebot erstellen",
+      "name-your-offer": "Gib dem Angebot einen Namen.",
+      "create-your-first-offer": "Erstelle dein erstes Angebot",
       "edit-offer": "Angebot bearbeiten",
       "delete-this-offer": "Dieses Angebot löschen",
       "add-image": "Bild hinzufügen",
       "edit-price": "Preis bearbeiten",
       "public-visibility": "Öffentliche Sichtbarkeit",
       "publish-notification-title": "Angebot veröffentlichen?",
-      "publish-notification-message":
-        "Mit der Veröffentlichung des Angebots ...",
+      "publish-notification-message": "",
+      "shop-not-public-title": "Dein shop ist noch nicht veröffentlicht",
+      "shop-not-public-message":
+        "Dein Shop mit diesem Angebot ist noch nicht öffentlich sichtbar. Du kannst das Angebot trotzdem veröffentlichen, dein Shop ist jedoch noch nicht erreichbar.",
+      "go-to-shop-settings": "Shop Einstellungen",
       "unpublish-notification-title": "Angebot verbergen?",
-      "unpublish-notification-message": "Mit dem Verbergen des Angebots ...",
+      "unpublish-notification-message": "",
     },
     "shipping-rate": {
       "add-shipping-rate": "Versandkosten hinzufügen",
@@ -328,10 +392,11 @@ export const DE: typeof TKEYS = {
     },
     links: {
       home: EN["main-navigation"].links.home,
+      "My-Shop": "Mein Shop",
       shops: "Shops",
       offers: "Angebote",
+      "My-Offers": "Meine Angebote",
       dashboard: EN["main-navigation"].links.dashboard,
-      "user-settings": "Benutzereinstellungen",
       community: EN["main-navigation"].links.community,
       "get-started": "Get started",
     },
@@ -349,8 +414,11 @@ export const DE: typeof TKEYS = {
   "offers-search": {
     title: "Suche Angebote",
   },
-  "user-settings-page": {
-    title: "Benutzereinstellungen",
+  user: {
+    authenticating: "Authentifizierung",
+    settings: {
+      title: "Benutzereinstellungen",
+    },
   },
   "community-page": {
     headline: "Hilf dem Projekt zu wachsen!",
@@ -390,6 +458,7 @@ export const DE: typeof TKEYS = {
   },
   "terms-of-service": {
     title: "AGB",
+    "accept-tos": "AGB akzeptieren",
   },
   "page-not-found": {
     title: "404 Seite nicht gefunden",
