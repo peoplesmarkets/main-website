@@ -50,7 +50,7 @@ describe("Render once", () => {
   });
   test("EditShopBannerDialog", () => {
     const { container } = renderIntoRoot(() => (
-      <EditShopBannerDialog shopId="" onClose={noOp} onUpdate={noOp} />
+      <EditShopBannerDialog onClose={noOp} onUpdate={noOp} />
     ));
     expect(container).toBeDefined();
   });
