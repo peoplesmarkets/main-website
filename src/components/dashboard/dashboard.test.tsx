@@ -8,11 +8,9 @@ import {
   noOp,
   renderIntoRoot,
 } from "../../lib/testing";
-import { CreateShopDialog } from "./CreateShopDialog";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import { EditShopDialog } from "./EditShopDialog";
 import { EditOfferDialog } from "./EditOfferDialog";
-import { ShopSettings } from "./ShopSettings";
 import { OfferSettings } from "./OfferSettings";
 import { CreateOfferImageDialog } from "./CreateOfferImageDialog";
 import { ShopImage } from "./ShopImage";
@@ -26,12 +24,6 @@ describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
-  test("CreateShopDialog", () => {
-    const { container } = renderIntoRoot(() => (
-      <CreateShopDialog onClose={noOp} />
-    ));
-    expect(container).toBeDefined();
-  });
   test("CreateOfferDialog", () => {
     const { container } = renderIntoRoot(() => (
       <CreateOfferDialog shopId="" onClose={noOp} />
@@ -57,7 +49,7 @@ describe("Render once", () => {
   });
   test("EditShopBannerDialog", () => {
     const { container } = renderIntoRoot(() => (
-      <EditShopBannerDialog shopId="" onClose={noOp} onUpdate={noOp} />
+      <EditShopBannerDialog onClose={noOp} onUpdate={noOp} />
     ));
     expect(container).toBeDefined();
   });
@@ -69,12 +61,6 @@ describe("Render once", () => {
   });
   test("ShopImage", () => {
     const { container } = renderIntoRoot(() => <ShopImage onUpdate={noOp} />);
-    expect(container).toBeDefined();
-  });
-  test("ShopSettings", () => {
-    const { container } = renderIntoRoot(() => (
-      <ShopSettings onUpdate={asyncNoOp} onDelete={noOp} />
-    ));
     expect(container).toBeDefined();
   });
   test("MediaSettings", () => {

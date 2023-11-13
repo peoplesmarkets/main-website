@@ -8,7 +8,7 @@ import { createStore } from "solid-js/store";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
-import { ShopData } from "../../routes/shops/ShopData";
+import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
 import {
   buildShopDetailPath,
   buildShopSettingsPath,
@@ -33,7 +33,7 @@ export function EditShopSlugDialog(props: Props) {
 
   const { shopService } = useServiceClientContext();
 
-  const shopData = useRouteData<typeof ShopData>();
+  const shopData = useRouteData<typeof MyShopData>();
 
   const emptyUpdateRequest = UpdateShopRequest.create();
   const updateFields = ["shopId", "slug"];
@@ -116,12 +116,12 @@ export function EditShopSlugDialog(props: Props) {
   return (
     <>
       <Dialog
-        title={trans(TKEYS.dashboard["shop"]["edit-path"])}
+        title={trans(TKEYS.dashboard.shop.path["edit-path"])}
         onClose={props.onClose}
       >
         <form class={styles.Form} onSubmit={handleUpdateShop}>
           <TextField
-            label={trans(TKEYS["shop"].labels.slug)}
+            label={trans(TKEYS.shop.labels.slug)}
             required
             small
             value={request.slug}

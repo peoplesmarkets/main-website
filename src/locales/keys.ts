@@ -31,13 +31,22 @@ export const TKEYS = {
     cancel: "common.cancel",
     resume: "common.resume",
     any: "common.any",
+    Preview: "common.Preview",
+    accept: "common.accept",
+    reload: "common.reload",
+    public: "common.public",
+    hidden: "common.hidden",
   },
   form: {
     action: {
       "Create-new": "form.action.Create-new",
       Add: "form.action.Add",
       OK: "form.action.OK",
+      Next: "form.action.Next",
+      Back: "form.action.Back",
+      Previous: "form.action.Previous",
       Save: "form.action.Save",
+      "Save-and-continue": "form.action.Save-and-continue",
       Send: "form.action.Send",
       Edit: "form.action.Edit",
       Delete: "form.action.Delete",
@@ -92,6 +101,9 @@ export const TKEYS = {
     previous: "pagination.previous",
     next: "pagination.next",
   },
+  navigation: {
+    redirecting: "navigation.redirecting",
+  },
   price: {
     Price: "price.Price",
     "decimal-point": "price.decimal-point",
@@ -141,6 +153,13 @@ export const TKEYS = {
     title: "shop.title",
     "title-plural": "shop.title-plural",
     "no-description": "shop.no-description",
+    configuration: {
+      title: "shop.configuration.title",
+      Details: "shop.configuration.Details",
+      Payment: "shop.configuration.Payment",
+      Appearance: "shop.configuration.Appearance",
+      Settings: "shop.configuration.Settings",
+    },
     settings: {
       title: "shop.settings.title",
     },
@@ -257,9 +276,6 @@ export const TKEYS = {
     "canceled-at": "subscription.canceled-at",
     "no-subscriptions-yet": "subscription.no-subscriptions-yet",
   },
-  image: {
-    "delete-confirmation-message": "image.delete-confirmation-message",
-  },
   report: {
     title: "report.title",
     "link-information": "report.link-information",
@@ -280,52 +296,94 @@ export const TKEYS = {
       "my-shops": "dashboard.shop.my-shops",
       "no-shop-yet": "dashboard.shop.no-shop-yet",
       "create-new-shop": "dashboard.shop.create-new-shop",
+      "name-your-shop": "dashboard.shop.name-your-shop",
       "edit-name-and-description": "dashboard.shop.edit-name-and-description",
       "edit-contact-email": "dashboard.shop.edit-contact-email",
-      "public-visibility": "dashboard.shop.public-visibility",
-      "publish-notification-title": "dashboard.shop.publish-notification-title",
-      "publish-notification-message":
-        "dashboard.shop.publish-notification-message",
-      "unpublish-notification-title":
-        "dashboard.shop.unpublish-notification-title",
-      "unpublish-notification-message":
-        "dashboard.shop.unpublish-notification-message",
       "edit-image": "dashboard.shop.edit-image",
       "delete-image": "dashboard.shop.delete-image",
       "logo-image": "dashboard.shop.logo-image",
       "edit-logo": "dashboard.shop.edit-logo",
       "delete-logo": "dashboard.shop.delete-logo",
       "edit-theme": "dashboard.shop.edit-theme",
-      "edit-path": "dashboard.shop.edit-path",
-      "edit-domain": "dashboard.shop.edit-domain",
       "delete-this-shop": "dashboard.shop.delete-this-shop",
+      "delete-shop-info": "dashboard.shop.delete-shop-info",
       "resulting-url": "dashboard.shop.resulting-url",
+      "duplicate-slug-error": "dashboard.shop.duplicate-slug-error",
+      "empty-offers-warning-title": "dashboard.shop.empty-offers-warning-title",
+      "empty-offers-warning-content":
+        "dashboard.shop.empty-offers-warning-content",
+      logo: {
+        "preview-info": "dashboard.shop.logo.preview-info",
+        "delete-confirmation-message":
+          "dashboard.shop.logo.delete-confirmation-message",
+        "logo-info": "dashboard.shop.logo.logo-info",
+      },
       image: {
         label: "dashboard.shop.image.label",
         "for-dark-theme": "dashboard.shop.image.for-dark-theme",
         "use-same-for-dark-mode": "dashboard.shop.image.use-same-for-dark-mode",
-        "show-in-listings": "dashboard.shop.image.show-in-listings",
         "show-on-home": "dashboard.shop.image.show-on-home",
+        "show-in-listings": "dashboard.shop.image.show-in-listings",
+        "preview-home-info": "dashboard.shop.image.preview-home-info",
+        "preview-listing-info": "dashboard.shop.image.preview-listing-info",
+        "delete-confirmation-message":
+          "dashboard.shop.image.delete-confirmation-message",
+      },
+      stripe: {
+        title: "dashboard.shop.stripe.title",
+        url: "dashboard.shop.stripe.url",
+        integration: "dashboard.shop.stripe.integration",
+        "integration-info-left": "dashboard.shop.stripe.integration-info-left",
+        "integration-info-right":
+          "dashboard.shop.stripe.integration-info-right",
+        "start-integration": "dashboard.shop.stripe.start-integration",
+        "continue-integration": "dashboard.shop.stripe.continue-integration",
+        "remove-integration": "dashboard.shop.stripe.remove-integration",
+      },
+      contact: {
+        info: "dashboard.shop.contact.info",
+      },
+      visibility: {
+        Title: "dashboard.shop.visibility.Title",
+        Info: "dashboard.shop.visibility.Info",
+        "hide-this-shop": "dashboard.shop.visibility.hide-this-shop",
+        "publish-shop": "dashboard.shop.visibility.publish-shop",
+        "publish-notification-title":
+          "dashboard.shop.visibility.publish-notification-title",
+        "publish-notification-message-left":
+          "dashboard.shop.visibility.publish-notification-message-left",
+        "publish-notification-message-right":
+          "dashboard.shop.visibility.publish-notification-message-right",
+        "publish-anyway": "dashboard.shop.visibility.publish-anyway",
+        "unpublish-notification-title":
+          "dashboard.shop.visibility.unpublish-notification-title",
+        "unpublish-notification-message":
+          "dashboard.shop.visibility.unpublish-notification-message",
+      },
+      settings: {
+        Title: "dashboard.shop.settings.Title",
+      },
+      path: {
+        "edit-path": "dashboard.shop.path.edit-path",
+        "edit-path-info": "dashboard.shop.path.edit-path-info",
       },
       domain: {
+        "edit-domain": "dashboard.shop.domain.edit-domain",
+        "edit-domain-info": "dashboard.shop.domain.edit-domain-info",
         pending: "dashboard.shop.domain.pending",
         "pending-information": "dashboard.shop.domain.pending-information",
         "pending-information-sample":
           "dashboard.shop.domain.pending-information-sample",
         active: "dashboard.shop.domain.active",
       },
-      stripe: {
-        title: "dashboard.shop.stripe.title",
-        integration: "dashboard.shop.stripe.integration",
-        "start-integration": "dashboard.shop.stripe.start-integration",
-        "continue-integration": "dashboard.shop.stripe.continue-integration",
-        "remove-integration": "dashboard.shop.stripe.remove-integration",
-      },
     },
     offers: {
       Details: "dashboard.offers.Details",
+      "My-Offers": "dashboard.offers.My-Offers",
       "title-plural": "dashboard.offers.title-plural",
       "create-new-offer": "dashboard.offers.create-new-offer",
+      "name-your-offer": "dashboard.offers.name-your-offer",
+      "create-your-first-offer": "dashboard.offers.create-your-first-offer",
       "edit-offer": "dashboard.offers.edit-offer",
       "delete-this-offer": "dashboard.offers.delete-this-offer",
       "add-image": "dashboard.offers.add-image",
@@ -335,6 +393,9 @@ export const TKEYS = {
         "dashboard.offers.publish-notification-title",
       "publish-notification-message":
         "dashboard.offers.publish-notification-message",
+      "shop-not-public-title": "dashboard.offers.shop-not-public-title",
+      "shop-not-public-message": "dashboard.offers.shop-not-public-message",
+      "go-to-shop-settings": "dashboard.offers.go-to-shop-settings",
       "unpublish-notification-title":
         "dashboard.offers.unpublish-notification-title",
       "unpublish-notification-message":
@@ -360,10 +421,11 @@ export const TKEYS = {
     },
     links: {
       home: "main-navigation.links.home",
+      "My-Shop": "main-navigation.links.My-Shop",
       shops: "main-navigation.links.shops",
       offers: "main-navigation.links.offers",
+      "My-Offers": "main-navigation.links.My-Offers",
       dashboard: "main-navigation.links.dashboard",
-      "user-settings": "main-navigation.links.user-settings",
       community: "main-navigation.links.community",
       "get-started": "main-navigation.links.get-started",
     },
@@ -381,8 +443,11 @@ export const TKEYS = {
   "offers-search": {
     title: "offers-search.title",
   },
-  "user-settings-page": {
-    title: "user-settings-page.title",
+  user: {
+    authenticating: "user.authenticating",
+    settings: {
+      title: "user.settings.title",
+    },
   },
   "community-page": {
     headline: "community-page.headline",
@@ -396,7 +461,7 @@ export const TKEYS = {
   },
   "landing-page": {
     "get-started": "landing-page.get-started",
-    "REGISTER": "landing-page.REGISTER",
+    REGISTER: "landing-page.REGISTER",
     "establish-your-online-appearance":
       "landing-page.establish-your-online-appearance",
     "create-your-online-shop-and-build-your-brand":
@@ -423,6 +488,7 @@ export const TKEYS = {
   },
   "terms-of-service": {
     title: "terms-of-service.title",
+    "accept-tos": "terms-of-service.accept-tos",
   },
   "page-not-found": {
     title: "page-not-found.title",

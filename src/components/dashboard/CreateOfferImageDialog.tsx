@@ -6,12 +6,14 @@ import { createStore } from "solid-js/store";
 
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { readAsUint8Array } from "../../lib";
+import { resizeImage } from "../../lib/image";
 import { TKEYS } from "../../locales";
 import { getAllowedTypesFromError, getMaxSizeFromError } from "../../services";
 import { ProgressBar } from "../assets/ProgressBar";
 import { ActionButton, DiscardConfirmation, FileField } from "../form";
 import { Dialog } from "../layout";
-import styles from "./CreateEditDialg.module.scss";
+import commonStyles from "./CreateEditDialg.module.scss";
+import styles from "./CreateOfferImageDialog.module.scss";
 
 type Props = {
   readonly offerId: string;
@@ -27,8 +29,10 @@ export function CreateOfferImageDialog(props: Props) {
 
   const [form, setForm] = createStore({
     image: undefined as File | undefined,
+    imageUrl: undefined as string | undefined,
     ordering: undefined as number | undefined,
   });
+
   const [errors, setErrors] = createStore({
     image: [] as string[],
   });
@@ -56,7 +60,7 @@ export function CreateOfferImageDialog(props: Props) {
       await offerService.addImage({
         offerId: props.offerId,
         image: {
-          contentType: "",
+          contentType: "image/webp",
           data: await readAsUint8Array(form.image, 0, form.image.size),
         },
         ordering: form.ordering!,
@@ -88,20 +92,17 @@ export function CreateOfferImageDialog(props: Props) {
     }
   }
 
-  function handleImageInput(files: FileList | null) {
+  async function handleImageInput(files: FileList | null) {
     resetErrors();
-    if (!_.isNil(files) && !_.isEmpty(files)) {
+    const file = _.first(files);
+    if (!_.isNil(file)) {
       const file = _.first(files)!;
-      if (file.size > import.meta.env.VITE_IMAGE_MAX_SIZE) {
-        setErrors("image", [
-          trans(TKEYS.form.errors["item-too-large"], {
-            item: trans(TKEYS.common.file),
-          }),
-        ]);
-        return;
-      }
-
-      setForm("image", file);
+      const resized = await resizeImage(URL.createObjectURL(file), 800, 800);
+      setForm("image", resized);
+      setForm("imageUrl", URL.createObjectURL(resized));
+    } else {
+      setForm("image", undefined);
+      setForm("imageUrl", undefined);
     }
   }
 
@@ -137,7 +138,7 @@ export function CreateOfferImageDialog(props: Props) {
           title={trans(TKEYS.dashboard.offers["add-image"])}
           onClose={handleCloseDialog}
         >
-          <form class={styles.Form} onSubmit={handleAddImage}>
+          <form class={commonStyles.Form} onSubmit={handleAddImage}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
                 label="image"
@@ -145,9 +146,17 @@ export function CreateOfferImageDialog(props: Props) {
                 errors={errors.image}
                 onValue={handleImageInput}
               />
+
+              <Show when={!_.isEmpty(form.imageUrl)}>
+                <div class={styles.MainImage}>
+                  <div class={styles.ImageContainer}>
+                    <img class={styles.Image} src={form.imageUrl} alt="" />
+                  </div>
+                </div>
+              </Show>
             </Show>
 
-            <div class={styles.DialogFooter}>
+            <div class={commonStyles.DialogFooter}>
               <ActionButton
                 actionType="active-filled"
                 submit

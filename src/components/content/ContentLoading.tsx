@@ -1,15 +1,22 @@
-import { Trans } from "@mbarzda/solid-i18next";
+import { splitProps } from "solid-js";
+import { MdLoading } from "../navigation";
+import styles from "./ContentLoading.module.scss";
 
-import { TKEYS } from "../../locales";
+type Props = {
+  readonly size?: string | undefined;
+  readonly page?: boolean | undefined;
+};
 
-export function ContentLoading() {
+export function ContentLoading(props: Props) {
+  const [local, others] = splitProps(props, ["page"]);
+
   return (
-    <p
-      style={{
-        font: "var(--font-label)",
+    <div
+      classList={{
+        [styles.Page]: Boolean(local.page),
       }}
     >
-      <Trans key={TKEYS.fetching["content-loading"]} />
-    </p>
+      <MdLoading size={others.size} />
+    </div>
   );
 }

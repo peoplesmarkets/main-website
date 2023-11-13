@@ -8,31 +8,39 @@ type Props = {
   readonly errors: string[];
   readonly required?: boolean;
   readonly onValue: (_value: FileList | null) => void;
+  readonly image?: boolean | undefined;
   readonly showLabel?: boolean;
+  readonly wide?: boolean | undefined;
+  readonly active?: boolean | undefined;
 };
 
 export function FileField(props: Props) {
   return (
-    <div class={styles.FileField}>
+    <div
+      class={styles.FileField}
+      classList={{
+        [styles.Wide]: Boolean(props.wide),
+      }}
+    >
       <input
         id={slugify(props.label)}
         type="file"
         class={styles.Input}
         classList={{
           [styles.HasErrors]: !_.isEmpty(props.errors),
+          [styles.Active]: Boolean(props.active),
         }}
+        accept={props.image ? "image/*" : "*"}
         name={slugify(props.label)}
         placeholder={props.label}
         required={Boolean(props.required)}
         onInput={(event) => props.onValue(event.currentTarget.files)}
       />
-      <label
-        class={styles.Label}
-        classList={{ [styles.ShowLabel]: Boolean(props.showLabel) }}
-        for={slugify(props.label)}
-      >
-        {props.label}
-      </label>
+      <Show when={Boolean(props.showLabel)}>
+        <label class={styles.Label} for={slugify(props.label)}>
+          {props.label}
+        </label>
+      </Show>
       <Show when={!_.isEmpty(props.errors)}>
         <span class={styles.ErrorInfo}>{props.errors}</span>
       </Show>

@@ -11,6 +11,7 @@ type Props = {
   readonly value?: string;
   readonly onValue: (_value: string) => void;
   readonly small?: boolean;
+  readonly noLabel?: boolean;
 };
 
 export function TextField(props: Props) {
@@ -30,13 +31,15 @@ export function TextField(props: Props) {
         value={props.value || ""}
         onInput={(event) => props.onValue(event.currentTarget.value)}
       />
-      <label
-        class={styles.Label}
-        classList={{ [styles.LabelEdited]: !_.isEmpty(props.value) }}
-        for={slugify(props.label)}
-      >
-        {props.label}
-      </label>
+      <Show when={!props.noLabel}>
+        <label
+          class={styles.Label}
+          classList={{ [styles.LabelEdited]: !_.isEmpty(props.value) }}
+          for={slugify(props.label)}
+        >
+          {props.label}
+        </label>
+      </Show>
       <Show when={!_.isEmpty(props.errors)}>
         <span class={styles.ErrorInfo}>{props.errors}</span>
       </Show>

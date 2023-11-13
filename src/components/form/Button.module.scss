@@ -4,6 +4,7 @@
   background-color: inherit;
   color: var(--active-content-color);
   padding: 0 23px;
+  box-sizing: border-box;
   min-height: 36px;
   text-decoration: none;
   outline: 0;
@@ -11,6 +12,7 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font: var(--font-label-small);
 }
 
 .ActionButton:hover {
@@ -21,10 +23,11 @@
   border-color: var(--active-content-color);
   color: var(--active-content-color);
   background-color: transparent;
+  border-width: 2px;
 }
 
 .Active:hover {
-  background: var(--hovered-background);
+  background: var(--hovered-active-background-color);
 }
 
 .ActiveBorderless {
@@ -67,8 +70,8 @@
 }
 
 .Neutral {
-  border-color: var(--conten-font-color);
-  color: var(--primary-content-color);
+  border-color: var(--primary-content-color);
+  color: var(--active-content-color);
 }
 
 .Neutral:hover {
@@ -112,4 +115,8 @@
 
 .Mail {
   text-decoration: underline;
+}
+
+.Round {
+  border-radius: 32px;
 }

@@ -54,7 +54,7 @@ export default function ShopDetail() {
         <Show when={!_.isEmpty(shopData?.shop()?.description)}>
           <Section>
             <span class={styles.Description}>
-              <Multiline text={() => shopData.shop()?.description} />
+              <Multiline text={shopData.shop()?.description} />
             </span>
           </Section>
         </Show>

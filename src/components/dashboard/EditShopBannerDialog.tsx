@@ -9,7 +9,7 @@ import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 import { readAsUint8Array, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
-import { ShopData } from "../../routes/shops/ShopData";
+import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
 import {
   getAllowedTypesFromError,
   getMaxSizeFromError,
@@ -35,12 +35,14 @@ export function EditShopBannerDialog(props: Props) {
   const [trans] = useTransContext();
   const { theme } = useThemeContext();
 
-  const shopData = useRouteData<typeof ShopData>();
+  const shopData = useRouteData<typeof MyShopData>();
 
   const { shopCustomizationService } = useServiceClientContext();
 
-  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
-    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
+  const [shopCustomization] = createResource(
+    shopData?.shop()?.shopId,
+    async (shopId) =>
+      shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
   );
 
   const [form, setForm] = createStore({
@@ -66,7 +68,7 @@ export function EditShopBannerDialog(props: Props) {
     }
 
     if (_.isNil(form.shopId) && _.isEmpty(form.shopId)) {
-      setForm("shopId", shopData.shopId());
+      setForm("shopId", shopData.shop()?.shopId);
       setForm("showInListing", shopCustomization()?.showBannerInListing);
       setForm("showOnHome", shopCustomization()?.showBannerOnHome);
     }
@@ -76,7 +78,7 @@ export function EditShopBannerDialog(props: Props) {
     event.preventDefault();
 
     const request = PutBannerImageToShopRequest.create({
-      shopId: shopData.shopId(),
+      shopId: shopData.shop()?.shopId,
       showInListing: form.showInListing,
       showOnHome: form.showOnHome,
     });
@@ -128,7 +130,7 @@ export function EditShopBannerDialog(props: Props) {
   }
 
   async function deleteImage() {
-    const shopId = shopData.shopId();
+    const shopId = shopData.shop()?.shopId;
     if (!_.isNil(shopId)) {
       await shopCustomizationService.removeBannerImage(shopId);
       props.onUpdate();
@@ -209,12 +211,12 @@ export function EditShopBannerDialog(props: Props) {
 
           <CheckBox
             label={trans(TKEYS.dashboard["shop"].image["show-in-listings"])}
-            value={form.showInListing}
+            value={() => form.showInListing}
             onValue={handleShowInListingsInput}
           />
           <CheckBox
             label={trans(TKEYS.dashboard["shop"].image["show-on-home"])}
-            value={form.showOnHome}
+            value={() => form.showOnHome}
             onValue={handleShowOnHome}
           />
 
@@ -241,7 +243,9 @@ export function EditShopBannerDialog(props: Props) {
 
       <Show when={showDeleteConfirmation()}>
         <DeleteConfirmation
-          message={trans(TKEYS.image["delete-confirmation-message"])}
+          message={trans(
+            TKEYS.dashboard.shop.image["delete-confirmation-message"]
+          )}
           onCancel={continueEditing}
           onConfirmation={deleteImage}
         />

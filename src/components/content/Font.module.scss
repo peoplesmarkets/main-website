@@ -27,3 +27,19 @@
   display: block;
   font: var(--font-detail);
 }
+
+.Inline {
+  display: inline;
+}
+
+.Strong {
+  font-weight: 500;
+}
+
+.Active {
+  color: var(--active-content-color);
+}
+
+.Warn {
+  color: var(--warning-content-color);
+}

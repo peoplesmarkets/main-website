@@ -99,7 +99,7 @@ export function OfferSettings(props: Props) {
 
         <Show when={showCreateOffer() && !_.isNil(props.shop())}>
           <CreateOfferDialog
-            shopId={props.shop()!.shopId}
+            shopId={props.shop()?.shopId}
             onClose={handleCloseCreateOffer}
             onUpdate={refreshOffers}
           />

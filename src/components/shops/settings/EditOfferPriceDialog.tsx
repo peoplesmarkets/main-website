@@ -341,7 +341,7 @@ export function EditOfferPriceDialog(props: Props) {
 
               <CheckBox
                 label={trans(TKEYS.price["trial-period"])}
-                value={showTrialPeriodInput()}
+                value={showTrialPeriodInput}
                 onValue={handleToggleTrialPeriodInput}
               />
 

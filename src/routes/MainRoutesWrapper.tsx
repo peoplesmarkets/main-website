@@ -1,5 +1,5 @@
 import { useTransContext } from "@mbarzda/solid-i18next";
-import { A } from "@solidjs/router";
+import { A, useLocation } from "@solidjs/router";
 import {
   JSX,
   Show,
@@ -29,6 +29,7 @@ import styles from "./MainRoutesWrapper.module.scss";
 import { buildCommunityPath } from "./community/community-routing";
 import {
   buildDashboardPath,
+  buildGetStartedPath,
   buildIndexPath,
   buildOffersPath,
   buildShopsPath,
@@ -44,6 +45,8 @@ type Props = {
 type Slider = "none" | "settings" | "report";
 
 export default function MainRoutesWrapper(props: Props) {
+  const location = useLocation();
+
   const [trans] = useTransContext();
   const { isAuthenticated } = useAccessTokensContext();
 
@@ -61,10 +64,13 @@ export default function MainRoutesWrapper(props: Props) {
   });
 
   async function buildSignInUrl() {
-    const signInUrl = await buildAuthorizationRequest(
-      undefined,
-      buildDashboardPath()
-    );
+    const redirectPath =
+      location.pathname === buildGetStartedPath()
+        ? buildDashboardPath()
+        : location.pathname;
+
+    const signInUrl = await buildAuthorizationRequest(undefined, redirectPath);
+
     return signInUrl.toString();
   }
 

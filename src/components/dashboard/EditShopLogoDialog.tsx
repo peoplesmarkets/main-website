@@ -9,7 +9,7 @@ import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales";
-import { ShopData } from "../../routes/shops/ShopData";
+import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
 import {
   getAllowedTypesFromError,
   getMaxSizeFromError,
@@ -36,7 +36,7 @@ export function EditShopLogoDialog(props: Props) {
 
   const { shopCustomizationService } = useServiceClientContext();
 
-  const shopData = useRouteData<typeof ShopData>();
+  const shopData = useRouteData<typeof MyShopData>();
 
   const [form, setForm] = createStore({
     shopId: undefined as string | undefined,
@@ -56,7 +56,7 @@ export function EditShopLogoDialog(props: Props) {
     event.preventDefault();
 
     const request = PutLogoImageToShopRequest.create({
-      shopId: shopData.shopId(),
+      shopId: shopData.shop()?.shopId,
     });
 
     if (!_.isNil(form.image)) {
@@ -107,7 +107,7 @@ export function EditShopLogoDialog(props: Props) {
   }
 
   async function deleteImage() {
-    const shopId = shopData.shopId();
+    const shopId = shopData.shop()?.shopId;
     if (!_.isNil(shopId)) {
       await shopCustomizationService.removeLogoImage(shopId);
       props.onUpdate();
@@ -194,7 +194,9 @@ export function EditShopLogoDialog(props: Props) {
 
       <Show when={showDeleteConfirmation()}>
         <DeleteConfirmation
-          message={trans(TKEYS.image["delete-confirmation-message"])}
+          message={trans(
+            TKEYS.dashboard.shop.image["delete-confirmation-message"]
+          )}
           onCancel={continueEditing}
           onConfirmation={deleteImage}
         />

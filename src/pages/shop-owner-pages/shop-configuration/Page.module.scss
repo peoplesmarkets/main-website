@@ -1,7 +1,3 @@
-.ShopSettings {
-  padding: 1rem 1rem 4rem 1rem;
-}
-
 .Title {
   display: block;
   margin: 0 auto;
@@ -16,10 +12,6 @@
   margin-bottom: 0.5rem;
 }
 
-.Body {
-  font: var(--font-body);
-}
-
 .Details {
   display: block;
   font: var(--font-body);
@@ -28,7 +20,6 @@
 .Details strong {
   font: var(--font-body);
 }
-
 
 .Active {
   font: var(--font-body);
@@ -40,4 +31,17 @@
   font: var(--font-body);
   font-weight: 500;
   color: var(--warning-content-color);
+}
+
+.Tabs {
+  width: 100%;
+
+  @media only screen and (min-width: 600px) {
+    margin-bottom: 2rem;
+  }
+}
+
+.TabsContent {
+  width: 100%;
+  min-height: 4rem;
 }

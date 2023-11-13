@@ -1,14 +1,10 @@
-$medium-min-width: 600px;
-$medium-max-height: 200px;
-$expanded-max-height: 400px;
-
 .OfferImages {
   display: flex;
   flex-direction: column;
 
   user-select: none;
 
-  @media only screen and (min-width: $medium-min-width) {
+  @media only screen and (min-width: 600px) {
     display: flex;
     flex-direction: row-reverse;
     justify-content: space-between;
@@ -21,12 +17,12 @@ $expanded-max-height: 400px;
   justify-content: center;
   align-items: center;
   flex: 1;
-  min-height: $medium-max-height;
-  max-height: $medium-max-height;
+  min-height: 200px;
+  max-height: 200px;
 
-  @media only screen and (min-width: $medium-min-width) {
-    min-height: $expanded-max-height;
-    max-height: $expanded-max-height;
+  @media only screen and (min-width: 600px) {
+    min-height: 400px;
+    max-height: 400px;
   }
 }
 
@@ -39,10 +35,10 @@ $expanded-max-height: 400px;
   display: block;
   object-fit: contain;
   border-radius: 2px;
-  max-height: $medium-max-height;
+  max-height: 200px;
 
-  @media only screen and (min-width: $medium-min-width) {
-    max-height: $expanded-max-height;
+  @media only screen and (min-width: 600px) {
+    max-height: 400px;
   }
 }
 
@@ -56,10 +52,10 @@ $expanded-max-height: 400px;
 
   scrollbar-width: thin;
 
-  max-height: $medium-max-height;
+  max-height: 200px;
 
-  @media only screen and (min-width: $medium-min-width) {
-    max-height: $expanded-max-height;
+  @media only screen and (min-width: 600px) {
+    max-height: 400px;
     margin-top: 0;
     display: flex;
     overflow-x: hidden;
@@ -70,14 +66,14 @@ $expanded-max-height: 400px;
 
 .PreviewItem:first-child {
   margin-left: auto;
-  @media only screen and (min-width: $medium-min-width) {
+  @media only screen and (min-width: 600px) {
     margin: 0;
   }
 }
 
 .PreviewItem:last-child {
   margin-right: auto;
-  @media only screen and (min-width: $medium-min-width) {
+  @media only screen and (min-width: 600px) {
     margin: 0;
   }
 }

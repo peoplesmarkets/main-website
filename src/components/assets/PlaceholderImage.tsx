@@ -6,6 +6,7 @@ type Props = {
   readonly banner?: boolean;
   readonly small?: boolean;
   readonly large?: boolean;
+  readonly style?: any;
 };
 
 export function PlaceholderImage(props: Props) {
@@ -18,6 +19,7 @@ export function PlaceholderImage(props: Props) {
         [styles.Small]: Boolean(props.small),
         [styles.Large]: Boolean(props.large),
       }}
+      style={props.style}
     >
       <ImageIcon class={styles.PlaceholderIcon} />
     </div>

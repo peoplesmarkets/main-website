@@ -1,5 +1,8 @@
 .FileField {
   position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   background-color: var(--primary-background-color);
 }
 
@@ -22,7 +25,6 @@
 .Input:focus {
   outline: none;
   border-color: var(--active-content-color);
-  border-width: 2px;
 }
 
 .Input:focus::placeholder {
@@ -69,4 +71,12 @@
 
 .ErrorInfo {
   color: var(--danger-content-color);
+}
+
+.Wide {
+  width: 100%;
+}
+
+.Active {
+  border-color: var(--active-content-color);
 }

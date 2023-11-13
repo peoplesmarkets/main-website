@@ -15,15 +15,12 @@ import { ActionButton } from "../../../components/form";
 import { RefreshIcon } from "../../../components/icons";
 import { Section } from "../../../components/layout";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
-import {
-  requireAuthentication,
-  resourceIsReady,
-  secondsToLocaleDate,
-} from "../../../lib";
+import { resourceIsReady, secondsToLocaleDate } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import { ShopData } from "../ShopData";
 import { buildSubscriptionPath } from "../shop-routing";
 import styles from "./Inventory.module.scss";
+import { requireAuthentication } from "../../../guards/authentication";
 
 export default function Inventory() {
   const location = useLocation();

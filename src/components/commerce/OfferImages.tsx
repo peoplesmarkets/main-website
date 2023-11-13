@@ -110,7 +110,7 @@ export function OfferImages(props: Props) {
 
       <Show when={props.withDelete && showDeleteConfirmation()}>
         <DeleteConfirmation
-          message={trans(TKEYS.image["delete-confirmation-message"])}
+          message={trans(TKEYS.dashboard.shop.image["delete-confirmation-message"])}
           onCancel={handleContinueEditing}
           onConfirmation={handleConfirmDeleteImage}
         />

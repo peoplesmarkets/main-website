@@ -14,7 +14,7 @@ import { createStore } from "solid-js/store";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { isValidHostname, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
-import { ShopData } from "../../routes/shops/ShopData";
+import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
 import {
   AddDomainToShopRequest,
   DomainStatus,
@@ -33,10 +33,12 @@ export function EditShopDomainDialog(props: Props) {
 
   const { shopDomainService } = useServiceClientContext();
 
-  const shopData = useRouteData<typeof ShopData>();
+  const shopData = useRouteData<typeof MyShopData>();
 
-  const [shopDomain] = createResource(shopData?.shopId, async (shopId) =>
-    shopDomainService.getDomainStatus(shopId).then((res) => res.domainStatus)
+  const [shopDomain] = createResource(
+    shopData?.shop()?.shopId,
+    async (shopId) =>
+      shopDomainService.getDomainStatus(shopId).then((res) => res.domainStatus)
   );
 
   const emptyUpdateRequest = AddDomainToShopRequest.create();
@@ -57,7 +59,7 @@ export function EditShopDomainDialog(props: Props) {
 
     if (_.isNil(request.shopId) || _.isEmpty(request.shopId)) {
       setRequest({
-        shopId: shopData.shopId(),
+        shopId: shopData.shop()?.shopId,
         domain: shopDomain()?.domain,
       });
     }
@@ -103,7 +105,7 @@ export function EditShopDomainDialog(props: Props) {
 
   async function handleRemoveDomain() {
     try {
-      const shopId = shopData.shopId();
+      const shopId = shopData.shop()?.shopId;
       const domain = shopDomain()?.domain;
       if (!_.isNil(shopId) && !_.isNil(domain)) {
         await shopDomainService.removeDomain({
@@ -140,14 +142,14 @@ export function EditShopDomainDialog(props: Props) {
   return (
     <>
       <Dialog
-        title={trans(TKEYS.dashboard["shop"]["edit-domain"])}
+        title={trans(TKEYS.dashboard.shop.domain["edit-domain"])}
         onClose={props.onClose}
       >
         <ErrorBoundary fallback={<ContentError />}>
           <Suspense>
             <form class={styles.Form} onSubmit={handleAddDomain}>
               <TextField
-                label={trans(TKEYS["shop"].labels.domain)}
+                label={trans(TKEYS.shop.labels.domain)}
                 required
                 small
                 value={request.domain}

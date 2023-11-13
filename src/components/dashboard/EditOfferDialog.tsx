@@ -179,7 +179,7 @@ export function EditOfferDialog(props: Props) {
 
             <CheckBox
               label={trans(TKEYS.offer.labels["show-on-home-page"])}
-              value={request.isFeatured}
+              value={() => request.isFeatured}
               onValue={handleFeaturedChange}
             />
 

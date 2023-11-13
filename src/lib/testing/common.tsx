@@ -8,6 +8,10 @@ import { AccessTokenProvider } from "../../contexts/AccessTokensContext";
 import { ThemeProvider } from "../../contexts/ThemeContext";
 import { LOCALES } from "../../locales";
 
+import ElementInternalsPolyfill from "element-internals-polyfill";
+
+false && ElementInternalsPolyfill;
+
 export const SEPARATOR =
   "\n--------------------------------------------------------------------------------\n";
 

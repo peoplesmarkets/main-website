@@ -34,3 +34,15 @@
 .SettingRow:hover {
   background: var(--hovered-background);
 }
+
+.Actions {
+  width: 100%;
+  min-height: 8rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.Icon {
+  font-size: 18px;
+}

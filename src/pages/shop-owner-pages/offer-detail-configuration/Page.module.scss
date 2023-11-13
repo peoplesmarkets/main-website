@@ -17,21 +17,17 @@
   font: var(--font-body);
 }
 
-.Details strong {
-  font: var(--font-body);
-}
-
-.Ok {
-  min-height: 36px;
+.Placeholder {
+  width: 100%;
   display: flex;
   justify-content: center;
+}
+
+.Actions {
+  display: flex;
+  justify-content: end;
   align-items: center;
-  padding: 0 2rem;
-  color: var(--green);
-  font: var(--font-body);
-  border: 2px solid var(--green);
-  border-radius: 4px;
-  user-select: none;
+  gap: 1rem;
 }
 
 .EditSection {

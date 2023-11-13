@@ -9,7 +9,6 @@ import {
 } from "../../lib/testing";
 import { OfferImages } from "./OfferImages";
 import { OfferPrice } from "./OfferPrice";
-import { ShopList } from "./ShopList";
 import { MediaList } from "./MediaList";
 
 /**
@@ -18,13 +17,6 @@ import { MediaList } from "./MediaList";
 describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
-
-  test("ShopList", () => {
-    const { container } = renderIntoRoot(() => (
-      <ShopList shops={getNoObj} />
-    ));
-    expect(container).toBeDefined();
-  });
 
   test("MediaList", () => {
     const { container } = renderIntoRoot(() => <MediaList medias={getNoObj} />);

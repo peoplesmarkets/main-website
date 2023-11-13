@@ -1,5 +1,6 @@
 import { Route } from "@solidjs/router";
 import { lazy } from "solid-js";
+
 import {
   DASHBOARD_PATH,
   OFFERS_PATH,
@@ -17,10 +18,12 @@ export default function MainRoutes() {
 
         <Route path={OFFERS_PATH} component={lazy(() => import("./Offers"))} />
 
-        <Route
-          path={DASHBOARD_PATH}
-          component={lazy(() => import("./Dashboard"))}
-        />
+        <Route path={DASHBOARD_PATH}>
+          <Route
+            path=""
+            component={lazy(() => import("./dashboard/Dashboard"))}
+          />
+        </Route>
       </Route>
     </>
   );

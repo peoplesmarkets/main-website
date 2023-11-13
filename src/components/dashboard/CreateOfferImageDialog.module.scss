@@ -1,0 +1,29 @@
+.MainImage {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex: 1;
+  min-height: 200px;
+  max-height: 200px;
+
+  @media only screen and (min-width: 600px) {
+    min-height: 400px;
+    max-height: 400px;
+  }
+}
+
+.ImageContainer {
+  position: relative;
+}
+
+.Image {
+  width: 100%;
+  display: block;
+  object-fit: contain;
+  border-radius: 2px;
+  max-height: 200px;
+
+  @media only screen and (min-width: 600px) {
+    max-height: 400px;
+  }
+}
