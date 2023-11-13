@@ -1,8 +1,5 @@
 import { defineConfig } from "vitest/config";
 import solid from "vite-plugin-solid";
-import ElementInternalsPolyfill from "element-internals-polyfill";
-
-false && ElementInternalsPolyfill;
 
 export default defineConfig({
   test: {
