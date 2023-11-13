@@ -23,11 +23,11 @@ jobs:
       - name: Lint
         run: npm run lint
 
-      - name: Test
-        run: npm run test
-
       - name: Build
         run: cp .env.prod .env && npm run build
+
+      - name: Test
+        run: npm run test
 
       - name: Build Docker image
         run: docker build -t $IMAGE_TAG -f Dockerfile .

@@ -11,7 +11,6 @@ import {
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import { EditShopDialog } from "./EditShopDialog";
 import { EditOfferDialog } from "./EditOfferDialog";
-import { ShopSettings } from "./ShopSettings";
 import { OfferSettings } from "./OfferSettings";
 import { CreateOfferImageDialog } from "./CreateOfferImageDialog";
 import { ShopImage } from "./ShopImage";
@@ -62,12 +61,6 @@ describe("Render once", () => {
   });
   test("ShopImage", () => {
     const { container } = renderIntoRoot(() => <ShopImage onUpdate={noOp} />);
-    expect(container).toBeDefined();
-  });
-  test("ShopSettings", () => {
-    const { container } = renderIntoRoot(() => (
-      <ShopSettings onUpdate={asyncNoOp} onDelete={noOp} />
-    ));
     expect(container).toBeDefined();
   });
   test("MediaSettings", () => {

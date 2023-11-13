@@ -25,7 +25,7 @@ import { Dialog } from "../layout/Dialog";
 import styles from "./CreateEditDialg.module.scss";
 
 type Props = {
-  shopId: string;
+  shopId: string | undefined;
   onClose: () => void;
   onUpdate?: () => void;
 };
@@ -51,7 +51,7 @@ export function CreateOfferDialog(props: Props) {
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(offer.shopId) || _.isEmpty(offer.shopId)) {
+    if (_.isEmpty(offer.shopId) && !_.isNil(props.shopId)) {
       setOffer("shopId", props.shopId);
     }
   });
