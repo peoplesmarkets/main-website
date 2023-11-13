@@ -10,7 +10,6 @@ env:
   IMAGE_TAG: ghcr.io/${{ github.repository }}:${{ github.sha }}
 jobs:
   build:
-    environment: development
     runs-on: self-hosted
     steps:
       - uses: actions/checkout@v3
