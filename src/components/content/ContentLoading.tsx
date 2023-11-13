@@ -16,7 +16,7 @@ export function ContentLoading(props: Props) {
         [styles.Page]: Boolean(local.page),
       }}
     >
-      <MdLoading {...others} />
+      <MdLoading size={others.size} />
     </div>
   );
 }
