@@ -1,5 +1,6 @@
 import {
   CreateShopRequest,
+  GetMyShopRequest,
   GrpcWebImpl,
   ListShopsRequest,
   ShopServiceClientImpl,
@@ -35,6 +36,10 @@ export class ShopService extends ServiceClient {
 
   public async getByDomain(domain: string) {
     return this.client.GetShopByDomain({ domain }, await this.withAuthHeader());
+  }
+
+  public async getMyShop(request: GetMyShopRequest) {
+    return this.client.GetMyShop(request, await this.withAuthHeader());
   }
 
   public async list(request: ListShopsRequest) {

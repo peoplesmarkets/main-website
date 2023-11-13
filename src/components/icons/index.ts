@@ -1,3 +1,4 @@
+export * from "./AddIcon";
 export * from "./BurgerArrowIcon";
 export * from "./BurgerIcon";
 export * from "./Chevron";
@@ -9,6 +10,7 @@ export * from "./FeedbackIcon";
 export * from "./GitHubIcon";
 export * from "./ImageIcon";
 export * from "./LanguageIcon";
+export * from "./LinkIcon";
 export * from "./MainLogoIcon";
 export * from "./OpenInNewIcon";
 export * from "./RefreshIcon";

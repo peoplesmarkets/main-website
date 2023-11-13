@@ -1,6 +1,5 @@
 import _ from "lodash";
 
-import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { buildSignInCallbackUrl } from "../routes/user/UserRoutes";
 import { ShopDomainService } from "../services";
 import { getDomainFromWindow, isCustomDomain } from "./env";
@@ -142,18 +141,4 @@ export async function endSession(redirectTo?: string, clientId?: string) {
   }
 
   window.location.href = requestUri.toString();
-}
-
-export async function requireAuthentication(redirectTo: string) {
-  const { ensureFreshTokens, isAuthenticated } = useAccessTokensContext();
-
-  await ensureFreshTokens();
-
-  if (!isAuthenticated()) {
-    const signInUrl = await buildAuthorizationRequest(
-      "select_account",
-      redirectTo
-    );
-    window.location.href = signInUrl.toString();
-  }
 }

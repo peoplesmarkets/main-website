@@ -9,7 +9,9 @@ import {
 
 export const ROOT_PATH = "/shops";
 export const SHOP_PATH = "/:shopSlug";
-export const SETTINGS_PATH = "/settings";
+export const CONFIGURATION_PATH = "/configuration";
+export const OFFERS_CONFIGURATION_PATH = "/offers";
+export const SETTINGS_CONFIGURATION_PATH = "/settings";
 export const OFFER_PATH = "/offer/:offerId";
 export const INVENTORY_PATH = "/inventory";
 export const SUBSCRIPTION_PATH = "/subscription/:subscriptionId";
@@ -31,8 +33,29 @@ export function buildShopPathOrUrl(
   return buildShopDetailPath(shopSlug);
 }
 
+export function buildShopConfigurationPath(shopSlug: string): string {
+  return buildPath(buildShopDetailPath(shopSlug), CONFIGURATION_PATH);
+}
+
 export function buildShopSettingsPath(shopSlug: string): string {
-  return buildPath(buildShopDetailPath(shopSlug), SETTINGS_PATH);
+  return buildPath(
+    buildShopConfigurationPath(shopSlug),
+    SETTINGS_CONFIGURATION_PATH
+  );
+}
+
+export function buildOffersConfigurationPath(shopSlug: string): string {
+  return buildPath(
+    buildShopConfigurationPath(shopSlug),
+    OFFERS_CONFIGURATION_PATH
+  );
+}
+
+export function buildOfferDetailConfigurationPath(
+  shopSlug: string,
+  offerId: string
+): string {
+  return buildPath(buildShopConfigurationPath(shopSlug), "offer", offerId);
 }
 
 export function buildOfferPath(shopSlug: string, offerId: string): string {

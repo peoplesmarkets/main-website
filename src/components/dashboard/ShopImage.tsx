@@ -5,7 +5,7 @@ import { Show, createResource, createSignal } from "solid-js";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 import { resourceIsReady } from "../../lib";
-import { ShopData } from "../../routes/shops/ShopData";
+import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
 import { EditIcon } from "../icons";
 import { EditShopBannerDialog } from "./EditShopBannerDialog";
@@ -20,10 +20,12 @@ export function ShopImage(props: Props) {
 
   const { shopCustomizationService } = useServiceClientContext();
 
-  const shopData = useRouteData<typeof ShopData>();
+  const shopData = useRouteData<typeof MyShopData>();
 
-  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
-    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
+  const [shopCustomization] = createResource(
+    shopData?.shop()?.shopId,
+    async (shopId) =>
+      shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
   );
 
   const [showEditDialog, setShowEditDialog] = createSignal(false);

@@ -29,7 +29,6 @@ $expanded-min-width: 1080px;
 .Input:focus {
   outline: none;
   border-color: var(--active-content-color);
-  border-width: 2px;
 }
 
 .Input:focus::placeholder {

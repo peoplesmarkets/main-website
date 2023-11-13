@@ -1,15 +1,17 @@
 import { A, useMatch } from "@solidjs/router";
-import { Component, JSX } from "solid-js";
 
+import { MaterialIcon } from "../assets";
 import styles from "./PanelItem.module.scss";
 
 type Props = {
-  Icon: Component<{ class?: string }>;
   path: () => string;
-  children: JSX.Element;
+  icon: string;
+  label: string;
 };
 
 export function PanelItem(props: Props) {
+  const matches = useMatch(() => props.path());
+
   return (
     <A
       href={props.path()}
@@ -18,8 +20,12 @@ export function PanelItem(props: Props) {
         [styles.Active]: Boolean(useMatch(props.path)()),
       }}
     >
-      <props.Icon class={styles.Icon} />
-      {props.children}
+      <MaterialIcon
+        class={styles.Icon}
+        classList={{ [styles.ActiveIcon]: Boolean(matches()) }}
+        icon={props.icon}
+      />
+      <span class={styles.Label}>{props.label}</span>
     </A>
   );
 }

@@ -2,7 +2,7 @@ import _ from "lodash";
 import { For, Show } from "solid-js";
 
 type Props = {
-  readonly text: () => string | undefined;
+  readonly text: string | undefined;
   readonly maxRows?: number;
 };
 
@@ -56,11 +56,11 @@ export function trimLines(
 
 export function Multiline(props: Props) {
   function content() {
-    if (_.isNil(props.text()) || _.isEmpty(props.text())) {
+    if (_.isNil(props.text) || _.isEmpty(props.text)) {
       return [];
     }
 
-    let lines = props.text()?.split("\n");
+    let lines = props.text?.split("\n");
     return trimLines(lines, props.maxRows);
   }
 

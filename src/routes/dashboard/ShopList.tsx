@@ -2,11 +2,11 @@ import { A } from "@solidjs/router";
 import _ from "lodash";
 import { For, Show } from "solid-js";
 
-import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
-import { PlaceholderImage } from "../assets/PlaceholderImage";
-import styles from "./ShopList.module.scss";
-import { buildShopSettingsPath } from "../../routes/shops/shop-routing";
+import { PlaceholderImage } from "../../components/assets";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
+import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
+import { buildShopConfigurationPath } from "../shops/shop-routing";
+import styles from "./ShopList.module.scss";
 
 type Props = {
   readonly shops: () => ShopResponse[];
@@ -33,7 +33,7 @@ export function ShopList(props: Props) {
   return (
     <For each={props.shops()}>
       {(shop) => (
-        <A class={styles.Row} href={buildShopSettingsPath(shop.slug)}>
+        <A class={styles.Row} href={buildShopConfigurationPath(shop.slug)}>
           <Show when={!_.isEmpty(bannerImageUrl(shop))}>
             <img class={styles.Image} src={bannerImageUrl(shop)} alt="" />
           </Show>

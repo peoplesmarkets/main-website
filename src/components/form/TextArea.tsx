@@ -11,6 +11,7 @@ type Props = {
   readonly required?: boolean;
   readonly value?: string;
   readonly onValue: (_value: string) => void;
+  readonly noLabel?: boolean;
 };
 
 export function TextArea(props: Props) {
@@ -31,13 +32,15 @@ export function TextArea(props: Props) {
           props.onValue(event.currentTarget.value);
         }}
       />
-      <label
-        class={styles.Label}
-        classList={{ [styles.LabelEdited]: !_.isEmpty(props.value) }}
-        for={slugify(props.label)}
-      >
-        {props.label}
-      </label>
+      <Show when={!props.noLabel}>
+        <label
+          class={styles.Label}
+          classList={{ [styles.LabelEdited]: !_.isEmpty(props.value) }}
+          for={slugify(props.label)}
+        >
+          {props.label}
+        </label>
+      </Show>
       <Show when={!_.isEmpty(props.errors)}>
         <span class={styles.ErrorInfo}>{props.errors}</span>
       </Show>

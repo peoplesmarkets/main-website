@@ -10,7 +10,7 @@ export default function Settings() {
     <MainRoutesWrapper>
       <Slot name="content">
         <span class={styles.Headline}>
-          <Trans key={TKEYS["user-settings-page"].title} />
+          <Trans key={TKEYS.user.settings.title} />
         </span>
       </Slot>
     </MainRoutesWrapper>

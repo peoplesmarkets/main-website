@@ -12,27 +12,19 @@ import {
 } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import {
-  LanguageIcon,
-  SettingsIcon,
-  SignInIcon,
-  SignOutIcon,
-  StoreFrontIcon,
-  ThemeIcon,
-} from "../../components/icons";
-import { InventoryIcon } from "../../components/icons/InventoryIcon";
-import { Border, Cover, Page, Slot } from "../../components/layout";
+import { ContentError } from "../../components/content";
+import { Cover, Page, Slot } from "../../components/layout";
 import {
   Panel,
   PanelItem,
   PanelSettingsItem,
 } from "../../components/navigation";
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
+import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { Theme, useThemeContext } from "../../contexts/ThemeContext";
 import {
   buildAuthorizationRequest,
   isCssColor,
-  resourceIsReady,
   setDocumentLanguage,
   setDocumentTitle,
   setFaviconHref,
@@ -44,16 +36,16 @@ import { ShopFooter } from "./ShopFooter";
 import styles from "./ShopRoutesWrapper.module.scss";
 import {
   buildInventoryPath,
+  buildOffersConfigurationPath,
+  buildShopConfigurationPath,
   buildShopDetailPath,
   buildShopPathOrUrl,
   buildShopSettingsPath,
 } from "./shop-routing";
-import { useServiceClientContext } from "../../contexts/ServiceClientContext";
-import { ContentError } from "../../components/content";
 
 export default function ShopRoutesWrapper() {
   const location = useLocation();
-  const [, { changeLanguage, getI18next }] = useTransContext();
+  const [trans, { changeLanguage, getI18next }] = useTransContext();
   const { theme, setTheme } = useThemeContext();
   const { isAuthenticated, currentSession, endSession } =
     useAccessTokensContext();
@@ -182,16 +174,47 @@ export default function ShopRoutesWrapper() {
     }
   });
 
-  function shopDetailPath() {
-    if (!resourceIsReady(shopData.shop)) {
-      return "";
-    }
+  function isOwnedShop() {
+    return shopData.shop()?.userId === currentSession().userId;
+  }
 
+  function shopCustomizationPath() {
+    const shopSlug = shopData.shop()?.slug;
+    if (!_.isNil(shopSlug)) {
+      return buildShopConfigurationPath(shopSlug);
+    }
+    return "";
+  }
+
+  function offersConfigurationPath() {
+    const shopSlug = shopData.shop()?.slug;
+    if (!_.isNil(shopSlug)) {
+      return buildOffersConfigurationPath(shopSlug);
+    }
+    return "";
+  }
+
+  function shopSettingsPath() {
+    const shopSlug = shopData.shop()?.slug;
+    if (!_.isNil(shopSlug)) {
+      return buildShopSettingsPath(shopSlug);
+    }
+    return "";
+  }
+
+  function shopDetailPath() {
     const shopSlug = shopData.shop()?.slug;
     if (!_.isNil(shopSlug)) {
       return buildShopDetailPath(shopSlug);
     }
+    return "";
+  }
 
+  function inventoryPath() {
+    const shopSlug = shopData.shop()?.slug;
+    if (!_.isNil(shopSlug)) {
+      return buildInventoryPath(shopSlug);
+    }
     return "";
   }
 
@@ -265,7 +288,10 @@ export default function ShopRoutesWrapper() {
               <Show
                 when={!_.isEmpty(logoImageUrl())}
                 fallback={
-                  <A class={styles.MainLink} href={shopDetailPath()}>
+                  <A
+                    class={styles.MainLink}
+                    href={buildShopDetailPath(shopData.shop()?.slug!)}
+                  >
                     {shopData.shop()?.name}
                   </A>
                 }
@@ -277,34 +303,39 @@ export default function ShopRoutesWrapper() {
             </Slot>
 
             <Slot name="items">
-              <PanelItem Icon={StoreFrontIcon} path={shopDetailPath}>
-                <Trans key={TKEYS["main-navigation"].links.home} />
-              </PanelItem>
+              <Show when={isOwnedShop()}>
+                <PanelItem
+                  icon="storefront"
+                  path={shopCustomizationPath}
+                  label={trans(TKEYS["main-navigation"].links["My-Shop"])}
+                />
 
-              <Border narrow />
+                <PanelItem
+                  icon="view_list"
+                  path={offersConfigurationPath}
+                  label={trans(TKEYS["main-navigation"].links["My-Offers"])}
+                />
 
-              <Show
-                when={isAuthenticated() && !_.isEmpty(shopData.shop()?.slug)}
-              >
-                <Show
-                  when={currentSession().userId === shopData.shop()?.userId}
-                >
+                <PanelItem
+                  icon="settings"
+                  path={shopSettingsPath}
+                  label={trans(TKEYS.shop.settings.title)}
+                />
+              </Show>
+
+              <Show when={!isOwnedShop()}>
+                <PanelItem
+                  icon="storefront"
+                  path={shopDetailPath}
+                  label={trans(TKEYS["main-navigation"].links.home)}
+                />
+
+                <Show when={isAuthenticated()}>
                   <PanelItem
-                    Icon={SettingsIcon}
-                    path={() => buildShopSettingsPath(shopData.shop()!.slug)}
-                  >
-                    <Trans key={TKEYS["shop"].settings.title} />
-                  </PanelItem>
-                </Show>
-                <Show
-                  when={currentSession().userId !== shopData.shop()?.userId}
-                >
-                  <PanelItem
-                    Icon={InventoryIcon}
-                    path={() => buildInventoryPath(shopData.shop()!.slug)}
-                  >
-                    <Trans key={TKEYS.media.Inventory} />
-                  </PanelItem>
+                    icon="inventory_2"
+                    path={inventoryPath}
+                    label={trans(TKEYS.media.Inventory)}
+                  />
                 </Show>
               </Show>
             </Slot>
@@ -313,30 +344,32 @@ export default function ShopRoutesWrapper() {
 
         <Slot name="settings">
           <Show when={!isAuthenticated()}>
-            <PanelSettingsItem Icon={SignInIcon} onClick={handleSignIn}>
+            <PanelSettingsItem icon="login" onClick={handleSignIn}>
               <Trans key={TKEYS["main-navigation"].actions["sign-in"]} />
             </PanelSettingsItem>
           </Show>
 
-          <PanelSettingsItem Icon={LanguageIcon} onClick={handleSwichtLanguage}>
+          <PanelSettingsItem icon="language" onClick={handleSwichtLanguage}>
             <Trans key={TKEYS["main-navigation"].settings["change-language"]} />
           </PanelSettingsItem>
 
-          <PanelSettingsItem Icon={ThemeIcon} onClick={handleSwitchTheme}>
-            <Show when={theme() === Theme.DefaultDark}>
+          <Show when={theme() === Theme.DefaultDark}>
+            <PanelSettingsItem icon="light_mode" onClick={handleSwitchTheme}>
               <Trans
                 key={TKEYS["main-navigation"].settings["switch-to-light-mode"]}
               />
-            </Show>
-            <Show when={theme() !== Theme.DefaultDark}>
+            </PanelSettingsItem>
+          </Show>
+          <Show when={theme() !== Theme.DefaultDark}>
+            <PanelSettingsItem icon="dark_mode" onClick={handleSwitchTheme}>
               <Trans
                 key={TKEYS["main-navigation"].settings["switch-to-dark-mode"]}
               />
-            </Show>
-          </PanelSettingsItem>
+            </PanelSettingsItem>
+          </Show>
 
           <Show when={isAuthenticated()}>
-            <PanelSettingsItem Icon={SignOutIcon} onClick={handleLogout}>
+            <PanelSettingsItem icon="logout" onClick={handleLogout}>
               <Trans key={TKEYS["main-navigation"].actions["sign-out"]} />
             </PanelSettingsItem>
           </Show>

@@ -16,12 +16,13 @@ export type ActionType =
 type Props = {
   actionType: ActionType;
   children: JSX.Element;
-  onClick: (_event?: any) => void;
+  onClick?: (_event?: any) => void;
   submit?: boolean;
   disabled?: boolean;
   small?: boolean;
   tall?: boolean;
   wide?: boolean;
+  round?: boolean;
 };
 
 export function ActionButton(props: Props) {
@@ -42,10 +43,11 @@ export function ActionButton(props: Props) {
         [styles.Small]: Boolean(props.small),
         [styles.Tall]: Boolean(props.tall),
         [styles.Wide]: Boolean(props.wide),
+        [styles.Round]: Boolean(props.round),
       }}
       disabled={Boolean(props.disabled)}
       type={props.submit ? "submit" : "button"}
-      onClick={(e) => props.onClick(e)}
+      onClick={(e) => props.onClick?.(e)}
     >
       {props.children}
     </button>

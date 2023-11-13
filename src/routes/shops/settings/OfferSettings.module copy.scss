@@ -1,0 +1,57 @@
+.Title {
+  display: block;
+  font: var(--font-title);
+}
+
+.Label {
+  display: block;
+  font: var(--font-label);
+}
+
+.Body {
+  font: var(--font-body);
+}
+
+.Details {
+  display: block;
+  font: var(--font-body);
+}
+
+.Placeholder {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.Actions {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 1rem;
+}
+
+.EditSection {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 2rem;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border-radius: 4px;
+}
+
+.EditSection:hover {
+  background: var(--hovered-background);
+}
+
+.Active {
+  font: var(--font-body);
+  font-weight: 500;
+  color: var(--active-content-color);
+}
+
+.Warning {
+  font: var(--font-body);
+  font-weight: 500;
+  color: var(--warning-content-color);
+}

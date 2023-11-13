@@ -3,6 +3,7 @@ import _ from "lodash";
 import {
   AddImageToOfferRequest,
   CreateOfferRequest,
+  GetMyOfferRequest,
   GrpcWebImpl,
   ListOffersRequest,
   OfferServiceClientImpl,
@@ -39,6 +40,10 @@ export class OfferService extends ServiceClient {
 
   public async get(offerId: string) {
     return this.client.GetOffer({ offerId }, await this.withAuthHeader());
+  }
+
+  public async getMy(request: GetMyOfferRequest) {
+    return this.client.GetMyOffer(request, await this.withAuthHeader());
   }
 
   public async list(request: ListOffersRequest) {

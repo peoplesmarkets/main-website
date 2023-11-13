@@ -15,7 +15,7 @@ import {
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { buildBaseUrl, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
-import { ShopData } from "../../routes/shops/ShopData";
+import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
 import { ContentError, ContentLoading } from "../content";
 import { ActionButton } from "../form";
 import { ConfirmationDialog } from "../form/ConfirmationDialog";
@@ -58,13 +58,13 @@ export function ShopSettings(props: Props) {
 
   const { shopService, stripeService } = useServiceClientContext();
 
-  const shopData = useRouteData<typeof ShopData>();
+  const shopData = useRouteData<typeof MyShopData>();
 
   const [showDialog, setShowDialog] = createSignal<DIALOG>("none");
   const [redirecting, setRedirecting] = createSignal(false);
 
   const [stripeAccountDetails] = createResource(
-    shopData?.shopId,
+    shopData?.shop()?.shopId,
     fetchStripeAccountDetails
   );
 
@@ -115,7 +115,7 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleVisibility(isActive: boolean) {
-    const shopId = shopData.shopId();
+    const shopId = shopData.shop()?.shopId;
     if (!_.isNil(shopId) && !_.isEmpty(shopId)) {
       await shopService.update({
         shopId,
@@ -126,7 +126,7 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleConfirmDeletion() {
-    const shopId = shopData.shopId();
+    const shopId = shopData.shop()?.shopId;
     if (_.isNil(shopId)) {
       setShowDialog("message");
       return;
@@ -148,7 +148,7 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleCreateStripeIntegration() {
-    const shopId = shopData.shopId();
+    const shopId = shopData.shop()?.shopId;
     if (_.isNil(shopId)) {
       return;
     }
@@ -164,7 +164,7 @@ export function ShopSettings(props: Props) {
   }
 
   async function handleContinueStripeIntegration() {
-    const shopId = shopData.shopId();
+    const shopId = shopData.shop()?.shopId;
     if (_.isNil(shopId)) {
       return;
     }
@@ -323,7 +323,7 @@ export function ShopSettings(props: Props) {
           >
             <div class={styles.EditSection}>
               <p class={styles.Body}>
-                <Trans key={TKEYS.dashboard.shop["public-visibility"]} />
+                <Trans key={TKEYS.dashboard.shop.visibility.Title} />
               </p>
               <ActionButton
                 actionType="active"
@@ -347,7 +347,7 @@ export function ShopSettings(props: Props) {
           >
             <div class={styles.EditSection}>
               <p class={styles.Body}>
-                <Trans key={TKEYS.dashboard.shop["public-visibility"]} />
+                <Trans key={TKEYS.dashboard.shop.visibility.Title} />
               </p>
               <ActionButton
                 actionType="danger"
@@ -430,9 +430,13 @@ export function ShopSettings(props: Props) {
         <Show when={showDialog() === "make-visible"}>
           <ConfirmationDialog
             actionType="active"
-            title={trans(TKEYS.dashboard.shop["publish-notification-title"])}
+            title={trans(
+              TKEYS.dashboard.shop.visibility["publish-notification-title"]
+            )}
             message={trans(
-              TKEYS.dashboard.shop["publish-notification-message"]
+              TKEYS.dashboard.shop.visibility[
+                "publish-notification-message-left"
+              ]
             )}
             onCancel={handleCloseDialog}
             onOk={() => handleVisibility(true)}
@@ -442,9 +446,11 @@ export function ShopSettings(props: Props) {
         <Show when={showDialog() === "make-not-visible"}>
           <ConfirmationDialog
             actionType="danger"
-            title={trans(TKEYS.dashboard.shop["unpublish-notification-title"])}
+            title={trans(
+              TKEYS.dashboard.shop.visibility["unpublish-notification-title"]
+            )}
             message={trans(
-              TKEYS.dashboard.shop["unpublish-notification-message"]
+              TKEYS.dashboard.shop.visibility["unpublish-notification-message"]
             )}
             onCancel={handleCloseDialog}
             onOk={() => handleVisibility(false)}

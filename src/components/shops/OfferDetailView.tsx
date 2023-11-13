@@ -51,7 +51,7 @@ export function OfferDetailView(props: Props) {
           </span>
 
           <span class={styles.Description}>
-            <Multiline text={() => props.offer()?.description} />
+            <Multiline text={props.offer()?.description} />
           </span>
         </Show>
       </Section>

@@ -8,7 +8,6 @@ import {
   noOp,
   renderIntoRoot,
 } from "../../lib/testing";
-import { CreateShopDialog } from "./CreateShopDialog";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import { EditShopDialog } from "./EditShopDialog";
 import { EditOfferDialog } from "./EditOfferDialog";
@@ -26,12 +25,6 @@ describe("Render once", () => {
   beforeEach(createDOM);
   afterEach(cleanupDOM);
 
-  test("CreateShopDialog", () => {
-    const { container } = renderIntoRoot(() => (
-      <CreateShopDialog onClose={noOp} />
-    ));
-    expect(container).toBeDefined();
-  });
   test("CreateOfferDialog", () => {
     const { container } = renderIntoRoot(() => (
       <CreateOfferDialog shopId="" onClose={noOp} />

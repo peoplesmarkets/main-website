@@ -8,7 +8,7 @@ import { useRouteData } from "@solidjs/router";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { readAsUint8Array } from "../../lib";
 import { TKEYS } from "../../locales";
-import { ShopData } from "../../routes/shops/ShopData";
+import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
 import {
   MediaResponse,
   Part,
@@ -36,7 +36,7 @@ export function CreateMediaDialog(props: Props) {
 
   const { mediaService } = useServiceClientContext();
 
-  const shopData = useRouteData<typeof ShopData>();
+  const shopData = useRouteData<typeof MyShopData>();
 
   const [form, setForm] = createStore({
     name: "",
@@ -104,8 +104,14 @@ export function CreateMediaDialog(props: Props) {
       throw new Error();
     }
 
+    const shopId = shopData.shop()?.shopId;
+
+    if (_.isNil(shopId)) {
+      throw new Error("No shopId");
+    }
+
     const response = await mediaService.create({
-      shopId: shopData.shopId()!,
+      shopId,
       name: form.name || form.file.name,
       file: {
         contentType: form.file.type,
@@ -122,8 +128,14 @@ export function CreateMediaDialog(props: Props) {
       throw new Error();
     }
 
+    const shopId = shopData.shop()?.shopId;
+
+    if (_.isNil(shopId)) {
+      throw new Error("No shopId");
+    }
+
     const response = await mediaService.create({
-      shopId: shopData.shopId()!,
+      shopId,
       name: form.name || form.file.name,
     });
 
