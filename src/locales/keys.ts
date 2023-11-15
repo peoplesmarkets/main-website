@@ -14,6 +14,7 @@ export const TKEYS = {
   "Peoples-Markets": "Peoples-Markets",
   peoplesmarkets_com: "peoplesmarkets_com",
   peoplesmarkets_main_link: "peoplesmarkets_main_link",
+  "powered-by-peoplesmarkets": "powered-by-peoplesmarkets",
   fetching: {
     "content-loading": "fetching.content-loading",
     "content-error": "fetching.content-error",
@@ -215,6 +216,7 @@ export const TKEYS = {
     "contact-shop": "offer.contact-shop",
     "other-offers": "offer.other-offers",
     "downloadable-content": "offer.downloadable-content",
+    "downloadable-content-info": "offer.downloadable-content-info",
     visibility: {
       title: "offer.visibility.title",
       visible: "offer.visibility.visible",

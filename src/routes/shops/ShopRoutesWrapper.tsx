@@ -26,6 +26,7 @@ import {
   buildAuthorizationRequest,
   isCssColor,
   setDocumentLanguage,
+  setDocumentMetaDescription,
   setDocumentTitle,
   setFaviconHref,
 } from "../../lib";
@@ -42,6 +43,7 @@ import {
   buildShopPathOrUrl,
   buildShopSettingsPath,
 } from "./shop-routing";
+import { EN } from "../../locales/en";
 
 export default function ShopRoutesWrapper() {
   const location = useLocation();
@@ -105,8 +107,10 @@ export default function ShopRoutesWrapper() {
     if (_.isNil(name) || _.isEmpty(name)) {
       return;
     }
-
     setDocumentTitle(name);
+
+    const description = shopData.shop()?.description || name;
+    setDocumentMetaDescription(description + EN["powered-by-peoplesmarkets"]);
   });
 
   createEffect(() => {
