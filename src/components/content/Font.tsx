@@ -13,6 +13,7 @@ type Props = {
   readonly strong?: boolean | undefined;
   readonly active?: boolean | undefined;
   readonly warn?: boolean | undefined;
+  readonly danger?: boolean | undefined;
   readonly children?: JSX.Element | undefined;
 };
 
@@ -31,6 +32,7 @@ export function Font(props: Props) {
         [styles.Strong]: Boolean(props.strong),
         [styles.Active]: Boolean(props.active),
         [styles.Warn]: Boolean(props.warn),
+        [styles.Danger]: Boolean(props.danger),
       }}
     >
       <Show

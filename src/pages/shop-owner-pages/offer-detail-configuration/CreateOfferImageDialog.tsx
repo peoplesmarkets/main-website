@@ -32,11 +32,13 @@ export function CreateOfferImageDialog(props: Props) {
 
   const { offerService } = useServiceClientContext();
 
-  const [form, setForm] = createStore({
+  const emptyForm = {
     image: undefined as File | undefined,
     imageUrl: undefined as string | undefined,
     ordering: undefined as number | undefined,
-  });
+  };
+
+  const [form, setForm] = createStore(_.clone(emptyForm));
 
   const [errors, setErrors] = createStore({
     image: [] as string[],
@@ -47,8 +49,13 @@ export function CreateOfferImageDialog(props: Props) {
     createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(form?.ordering)) {
-      setForm("ordering", props.lastOrdering + 1);
+    if (props.show) {
+      setForm({
+        image: undefined,
+        imageUrl: undefined,
+        ordering: props.lastOrdering + 1,
+      });
+      resetErrors();
     }
   });
 
@@ -106,10 +113,18 @@ export function CreateOfferImageDialog(props: Props) {
     resetErrors();
     const file = _.first(files);
     if (!_.isNil(file)) {
-      const file = _.first(files)!;
-      const resized = await resizeImage(URL.createObjectURL(file), 800, 800);
-      setForm("image", resized);
-      setForm("imageUrl", URL.createObjectURL(resized));
+      try {
+        const file = _.first(files)!;
+        const resized = await resizeImage(URL.createObjectURL(file), 800, 800);
+        setForm("image", resized);
+        setForm("imageUrl", URL.createObjectURL(resized));
+      } catch {
+        setErrors("image", [
+          trans(TKEYS.form.errors["wrong-type"], {
+            types: "jpg, png, webp",
+          }),
+        ]);
+      }
     } else {
       setForm("image", undefined);
       setForm("imageUrl", undefined);
@@ -125,15 +140,14 @@ export function CreateOfferImageDialog(props: Props) {
   }
 
   function handleCloseDialog() {
-    if (_.isNil(form.image)) {
-      handleConfirmCloseDialog();
-    } else {
+    if (props.show && !_.isNil(form.image)) {
       setShowDiscardConfirmation(true);
+    } else {
+      handleConfirmCloseDialog();
     }
   }
 
   function handleConfirmCloseDialog() {
-    setForm({ image: undefined, imageUrl: undefined, ordering: undefined });
     setShowDiscardConfirmation(false);
     props.onClose();
   }
@@ -154,7 +168,7 @@ export function CreateOfferImageDialog(props: Props) {
 
         <div slot="content">
           <Form onSubmit={handleAddImage}>
-            <Show when={!uploading()} fallback={<ProgressBar />}>
+            <Show when={props.show && !uploading()} fallback={<ProgressBar />}>
               <FileField
                 label="image"
                 required
@@ -174,7 +188,10 @@ export function CreateOfferImageDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+          <ActionButton
+            actionType="neutral-borderless"
+            onClick={handleCloseDialog}
+          >
             <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 

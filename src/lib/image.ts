@@ -38,6 +38,10 @@ export async function resizeImage(
       }, "image/webp");
     };
 
+    img.onerror = function (err) {
+      reject(err);
+    };
+
     img.src = url;
   });
 }
