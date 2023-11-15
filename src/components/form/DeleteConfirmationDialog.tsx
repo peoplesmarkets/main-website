@@ -40,7 +40,7 @@ export function DeleteConfirmationDialog(props: Props) {
       </div>
 
       <div slot="actions">
-        <ActionButton actionType="neutral" onClick={props.onCancel}>
+        <ActionButton actionType="neutral-borderless" onClick={props.onCancel}>
           <Trans key={TKEYS.form.action.Cancel} />
         </ActionButton>
 

@@ -18,7 +18,7 @@ import { CreateMediaDialog } from "../media-configuration/CreateMediaDialog";
 import styles from "./MediaSettings.module.scss";
 
 type Props = {
-  readonly offer: () => OfferResponse | undefined;
+  readonly offer: OfferResponse | undefined;
 };
 
 export function MediaSettings(props: Props) {
@@ -26,10 +26,7 @@ export function MediaSettings(props: Props) {
 
   const [showCreateMedia, setShowCreateMedia] = createSignal(false);
 
-  const [medias, { refetch }] = createResource(
-    () => props.offer(),
-    fetchMedias
-  );
+  const [medias, { refetch }] = createResource(() => props.offer, fetchMedias);
 
   async function fetchMedias(offer: OfferResponse) {
     const response = await mediaService.list({
@@ -66,7 +63,10 @@ export function MediaSettings(props: Props) {
           <span class={styles.Title}>
             <Trans key={TKEYS.media["Title-plural"]} />:
           </span>
-          <ActionButton actionType="neutral" onClick={handleOpenCreateMedia}>
+          <ActionButton
+            actionType="active-filled"
+            onClick={handleOpenCreateMedia}
+          >
             <Trans key={TKEYS.dashboard.media["create-new-file"]} />
           </ActionButton>
         </div>
@@ -77,7 +77,7 @@ export function MediaSettings(props: Props) {
           </Match>
           <Match when={resourceIsReady(medias)}>
             <MediaList
-              medias={() => medias()}
+              medias={medias()}
               onUpdate={refreshMedias}
               offer={props.offer}
             />
@@ -86,7 +86,7 @@ export function MediaSettings(props: Props) {
       </Section>
 
       <CreateMediaDialog
-        offerId={props.offer()?.offerId}
+        offerId={props.offer?.offerId}
         show={showCreateMedia()}
         onClose={handleCloseCreateMedia}
         onUpdate={refreshMedias}

@@ -49,6 +49,7 @@ export const TKEYS = {
       Edit: "form.action.Edit",
       Delete: "form.action.Delete",
       Cancel: "form.action.Cancel",
+      Close: "form.action.Close",
       Discard: "form.action.Discard",
       Remove: "form.action.Remove",
       Enable: "form.action.Enable",

@@ -168,7 +168,7 @@ export function EditOfferShippingRatesDialog(props: Props) {
                   <PriceField
                     label={trans(TKEYS.price.Price)}
                     required
-                    value={() => request.amount}
+                    value={request.amount}
                     onValue={handleAmountInput}
                     errors={errors.amount}
                   />
@@ -197,8 +197,8 @@ export function EditOfferShippingRatesDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral" onClick={handleCloseDialog}>
-            <Trans key={TKEYS.form.action.Cancel} />
+          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 
           <ActionButton actionType="danger" onClick={handleDeleteShippingRate}>

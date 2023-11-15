@@ -19,6 +19,7 @@ import { MdSelectOption } from "../../../components/form/MdSelectOption";
 import { Border } from "../../../components/layout";
 import { MdDialog } from "../../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { isDifferentOmittingNilWithFilter } from "../../../lib/object-compair";
 import { TKEYS } from "../../../locales";
 import {
   listCurrencyCodes,
@@ -31,6 +32,7 @@ import {
 } from "../../../services/peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
+  Price,
   PriceBillingScheme,
   PriceType,
   Recurring,
@@ -84,26 +86,42 @@ export function EditOfferPriceDialog(props: Props) {
     createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(props.offer)) {
-      return;
-    }
+    if (props.show) {
+      const offer = _.cloneDeep(props.offer);
+      const offerId = offer?.offerId;
 
-    const offer = _.cloneDeep(props.offer);
+      if (!_.isNil(offerId)) {
+        setRequest("offerId", offerId);
+      }
 
-    if (_.isEmpty(request.offerId)) {
-      setRequest("offerId", offer?.offerId);
-    }
-    if (_.isNil(request.price)) {
-      if (!_.isNil(offer?.price)) {
-        setRequest("price", offer?.price);
-        if (!_.isNil(offer?.price?.recurring?.trialPeriodDays)) {
-          setShowTrialPeriodInput(true);
-        }
-      } else {
+      if (_.isNil(offer?.price)) {
         setRequest("price", _.clone(defaultPriceRequest));
+      } else {
+        setRequest("price", offer?.price);
+      }
+
+      if (!_.isNil(offer?.price?.recurring?.trialPeriodDays)) {
+        setShowTrialPeriodInput(true);
       }
     }
   });
+
+  createEffect(() => {
+    if (props.show) {
+      setShowDeleteConfirmation(false);
+      setShowDiscardConfirmation(false);
+    }
+  });
+
+  function dataWasChanged() {
+    const fields = Object.keys(Price.create());
+
+    return isDifferentOmittingNilWithFilter(
+      props.offer?.price,
+      request.price,
+      fields
+    );
+  }
 
   function currencyOptions() {
     return listCurrencyCodes().map((c) => ({
@@ -186,7 +204,6 @@ export function EditOfferPriceDialog(props: Props) {
   }
 
   function handleCurrencyChange(value: any) {
-    console.log(value);
     if (_.isString(value)) {
       setRequest("price", {
         ...request.price,
@@ -196,7 +213,6 @@ export function EditOfferPriceDialog(props: Props) {
   }
 
   function handlePriceTypeChange(value: any) {
-    console.log(value);
     if (_.isString(value)) {
       const priceType = priceTypeFromJSON(value);
       let price = {
@@ -269,10 +285,7 @@ export function EditOfferPriceDialog(props: Props) {
   }
 
   function handleCloseDialog() {
-    if (
-      !_.isEqual(props.offer?.price, request.price) &&
-      !_.isEqual(defaultPriceRequest, request.price)
-    ) {
+    if (props.show && dataWasChanged()) {
       setShowDiscardConfirmation(true);
     } else {
       handleConfirmCloseDialog();
@@ -289,7 +302,7 @@ export function EditOfferPriceDialog(props: Props) {
   }
 
   function handleConfirmCloseDialog() {
-    setRequest({ price: undefined });
+    setShowDeleteConfirmation(false);
     setShowDiscardConfirmation(false);
     props.onClose();
   }
@@ -327,7 +340,7 @@ export function EditOfferPriceDialog(props: Props) {
             <div class={commonStyles.FieldSet}>
               <PriceField
                 label={trans(TKEYS.price.Price)}
-                value={() => request.price?.unitAmount}
+                value={request.price?.unitAmount}
                 onValue={handlePriceInput}
                 errors={errors.unitAmount}
               />
@@ -422,8 +435,8 @@ export function EditOfferPriceDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral" onClick={handleCloseDialog}>
-            <Trans key={TKEYS.form.action.Cancel} />
+          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 
           <Show when={!_.isNil(props.offer?.price)}>

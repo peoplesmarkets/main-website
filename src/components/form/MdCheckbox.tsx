@@ -1,6 +1,6 @@
 import "@material/web/checkbox/checkbox";
 
-import { ComponentProps, JSX as SolidJSX, splitProps } from "solid-js";
+import { ComponentProps, Show, JSX as SolidJSX, splitProps } from "solid-js";
 
 import { Font } from "../content";
 import styles from "./MdCheckbox.module.scss";
@@ -18,7 +18,9 @@ export function MdCheckbox(props: Props) {
     <>
       <label class={other.class || styles.MdCheckBox}>
         <Font type="label" inline>
-          {local.label}
+          <Show when={Boolean(local.label)} fallback={local.children}>
+            {local.label}
+          </Show>
         </Font>
 
         <md-checkbox

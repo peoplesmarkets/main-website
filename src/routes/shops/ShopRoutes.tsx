@@ -42,6 +42,9 @@ const OfferDetailConfigurationPage = lazy(
 const ShopSettingsPage = lazy(
   () => import("../../pages/shop-owner-pages/shop-settings/Page")
 );
+const MediaConfigurationPage = lazy(
+  () => import("../../pages/shop-owner-pages/media-configuration/Page")
+);
 
 const SignInCallbackPage = lazy(() => import("./SignInCallback"));
 
@@ -89,12 +92,7 @@ export function ShopRoutes() {
 
             <Route
               path={MEDIA_CONFIGURATION_PATH}
-              component={lazy(
-                () =>
-                  import(
-                    "../../pages/shop-owner-pages/media-configuration/MediaSettings"
-                  )
-              )}
+              component={MediaConfigurationPage}
             />
           </Route>
         </Route>

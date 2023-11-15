@@ -23,6 +23,7 @@ import {
   OfferResponse,
   UpdateOfferRequest,
 } from "../../../services/peoplesmarkets/commerce/v1/offer";
+import { isDifferentOmittingNilWithFilter } from "../../../lib/object-compair";
 
 type Props = {
   readonly show: boolean;
@@ -31,7 +32,7 @@ type Props = {
   readonly onUpdate?: () => void;
 };
 
-export function EditOfferDialog(props: Props) {
+export function EditOfferDetailsDialog(props: Props) {
   const [trans] = useTransContext();
 
   const { offerService } = useServiceClientContext();
@@ -56,8 +57,10 @@ export function EditOfferDialog(props: Props) {
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(request.offerId) || _.isEmpty(request.offerId)) {
+    if (props.show) {
       setRequest(_.clone(_.pick(props.offer, requestFields)));
+      setDiscardConfirmation(false);
+      resetErrors();
     }
   });
 
@@ -85,7 +88,11 @@ export function EditOfferDialog(props: Props) {
   }
 
   function dataWasChanged() {
-    return !_.isEqual(_.pick(props.offer, requestFields), request);
+    return isDifferentOmittingNilWithFilter(
+      props.offer,
+      request,
+      requestFields
+    );
   }
 
   function handleNameInput(value: string) {
@@ -114,15 +121,15 @@ export function EditOfferDialog(props: Props) {
     event.preventDefault();
 
     if (!dataWasChanged()) {
-      props.onClose();
+      handleConfirmCloseDialog();
       return;
     }
 
     try {
       await offerService.update(request);
 
+      handleConfirmCloseDialog();
       props.onUpdate?.();
-      props.onClose();
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.AlreadyExists) {
         setErrors("name", [trans(TKEYS.form.errors["already-exists"])]);
@@ -133,7 +140,7 @@ export function EditOfferDialog(props: Props) {
   }
 
   function handleCloseDialog() {
-    if (dataWasChanged()) {
+    if (props.show && dataWasChanged()) {
       setDiscardConfirmation(true);
     } else {
       handleConfirmCloseDialog();
@@ -146,7 +153,6 @@ export function EditOfferDialog(props: Props) {
   }
 
   function handleConfirmCloseDialog() {
-    setRequest(_.clone(emptyRequest));
     setDiscardConfirmation(false);
     props.onClose();
   }
@@ -208,8 +214,8 @@ export function EditOfferDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral" onClick={handleCloseDialog}>
-            <Trans key={TKEYS.form.action.Cancel} />
+          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 
           <ActionButton

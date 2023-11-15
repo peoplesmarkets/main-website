@@ -50,7 +50,7 @@ export function UnpublishShopDialog(props: Props) {
       </div>
       <div slot="actions">
         <ActionButton actionType="neutral" onClick={props.onClose}>
-          <Trans key={TKEYS.form.action.Cancel} />
+          <Trans key={TKEYS.form.action.Close} />
         </ActionButton>
         <ActionButton actionType="danger" onClick={handleUnpublishShop}>
           <Trans key={TKEYS.dashboard.shop.visibility["hide-this-shop"]} />

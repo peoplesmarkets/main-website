@@ -10,7 +10,7 @@ type Props = {
   readonly label: string;
   readonly errors: string[];
   readonly required?: boolean;
-  readonly value?: () => number | undefined;
+  readonly value: number | undefined;
   readonly onValue: (_value: number) => void;
   readonly small?: boolean;
 };
@@ -26,15 +26,12 @@ export function PriceField(props: Props) {
   const [value, setValue] = createSignal("");
 
   createEffect(() => {
-    if (!_.isNil(props.value?.())) {
-      const val = props.value!()!;
-      if (!_.isNil(val) && _.isNumber(val)) {
-        let decimal = (val / 100).toString();
-        if (getI18next().language === LANGUAGES.german) {
-          decimal = decimal.replace(EN_DECIMAL_POINT, DE_DECIMAL_POINT);
-        }
-        setValue(decimal);
+    if (!_.isNil(props.value) && _.isFinite(props.value)) {
+      let decimal = (props.value / 100).toString();
+      if (getI18next().language === LANGUAGES.german) {
+        decimal = decimal.replace(EN_DECIMAL_POINT, DE_DECIMAL_POINT);
       }
+      setValue(decimal);
     }
   });
 
@@ -47,10 +44,8 @@ export function PriceField(props: Props) {
     let cleaned = "";
 
     for (const char of value) {
-      if (cleaned === "") {
-        if (char === decimalPoint) {
-          continue;
-        }
+      if (cleaned === "" && char === decimalPoint) {
+        continue;
       }
 
       if (

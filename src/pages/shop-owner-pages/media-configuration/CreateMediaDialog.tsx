@@ -51,7 +51,8 @@ export function CreateMediaDialog(props: Props) {
 
   const [uploading, setUploading] = createSignal(false);
   const [uploadedBytes, setUploadedBytes] = createSignal<number>();
-  const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
+  const [showDiscardConfirmation, setShowDiscardConfirmation] =
+    createSignal(false);
 
   async function handleAddMedia(event: SubmitEvent) {
     event.preventDefault();
@@ -212,24 +213,24 @@ export function CreateMediaDialog(props: Props) {
     if (_.isNil(form.file)) {
       handleConfirmCloseDialog();
     } else {
-      setDiscardConfirmation(true);
+      setShowDiscardConfirmation(true);
     }
   }
 
   function handleConfirmCloseDialog() {
     setForm({ name: undefined, file: undefined });
-    setDiscardConfirmation(false);
+    setShowDiscardConfirmation(false);
     props.onClose();
   }
 
   function handleContinueEditing() {
-    setDiscardConfirmation(false);
+    setShowDiscardConfirmation(false);
   }
 
   return (
     <>
       <MdDialog
-        open={props.show && !discardConfirmation()}
+        open={props.show && !showDiscardConfirmation()}
         onClose={handleCloseDialog}
       >
         <div slot="headline">
@@ -266,8 +267,8 @@ export function CreateMediaDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral" onClick={handleCloseDialog}>
-            <Trans key={TKEYS.form.action.Cancel} />
+          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 
           <ActionButton
@@ -282,7 +283,7 @@ export function CreateMediaDialog(props: Props) {
       </MdDialog>
 
       <DiscardConfirmationDialog
-        show={discardConfirmation()}
+        show={showDiscardConfirmation()}
         onCancel={handleContinueEditing}
         onDiscard={handleConfirmCloseDialog}
       />

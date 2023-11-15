@@ -50,6 +50,7 @@ export const EN: typeof TKEYS = {
       Edit: "Edit",
       Delete: "Delete",
       Cancel: "Cancel",
+      Close: "Close",
       Discard: "Discard",
       Remove: "Remove",
       Enable: "Enable",

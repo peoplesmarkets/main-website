@@ -43,7 +43,8 @@ export function CreateOfferImageDialog(props: Props) {
   });
 
   const [uploading, setUploading] = createSignal(false);
-  const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
+  const [showDiscardConfirmation, setShowDiscardConfirmation] =
+    createSignal(false);
 
   createEffect(() => {
     if (_.isNil(form?.ordering)) {
@@ -127,24 +128,24 @@ export function CreateOfferImageDialog(props: Props) {
     if (_.isNil(form.image)) {
       handleConfirmCloseDialog();
     } else {
-      setDiscardConfirmation(true);
+      setShowDiscardConfirmation(true);
     }
   }
 
   function handleConfirmCloseDialog() {
     setForm({ image: undefined, imageUrl: undefined, ordering: undefined });
-    setDiscardConfirmation(false);
+    setShowDiscardConfirmation(false);
     props.onClose();
   }
 
   function handleContinueEditing() {
-    setDiscardConfirmation(false);
+    setShowDiscardConfirmation(false);
   }
 
   return (
     <>
       <MdDialog
-        open={props.show && !discardConfirmation()}
+        open={props.show && !showDiscardConfirmation()}
         onClose={handleCloseDialog}
       >
         <div slot="headline">
@@ -173,9 +174,10 @@ export function CreateOfferImageDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral" onClick={handleCloseDialog}>
-            <Trans key={TKEYS.form.action.Cancel} />
+          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
+
           <ActionButton
             actionType="active-filled"
             submit
@@ -188,7 +190,7 @@ export function CreateOfferImageDialog(props: Props) {
       </MdDialog>
 
       <DiscardConfirmationDialog
-        show={discardConfirmation()}
+        show={showDiscardConfirmation()}
         onCancel={handleContinueEditing}
         onDiscard={handleConfirmCloseDialog}
       />

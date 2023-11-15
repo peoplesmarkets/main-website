@@ -20,7 +20,7 @@ import { TKEYS } from "../../../locales";
 import { MediaResponse } from "../../../services/peoplesmarkets/media/v1/media";
 
 type Props = {
-  readonly media: () => MediaResponse | undefined;
+  readonly media: MediaResponse | undefined;
   readonly show: boolean;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
@@ -42,18 +42,19 @@ export function EditMediaDialog(props: Props) {
   });
 
   const [uploading, setUploading] = createSignal(false);
-  const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
+  const [showDiscardConfirmation, setShowDiscardConfirmation] =
+    createSignal(false);
 
   createEffect(() => {
-    if (_.isNil(form.name)) {
-      setForm("name", props.media()?.name);
+    if (props.show) {
+      setForm("name", props.media?.name);
     }
   });
 
   async function handleAddMedia(event: SubmitEvent) {
     event.preventDefault();
 
-    const mediaId = props.media()?.mediaId;
+    const mediaId = props.media?.mediaId;
 
     if (_.isNil(mediaId)) {
       return;
@@ -126,27 +127,26 @@ export function EditMediaDialog(props: Props) {
   }
 
   function handleCloseDialog() {
-    if (_.isNil(form.file)) {
-      props.onClose();
+    if (!_.isNil(form.file) || form.name !== props.media?.name) {
+      setShowDiscardConfirmation(true);
     } else {
-      setDiscardConfirmation(true);
+      props.onClose();
     }
   }
 
   function handleConfirmCloseDialog() {
-    setForm({ name: undefined, file: undefined });
-    setDiscardConfirmation(false);
+    setShowDiscardConfirmation(false);
     props.onClose();
   }
 
   function handleContinueEditing() {
-    setDiscardConfirmation(false);
+    setShowDiscardConfirmation(false);
   }
 
   return (
     <>
       <MdDialog
-        open={props.show && !discardConfirmation()}
+        open={props.show && !showDiscardConfirmation()}
         onClose={handleCloseDialog}
       >
         <div slot="headline">
@@ -175,8 +175,8 @@ export function EditMediaDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral" onClick={handleCloseDialog}>
-            <Trans key={TKEYS.form.action.Cancel} />
+          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 
           <ActionButton
@@ -191,7 +191,7 @@ export function EditMediaDialog(props: Props) {
       </MdDialog>
 
       <DiscardConfirmationDialog
-        show={discardConfirmation()}
+        show={showDiscardConfirmation()}
         onCancel={handleContinueEditing}
         onDiscard={handleConfirmCloseDialog}
       />

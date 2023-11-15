@@ -14,9 +14,9 @@ import styles from "./MediaList.module.scss";
 import { EditMediaDialog } from "./media-configuration/EditMediaDialog";
 
 type Props = {
-  medias: () => MediaResponse[] | undefined;
+  medias: MediaResponse[] | undefined;
   onUpdate: () => void;
-  offer?: () => OfferResponse | undefined;
+  offer?: OfferResponse | undefined;
 };
 
 export function MediaList(props: Props) {
@@ -53,7 +53,7 @@ export function MediaList(props: Props) {
     if (!_.isNil(mediaId) && !_.isEmpty(mediaId)) {
       try {
         setShowDeleteConfirmation(false);
-        const offer = props.offer?.();
+        const offer = props.offer;
         if (!_.isNil(offer)) {
           await mediaService.removeMediaFromOffer({
             mediaId,
@@ -78,7 +78,7 @@ export function MediaList(props: Props) {
   return (
     <>
       <div class={styles.MediaList}>
-        <For each={props.medias()}>
+        <For each={props.medias}>
           {(media) => (
             <div class={styles.Row}>
               <span class={styles.Label}>{media.name}</span>
@@ -100,6 +100,7 @@ export function MediaList(props: Props) {
                 >
                   <Trans key={TKEYS.form.action.Edit} />
                 </ActionButton>
+
                 <ActionButton
                   actionType="danger"
                   small
@@ -115,7 +116,7 @@ export function MediaList(props: Props) {
 
       <EditMediaDialog
         show={showEditMedia()}
-        media={() => mediaToEdit()!}
+        media={mediaToEdit()}
         onClose={handleCancelEdit}
         onUpdate={props.onUpdate}
       />

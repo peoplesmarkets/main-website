@@ -49,6 +49,7 @@ export const DE: typeof TKEYS = {
       Edit: "Bearbeiten",
       Delete: "Löschen",
       Cancel: "Abbrechen",
+      Close: "Schließen",
       Discard: "Verwerfen",
       Subscribe: "Abonnieren",
       Remove: "Löschen",
