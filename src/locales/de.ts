@@ -1,16 +1,13 @@
-import {
-  OfferType,
-  offerTypeToJSON,
-} from "../services/peoplesmarkets/commerce/v1/offer";
+import { OfferType } from "../services/peoplesmarkets/commerce/v1/offer";
 import {
   PriceType,
   RecurringInterval,
   priceTypeToJSON,
   recurringIntervalToJSON,
 } from "../services/peoplesmarkets/commerce/v1/price";
-import { TKEYS } from "./keys";
-import { EN } from "./en";
 import { ReportType } from "../services/peoplesmarkets/report/v1/report";
+import { EN } from "./en";
+import { TKEYS } from "./keys";
 
 export const DE: typeof TKEYS = {
   lang: "de",
@@ -52,6 +49,7 @@ export const DE: typeof TKEYS = {
       Edit: "Bearbeiten",
       Delete: "Löschen",
       Cancel: "Abbrechen",
+      Close: "Schließen",
       Discard: "Verwerfen",
       Subscribe: "Abonnieren",
       Remove: "Löschen",
@@ -216,9 +214,9 @@ export const DE: typeof TKEYS = {
       "show-on-home-page": "Dieses Angebot auf der Hauptseite anzeigen",
     },
     types: {
-      [offerTypeToJSON(OfferType.OFFER_TYPE_PHYSICAL)]: `Gegenstand`,
-      [offerTypeToJSON(OfferType.OFFER_TYPE_DIGITAL)]: `Digital`,
-      [offerTypeToJSON(OfferType.OFFER_TYPE_SERVICE)]: `Dienstleistung`,
+      [OfferType.OFFER_TYPE_PHYSICAL]: `Gegenstand`,
+      [OfferType.OFFER_TYPE_DIGITAL]: `Digital`,
+      [OfferType.OFFER_TYPE_SERVICE]: `Dienstleistung`,
     },
   },
   media: {

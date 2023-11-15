@@ -5,7 +5,7 @@ import { createSignal } from "solid-js";
 
 import { Font } from "../../components/content";
 import { ActionButton } from "../../components/form";
-import { CheckBox } from "../../components/form/CheckBox";
+import { MdCheckbox } from "../../components/form/MdCheckbox";
 import { OpenInNewIcon } from "../../components/icons";
 import { MdDialog } from "../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
@@ -91,10 +91,12 @@ export function PublishShopDialog(props: Props) {
             </div>
 
             <div class={commonStyles.FieldRow}>
-              <Font type="label">
-                <Trans key={TKEYS["terms-of-service"]["accept-tos"]} />
-              </Font>
-              <CheckBox value={acceptTos} onValue={handleAcceptTos} />
+              <MdCheckbox checked={acceptTos()} onValue={handleAcceptTos}>
+                <Font
+                  type="label"
+                  key={TKEYS["terms-of-service"]["accept-tos"]}
+                />
+              </MdCheckbox>
             </div>
           </div>
         </div>
@@ -102,7 +104,7 @@ export function PublishShopDialog(props: Props) {
 
       <div slot="actions">
         <ActionButton actionType="neutral" onClick={handleClose}>
-          <Trans key={TKEYS.form.action.Cancel} />
+          <Trans key={TKEYS.form.action.Close} />
         </ActionButton>
 
         <ActionButton

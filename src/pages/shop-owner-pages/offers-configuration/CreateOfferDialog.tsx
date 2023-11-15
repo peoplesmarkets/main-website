@@ -115,7 +115,7 @@ export function CreateOfferDialog(props: Props) {
 
         <div slot="actions">
           <MdButton onClick={handleClose} type="outlined">
-            <Trans key={TKEYS.form.action.Cancel} />
+            <Trans key={TKEYS.form.action.Close} />
           </MdButton>
 
           <MdButton submit onClick={handleCreateOffer}>

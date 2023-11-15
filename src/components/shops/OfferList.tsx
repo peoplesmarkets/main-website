@@ -4,7 +4,7 @@ import { For, Show } from "solid-js";
 
 import { buildOfferPath } from "../../routes/shops/shop-routing";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
-import { OfferPrice } from "../commerce/OfferPrice";
+import { OfferPrice } from "../../pages/OfferPrice";
 import styles from "./OfferList.module.scss";
 
 type Props = {

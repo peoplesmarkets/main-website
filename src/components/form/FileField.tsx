@@ -5,9 +5,9 @@ import { slugify } from "../../lib";
 
 type Props = {
   readonly label: string;
-  readonly errors: string[];
   readonly required?: boolean;
   readonly onValue: (_value: FileList | null) => void;
+  readonly errors: string[];
   readonly image?: boolean | undefined;
   readonly showLabel?: boolean;
   readonly wide?: boolean | undefined;

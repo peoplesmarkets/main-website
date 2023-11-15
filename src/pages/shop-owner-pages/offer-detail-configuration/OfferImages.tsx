@@ -1,15 +1,15 @@
 import _ from "lodash";
 import { For, Show, createEffect, createSignal } from "solid-js";
 
-import { useTransContext } from "@mbarzda/solid-i18next";
-import { useServiceClientContext } from "../../contexts/ServiceClientContext";
-import { TKEYS } from "../../locales";
+import { Font } from "../../../components/content";
+import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirmationDialog";
+import { TrashIcon } from "../../../components/icons";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { TKEYS } from "../../../locales";
 import {
   OfferImageResponse,
   OfferResponse,
-} from "../../services/peoplesmarkets/commerce/v1/offer";
-import { DeleteConfirmation } from "../form";
-import { TrashIcon } from "../icons";
+} from "../../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferImages.module.scss";
 
 type Props = {
@@ -19,8 +19,6 @@ type Props = {
 };
 
 export function OfferImages(props: Props) {
-  const [trans] = useTransContext();
-
   const { offerService } = useServiceClientContext();
 
   const [selectedImage, setSelectedImage] = createSignal<
@@ -108,13 +106,16 @@ export function OfferImages(props: Props) {
         </Show>
       </div>
 
-      <Show when={props.withDelete && showDeleteConfirmation()}>
-        <DeleteConfirmation
-          message={trans(TKEYS.dashboard.shop.image["delete-confirmation-message"])}
-          onCancel={handleContinueEditing}
-          onConfirmation={handleConfirmDeleteImage}
+      <DeleteConfirmationDialog
+        show={props.withDelete && showDeleteConfirmation()}
+        onCancel={handleContinueEditing}
+        onConfirmation={handleConfirmDeleteImage}
+      >
+        <Font
+          type="body"
+          key={TKEYS.dashboard.shop.image["delete-confirmation-message"]}
         />
-      </Show>
+      </DeleteConfirmationDialog>
     </>
   );
 }

@@ -238,7 +238,7 @@ export default function ShopSettingsPage() {
     const shopId = shopData.shop()?.shopId;
 
     if (_.isNil(shopId)) {
-      setDeleteShopErrors(trans(TKEYS.fetching["content-error"]));
+      setDeleteShopErrors([trans(TKEYS.fetching["content-error"])]);
       return;
     }
 
@@ -246,7 +246,9 @@ export default function ShopSettingsPage() {
       await shopService.delete(shopId);
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.FailedPrecondition) {
-        setDeleteShopErrors(trans(TKEYS.shop.errors["ensure-offers-deleted"]));
+        setDeleteShopErrors([
+          trans(TKEYS.shop.errors["ensure-offers-deleted"]),
+        ]);
         return;
       }
 

@@ -4,19 +4,24 @@ import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useServiceClientContext } from "../../contexts/ServiceClientContext";
-import { readAsUint8Array } from "../../lib";
-import { resizeImage } from "../../lib/image";
-import { TKEYS } from "../../locales";
-import { getAllowedTypesFromError, getMaxSizeFromError } from "../../services";
-import { ProgressBar } from "../assets/ProgressBar";
-import { ActionButton, DiscardConfirmation, FileField } from "../form";
-import { Dialog } from "../layout";
-import commonStyles from "./CreateEditDialg.module.scss";
+import { ProgressBar } from "../../../components/assets/ProgressBar";
+import { Font } from "../../../components/content";
+import { ActionButton, FileField, Form } from "../../../components/form";
+import { DiscardConfirmationDialog } from "../../../components/form/DiscardConfirmationDialog";
+import { MdDialog } from "../../../components/layout/MdDialog";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { readAsUint8Array } from "../../../lib";
+import { resizeImage } from "../../../lib/image";
+import { TKEYS } from "../../../locales";
+import {
+  getAllowedTypesFromError,
+  getMaxSizeFromError,
+} from "../../../services";
 import styles from "./CreateOfferImageDialog.module.scss";
 
 type Props = {
-  readonly offerId: string;
+  readonly show: boolean;
+  readonly offerId: string | undefined;
   readonly lastOrdering: number;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
@@ -38,7 +43,8 @@ export function CreateOfferImageDialog(props: Props) {
   });
 
   const [uploading, setUploading] = createSignal(false);
-  const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
+  const [showDiscardConfirmation, setShowDiscardConfirmation] =
+    createSignal(false);
 
   createEffect(() => {
     if (_.isNil(form?.ordering)) {
@@ -48,6 +54,10 @@ export function CreateOfferImageDialog(props: Props) {
 
   async function handleAddImage(event: SubmitEvent) {
     event.preventDefault();
+
+    if (_.isNil(props.offerId)) {
+      return;
+    }
 
     if (_.isNil(form.image)) {
       setErrors("image", [trans(TKEYS.form.errors["required-field"])]);
@@ -116,29 +126,34 @@ export function CreateOfferImageDialog(props: Props) {
 
   function handleCloseDialog() {
     if (_.isNil(form.image)) {
-      props.onClose();
+      handleConfirmCloseDialog();
     } else {
-      setDiscardConfirmation(true);
+      setShowDiscardConfirmation(true);
     }
   }
 
   function handleConfirmCloseDialog() {
-    setDiscardConfirmation(false);
+    setForm({ image: undefined, imageUrl: undefined, ordering: undefined });
+    setShowDiscardConfirmation(false);
     props.onClose();
   }
 
   function handleContinueEditing() {
-    setDiscardConfirmation(false);
+    setShowDiscardConfirmation(false);
   }
 
   return (
     <>
-      <Show when={!discardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard.offers["add-image"])}
-          onClose={handleCloseDialog}
-        >
-          <form class={commonStyles.Form} onSubmit={handleAddImage}>
+      <MdDialog
+        open={props.show && !showDiscardConfirmation()}
+        onClose={handleCloseDialog}
+      >
+        <div slot="headline">
+          <Font type="title" key={TKEYS.dashboard.offers["add-image"]} />
+        </div>
+
+        <div slot="content">
+          <Form onSubmit={handleAddImage}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
               <FileField
                 label="image"
@@ -155,27 +170,30 @@ export function CreateOfferImageDialog(props: Props) {
                 </div>
               </Show>
             </Show>
+          </Form>
+        </div>
 
-            <div class={commonStyles.DialogFooter}>
-              <ActionButton
-                actionType="active-filled"
-                submit
-                onClick={handleAddImage}
-                disabled={formHasErrors() || uploading()}
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+        <div slot="actions">
+          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Close} />
+          </ActionButton>
 
-      <Show when={discardConfirmation()}>
-        <DiscardConfirmation
-          onCancel={handleContinueEditing}
-          onDiscard={handleConfirmCloseDialog}
-        />
-      </Show>
+          <ActionButton
+            actionType="active-filled"
+            submit
+            onClick={handleAddImage}
+            disabled={formHasErrors() || uploading()}
+          >
+            <Trans key={TKEYS.form.action.Save} />
+          </ActionButton>
+        </div>
+      </MdDialog>
+
+      <DiscardConfirmationDialog
+        show={showDiscardConfirmation()}
+        onCancel={handleContinueEditing}
+        onDiscard={handleConfirmCloseDialog}
+      />
     </>
   );
 }

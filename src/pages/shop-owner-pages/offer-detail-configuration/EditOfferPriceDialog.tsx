@@ -1,9 +1,25 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { Show, createEffect, createSignal } from "solid-js";
+import { For, Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
+import { Font } from "../../../components/content";
+import {
+  ActionButton,
+  Form,
+  MdTextField,
+  PriceField,
+  SelectKey,
+} from "../../../components/form";
+import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirmationDialog";
+import { DiscardConfirmationDialog } from "../../../components/form/DiscardConfirmationDialog";
+import { MdCheckbox } from "../../../components/form/MdCheckbox";
+import { MdSelect, Option } from "../../../components/form/MdSelect";
+import { MdSelectOption } from "../../../components/form/MdSelectOption";
+import { Border } from "../../../components/layout";
+import { MdDialog } from "../../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { isDifferentOmittingNilWithFilter } from "../../../lib/object-compair";
 import { TKEYS } from "../../../locales";
 import {
   listCurrencyCodes,
@@ -16,6 +32,7 @@ import {
 } from "../../../services/peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
+  Price,
   PriceBillingScheme,
   PriceType,
   Recurring,
@@ -27,21 +44,11 @@ import {
   recurringIntervalFromJSON,
   recurringIntervalToJSON,
 } from "../../../services/peoplesmarkets/commerce/v1/price";
-import {
-  ActionButton,
-  DeleteConfirmation,
-  DiscardConfirmation,
-  PriceField,
-  Select,
-  SelectKey,
-} from "../../form";
-import { CheckBox } from "../../form/CheckBox";
-import { NumberField } from "../../form/NumberField";
-import { Border, Dialog } from "../../layout";
-import styles from "./Settings.module.scss";
+import commonStyles from "./Common.module.scss";
 
 type Props = {
-  readonly offer: () => OfferResponse;
+  readonly show: boolean;
+  readonly offer: OfferResponse | undefined;
   readonly onClose: () => void;
   readonly onUpdate?: () => void;
 };
@@ -79,22 +86,42 @@ export function EditOfferPriceDialog(props: Props) {
     createSignal(false);
 
   createEffect(() => {
-    const offer = _.cloneDeep(props.offer());
+    if (props.show) {
+      const offer = _.cloneDeep(props.offer);
+      const offerId = offer?.offerId;
 
-    if (_.isEmpty(request.offerId)) {
-      setRequest("offerId", offer.offerId);
-    }
-    if (_.isNil(request.price)) {
-      if (!_.isNil(offer.price)) {
-        setRequest("price", offer.price);
-        if (!_.isNil(offer.price.recurring?.trialPeriodDays)) {
-          setShowTrialPeriodInput(true);
-        }
-      } else {
+      if (!_.isNil(offerId)) {
+        setRequest("offerId", offerId);
+      }
+
+      if (_.isNil(offer?.price)) {
         setRequest("price", _.clone(defaultPriceRequest));
+      } else {
+        setRequest("price", offer?.price);
+      }
+
+      if (!_.isNil(offer?.price?.recurring?.trialPeriodDays)) {
+        setShowTrialPeriodInput(true);
       }
     }
   });
+
+  createEffect(() => {
+    if (props.show) {
+      setShowDeleteConfirmation(false);
+      setShowDiscardConfirmation(false);
+    }
+  });
+
+  function dataWasChanged() {
+    const fields = Object.keys(Price.create());
+
+    return isDifferentOmittingNilWithFilter(
+      props.offer?.price,
+      request.price,
+      fields
+    );
+  }
 
   function currencyOptions() {
     return listCurrencyCodes().map((c) => ({
@@ -127,6 +154,10 @@ export function EditOfferPriceDialog(props: Props) {
     }
   }
 
+  function isSelectedCurrency(option: Option): boolean {
+    return selectedCurrency()?.key === option.key;
+  }
+
   function selectedPriceType() {
     if (!_.isNil(request.price?.priceType)) {
       return _.find(priceTypeOptions(), {
@@ -135,12 +166,20 @@ export function EditOfferPriceDialog(props: Props) {
     }
   }
 
+  function isSelectedPriceType(option: Option): boolean {
+    return selectedPriceType()?.key === option.key;
+  }
+
   function selectedRecurringInterval() {
     if (!_.isNil(request.price?.recurring?.interval)) {
       return _.find(recurringIntervalOptions(), {
         key: recurringIntervalToJSON(request.price!.recurring!.interval),
       });
     }
+  }
+
+  function isSelectedRecurringInterval(option: Option): boolean {
+    return selectedRecurringInterval()?.key === option.key;
   }
 
   async function handleUpdateOfferPrice(event: SubmitEvent) {
@@ -164,7 +203,7 @@ export function EditOfferPriceDialog(props: Props) {
     });
   }
 
-  function handleCurrencyChange(value: SelectKey) {
+  function handleCurrencyChange(value: any) {
     if (_.isString(value)) {
       setRequest("price", {
         ...request.price,
@@ -173,7 +212,7 @@ export function EditOfferPriceDialog(props: Props) {
     }
   }
 
-  function handlePriceTypeChange(value: SelectKey) {
+  function handlePriceTypeChange(value: any) {
     if (_.isString(value)) {
       const priceType = priceTypeFromJSON(value);
       let price = {
@@ -246,13 +285,10 @@ export function EditOfferPriceDialog(props: Props) {
   }
 
   function handleCloseDialog() {
-    if (
-      !_.isEqual(props.offer().price, request.price) &&
-      !_.isEqual(defaultPriceRequest, request.price)
-    ) {
+    if (props.show && dataWasChanged()) {
       setShowDiscardConfirmation(true);
     } else {
-      props.onClose();
+      handleConfirmCloseDialog();
     }
   }
 
@@ -266,140 +302,170 @@ export function EditOfferPriceDialog(props: Props) {
   }
 
   function handleConfirmCloseDialog() {
+    setShowDeleteConfirmation(false);
     setShowDiscardConfirmation(false);
     props.onClose();
   }
 
   return (
     <>
-      <Show when={!showDiscardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard.offers["edit-price"])}
-          onClose={handleCloseDialog}
-        >
-          <form class={styles.Form} onSubmit={handleUpdateOfferPrice}>
-            <Select
+      <MdDialog
+        open={props.show && !showDiscardConfirmation()}
+        onClose={handleCloseDialog}
+      >
+        <div slot="headline">
+          <Font type="title" key={TKEYS.dashboard.offers["edit-price"]} />
+        </div>
+
+        <div slot="content">
+          <Form onSubmit={handleUpdateOfferPrice}>
+            <MdSelect
+              type="outlined"
+              menuPositioning="fixed"
               label={trans(TKEYS.price["price-type"].title)}
-              value={selectedPriceType}
-              options={priceTypeOptions}
-              onValue={handlePriceTypeChange}
-            />
+              onChange={handlePriceTypeChange}
+            >
+              <For each={priceTypeOptions()}>
+                {(option) => (
+                  <MdSelectOption
+                    selected={isSelectedPriceType(option)}
+                    value={option.key}
+                  >
+                    <div slot="headline">{option.name}</div>
+                  </MdSelectOption>
+                )}
+              </For>
+            </MdSelect>
 
-            <div class={styles.FieldSet}>
-              <div class={styles.FieldSetInput}>
-                <PriceField
-                  label={trans(TKEYS.price.Price)}
-                  value={() => request.price?.unitAmount}
-                  onValue={handlePriceInput}
-                  errors={errors.unitAmount}
-                />
-              </div>
-
-              <Select
-                class={styles.FieldSetExtra}
-                expandHeight
-                label={trans(TKEYS.price.currency.title)}
-                options={currencyOptions}
-                value={selectedCurrency}
-                onValue={handleCurrencyChange}
+            <div class={commonStyles.FieldSet}>
+              <PriceField
+                label={trans(TKEYS.price.Price)}
+                value={request.price?.unitAmount}
+                onValue={handlePriceInput}
+                errors={errors.unitAmount}
               />
+
+              <MdSelect
+                type="outlined"
+                menuPositioning="fixed"
+                onChange={handleCurrencyChange}
+              >
+                <For each={currencyOptions()}>
+                  {(option) => (
+                    <MdSelectOption
+                      selected={isSelectedCurrency(option)}
+                      value={option.key}
+                    >
+                      <div slot="headline">{option.name}</div>
+                    </MdSelectOption>
+                  )}
+                </For>
+              </MdSelect>
             </div>
 
             <Show
               when={request.price?.priceType === PriceType.PRICE_TYPE_RECURRING}
             >
-              <div class={styles.FieldSetSmall}>
-                <span class={styles.Body}>
-                  <Trans
-                    key={TKEYS.common["per-or-every"]}
-                    options={{
-                      count: request.price?.recurring?.intervalCount,
-                    }}
-                  />
-                </span>
-                <div class={styles.FieldSetInput}>
-                  <NumberField
+              <div class={commonStyles.FieldSet}>
+                <Font
+                  type="label"
+                  key={TKEYS.common["per-or-every"]}
+                  options={{
+                    count: request.price?.recurring?.intervalCount,
+                  }}
+                />
+
+                <div class={commonStyles.FieldSetInput}>
+                  <MdTextField
+                    type="number"
                     label={trans(TKEYS.price["billing-period"])}
                     value={request.price?.recurring?.intervalCount}
                     onValue={handleRecurringIntervalCountInput}
-                    errors={errors.recurringIntervalCount}
-                    integer
-                    small
+                    errorText={errors.recurringIntervalCount}
                   />
                 </div>
 
-                <Select
-                  label=""
-                  value={selectedRecurringInterval}
-                  options={recurringIntervalOptions}
-                  onValue={handleRecurringIntervalChange}
-                  expandHeight
-                />
+                <MdSelect
+                  type="outlined"
+                  menuPositioning="fixed"
+                  onChange={handleRecurringIntervalChange}
+                >
+                  <For each={recurringIntervalOptions()}>
+                    {(option) => (
+                      <MdSelectOption
+                        selected={isSelectedRecurringInterval(option)}
+                        value={option.key}
+                      >
+                        <div slot="headline">{option.name}</div>
+                      </MdSelectOption>
+                    )}
+                  </For>
+                </MdSelect>
               </div>
 
-              <Border tall />
+              <Border />
 
-              <CheckBox
+              <MdCheckbox
                 label={trans(TKEYS.price["trial-period"])}
-                value={showTrialPeriodInput}
+                checked={showTrialPeriodInput()}
                 onValue={handleToggleTrialPeriodInput}
               />
 
-              <Show
-                when={showTrialPeriodInput()}
-                fallback={<div style={{ width: "100%", height: "1.6rem" }} />}
-              >
-                <div class={styles.FieldSetSmall}>
-                  <NumberField
+              <Show when={showTrialPeriodInput()}>
+                <div class={commonStyles.FieldSet}>
+                  <MdTextField
+                    type="number"
                     label={trans(TKEYS.price["trial-period"])}
                     value={request.price?.recurring?.trialPeriodDays}
                     onValue={handleTrialPeriodInput}
-                    errors={errors.trialPeriod}
-                    integer
-                    small
+                    errorText={errors.trialPeriod}
                   />
-                  <Trans
+
+                  <Font
+                    type="label"
                     key={TKEYS.price["days-free"]}
-                    options={{ periodDays: 2 }}
+                    options={{
+                      periodDays: request?.price?.recurring?.trialPeriodDays,
+                    }}
                   />
                 </div>
               </Show>
             </Show>
+          </Form>
+        </div>
 
-            <div class={styles.DialogFooter}>
-              <ActionButton
-                actionType="danger"
-                onClick={handleDeleteOfferPrice}
-              >
-                <Trans key={TKEYS.form.action.Delete} />
-              </ActionButton>
+        <div slot="actions">
+          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Close} />
+          </ActionButton>
 
-              <ActionButton
-                actionType="active-filled"
-                submit
-                onClick={handleUpdateOfferPrice}
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+          <Show when={!_.isNil(props.offer?.price)}>
+            <ActionButton actionType="danger" onClick={handleDeleteOfferPrice}>
+              <Trans key={TKEYS.form.action.Delete} />
+            </ActionButton>
+          </Show>
 
-      <Show when={showDiscardConfirmation()}>
-        <DiscardConfirmation
-          onCancel={handleContinueEditing}
-          onDiscard={handleConfirmCloseDialog}
-        />
-      </Show>
+          <ActionButton
+            actionType="active-filled"
+            submit
+            onClick={handleUpdateOfferPrice}
+          >
+            <Trans key={TKEYS.form.action.Save} />
+          </ActionButton>
+        </div>
+      </MdDialog>
 
-      <Show when={showDeleteConfirmation()}>
-        <DeleteConfirmation
-          message=""
-          onCancel={handleContinueEditing}
-          onConfirmation={handleConfirmDeletion}
-        />
-      </Show>
+      <DiscardConfirmationDialog
+        show={showDiscardConfirmation()}
+        onCancel={handleContinueEditing}
+        onDiscard={handleConfirmCloseDialog}
+      />
+
+      <DeleteConfirmationDialog
+        show={showDeleteConfirmation()}
+        onCancel={handleContinueEditing}
+        onConfirmation={handleConfirmDeletion}
+      />
     </>
   );
 }

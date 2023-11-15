@@ -2,11 +2,12 @@ import "@material/web/list/list";
 import { ComponentProps, JSX as SolidJSX } from "solid-js";
 
 type Props = {
+  class?: string | undefined;
   children?: SolidJSX.Element;
 };
 
 export function MdList(props: Props) {
-  return <md-list>{props.children}</md-list>;
+  return <md-list class={props.class}>{props.children}</md-list>;
 }
 
 declare module "solid-js" {

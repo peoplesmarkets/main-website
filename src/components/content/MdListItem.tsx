@@ -2,11 +2,13 @@ import "@material/web/list/list-item";
 import { ComponentProps, JSX as SolidJSX, splitProps } from "solid-js";
 
 type Props = {
+  readonly class?: string | undefined;
   readonly disabled?: boolean | undefined;
   readonly type?: "text" | "link" | "button" | undefined;
   readonly href?: string | undefined;
   readonly target?: string | undefined;
   readonly children?: SolidJSX.Element;
+  readonly onClick?: () => void;
 };
 
 export function MdListItem(props: Props) {
@@ -18,12 +20,7 @@ export function MdListItem(props: Props) {
 declare module "solid-js" {
   namespace JSX {
     interface IntrinsicElements {
-      "md-list-item": ComponentProps<"div"> & {
-        disabled?: boolean | undefined;
-        type?: "text" | "link" | "button" | undefined;
-        href?: string | undefined;
-        target?: string | undefined;
-      };
+      "md-list-item": ComponentProps<"div">;
     }
   }
 }

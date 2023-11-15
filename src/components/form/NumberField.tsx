@@ -1,7 +1,8 @@
 import _ from "lodash";
-import styles from "./NumberField.module.scss";
 import { Show } from "solid-js";
+
 import { slugify } from "../../lib";
+import styles from "./NumberField.module.scss";
 
 type Props = {
   readonly label: string;

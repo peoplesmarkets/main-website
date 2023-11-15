@@ -14,19 +14,18 @@ import { listReportTypeCodes } from "../../services/report/report";
 import {
   ActionButton,
   Anotation,
-  DiscardConfirmation,
   Select,
   SelectKey,
   TextArea,
   TextField,
 } from "../form";
+import { DiscardConfirmationDialog } from "../form/DiscardConfirmationDialog";
 import { Dialog } from "../layout";
-import styles from "../shops/settings/Settings.module.scss";
+import styles from "./ReportDialog.module.scss";
 
 type Props = {
   onClose: () => void;
 };
-
 export function ReportDialog(props: Props) {
   const [trans] = useTransContext();
 
@@ -194,12 +193,11 @@ export function ReportDialog(props: Props) {
         </Show>
       </Dialog>
 
-      <Show when={discardConfirmation()}>
-        <DiscardConfirmation
-          onCancel={continueEditing}
-          onDiscard={confirmCloseDialog}
-        />
-      </Show>
+      <DiscardConfirmationDialog
+        show={discardConfirmation()}
+        onCancel={continueEditing}
+        onDiscard={confirmCloseDialog}
+      />
     </>
   );
 }

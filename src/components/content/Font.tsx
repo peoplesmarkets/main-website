@@ -7,6 +7,7 @@ import { Trans } from "@mbarzda/solid-i18next";
 type Props = {
   readonly type: "display" | "headline" | "title" | "label" | "body" | "detail";
   readonly key?: string;
+  readonly options?: Record<string, any>;
   readonly class?: string | undefined;
   readonly inline?: boolean | undefined;
   readonly strong?: boolean | undefined;
@@ -34,7 +35,7 @@ export function Font(props: Props) {
     >
       <Show
         when={_.isNil(props.key) || _.isEmpty(props.key)}
-        fallback={<Trans key={props.key!} />}
+        fallback={<Trans key={props.key!} options={props.options} />}
       >
         {props.children}
       </Show>
