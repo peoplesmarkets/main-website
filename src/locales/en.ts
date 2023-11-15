@@ -18,6 +18,7 @@ export const EN: typeof TKEYS = {
   "Peoples-Markets": "People's Markets",
   peoplesmarkets_com: "peoplesmarkets.com",
   peoplesmarkets_main_link: "https://peoplesmarkets.com",
+  "powered-by-peoplesmarkets": " - powered by peoplesmarkets.com",
   fetching: {
     "content-loading": "Content loading ...",
     "content-error": "Unexpected Error",
@@ -193,10 +194,12 @@ export const EN: typeof TKEYS = {
     "no-offers-yet": "No Offers yet ...",
     "no-description": "No description ...",
     "currently-not-available": "Currently not available",
-    "sign-in-to-subscribe": "Sign in",
+    "sign-in-to-subscribe": "Sign in and subscribe",
     "contact-shop": "Contact Shop",
     "other-offers": "Other Offers",
-    "downloadable-content": "downloadable content",
+    "downloadable-content": "Downloadable Content",
+    "downloadable-content-info":
+      "In order to subscribe and access the files in this offer, you need to login first.",
     visibility: {
       title: "Visibility",
       visible: "Publicly visible",
@@ -478,7 +481,7 @@ export const EN: typeof TKEYS = {
   footer: {
     "powered-by": "Powered by",
     "main-paragraph":
-      "People's Markets is an online platform where people and businesses can offer their goods while building their brand and market appearance.",
+      "Build your own online shop and offer your goods to the people.",
     "community-paragraph": "Get involved in any aspect of the project.",
   },
 };

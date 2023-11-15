@@ -17,6 +17,7 @@ export const DE: typeof TKEYS = {
   "Peoples-Markets": EN["Peoples-Markets"],
   peoplesmarkets_com: EN.peoplesmarkets_com,
   peoplesmarkets_main_link: EN.peoplesmarkets_main_link,
+  "powered-by-peoplesmarkets": EN["powered-by-peoplesmarkets"],
   fetching: {
     "content-loading": "Wird geladen ...",
     "content-error": "Unerwarteter Fehler",
@@ -192,10 +193,12 @@ export const DE: typeof TKEYS = {
     "no-offers-yet": "Derzeit noch keine Angebote ...",
     "no-description": "Keine Beschreibung vorhanden ...",
     "currently-not-available": "Derzeit nicht verfügbar",
-    "sign-in-to-subscribe": "Anmelden",
+    "sign-in-to-subscribe": "Anmelden und abonnieren",
     "contact-shop": "Shop kontaktieren",
     "other-offers": "Weitere Angebote",
-    "downloadable-content": "downloadbarer Inhalt",
+    "downloadable-content": "Downloadbarer Inhalt",
+    "downloadable-content-info":
+      "Melde dich an, um das Angebot zu abonnieren und anschließend auf die enthaltenen Dateien zuzugreifen.",
     visibility: {
       title: "Sichtbarkeit",
       visible: "Öffentlich sichtbar",

@@ -18,6 +18,7 @@ import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { clickOutside } from "../directives";
 import {
   buildAuthorizationRequest,
+  setDocumentMetaDescription,
   setDocumentTitle,
   setFaviconHref,
 } from "../lib";
@@ -59,6 +60,7 @@ export default function MainRoutesWrapper(props: Props) {
 
   onMount(() => {
     setDocumentTitle(EN["Peoples-Markets"]);
+    setDocumentMetaDescription(EN.footer["main-paragraph"]);
     setFaviconHref(MAIN_FAVICON);
     setSigningIn(false);
   });
