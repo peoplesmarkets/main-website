@@ -334,7 +334,6 @@ export default function OfferDetailConfigurationPage() {
         show={showDialog() === "edit-shipping-rates"}
         offer={offer()}
         onClose={handleCloseDialog}
-        onUpdate={handleRefreshOffer}
       />
 
       <ConfirmationDialog

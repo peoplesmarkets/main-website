@@ -24,10 +24,7 @@ export function DeleteConfirmationDialog(props: Props) {
       </div>
 
       <div slot="content">
-        <Show
-          when={_.isNil(props.children) || _.isEmpty(props.children)}
-          fallback={props.children}
-        >
+        <Show when={!_.isNil(props.item) && !_.isNil(props.itemName)}>
           <Font
             type="body"
             key={TKEYS.form.action["Are-you-sure-you-want-to-delete-the-item"]}
@@ -37,6 +34,8 @@ export function DeleteConfirmationDialog(props: Props) {
             }}
           />
         </Show>
+
+        <Show when={!_.isNil(props.children)}>{props.children}</Show>
       </div>
 
       <div slot="actions">

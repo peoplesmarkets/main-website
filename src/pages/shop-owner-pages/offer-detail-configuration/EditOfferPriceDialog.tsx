@@ -46,6 +46,8 @@ import {
 } from "../../../services/peoplesmarkets/commerce/v1/price";
 import commonStyles from "./Common.module.scss";
 
+type Dialog = "none" | "edit" | "discard" | "delete";
+
 type Props = {
   readonly show: boolean;
   readonly offer: OfferResponse | undefined;
@@ -78,12 +80,7 @@ export function EditOfferPriceDialog(props: Props) {
   });
 
   const [showTrialPeriodInput, setShowTrialPeriodInput] = createSignal(false);
-
-  const [showDiscardConfirmation, setShowDiscardConfirmation] =
-    createSignal(false);
-
-  const [showDeleteConfirmation, setShowDeleteConfirmation] =
-    createSignal(false);
+  const [showDialog, setShowDialog] = createSignal<Dialog>("none");
 
   createEffect(() => {
     if (props.show) {
@@ -108,8 +105,9 @@ export function EditOfferPriceDialog(props: Props) {
 
   createEffect(() => {
     if (props.show) {
-      setShowDeleteConfirmation(false);
-      setShowDiscardConfirmation(false);
+      setShowDialog("edit");
+    } else {
+      setShowDialog("none");
     }
   });
 
@@ -285,32 +283,33 @@ export function EditOfferPriceDialog(props: Props) {
   }
 
   function handleCloseDialog() {
-    if (props.show && dataWasChanged()) {
-      setShowDiscardConfirmation(true);
+    if (showDialog() !== "edit") {
+      return;
+    }
+    if (dataWasChanged()) {
+      setShowDialog("discard");
     } else {
       handleConfirmCloseDialog();
     }
   }
 
   function handleDeleteOfferPrice() {
-    setShowDeleteConfirmation(true);
+    setShowDialog("delete");
   }
 
   function handleContinueEditing() {
-    setShowDiscardConfirmation(false);
-    setShowDeleteConfirmation(false);
+    setShowDialog("edit");
   }
 
   function handleConfirmCloseDialog() {
-    setShowDeleteConfirmation(false);
-    setShowDiscardConfirmation(false);
     props.onClose();
+    setShowDialog("none");
   }
 
   return (
     <>
       <MdDialog
-        open={props.show && !showDiscardConfirmation()}
+        open={props.show && showDialog() === "edit"}
         onClose={handleCloseDialog}
       >
         <div slot="headline">
@@ -435,7 +434,10 @@ export function EditOfferPriceDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+          <ActionButton
+            actionType="neutral-borderless"
+            onClick={handleCloseDialog}
+          >
             <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 
@@ -456,13 +458,13 @@ export function EditOfferPriceDialog(props: Props) {
       </MdDialog>
 
       <DiscardConfirmationDialog
-        show={showDiscardConfirmation()}
+        show={showDialog() === "discard"}
         onCancel={handleContinueEditing}
         onDiscard={handleConfirmCloseDialog}
       />
 
       <DeleteConfirmationDialog
-        show={showDeleteConfirmation()}
+        show={showDialog() === "delete"}
         onCancel={handleContinueEditing}
         onConfirmation={handleConfirmDeletion}
       />
