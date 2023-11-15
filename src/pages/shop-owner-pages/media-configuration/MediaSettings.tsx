@@ -1,5 +1,6 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { useLocation, useNavigate, useRouteData } from "@solidjs/router";
+import _ from "lodash";
 import {
   ErrorBoundary,
   Show,
@@ -8,21 +9,20 @@ import {
   createResource,
   createSignal,
 } from "solid-js";
-import _ from "lodash";
 
 import { ContentError } from "../../../components/content";
-import { CreateMediaDialog } from "../../../components/dashboard/CreateMediaDialog";
 import { ActionButton } from "../../../components/form";
 import { Section } from "../../../components/layout";
-import { MediaList } from "../../../components/media";
 import { ShopBanner } from "../../../components/shops";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
-import { resourceIsReady } from "../../../lib";
 import { requireAuthentication } from "../../../guards/authentication";
+import { resourceIsReady } from "../../../lib";
 import { TKEYS } from "../../../locales";
-import { buildDashboardPath } from "../../main-routing";
-import { ShopData } from "../ShopData";
+import { buildDashboardPath } from "../../../routes/main-routing";
+import { ShopData } from "../../../routes/shops/ShopData";
+import { CreateMediaDialog } from "./CreateMediaDialog";
+import { MediaList } from "../MediaList";
 import styles from "./MediaSettings.module.scss";
 
 export default function MediaSettings() {
@@ -103,12 +103,11 @@ export default function MediaSettings() {
             </div>
           </Section>
 
-          <Show when={showCreateMedia()}>
-            <CreateMediaDialog
-              onClose={handleCancelEdit}
-              onUpdate={handleRefreshMedias}
-            />
-          </Show>
+          <CreateMediaDialog
+            show={showCreateMedia()}
+            onClose={handleCancelEdit}
+            onUpdate={handleRefreshMedias}
+          />
         </Show>
       </Suspense>
     </ErrorBoundary>

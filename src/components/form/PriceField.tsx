@@ -48,7 +48,7 @@ export function PriceField(props: Props) {
 
     for (const char of value) {
       if (cleaned === "") {
-        if (char === decimalPoint || char === "0") {
+        if (char === decimalPoint) {
           continue;
         }
       }

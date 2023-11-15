@@ -8,6 +8,7 @@ import { ShopData } from "./ShopData";
 import {
   CONFIGURATION_PATH,
   INVENTORY_PATH,
+  MEDIA_CONFIGURATION_PATH,
   OFFERS_CONFIGURATION_PATH,
   OFFER_PATH,
   ROOT_PATH,
@@ -56,26 +57,9 @@ export function ShopRoutes() {
 
           <Route path={OFFER_PATH} component={OfferDetailPage} />
 
-          <Route path={INVENTORY_PATH}>
-            <Route path="" component={InventoryPage} />
+          <Route path={INVENTORY_PATH} component={InventoryPage} />
 
-            <Route
-              path={SUBSCRIPTION_PATH}
-              component={SubscriptionDetailPage}
-            />
-          </Route>
-
-          <Route path="old-settings">
-            <Route
-              path={OFFER_PATH}
-              component={lazy(() => import("./settings/OfferSettings"))}
-            />
-
-            <Route
-              path={INVENTORY_PATH}
-              component={lazy(() => import("./settings/MediaSettings"))}
-            />
-          </Route>
+          <Route path={SUBSCRIPTION_PATH} component={SubscriptionDetailPage} />
 
           <Route
             path={buildSignInCallbackPath()}
@@ -101,6 +85,16 @@ export function ShopRoutes() {
             <Route
               path={SETTINGS_CONFIGURATION_PATH}
               component={ShopSettingsPage}
+            />
+
+            <Route
+              path={MEDIA_CONFIGURATION_PATH}
+              component={lazy(
+                () =>
+                  import(
+                    "../../pages/shop-owner-pages/media-configuration/MediaSettings"
+                  )
+              )}
             />
           </Route>
         </Route>

@@ -1,32 +1,32 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { Show, createEffect, createSignal } from "solid-js";
+import { For, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useServiceClientContext } from "../../contexts/ServiceClientContext";
-import { TKEYS } from "../../locales";
-import { listOfferTypeCodes } from "../../services";
+import { Font } from "../../../components/content";
+import {
+  ActionButton,
+  Form,
+  MdTextField,
+  SelectKey,
+} from "../../../components/form";
+import { DiscardConfirmationDialog } from "../../../components/form/DiscardConfirmationDialog";
+import { MdCheckbox } from "../../../components/form/MdCheckbox";
+import { MdSelect, Option } from "../../../components/form/MdSelect";
+import { MdSelectOption } from "../../../components/form/MdSelectOption";
+import { MdDialog } from "../../../components/layout/MdDialog";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { TKEYS } from "../../../locales";
+import { listOfferTypeCodes } from "../../../services";
 import {
   OfferResponse,
   UpdateOfferRequest,
-  offerTypeFromJSON,
-  offerTypeToJSON,
-} from "../../services/peoplesmarkets/commerce/v1/offer";
-import {
-  ActionButton,
-  DiscardConfirmation,
-  Select,
-  SelectKey,
-  TextArea,
-  TextField,
-} from "../form";
-import { CheckBox } from "../form/CheckBox";
-import { Dialog } from "../layout/Dialog";
-import styles from "./CreateEditDialg.module.scss";
+} from "../../../services/peoplesmarkets/commerce/v1/offer";
 
 type Props = {
-  readonly offer: () => OfferResponse;
+  readonly show: boolean;
+  readonly offer: OfferResponse | undefined;
   readonly onClose: () => void;
   readonly onUpdate?: () => void;
 };
@@ -57,7 +57,7 @@ export function EditOfferDialog(props: Props) {
 
   createEffect(() => {
     if (_.isNil(request.offerId) || _.isEmpty(request.offerId)) {
-      setRequest(_.clone(_.pick(props.offer(), requestFields)));
+      setRequest(_.clone(_.pick(props.offer, requestFields)));
     }
   });
 
@@ -71,9 +71,13 @@ export function EditOfferDialog(props: Props) {
   function selectedOfferType() {
     if (!_.isNil(request.type)) {
       return _.find(offerTypeOptions(), {
-        key: offerTypeToJSON(request.type),
+        key: request.type,
       });
     }
+  }
+
+  function isSelectedOfferType(option: Option): boolean {
+    return selectedOfferType()?.key === option.key;
   }
 
   function resetErrors() {
@@ -81,7 +85,7 @@ export function EditOfferDialog(props: Props) {
   }
 
   function dataWasChanged() {
-    return !_.isEqual(_.pick(props.offer(), requestFields), request);
+    return !_.isEqual(_.pick(props.offer, requestFields), request);
   }
 
   function handleNameInput(value: string) {
@@ -95,8 +99,8 @@ export function EditOfferDialog(props: Props) {
   }
 
   function handleOfferTypeChange(value: SelectKey) {
-    if (_.isString(value)) {
-      setRequest("type", offerTypeFromJSON(value));
+    if (_.isNumber(value)) {
+      setRequest("type", value);
     }
   }
 
@@ -132,7 +136,7 @@ export function EditOfferDialog(props: Props) {
     if (dataWasChanged()) {
       setDiscardConfirmation(true);
     } else {
-      props.onClose();
+      handleConfirmCloseDialog();
     }
   }
 
@@ -142,66 +146,87 @@ export function EditOfferDialog(props: Props) {
   }
 
   function handleConfirmCloseDialog() {
+    setRequest(_.clone(emptyRequest));
     setDiscardConfirmation(false);
     props.onClose();
   }
 
   return (
     <>
-      <Show when={!discardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard.offers["edit-offer"])}
-          onClose={handleCloseDialog}
-        >
-          <form class={styles.Form} onSubmit={handleUpdateOffer}>
-            <Select
-              label={trans(TKEYS.price["price-type"].title)}
-              value={selectedOfferType}
-              options={offerTypeOptions}
-              onValue={handleOfferTypeChange}
-            />
+      <MdDialog
+        open={props.show && !discardConfirmation()}
+        onClose={handleCloseDialog}
+      >
+        <div slot="headline">
+          <Font type="title" key={TKEYS.dashboard.offers["edit-offer"]} />
+        </div>
 
-            <TextField
+        <div slot="content">
+          <Form onSubmit={handleUpdateOffer}>
+            <MdSelect
+              type="outlined"
+              label={trans(TKEYS.price["price-type"].title)}
+              onChange={handleOfferTypeChange}
+            >
+              <For each={offerTypeOptions()}>
+                {(option) => (
+                  <MdSelectOption
+                    selected={isSelectedOfferType(option)}
+                    value={option.key}
+                  >
+                    <div slot="headline">{option.name}</div>
+                  </MdSelectOption>
+                )}
+              </For>
+            </MdSelect>
+
+            <MdTextField
               label={trans(TKEYS.offer.labels.name)}
               required
               value={request.name}
               onValue={handleNameInput}
-              errors={errors.name}
+              error={!_.isEmpty(errors.name)}
+              errorText={errors.name}
             />
 
-            <TextArea
+            <MdTextField
+              type="textarea"
+              rows={6}
               label={trans(TKEYS.offer.labels.description)}
-              rows={8}
               value={request.description}
               onValue={handleDescriptionInput}
-              errors={errors.description}
+              error={!_.isEmpty(errors.description)}
+              errorText={errors.description}
             />
 
-            <CheckBox
+            <MdCheckbox
               label={trans(TKEYS.offer.labels["show-on-home-page"])}
-              value={() => request.isFeatured}
+              checked={request.isFeatured}
               onValue={handleFeaturedChange}
             />
+          </Form>
+        </div>
 
-            <div class={styles.DialogFooter}>
-              <ActionButton
-                actionType="active-filled"
-                submit
-                onClick={handleUpdateOffer}
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+        <div slot="actions">
+          <ActionButton actionType="neutral" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Cancel} />
+          </ActionButton>
 
-      <Show when={discardConfirmation()}>
-        <DiscardConfirmation
-          onCancel={handleContinueEditing}
-          onDiscard={handleConfirmCloseDialog}
-        />
-      </Show>
+          <ActionButton
+            actionType="active-filled"
+            submit
+            onClick={handleUpdateOffer}
+          >
+            <Trans key={TKEYS.form.action.Save} />
+          </ActionButton>
+        </div>
+      </MdDialog>
+
+      <DiscardConfirmationDialog
+        show={discardConfirmation()}
+        onCancel={handleContinueEditing}
+        onDiscard={handleConfirmCloseDialog}
+      />
     </>
   );
 }

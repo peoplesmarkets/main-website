@@ -9,12 +9,15 @@ import {
 
 export const ROOT_PATH = "/shops";
 export const SHOP_PATH = "/:shopSlug";
-export const CONFIGURATION_PATH = "/configuration";
-export const OFFERS_CONFIGURATION_PATH = "/offers";
-export const SETTINGS_CONFIGURATION_PATH = "/settings";
+
 export const OFFER_PATH = "/offer/:offerId";
 export const INVENTORY_PATH = "/inventory";
 export const SUBSCRIPTION_PATH = "/subscription/:subscriptionId";
+
+export const CONFIGURATION_PATH = "/configuration";
+export const OFFERS_CONFIGURATION_PATH = "/offers";
+export const SETTINGS_CONFIGURATION_PATH = "/settings";
+export const MEDIA_CONFIGURATION_PATH = "/media";
 
 export function buildShopDetailPath(shopSlug: string): string {
   if (isCustomDomain()) {
@@ -31,31 +34,6 @@ export function buildShopPathOrUrl(
     return `${getSchemeFromWindow()}${domain}`;
   }
   return buildShopDetailPath(shopSlug);
-}
-
-export function buildShopConfigurationPath(shopSlug: string): string {
-  return buildPath(buildShopDetailPath(shopSlug), CONFIGURATION_PATH);
-}
-
-export function buildShopSettingsPath(shopSlug: string): string {
-  return buildPath(
-    buildShopConfigurationPath(shopSlug),
-    SETTINGS_CONFIGURATION_PATH
-  );
-}
-
-export function buildOffersConfigurationPath(shopSlug: string): string {
-  return buildPath(
-    buildShopConfigurationPath(shopSlug),
-    OFFERS_CONFIGURATION_PATH
-  );
-}
-
-export function buildOfferDetailConfigurationPath(
-  shopSlug: string,
-  offerId: string
-): string {
-  return buildPath(buildShopConfigurationPath(shopSlug), "offer", offerId);
 }
 
 export function buildOfferPath(shopSlug: string, offerId: string): string {
@@ -82,10 +60,6 @@ export function buildOfferPathOrUrl(
   return buildOfferPath(shopSlug, offerId);
 }
 
-export function buildOfferSettingsPath(shopSlug: string, offerId: string) {
-  return buildPath(buildShopSettingsPath(shopSlug), "offer", offerId);
-}
-
 export function buildInventoryPath(shopSlug: string) {
   return buildPath(buildShopDetailPath(shopSlug), INVENTORY_PATH);
 }
@@ -98,10 +72,6 @@ export function buildInventoryUrl(shopSlug: string) {
   return buildBaseUrl(inventoryPath);
 }
 
-export function buildMediasSettingsPath(shopSlug: string) {
-  return buildPath(buildShopSettingsPath(shopSlug), INVENTORY_PATH);
-}
-
 export function buildSubscriptionPath(
   shopSlug: string,
   subscriptionId: string
@@ -110,5 +80,37 @@ export function buildSubscriptionPath(
     buildInventoryPath(shopSlug),
     "subscription",
     subscriptionId
+  );
+}
+
+export function buildShopConfigurationPath(shopSlug: string): string {
+  return buildPath(buildShopDetailPath(shopSlug), CONFIGURATION_PATH);
+}
+
+export function buildOffersConfigurationPath(shopSlug: string): string {
+  return buildPath(
+    buildShopConfigurationPath(shopSlug),
+    OFFERS_CONFIGURATION_PATH
+  );
+}
+
+export function buildOfferDetailConfigurationPath(
+  shopSlug: string,
+  offerId: string
+): string {
+  return buildPath(buildShopConfigurationPath(shopSlug), "offer", offerId);
+}
+
+export function buildShopSettingsPath(shopSlug: string): string {
+  return buildPath(
+    buildShopConfigurationPath(shopSlug),
+    SETTINGS_CONFIGURATION_PATH
+  );
+}
+
+export function buildMediaConfigurationPath(shopSlug: string) {
+  return buildPath(
+    buildShopConfigurationPath(shopSlug),
+    MEDIA_CONFIGURATION_PATH
   );
 }

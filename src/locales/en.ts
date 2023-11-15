@@ -1,7 +1,4 @@
-import {
-  OfferType,
-  offerTypeToJSON,
-} from "../services/peoplesmarkets/commerce/v1/offer";
+import { OfferType } from "../services/peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
   PriceType,
@@ -214,9 +211,9 @@ export const EN: typeof TKEYS = {
       "show-on-home-page": "Show this Offer on home page",
     },
     types: {
-      [offerTypeToJSON(OfferType.OFFER_TYPE_PHYSICAL)]: `physical`,
-      [offerTypeToJSON(OfferType.OFFER_TYPE_DIGITAL)]: `digital`,
-      [offerTypeToJSON(OfferType.OFFER_TYPE_SERVICE)]: `service`,
+      [OfferType.OFFER_TYPE_PHYSICAL]: `Physical`,
+      [OfferType.OFFER_TYPE_DIGITAL]: `Digital`,
+      [OfferType.OFFER_TYPE_SERVICE]: `Service`,
     },
   },
   media: {

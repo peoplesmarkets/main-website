@@ -1,24 +1,24 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { Match, Show, Switch, createResource, createSignal } from "solid-js";
+import { Match, Switch, createResource, createSignal } from "solid-js";
 
-import { useServiceClientContext } from "../../contexts/ServiceClientContext";
-import { resourceIsReady } from "../../lib";
-import { TKEYS } from "../../locales";
-import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
+import { ContentError } from "../../../components/content";
+import { ActionButton } from "../../../components/form";
+import { Section } from "../../../components/layout";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { resourceIsReady } from "../../../lib";
+import { TKEYS } from "../../../locales";
+import { OfferResponse } from "../../../services/peoplesmarkets/commerce/v1/offer";
 import {
   MediaFilterField,
   MediaOrderByField,
-} from "../../services/peoplesmarkets/media/v1/media";
-import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
-import { ContentError } from "../content";
-import { ActionButton } from "../form";
-import { Section } from "../layout";
-import { MediaList } from "../media";
-import { CreateMediaDialog } from "./CreateMediaDialog";
+} from "../../../services/peoplesmarkets/media/v1/media";
+import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering";
+import { MediaList } from "../MediaList";
+import { CreateMediaDialog } from "../media-configuration/CreateMediaDialog";
 import styles from "./MediaSettings.module.scss";
 
 type Props = {
-  readonly offer: () => OfferResponse;
+  readonly offer: () => OfferResponse | undefined;
 };
 
 export function MediaSettings(props: Props) {
@@ -26,14 +26,17 @@ export function MediaSettings(props: Props) {
 
   const [showCreateMedia, setShowCreateMedia] = createSignal(false);
 
-  const [medias, { refetch }] = createResource(fetchMedias);
+  const [medias, { refetch }] = createResource(
+    () => props.offer(),
+    fetchMedias
+  );
 
-  async function fetchMedias() {
+  async function fetchMedias(offer: OfferResponse) {
     const response = await mediaService.list({
-      shopId: props.offer().shopId,
+      shopId: offer.shopId,
       filter: {
         field: MediaFilterField.MEDIA_FILTER_FIELD_OFFER_ID,
-        query: props.offer().offerId,
+        query: offer.offerId,
       },
       orderBy: {
         field: MediaOrderByField.MEDIA_ORDER_BY_FIELD_CREATED_AT,
@@ -74,21 +77,20 @@ export function MediaSettings(props: Props) {
           </Match>
           <Match when={resourceIsReady(medias)}>
             <MediaList
-              medias={() => medias()!}
+              medias={() => medias()}
               onUpdate={refreshMedias}
-              offer={() => props.offer()}
+              offer={props.offer}
             />
           </Match>
         </Switch>
       </Section>
 
-      <Show when={showCreateMedia()}>
-        <CreateMediaDialog
-          offerId={props.offer().offerId}
-          onClose={handleCloseCreateMedia}
-          onUpdate={refreshMedias}
-        />
-      </Show>
+      <CreateMediaDialog
+        offerId={props.offer()?.offerId}
+        show={showCreateMedia()}
+        onClose={handleCloseCreateMedia}
+        onUpdate={refreshMedias}
+      />
     </>
   );
 }

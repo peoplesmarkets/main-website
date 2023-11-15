@@ -8,13 +8,7 @@ import {
 import _ from "lodash";
 import { Show, createResource, createSignal } from "solid-js";
 
-import { OfferImages, OfferPrice } from "../../../components/commerce";
 import { Anotation, Font, Multiline } from "../../../components/content";
-import {
-  CreateOfferImageDialog,
-  EditOfferDialog,
-  MediaSettings,
-} from "../../../components/dashboard";
 import {
   ActionButton,
   DeleteConfirmation,
@@ -23,8 +17,7 @@ import {
 import { ConfirmationDialog } from "../../../components/form/ConfirmationDialog";
 import { Section } from "../../../components/layout";
 import { DefaultBoundary } from "../../../components/layout/DefaultBoundary";
-import { EditOfferShippingRatesDialog } from "../../../components/shops/settings";
-import { EditOfferPriceDialog } from "../../../components/shops/settings/EditOfferPriceDialog";
+import { MdDialog } from "../../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { requireAuthentication } from "../../../guards/authentication";
 import { secondsToLocaleDateTime } from "../../../lib";
@@ -35,9 +28,15 @@ import {
   buildShopSettingsPath,
 } from "../../../routes/shops/shop-routing";
 import { OfferType } from "../../../services/peoplesmarkets/commerce/v1/offer";
-import styles from "./Page.module.scss";
 import { MyShopData } from "../MyShopData";
-import { MdDialog } from "../../../components/layout/MdDialog";
+import { OfferPrice } from "../../OfferPrice";
+import { CreateOfferImageDialog } from "./CreateOfferImageDialog";
+import { EditOfferDialog } from "./EditOfferDialog";
+import { EditOfferPriceDialog } from "./EditOfferPriceDialog";
+import { EditOfferShippingRatesDialog } from "./EditOfferShippingRatesDialog";
+import { MediaSettings } from "./MediaSettings";
+import { OfferImages } from "./OfferImages";
+import styles from "./Page.module.scss";
 
 type DIALOG =
   | "none"
@@ -210,7 +209,7 @@ export default function OfferDetailConfigurationPage() {
         </Section>
 
         <Show when={offer()?.type === OfferType.OFFER_TYPE_DIGITAL}>
-          <MediaSettings offer={() => offer()!} />
+          <MediaSettings offer={() => offer()} />
         </Show>
 
         <Section bordered>
@@ -312,38 +311,34 @@ export default function OfferDetailConfigurationPage() {
         </Section>
       </DefaultBoundary>
 
-      <Show when={showDialog() === "edit-offer"}>
-        <EditOfferDialog
-          offer={() => offer()!}
-          onClose={handleCloseDialog}
-          onUpdate={handleRefreshOffer}
-        />
-      </Show>
+      <EditOfferDialog
+        show={showDialog() === "edit-offer"}
+        offer={offer()}
+        onClose={handleCloseDialog}
+        onUpdate={handleRefreshOffer}
+      />
 
-      <Show when={showDialog() === "add-image"}>
-        <CreateOfferImageDialog
-          offerId={offer()!.offerId}
-          lastOrdering={lastImageOrdering()}
-          onClose={handleCloseDialog}
-          onUpdate={handleRefreshOffer}
-        />
-      </Show>
+      <CreateOfferImageDialog
+        show={showDialog() === "add-image"}
+        offerId={offer()?.offerId}
+        lastOrdering={lastImageOrdering()}
+        onClose={handleCloseDialog}
+        onUpdate={handleRefreshOffer}
+      />
 
-      <Show when={showDialog() === "edit-price"}>
-        <EditOfferPriceDialog
-          offer={() => offer()!}
-          onClose={handleCloseDialog}
-          onUpdate={handleRefreshOffer}
-        />
-      </Show>
+      <EditOfferPriceDialog
+        show={showDialog() === "edit-price"}
+        offer={offer()}
+        onClose={handleCloseDialog}
+        onUpdate={handleRefreshOffer}
+      />
 
-      <Show when={showDialog() === "edit-shipping-rates"}>
-        <EditOfferShippingRatesDialog
-          offer={() => offer()!}
-          onClose={handleCloseDialog}
-          onUpdate={handleRefreshOffer}
-        />
-      </Show>
+      <EditOfferShippingRatesDialog
+        show={showDialog() === "edit-shipping-rates"}
+        offer={offer()}
+        onClose={handleCloseDialog}
+        onUpdate={handleRefreshOffer}
+      />
 
       <Show when={showDialog() === "make-visible"}>
         <ConfirmationDialog

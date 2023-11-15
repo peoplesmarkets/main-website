@@ -7,7 +7,8 @@ import {
   OfferResponse,
   OfferType,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
-import { OfferImages, OfferPrice } from "../commerce";
+import { OfferImages } from "../../pages/shop-owner-pages/offer-detail-configuration/OfferImages";
+import { OfferPrice } from "../../pages/OfferPrice";
 import { Anotation, Multiline } from "../content";
 import { Section } from "../layout";
 import { OfferBuy } from "./OfferBuy";

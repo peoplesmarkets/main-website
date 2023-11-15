@@ -4,11 +4,9 @@ import {
   cleanupDOM,
   createDOM,
   getNoObj,
-  noObj,
   renderIntoRoot,
 } from "../../lib/testing";
-import { OfferImages } from "./OfferImages";
-import { OfferPrice } from "./OfferPrice";
+import { OfferPrice } from "../../pages/OfferPrice";
 import { MediaList } from "./MediaList";
 
 /**
@@ -23,17 +21,6 @@ describe("Render once", () => {
     expect(container).toBeDefined();
   });
 
-  test("OfferImages", () => {
-    const { container } = renderIntoRoot(() => (
-      <OfferImages
-        offer={() => ({
-          ...noObj,
-          images: [],
-        })}
-      />
-    ));
-    expect(container).toBeDefined();
-  });
   test("OfferPrice", () => {
     const { container } = renderIntoRoot(() => <OfferPrice offer={getNoObj} />);
     expect(container).toBeDefined();

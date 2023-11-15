@@ -2,14 +2,19 @@ import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
+
+import {
+  ActionButton,
+  DiscardConfirmation,
+  TextField,
+} from "../../../components/form";
+import { Dialog } from "../../../components/layout";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
 import {
   ShopResponse,
   UpdateShopRequest,
 } from "../../../services/peoplesmarkets/commerce/v1/shop";
-import { ActionButton, DiscardConfirmation, TextField } from "../../form";
-import { Dialog } from "../../layout";
 import styles from "./Settings.module.scss";
 
 type Props = {

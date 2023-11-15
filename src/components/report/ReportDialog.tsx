@@ -21,7 +21,7 @@ import {
   TextField,
 } from "../form";
 import { Dialog } from "../layout";
-import styles from "../shops/settings/Settings.module.scss";
+import styles from "./ReportDialog.module.scss";
 
 type Props = {
   onClose: () => void;

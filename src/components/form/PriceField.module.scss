@@ -1,13 +1,13 @@
 .PriceField {
+  width: 100%;
   display: flex;
-  // justify-content: start;
   align-items: center;
   gap: 0.5rem;
 }
 
 .PriceInput {
   position: relative;
-  background-color: var(--primary-background-color);
+  background-color: var(--secondary-background-color);
   flex-grow: 1;
 }
 

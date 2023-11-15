@@ -4,22 +4,24 @@ import _ from "lodash";
 import { Show, createEffect, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useServiceClientContext } from "../../contexts/ServiceClientContext";
-import { readAsUint8Array } from "../../lib";
-import { TKEYS } from "../../locales";
-import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
-import { ProgressBar } from "../assets/ProgressBar";
+import { ProgressBar } from "../../../components/assets";
+import { Font } from "../../../components/content";
 import {
   ActionButton,
-  DiscardConfirmation,
   FileField,
-  TextField,
-} from "../form";
-import { Dialog } from "../layout";
-import styles from "./CreateEditDialg.module.scss";
+  Form,
+  MdTextField,
+} from "../../../components/form";
+import { DiscardConfirmationDialog } from "../../../components/form/DiscardConfirmationDialog";
+import { MdDialog } from "../../../components/layout/MdDialog";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { readAsUint8Array } from "../../../lib";
+import { TKEYS } from "../../../locales";
+import { MediaResponse } from "../../../services/peoplesmarkets/media/v1/media";
 
 type Props = {
-  readonly media: () => MediaResponse;
+  readonly media: () => MediaResponse | undefined;
+  readonly show: boolean;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
 };
@@ -33,6 +35,7 @@ export function EditMediaDialog(props: Props) {
     name: undefined as string | undefined,
     file: undefined as File | undefined,
   });
+
   const [errors, setErrors] = createStore({
     name: [] as string[],
     file: [] as string[],
@@ -42,17 +45,19 @@ export function EditMediaDialog(props: Props) {
   const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
 
   createEffect(() => {
-    if (
-      !_.isNil(props.media().name) &&
-      !_.isEmpty(props.media().name) &&
-      _.isEmpty(form.name)
-    ) {
-      setForm("name", props.media().name);
+    if (_.isNil(form.name)) {
+      setForm("name", props.media()?.name);
     }
   });
 
   async function handleAddMedia(event: SubmitEvent) {
     event.preventDefault();
+
+    const mediaId = props.media()?.mediaId;
+
+    if (_.isNil(mediaId)) {
+      return;
+    }
 
     setUploading(true);
 
@@ -65,7 +70,7 @@ export function EditMediaDialog(props: Props) {
         : undefined;
 
       await mediaService.update({
-        mediaId: props.media().mediaId,
+        mediaId,
         name: form.name,
         file,
       });
@@ -129,6 +134,7 @@ export function EditMediaDialog(props: Props) {
   }
 
   function handleConfirmCloseDialog() {
+    setForm({ name: undefined, file: undefined });
     setDiscardConfirmation(false);
     props.onClose();
   }
@@ -139,18 +145,24 @@ export function EditMediaDialog(props: Props) {
 
   return (
     <>
-      <Show when={!discardConfirmation()}>
-        <Dialog
-          title={trans(TKEYS.dashboard.media["edit-file"])}
-          onClose={handleCloseDialog}
-        >
-          <form class={styles.Form} onSubmit={handleAddMedia}>
+      <MdDialog
+        open={props.show && !discardConfirmation()}
+        onClose={handleCloseDialog}
+      >
+        <div slot="headline">
+          <Font type="title" key={TKEYS.dashboard.media["edit-file"]} />
+        </div>
+
+        <div slot="content">
+          <Form onSubmit={handleAddMedia}>
             <Show when={!uploading()} fallback={<ProgressBar />}>
-              <TextField
-                label={trans(TKEYS.media.labels.name)}
+              <MdTextField
+                type="text"
                 value={form.name}
+                label={trans(TKEYS.media.labels.name)}
                 onValue={handleNameInput}
-                errors={errors.name}
+                error={!_.isEmpty(errors.name)}
+                errorText={errors.name}
               />
 
               <FileField
@@ -159,27 +171,30 @@ export function EditMediaDialog(props: Props) {
                 onValue={handleFileInput}
               />
             </Show>
+          </Form>
+        </div>
 
-            <div class={styles.DialogFooter}>
-              <ActionButton
-                actionType="active-filled"
-                submit
-                onClick={handleAddMedia}
-                disabled={formHasErrors() || uploading()}
-              >
-                <Trans key={TKEYS.form.action.Save} />
-              </ActionButton>
-            </div>
-          </form>
-        </Dialog>
-      </Show>
+        <div slot="actions">
+          <ActionButton actionType="neutral" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Cancel} />
+          </ActionButton>
 
-      <Show when={discardConfirmation()}>
-        <DiscardConfirmation
-          onCancel={handleContinueEditing}
-          onDiscard={handleConfirmCloseDialog}
-        />
-      </Show>
+          <ActionButton
+            actionType="active-filled"
+            submit
+            onClick={handleAddMedia}
+            disabled={formHasErrors() || uploading()}
+          >
+            <Trans key={TKEYS.form.action.Save} />
+          </ActionButton>
+        </div>
+      </MdDialog>
+
+      <DiscardConfirmationDialog
+        show={discardConfirmation()}
+        onCancel={handleContinueEditing}
+        onDiscard={handleConfirmCloseDialog}
+      />
     </>
   );
 }
