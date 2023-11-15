@@ -8,7 +8,7 @@ import {
   OfferType,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { OfferImages, OfferPrice } from "../commerce";
-import { Anotation, Multiline } from "../content";
+import { Font, Multiline } from "../content";
 import { Section } from "../layout";
 import { OfferBuy } from "./OfferBuy";
 import styles from "./OfferDetailView.module.scss";
@@ -31,16 +31,18 @@ export function OfferDetailView(props: Props) {
           <OfferPrice class={styles.Price} offer={props.offer} />
 
           <span class={styles.Title}>{props.offer()?.name}</span>
-
-          <Show when={props.offer()?.type === OfferType.OFFER_TYPE_DIGITAL}>
-            <Anotation active start>
-              <Trans key={TKEYS.offer["downloadable-content"]} />
-            </Anotation>
-          </Show>
         </div>
 
         <div>
           <OfferBuy offer={() => props.offer()} />
+
+          <Show when={props.offer()?.type === OfferType.OFFER_TYPE_DIGITAL}>
+            <Font type="label" key={TKEYS.offer["downloadable-content"]} />
+            <Font
+              type="detail"
+              key={TKEYS.offer["downloadable-content-info"]}
+            />
+          </Show>
         </div>
       </Section>
 
