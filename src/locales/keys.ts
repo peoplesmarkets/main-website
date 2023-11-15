@@ -17,6 +17,7 @@ export const TKEYS = {
   "Peoples-Markets": "Peoples-Markets",
   peoplesmarkets_com: "peoplesmarkets_com",
   peoplesmarkets_main_link: "peoplesmarkets_main_link",
+  "powered-by-peoplesmarkets": "powered-by-peoplesmarkets",
   fetching: {
     "content-loading": "fetching.content-loading",
     "content-error": "fetching.content-error",

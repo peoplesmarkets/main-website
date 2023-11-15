@@ -17,6 +17,7 @@ export const DE: typeof TKEYS = {
   "Peoples-Markets": EN["Peoples-Markets"],
   peoplesmarkets_com: EN.peoplesmarkets_com,
   peoplesmarkets_main_link: EN.peoplesmarkets_main_link,
+  "powered-by-peoplesmarkets": EN["powered-by-peoplesmarkets"],
   fetching: {
     "content-loading": "Wird geladen ...",
     "content-error": "Unerwarteter Fehler",
