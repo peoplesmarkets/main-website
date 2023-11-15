@@ -1,7 +1,13 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { For, createEffect, createResource } from "solid-js";
+import {
+  For,
+  Show,
+  createEffect,
+  createResource,
+  createSignal,
+} from "solid-js";
 import { createStore } from "solid-js/store";
 
 import { Font } from "../../../components/content";
@@ -26,12 +32,16 @@ import {
 } from "../../../services/peoplesmarkets/commerce/v1/price";
 import { PutShippingRateRequest } from "../../../services/peoplesmarkets/commerce/v1/shipping_rate";
 import commonStyles from "./Common.module.scss";
+import { DiscardConfirmationDialog } from "../../../components/form/DiscardConfirmationDialog";
+import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirmationDialog";
+import { isDifferentOmittingNilWithFilter } from "../../../lib/object-compair";
+
+type Dialog = "none" | "edit" | "discard" | "delete";
 
 type Props = {
   readonly show: boolean;
   readonly offer: OfferResponse | undefined;
   readonly onClose: () => void;
-  readonly onUpdate?: () => void;
 };
 
 export function EditOfferShippingRatesDialog(props: Props) {
@@ -41,7 +51,7 @@ export function EditOfferShippingRatesDialog(props: Props) {
 
   const emptyRequest = {
     offerId: undefined as string | undefined,
-    amount: undefined as number | undefined,
+    amount: 0,
     currency: Currency.CURRENCY_EUR,
     allCountries: true,
     specificCountries: [],
@@ -54,7 +64,9 @@ export function EditOfferShippingRatesDialog(props: Props) {
     currency: [] as string[],
   });
 
-  const [shippingRate] = createResource(
+  const [showDialog, setShowDialog] = createSignal<Dialog>("none");
+
+  const [shippingRate, { refetch }] = createResource(
     () => props.offer?.offerId,
     fetchShippingRate
   );
@@ -69,6 +81,7 @@ export function EditOfferShippingRatesDialog(props: Props) {
       }
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.NotFound) {
+        setRequest({ ...emptyRequest, offerId });
         return;
       }
       throw err;
@@ -76,10 +89,17 @@ export function EditOfferShippingRatesDialog(props: Props) {
   }
 
   createEffect(() => {
-    if (_.isNil(request.offerId) && !_.isNil(props.offer)) {
-      setRequest("offerId", props.offer.offerId);
+    if (props.show) {
+      setShowDialog("edit");
+      refetch();
     }
   });
+
+  function dataWasChanged() {
+    const fields = Object.keys(PutShippingRateRequest.create());
+
+    return isDifferentOmittingNilWithFilter(shippingRate(), request, fields);
+  }
 
   function resetErrors() {
     setErrors({ amount: [], currency: [] });
@@ -115,22 +135,12 @@ export function EditOfferShippingRatesDialog(props: Props) {
 
     try {
       await shippingRateService.putShippingRate(request);
-      props.onUpdate?.();
-      handleCloseDialog();
+      handleConfirmCloseDialog();
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.AlreadyExists) {
         setErrors("currency", [trans(TKEYS.form.errors["already-used"])]);
       }
     }
-  }
-
-  async function handleDeleteShippingRate() {
-    const rate = shippingRate();
-    if (!_.isNil(rate)) {
-      await shippingRateService.deleteShippingRate(rate.shippingRateId);
-    }
-    props.onUpdate?.();
-    handleCloseDialog();
   }
 
   function handleAmountInput(value: number) {
@@ -146,13 +156,43 @@ export function EditOfferShippingRatesDialog(props: Props) {
   }
 
   function handleCloseDialog() {
-    setRequest(_.clone(emptyRequest));
+    if (showDialog() !== "edit") {
+      return;
+    }
+    if (dataWasChanged()) {
+      setShowDialog("discard");
+    } else {
+      handleConfirmCloseDialog();
+    }
+  }
+
+  function handleStartDeletion() {
+    setShowDialog("delete");
+  }
+
+  async function handleDeleteShippingRate() {
+    const rate = shippingRate();
+    if (!_.isNil(rate)) {
+      await shippingRateService.deleteShippingRate(rate.shippingRateId);
+    }
+    handleConfirmCloseDialog();
+  }
+
+  function handleContinueEditing() {
+    setShowDialog("edit");
+  }
+
+  function handleConfirmCloseDialog() {
     props.onClose();
+    setShowDialog("none");
   }
 
   return (
     <>
-      <MdDialog open={props.show} onClose={handleCloseDialog}>
+      <MdDialog
+        open={props.show && showDialog() === "edit"}
+        onClose={handleCloseDialog}
+      >
         <div slot="headline">
           <Font
             type="title"
@@ -197,13 +237,18 @@ export function EditOfferShippingRatesDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+          <ActionButton
+            actionType="neutral-borderless"
+            onClick={handleCloseDialog}
+          >
             <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 
-          <ActionButton actionType="danger" onClick={handleDeleteShippingRate}>
-            <Trans key={TKEYS.form.action.Delete} />
-          </ActionButton>
+          <Show when={!_.isNil(shippingRate())}>
+            <ActionButton actionType="danger" onClick={handleStartDeletion}>
+              <Trans key={TKEYS.form.action.Delete} />
+            </ActionButton>
+          </Show>
 
           <ActionButton
             actionType="active-filled"
@@ -214,6 +259,18 @@ export function EditOfferShippingRatesDialog(props: Props) {
           </ActionButton>
         </div>
       </MdDialog>
+
+      <DiscardConfirmationDialog
+        show={showDialog() === "discard"}
+        onCancel={handleContinueEditing}
+        onDiscard={handleConfirmCloseDialog}
+      />
+
+      <DeleteConfirmationDialog
+        show={showDialog() === "delete"}
+        onCancel={handleContinueEditing}
+        onConfirmation={handleDeleteShippingRate}
+      />
     </>
   );
 }
