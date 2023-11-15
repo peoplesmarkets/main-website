@@ -193,10 +193,12 @@ export const EN: typeof TKEYS = {
     "no-offers-yet": "No Offers yet ...",
     "no-description": "No description ...",
     "currently-not-available": "Currently not available",
-    "sign-in-to-subscribe": "Sign in",
+    "sign-in-to-subscribe": "Sign in and subscribe",
     "contact-shop": "Contact Shop",
     "other-offers": "Other Offers",
-    "downloadable-content": "downloadable content",
+    "downloadable-content": "Downloadable Content",
+    "downloadable-content-info":
+      "In order to subscribe and access the files in this offer, you need to login first.",
     visibility: {
       title: "Visibility",
       visible: "Publicly visible",
