@@ -11,21 +11,17 @@ import {
   ReportType,
 } from "../../services/peoplesmarkets/report/v1/report";
 import { listReportTypeCodes } from "../../services/report/report";
-import {
-  ActionButton,
-  Anotation,
-  Select,
-  SelectKey,
-  TextArea,
-  TextField,
-} from "../form";
+import { ContentLoading, Font } from "../content";
+import { ActionButton, Form, MdTextField, SelectKey } from "../form";
 import { DiscardConfirmationDialog } from "../form/DiscardConfirmationDialog";
-import { Dialog } from "../layout";
-import styles from "./ReportDialog.module.scss";
+import { MdSelect } from "../form/MdSelect";
+import { MdDialog } from "../layout/MdDialog";
 
 type Props = {
+  show: boolean;
   onClose: () => void;
 };
+
 export function ReportDialog(props: Props) {
   const [trans] = useTransContext();
 
@@ -41,6 +37,7 @@ export function ReportDialog(props: Props) {
   const [request, setRequest] = createStore(_.clone(emptyRequest));
 
   const [issueLink, setIssueLink] = createSignal<string | undefined>();
+  const [loading, setLoading] = createSignal(false);
 
   const [errors, setErrors] = createStore({
     title: [] as string[],
@@ -71,14 +68,6 @@ export function ReportDialog(props: Props) {
     );
   }
 
-  function closeDialog() {
-    if (dataWasChanged() && _.isNil(issueLink())) {
-      setDiscardConfirmation(true);
-    } else {
-      props.onClose();
-    }
-  }
-
   function isValid() {
     let isValid = true;
 
@@ -93,6 +82,12 @@ export function ReportDialog(props: Props) {
     }
 
     return isValid;
+  }
+
+  function resetDialog() {
+    setRequest(_.clone(emptyRequest));
+    setIssueLink(undefined);
+    setDiscardConfirmation(false);
   }
 
   function resetErrors() {
@@ -120,13 +115,27 @@ export function ReportDialog(props: Props) {
     event.preventDefault();
 
     if (isValid()) {
-      const reponse = await reportService.create(request);
-      setIssueLink(reponse.link);
+      setLoading(true);
+      try {
+        const reponse = await reportService.create(request);
+        setIssueLink(reponse.link);
+        setLoading(false);
+      } catch (err) {
+        setLoading(false);
+      }
+    }
+  }
+
+  function handleCloseDialog() {
+    if (dataWasChanged() && _.isNil(issueLink())) {
+      setDiscardConfirmation(true);
+    } else {
+      confirmCloseDialog();
     }
   }
 
   function confirmCloseDialog() {
-    setDiscardConfirmation(false);
+    resetDialog();
     props.onClose();
   }
 
@@ -137,61 +146,84 @@ export function ReportDialog(props: Props) {
 
   return (
     <>
-      <Dialog title={trans(TKEYS.report.title)} onClose={closeDialog}>
-        <Show
-          when={!_.isNil(issueLink())}
-          fallback={
-            <form class={styles.Form} onSubmit={handleSubmitFeedback}>
-              <Select
-                label={trans(TKEYS.report.labels.type)}
-                options={reportTypeOptions}
-                value={selectedReportType}
-                onValue={handleReportTypeChange}
-              />
+      <MdDialog open={Boolean(props.show)} onClose={handleCloseDialog}>
+        <div slot="headline">
+          <Font type="title" key={TKEYS.report.title} />
+        </div>
 
-              <TextField
-                label={trans(TKEYS.report.labels.title)}
-                value={request.title}
-                onValue={handleTitleInput}
-                required
-                errors={errors.title}
-                small
-              />
+        <div slot="content">
+          <Show when={!loading()} fallback={<ContentLoading page />}>
+            <Show
+              when={_.isNil(issueLink())}
+              fallback={
+                <>
+                  <Font type="body" key={TKEYS.report["link-information"]} />
 
-              <TextArea
-                label={trans(TKEYS.report.labels.content)}
-                rows={14}
-                value={request.content}
-                onValue={handleContentInput}
-                required
-                errors={errors.content}
-              />
+                  <Font type="body">
+                    <A href={issueLink() || "#"} target="_blank">
+                      {issueLink()}
+                    </A>
+                  </Font>
+                </>
+              }
+            >
+              <Form onSubmit={handleSubmitFeedback}>
+                <MdSelect
+                  type="outlined"
+                  label={trans(TKEYS.report.labels.type)}
+                  options={reportTypeOptions()}
+                  selected={selectedReportType()}
+                  onChange={handleReportTypeChange}
+                />
 
-              <div class={styles.DialogFooter}>
-                <ActionButton
-                  actionType="active-filled"
-                  submit
-                  onClick={handleSubmitFeedback}
-                >
-                  <Trans key={TKEYS.form.action.Send} />
-                </ActionButton>
-              </div>
-            </form>
-          }
-        >
-          <div class={styles.Form}>
-            <Anotation>
-              <Trans key={TKEYS.report["link-information"]} />
-            </Anotation>
+                <MdTextField
+                  type="text"
+                  label={trans(TKEYS.report.labels.title)}
+                  value={request.title}
+                  onValue={handleTitleInput}
+                  required
+                  error={!_.isEmpty(errors.title)}
+                  errorText={errors.title}
+                />
 
-            <Anotation>
-              <A class={styles.Link} href={issueLink()!} target="_blank">
-                {issueLink()}
-              </A>
-            </Anotation>
-          </div>
-        </Show>
-      </Dialog>
+                <MdTextField
+                  type="textarea"
+                  label={trans(TKEYS.report.labels.content)}
+                  rows={8}
+                  value={request.content}
+                  onValue={handleContentInput}
+                  required
+                  error={!_.isEmpty(errors.content)}
+                  errorText={errors.content}
+                />
+              </Form>
+            </Show>
+          </Show>
+        </div>
+
+        <div slot="actions">
+          <Show
+            when={_.isNil(issueLink())}
+            fallback={
+              <ActionButton actionType="neutral" onClick={handleCloseDialog}>
+                <Trans key={TKEYS.form.action.OK} />
+              </ActionButton>
+            }
+          >
+            <ActionButton actionType="neutral" onClick={handleCloseDialog}>
+              <Trans key={TKEYS.form.action.Close} />
+            </ActionButton>
+
+            <ActionButton
+              actionType="active-filled"
+              submit
+              onClick={handleSubmitFeedback}
+            >
+              <Trans key={TKEYS.form.action.Send} />
+            </ActionButton>
+          </Show>
+        </div>
+      </MdDialog>
 
       <DiscardConfirmationDialog
         show={discardConfirmation()}

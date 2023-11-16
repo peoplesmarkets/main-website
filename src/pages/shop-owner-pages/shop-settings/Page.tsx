@@ -24,7 +24,6 @@ import { requireShopOwner } from "../../../guards/shop";
 import { buildBaseUrl, isValidHostname } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import { buildDashboardPathOrUrl } from "../../../routes/main-routing";
-import { MyShopData } from "../MyShopData";
 import {
   buildShopDetailPath,
   buildShopSettingsPath,
@@ -35,6 +34,7 @@ import {
   DomainStatus,
 } from "../../../services/peoplesmarkets/commerce/v1/shop_domain";
 import commonStyles from "../Common.module.scss";
+import { MyShopData } from "../MyShopData";
 import { PublishShopDialog } from "../PublishShopDialog";
 import { UnpublishShopDialog } from "../UnpublishShopDialog";
 import styles from "./Page.module.scss";
@@ -108,6 +108,15 @@ export default function ShopSettingsPage() {
 
   function loaded() {
     return authenticated() && requireShopOwner(shopData.shop());
+  }
+
+  function domainStatus(): "pending" | "active" | undefined {
+    if (shopDomain()?.status === DomainStatus.DOMAIN_STATUS_PENDING) {
+      return "pending";
+    }
+    if (shopDomain()?.status === DomainStatus.DOMAIN_STATUS_ACTIVE) {
+      return "active";
+    }
   }
 
   function domainDataWasChanged() {
@@ -280,57 +289,50 @@ export default function ShopSettingsPage() {
             <form class={commonStyles.FormSet} onSubmit={handleUpdateSlug}>
               <div class={commonStyles.FieldsSingle}>
                 <div class={commonStyles.FieldInfo}>
-                  <Font type="headline" class={commonStyles.Headline}>
-                    <Trans key={TKEYS.dashboard.shop.domain["edit-domain"]} />
-                  </Font>
+                  <Font
+                    class={commonStyles.Headline}
+                    type="headline"
+                    key={TKEYS.dashboard.shop.domain["edit-domain"]}
+                  />
+
                   <Switch
                     fallback={
-                      <Font type="body">
-                        <Trans
-                          key={TKEYS.dashboard.shop.domain["edit-domain-info"]}
-                        />
-                      </Font>
+                      <Font
+                        type="body"
+                        key={TKEYS.dashboard.shop.domain["edit-domain-info"]}
+                      />
                     }
                   >
-                    <Match
-                      when={
-                        shopDomain()?.status ===
-                        DomainStatus.DOMAIN_STATUS_PENDING
-                      }
-                    >
-                      <Font type="label" warn>
-                        <Trans key={TKEYS.dashboard.shop.domain.pending} />
-                      </Font>
-                      <Font type="body">
-                        <Trans
-                          key={
-                            TKEYS.dashboard["shop"].domain[
-                              "pending-information"
-                            ]
-                          }
-                        />
-                      </Font>
-                      <Font type="body" strong>
-                        <Trans
-                          key={
-                            TKEYS.dashboard.shop.domain[
-                              "pending-information-sample"
-                            ]
-                          }
-                          options={{ item: updateDomainRequest.domain }}
-                        />
-                      </Font>
+                    <Match when={domainStatus() === "pending"}>
+                      <Font
+                        type="label"
+                        warn
+                        key={TKEYS.dashboard.shop.domain.pending}
+                      />
+                      <Font
+                        type="body"
+                        key={
+                          TKEYS.dashboard["shop"].domain["pending-information"]
+                        }
+                      />
+                      <Font
+                        type="body"
+                        strong
+                        key={
+                          TKEYS.dashboard.shop.domain[
+                            "pending-information-sample"
+                          ]
+                        }
+                        options={{ item: updateDomainRequest.domain }}
+                      />
                     </Match>
 
-                    <Match
-                      when={
-                        shopDomain()?.status ===
-                        DomainStatus.DOMAIN_STATUS_ACTIVE
-                      }
-                    >
-                      <Font type="body" active>
-                        <Trans key={TKEYS.dashboard["shop"].domain.active} />
-                      </Font>
+                    <Match when={domainStatus() === "active"}>
+                      <Font
+                        type="body"
+                        active
+                        key={TKEYS.dashboard["shop"].domain.active}
+                      />
                     </Match>
                   </Switch>
                 </div>
@@ -340,6 +342,7 @@ export default function ShopSettingsPage() {
                     type="text"
                     value={updateDomainRequest.domain}
                     label={trans(TKEYS.shop.labels.Domain)}
+                    prefixText="https://"
                     onValue={handleDomainInput}
                     error={!_.isEmpty(updateDomainErrors.domain)}
                     errorText={updateDomainErrors.domain}
@@ -373,12 +376,15 @@ export default function ShopSettingsPage() {
           <form class={commonStyles.FormSet} onSubmit={handleUpdateDomain}>
             <div class={commonStyles.FieldsSingle}>
               <div class={commonStyles.FieldInfo}>
-                <Font type="headline" class={commonStyles.Headline}>
-                  <Trans key={TKEYS.dashboard.shop.path["edit-path"]} />
-                </Font>
-                <Font type="body">
-                  <Trans key={TKEYS.dashboard.shop.path["edit-path-info"]} />
-                </Font>
+                <Font
+                  type="headline"
+                  class={commonStyles.Headline}
+                  key={TKEYS.dashboard.shop.path["edit-path"]}
+                />
+                <Font
+                  type="body"
+                  key={TKEYS.dashboard.shop.path["edit-path-info"]}
+                />
               </div>
 
               <div class={commonStyles.Field}>
@@ -412,12 +418,12 @@ export default function ShopSettingsPage() {
           <form class={commonStyles.FormSet}>
             <div class={commonStyles.FieldsSingle}>
               <div class={commonStyles.FieldInfo}>
-                <Font type="headline" class={commonStyles.Headline}>
-                  <Trans key={TKEYS.dashboard.shop.visibility.Title} />
-                </Font>
-                <Font type="body">
-                  <Trans key={TKEYS.dashboard.shop.visibility.Info} />
-                </Font>
+                <Font
+                  type="headline"
+                  class={commonStyles.Headline}
+                  key={TKEYS.dashboard.shop.visibility.Title}
+                />
+                <Font type="body" key={TKEYS.dashboard.shop.visibility.Info} />
               </div>
             </div>
 
@@ -462,15 +468,14 @@ export default function ShopSettingsPage() {
           </form>
 
           <Section danger>
-            <Font type="title">
-              <Trans key={TKEYS.form["critical-settings"]} />
-            </Font>
+            <Font type="title" key={TKEYS.form["critical-settings"]} />
 
             <div class={commonStyles.FormSet}>
               <div class={commonStyles.FieldRow}>
-                <Font type="body">
-                  <Trans key={TKEYS.dashboard.shop["delete-this-shop"]} />
-                </Font>
+                <Font
+                  type="body"
+                  key={TKEYS.dashboard.shop["delete-this-shop"]}
+                />
 
                 <ActionButton
                   actionType="danger"
@@ -503,9 +508,8 @@ export default function ShopSettingsPage() {
         onCancel={handleCloseDialog}
         onConfirmation={handleDeleteShop}
       >
-        <Font type="body">
-          <Trans key={TKEYS.dashboard.shop["delete-shop-info"]} />
-        </Font>
+        <Font type="body" key={TKEYS.dashboard.shop["delete-shop-info"]} />
+
         <Show when={!_.isEmpty(deleteShopErrors())}>
           <Font type="label" warn>
             {deleteShopErrors()}

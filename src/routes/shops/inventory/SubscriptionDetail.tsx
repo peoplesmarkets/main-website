@@ -16,9 +16,9 @@ import { ActionButton } from "../../../components/form";
 import { CancelConfirmation } from "../../../components/form/CancelConfirmation";
 import { Section } from "../../../components/layout";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { requireAuthentication } from "../../../guards/authentication";
 import { secondsToLocaleDate } from "../../../lib";
 import { TKEYS } from "../../../locales";
-import { requireAuthentication } from "../../../guards/authentication";
 import { MediaFilterField } from "../../../services/peoplesmarkets/media/v1/media";
 import { buildOfferPath } from "../shop-routing";
 import styles from "./SubscriptionDetail.module.scss";
@@ -156,9 +156,11 @@ export default function SubscriptionDetail() {
             </div>
 
             <div class={styles.Action}>
-              <Font type="body">
-                <Trans key={TKEYS.subscription["cancel-subscription"]} />
-              </Font>
+              <Font
+                type="body"
+                key={TKEYS.subscription["cancel-subscription"]}
+              />
+
               <ActionButton
                 actionType="danger"
                 small

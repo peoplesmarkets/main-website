@@ -5,6 +5,7 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import ICU from "i18next-icu";
 import { Show, onMount } from "solid-js";
 
+import { Redirect } from "./components/navigation/Redirect";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { isCustomDomain, setDocumentLanguage } from "./lib";
@@ -15,7 +16,6 @@ import CommunityRoutes from "./routes/community/CommunityRoutes";
 import InfoRoutes from "./routes/info/InfoRoutes";
 import { ShopRoutes } from "./routes/shops/ShopRoutes";
 import { UserRoutes } from "./routes/user/UserRoutes";
-import { Redirect } from "./components/navigation/Redirect";
 
 export default function App() {
   const i18nextInstance = i18next.createInstance({
