@@ -14,6 +14,7 @@ type Props = {
   submit?: boolean | undefined;
   disabled?: boolean | undefined;
   danger?: boolean | undefined;
+  square?: boolean | undefined;
   trailingIcon?: boolean | undefined;
   onClick?: (_event: any) => void;
   children: SolidJSX.Element;
@@ -26,6 +27,7 @@ export function MdButton(props: Props) {
         <md-filled-button
           classList={{
             [styles.Danger]: Boolean(props.danger),
+            [styles.Square]: Boolean(props.square),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -41,6 +43,7 @@ export function MdButton(props: Props) {
         <md-elevated-button
           classList={{
             [styles.Danger]: Boolean(props.danger),
+            [styles.Square]: Boolean(props.square),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -55,6 +58,7 @@ export function MdButton(props: Props) {
         <md-filled-button
           classList={{
             [styles.Danger]: Boolean(props.danger),
+            [styles.Square]: Boolean(props.square),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -69,6 +73,7 @@ export function MdButton(props: Props) {
         <md-filled-tonal-button
           classList={{
             [styles.Danger]: Boolean(props.danger),
+            [styles.Square]: Boolean(props.square),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -83,6 +88,7 @@ export function MdButton(props: Props) {
         <md-outlined-button
           classList={{
             [styles.Danger]: Boolean(props.danger),
+            [styles.Square]: Boolean(props.square),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -97,6 +103,7 @@ export function MdButton(props: Props) {
         <md-text-button
           classList={{
             [styles.Danger]: Boolean(props.danger),
+            [styles.Square]: Boolean(props.square),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}

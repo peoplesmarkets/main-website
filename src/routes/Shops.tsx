@@ -8,9 +8,9 @@ import {
   resetErrorBoundaries,
 } from "solid-js";
 
-import { ShopList } from "./shops/list/ShopList";
 import { ContentError } from "../components/content";
-import { Select, SelectKey } from "../components/form";
+import { SelectKey } from "../components/form";
+import { MdSelect } from "../components/form/MdSelect";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
 import { SearchIcon } from "../components/icons/SearchIcon";
 import { Section, Slot } from "../components/layout";
@@ -25,6 +25,7 @@ import {
 import { Direction } from "../services/peoplesmarkets/ordering/v1/ordering";
 import MainRoutesWrapper from "./MainRoutesWrapper";
 import styles from "./ShopsOffers.module.scss";
+import { ShopList } from "./shops/list/ShopList";
 
 export default function Shops() {
   const [trans] = useTransContext();
@@ -97,11 +98,16 @@ export default function Shops() {
   }
 
   function handleOrderByInput(field: ShopsOrderByField, direction: SelectKey) {
-    if (!_.isNumber(direction)) {
-      return;
+    let dir: number;
+    if (_.isNumber(direction)) {
+      dir = direction;
+    } else if (_.isString(direction)) {
+      dir = parseInt(direction, 10);
+    } else {
+      dir = direction ? 1 : 0;
     }
 
-    setOrderBy({ field, direction });
+    setOrderBy({ field, direction: dir });
   }
 
   async function handleSearchSubmit(event: SubmitEvent) {
@@ -131,11 +137,12 @@ export default function Shops() {
       <Slot name="content">
         <Section>
           <div class={styles.Filters}>
-            <Select
+            <MdSelect
+              type="outlined"
               label={trans(TKEYS.query["order-by"]["created-at"].title)}
-              options={createdAtOrderByOptions}
-              value={selectedCreatedAtOrderByKey}
-              onValue={(direction) =>
+              options={createdAtOrderByOptions()}
+              selected={selectedCreatedAtOrderByKey()}
+              onChange={(direction) =>
                 handleOrderByInput(
                   ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT,
                   direction
