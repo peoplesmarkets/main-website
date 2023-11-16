@@ -1,32 +1,34 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { useRouteData } from "@solidjs/router";
-import { useServiceClientContext } from "../../contexts/ServiceClientContext";
-import { readAsUint8Array } from "../../lib";
-import { TKEYS } from "../../locales";
-import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
+import { ProgressBar } from "../../../components/assets/ProgressBar";
+import { Font } from "../../../components/content";
+import {
+  ActionButton,
+  FileField,
+  Form,
+  MdTextField,
+} from "../../../components/form";
+import { DiscardConfirmationDialog } from "../../../components/form/DiscardConfirmationDialog";
+import { MdDialog } from "../../../components/layout/MdDialog";
+import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { readAsUint8Array } from "../../../lib";
+import { TKEYS } from "../../../locales";
 import {
   MediaResponse,
   Part,
-} from "../../services/peoplesmarkets/media/v1/media";
-import { ProgressBar } from "../assets/ProgressBar";
-import {
-  ActionButton,
-  DiscardConfirmation,
-  FileField,
-  TextField,
-} from "../form";
-import { Dialog } from "../layout";
-import styles from "./CreateEditDialg.module.scss";
+} from "../../../services/peoplesmarkets/media/v1/media";
+import { MyShopData } from "../MyShopData";
 
 const CHUNKSIZE = 1024 * 1024 * 5;
 
 type Props = {
-  readonly offerId?: string;
+  readonly offerId?: string | undefined;
+  readonly show: boolean;
   readonly onUpdate: () => void;
   readonly onClose: () => void;
 };
@@ -49,7 +51,8 @@ export function CreateMediaDialog(props: Props) {
 
   const [uploading, setUploading] = createSignal(false);
   const [uploadedBytes, setUploadedBytes] = createSignal<number>();
-  const [discardConfirmation, setDiscardConfirmation] = createSignal(false);
+  const [showDiscardConfirmation, setShowDiscardConfirmation] =
+    createSignal(false);
 
   async function handleAddMedia(event: SubmitEvent) {
     event.preventDefault();
@@ -208,71 +211,82 @@ export function CreateMediaDialog(props: Props) {
 
   function handleCloseDialog() {
     if (_.isNil(form.file)) {
-      props.onClose();
+      handleConfirmCloseDialog();
     } else {
-      setDiscardConfirmation(true);
+      setShowDiscardConfirmation(true);
     }
   }
 
   function handleConfirmCloseDialog() {
-    setDiscardConfirmation(false);
+    setForm({ name: undefined, file: undefined });
+    setShowDiscardConfirmation(false);
     props.onClose();
   }
 
   function handleContinueEditing() {
-    setDiscardConfirmation(false);
+    setShowDiscardConfirmation(false);
   }
 
   return (
     <>
-      <Dialog
-        title={trans(TKEYS.dashboard.media["create-new-file"])}
+      <MdDialog
+        open={props.show && !showDiscardConfirmation()}
         onClose={handleCloseDialog}
       >
-        <form class={styles.Form} onSubmit={handleAddMedia}>
-          <Show
-            when={!uploading()}
-            fallback={
-              <ProgressBar
-                total={form.file?.size}
-                current={() => uploadedBytes()}
-              />
-            }
-          >
-            <TextField
-              label={trans(TKEYS.media.labels.name)}
-              value={form.name}
-              onValue={handleNameInput}
-              errors={errors.name}
-            />
+        <div slot="headline">
+          <Font type="title" key={TKEYS.dashboard.media["create-new-file"]} />
+        </div>
 
-            <FileField
-              label={trans(TKEYS.media.labels.file)}
-              required
-              errors={errors.file}
-              onValue={handleFileInput}
-            />
-          </Show>
-
-          <div class={styles.DialogFooter}>
-            <ActionButton
-              actionType="active-filled"
-              submit
-              onClick={handleAddMedia}
-              disabled={formHasErrors() || uploading()}
+        <div slot="content">
+          <Form onSubmit={handleAddMedia}>
+            <Show
+              when={!uploading()}
+              fallback={
+                <ProgressBar
+                  total={form.file?.size}
+                  current={() => uploadedBytes()}
+                />
+              }
             >
-              <Trans key={TKEYS.form.action.Save} />
-            </ActionButton>
-          </div>
-        </form>
-      </Dialog>
+              <MdTextField
+                label={trans(TKEYS.media.labels.name)}
+                value={form.name}
+                onValue={handleNameInput}
+                error={!_.isEmpty(errors.name)}
+                errorText={errors.name}
+              />
 
-      <Show when={discardConfirmation()}>
-        <DiscardConfirmation
-          onCancel={handleContinueEditing}
-          onDiscard={handleConfirmCloseDialog}
-        />
-      </Show>
+              <FileField
+                label={trans(TKEYS.media.labels.file)}
+                required
+                errors={errors.file}
+                onValue={handleFileInput}
+              />
+            </Show>
+          </Form>
+        </div>
+
+        <div slot="actions">
+          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+            <Trans key={TKEYS.form.action.Close} />
+          </ActionButton>
+
+          <ActionButton
+            actionType="active-filled"
+            submit
+            onClick={handleAddMedia}
+            disabled={formHasErrors() || uploading()}
+          >
+            <Trans key={TKEYS.form.action.Save} />
+          </ActionButton>
+        </div>
+      </MdDialog>
+
+      <DiscardConfirmationDialog
+        show={showDiscardConfirmation()}
+        onCancel={handleContinueEditing}
+        onDiscard={handleConfirmCloseDialog}
+      />
     </>
   );
 }

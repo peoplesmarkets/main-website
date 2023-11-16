@@ -4,18 +4,19 @@ import _ from "lodash";
 import { For, Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
+import { ActionButton } from "../../components/form";
+import { DeleteConfirmationDialog } from "../../components/form/DeleteConfirmationDialog";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
-import { EditMediaDialog } from "../dashboard/EditMediaDialog";
-import { ActionButton, DeleteConfirmation } from "../form";
 import styles from "./MediaList.module.scss";
+import { EditMediaDialog } from "./media-configuration/EditMediaDialog";
 
 type Props = {
-  medias: () => MediaResponse[] | undefined;
+  medias: MediaResponse[] | undefined;
   onUpdate: () => void;
-  offer?: () => OfferResponse;
+  offer?: OfferResponse | undefined;
 };
 
 export function MediaList(props: Props) {
@@ -52,7 +53,7 @@ export function MediaList(props: Props) {
     if (!_.isNil(mediaId) && !_.isEmpty(mediaId)) {
       try {
         setShowDeleteConfirmation(false);
-        const offer = props.offer?.();
+        const offer = props.offer;
         if (!_.isNil(offer)) {
           await mediaService.removeMediaFromOffer({
             mediaId,
@@ -77,7 +78,7 @@ export function MediaList(props: Props) {
   return (
     <>
       <div class={styles.MediaList}>
-        <For each={props.medias()}>
+        <For each={props.medias}>
           {(media) => (
             <div class={styles.Row}>
               <span class={styles.Label}>{media.name}</span>
@@ -99,6 +100,7 @@ export function MediaList(props: Props) {
                 >
                   <Trans key={TKEYS.form.action.Edit} />
                 </ActionButton>
+
                 <ActionButton
                   actionType="danger"
                   small
@@ -112,21 +114,20 @@ export function MediaList(props: Props) {
         </For>
       </div>
 
-      <Show when={showEditMedia()}>
-        <EditMediaDialog
-          media={() => mediaToEdit()!}
-          onClose={handleCancelEdit}
-          onUpdate={props.onUpdate}
-        />
-      </Show>
-      <Show when={showDeleteConfirmation()}>
-        <DeleteConfirmation
-          item={trans(TKEYS.media.Title)}
-          itemName={mediaToDelete()?.name}
-          onCancel={handleCancelEdit}
-          onConfirmation={handleDeleteConfirmation}
-        />
-      </Show>
+      <EditMediaDialog
+        show={showEditMedia()}
+        media={mediaToEdit()}
+        onClose={handleCancelEdit}
+        onUpdate={props.onUpdate}
+      />
+
+      <DeleteConfirmationDialog
+        show={showDeleteConfirmation()}
+        item={trans(TKEYS.media.Title)}
+        itemName={mediaToDelete()?.name}
+        onCancel={handleCancelEdit}
+        onConfirmation={handleDeleteConfirmation}
+      />
     </>
   );
 }

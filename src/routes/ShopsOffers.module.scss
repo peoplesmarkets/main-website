@@ -42,13 +42,14 @@
 }
 
 .Filters {
+  position: relative;
+  z-index: 1;
   display: flex;
   justify-content: start;
   align-items: center;
   flex-wrap: wrap;
   gap: 0.5rem;
 }
-
 
 .QueryButton {
   display: inline;

@@ -1,7 +1,4 @@
-import {
-  OfferType,
-  offerTypeToJSON,
-} from "../services/peoplesmarkets/commerce/v1/offer";
+import { OfferType } from "../services/peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
   PriceType,
@@ -52,6 +49,7 @@ export const TKEYS = {
       Edit: "form.action.Edit",
       Delete: "form.action.Delete",
       Cancel: "form.action.Cancel",
+      Close: "form.action.Close",
       Discard: "form.action.Discard",
       Remove: "form.action.Remove",
       Enable: "form.action.Enable",
@@ -237,16 +235,10 @@ export const TKEYS = {
       "show-on-home-page": "offer.labels.show-on-home-page",
     },
     types: {
-      [offerTypeToJSON(
-        OfferType.OFFER_TYPE_PHYSICAL
-      )]: `offer.types.${offerTypeToJSON(OfferType.OFFER_TYPE_PHYSICAL)}`,
-      [offerTypeToJSON(
-        OfferType.OFFER_TYPE_DIGITAL
-      )]: `offer.types.${offerTypeToJSON(OfferType.OFFER_TYPE_DIGITAL)}`,
-      [offerTypeToJSON(
-        OfferType.OFFER_TYPE_SERVICE
-      )]: `offer.types.${offerTypeToJSON(OfferType.OFFER_TYPE_SERVICE)}`,
-    },
+      [OfferType.OFFER_TYPE_PHYSICAL]: `offer.types.1`,
+      [OfferType.OFFER_TYPE_DIGITAL]: `offer.types.2`,
+      [OfferType.OFFER_TYPE_SERVICE]: `offer.types.3`,
+    } as Record<number, string>,
   },
   media: {
     Title: "media.Title",

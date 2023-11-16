@@ -1,13 +1,12 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import _ from "lodash";
-import { Show } from "solid-js";
 
 import { TKEYS } from "../../locales";
-import { Dialog } from "../layout/Dialog";
+import { Font } from "../content";
+import { MdDialog } from "../layout/MdDialog";
 import { ActionButton, ActionType } from "./ActionButton";
-import styles from "./DeleteConfirmation.module.scss";
 
 type Props = {
+  readonly show: boolean;
   readonly title: string;
   readonly message?: string;
   readonly onOk: () => void;
@@ -17,14 +16,16 @@ type Props = {
 
 export function ConfirmationDialog(props: Props) {
   return (
-    <Dialog title={props.title} onClose={props.onCancel}>
-      <Show when={!_.isEmpty(props.message)}>
-        <div class={styles.Information}>
-          <span class={styles.Body}>{props.message}</span>
-        </div>
-      </Show>
+    <MdDialog open={props.show} onClose={props.onCancel}>
+      <div slot="headline">
+        <Font type="title">{props.title}</Font>
+      </div>
 
-      <div class={styles.Footer}>
+      <div slot="content">
+        <Font type="body">{props.message}</Font>
+      </div>
+
+      <div slot="actions">
         <ActionButton actionType="neutral-borderless" onClick={props.onCancel}>
           <Trans key={TKEYS.form.action.Cancel} />
         </ActionButton>
@@ -33,6 +34,6 @@ export function ConfirmationDialog(props: Props) {
           <Trans key={TKEYS.form.action.Accept} />
         </ActionButton>
       </div>
-    </Dialog>
+    </MdDialog>
   );
 }

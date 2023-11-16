@@ -10,7 +10,7 @@ import {
 } from "../../routes/shops/shop-routing";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { PlaceholderImage } from "../assets/PlaceholderImage";
-import { OfferPrice } from "../commerce/OfferPrice";
+import { OfferPrice } from "../../pages/OfferPrice";
 import styles from "../shops/OfferList.module.scss";
 
 type Props = {

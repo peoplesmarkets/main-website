@@ -14,7 +14,8 @@
   --display-background-color: #f8f9fa;
   --primary-background-color: #f8f8f8;
   --primary-background-color-lighten: #f8f9fa80;
-  --secondary-background-color: #dde4e9;
+  --secondary-background-color: rgb(236, 230, 240);
+  --tertiary-background-color: #dde4e9;
   --active-background-color: #c2e7ff;
   --secondary-active-background-color: #b0ccf1;
   --hovered-background: linear-gradient(
@@ -63,6 +64,7 @@
   --primary-background-color: #1e1e1e;
   --primary-background-color-lighten: #14141480;
   --secondary-background-color: #2d2f31;
+  --tertiary-background-color: #2e2d31;
   --active-background-color: #004a77;
   --secondary-active-background-color: #004a77;
   --hovered-background: linear-gradient(
@@ -210,11 +212,33 @@
   // Material UI
   --md-sys-color-background: var(--primary-background-color);
   --md-sys-color-surface: var(--primary-background-color);
+  --md-sys-color-surface-container-high: var(--secondary-background-color);
+  --md-sys-color-surface-container-highest: var(--tertiary-background-color);
   --md-sys-color-on-surface: var(--primary-content-color);
   --md-sys-color-on-surface-variant: var(--secondary-content-color);
   --md-sys-color-primary: var(--active-content-color);
+  --md-sys-color-outline: var(--active-content-color);
   --md-sys-color-error: var(--danger-content-color);
   // --md-sys-color-error-container:
+
+  --md-elevated-button-container-color: var(--secondary-background-color);
+  --md-elevated-button-label-text-color: var(--primary-content-color);
+  --md-filled-button-container-color: var(--active-content-color);
+  --md-filled-button-label-text-color: var(--primary-background-color);
+  --md-filled-tonal-button-container-color: var(--tertiary-background-color);
+  --md-filled-tonal-button-label-text-color: var(--secondary-content-color);
+  --md-outlined-button-outline-color: var(--secondary-content-color);
+  --md-outlined-button-label-text-color: var(--primary-content-color);
+
+  md-outlined-select::part(menu) {
+    --md-menu-container-color: var(--secondary-background-color);
+    --md-menu-container-shape: 4px;
+  }
+
+  md-filled-select::part(menu) {
+    --md-menu-container-color: var(--secondary-background-color);
+    --md-menu-container-shape: 0px;
+  }
 }
 
 * {

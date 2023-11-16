@@ -6,19 +6,15 @@
   margin-bottom: 1rem;
 }
 
-.Body {
+.Label {
   display: block;
   font: var(--font-body);
 }
 
-.Label {
+.Strong {
   display: block;
-  font: var(--font-label);
-}
-
-.Subheading {
-  display: block;
-  font: var(--font-label);
+  font: var(--font-body);
+  font-weight: 500;
 }
 
 .Link {
@@ -55,6 +51,7 @@
 }
 
 .FieldSet {
+  width: 100%;
   display: flex;
   align-items: center;
   gap: 0.5rem;

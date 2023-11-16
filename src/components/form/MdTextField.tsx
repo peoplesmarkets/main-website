@@ -4,21 +4,16 @@ import { ComponentProps, JSX as SolidJSX, splitProps } from "solid-js";
 
 import styles from "./MdTextField.module.scss";
 
-type Props = {
-  class?: string | undefined;
-  type?: string | undefined;
-  value?: string | undefined;
-  required?: boolean | undefined;
-  disabled?: boolean | undefined;
-  label?: string | undefined;
-  rows?: number | undefined;
-  cols?: number | undefined;
-  prefixText?: string | undefined;
-  onValue?: (value: string) => void;
-  error?: boolean | undefined;
-  errorText?: string | string[] | undefined;
-  supportingText?: string | string[] | undefined;
-  children?: SolidJSX.Element | undefined;
+type Props = ComponentProps<"input"> & {
+  readonly label?: string | undefined;
+  readonly prefixText?: string | undefined;
+  readonly rows?: number | undefined;
+  readonly cols?: number | undefined;
+  readonly onValue: (value: any) => void;
+  readonly error?: boolean | undefined;
+  readonly errorText?: string | string[] | undefined;
+  readonly supportingText?: string | string[] | undefined;
+  readonly children?: SolidJSX.Element | undefined;
 };
 
 export function MdTextField(props: Props) {
@@ -29,6 +24,7 @@ export function MdTextField(props: Props) {
     "prefixText",
     "errorText",
     "supportingText",
+    "onFocusOut",
   ]);
 
   return (
@@ -36,10 +32,11 @@ export function MdTextField(props: Props) {
       {...others}
       value={local.value || ""}
       class={local.class || styles.MdTextField}
-      onInput={({ currentTarget }) => local.onValue?.(currentTarget.value)}
+      oninput={(event) => local.onValue(event.target.value)}
       prefix-text={local.prefixText}
       error-text={local.errorText}
       supporting-text={local.supportingText}
+      onfocusout={local.onFocusOut}
     />
   );
 }

@@ -5,6 +5,8 @@ import { clickOutside } from "../../directives";
 import { CloseIcon } from "../icons";
 import Chevron from "../icons/Chevron";
 import styles from "./Select.module.scss";
+import { MdList } from "../content/MdList";
+import { MdListItem } from "../content/MdListItem";
 
 false && clickOutside;
 
@@ -146,7 +148,7 @@ export function Select(props: Props) {
 
       <div class={styles.ListHandle}>
         <Show when={showSuggestionList()}>
-          <div class={styles.List}>
+          {/* <div class={styles.List}>
             <For each={props.options()}>
               {(option) => (
                 <div class={styles.ListItem}>
@@ -168,7 +170,22 @@ export function Select(props: Props) {
                 </div>
               )}
             </For>
-          </div>
+          </div> */}
+          <MdList>
+            <For each={props.options()}>
+              {(option) => (
+                <MdListItem type="button" onClick={() => handleSelect(option)}>
+                  {option.name}
+                  <Show when={showClearIcon() && isSelected(option)}>
+                    <CloseIcon
+                      class={styles.CloseIcon}
+                      onClick={handleRemoveSelection}
+                    />
+                  </Show>
+                </MdListItem>
+              )}
+            </For>
+          </MdList>
         </Show>
       </div>
     </div>

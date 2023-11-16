@@ -8,14 +8,12 @@ import {
   renderIntoRoot,
 } from "../../lib/testing";
 import { ActionButton } from "./ActionButton";
-import { DeleteConfirmation } from "./DeleteConfirmation";
-import { DiscardConfirmation } from "./DiscardConfirmation";
+import { Anotation } from "./Anotation";
 import { Message } from "./Message";
+import { PriceField } from "./PriceField";
 import { Select } from "./Select";
 import { TextArea } from "./TextArea";
 import { TextField } from "./TextField";
-import { PriceField } from "./PriceField";
-import { Anotation } from "./Anotation";
 
 /**
  * Render to check if objects are accessed correctly
@@ -36,23 +34,6 @@ describe("Render once", () => {
     const { container } = renderIntoRoot(() => <Anotation>sl</Anotation>);
     expect(container).toBeDefined();
   });
-  test("DeleteConfirmation", () => {
-    const { container } = renderIntoRoot(() => (
-      <DeleteConfirmation
-        item=""
-        itemName=""
-        onCancel={noOp}
-        onConfirmation={noOp}
-      />
-    ));
-    expect(container).toBeDefined();
-  });
-  test("DiscardConfirmation", () => {
-    const { container } = renderIntoRoot(() => (
-      <DiscardConfirmation onCancel={noOp} onDiscard={noOp} />
-    ));
-    expect(container).toBeDefined();
-  });
   test("Message", () => {
     const { container } = renderIntoRoot(() => (
       <Message title="" onClose={noOp}>
@@ -63,7 +44,7 @@ describe("Render once", () => {
   });
   test("PriceField", () => {
     const { container } = renderIntoRoot(() => (
-      <PriceField label="" errors={[]} onValue={noOp} />
+      <PriceField label="" value={0} onValue={noOp} errors={[]} />
     ));
     expect(container).toBeDefined();
   });

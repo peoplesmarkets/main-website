@@ -4,7 +4,6 @@ import _ from "lodash";
 import { For, Show, createResource, createSignal } from "solid-js";
 
 import { PlaceholderImage } from "../../../components/assets";
-import { OfferPrice } from "../../../components/commerce";
 import { Font } from "../../../components/content";
 import { MdList } from "../../../components/content/MdList";
 import { MdListItem } from "../../../components/content/MdListItem";
@@ -23,6 +22,7 @@ import {
 } from "../../../services/peoplesmarkets/commerce/v1/offer";
 import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering";
 import { MyShopData } from "../MyShopData";
+import { OfferPrice } from "../../OfferPrice";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import styles from "./Page.module.scss";
 

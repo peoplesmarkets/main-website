@@ -7,11 +7,13 @@ import { Trans } from "@mbarzda/solid-i18next";
 type Props = {
   readonly type: "display" | "headline" | "title" | "label" | "body" | "detail";
   readonly key?: string;
+  readonly options?: Record<string, any>;
   readonly class?: string | undefined;
   readonly inline?: boolean | undefined;
   readonly strong?: boolean | undefined;
   readonly active?: boolean | undefined;
   readonly warn?: boolean | undefined;
+  readonly danger?: boolean | undefined;
   readonly children?: JSX.Element | undefined;
 };
 
@@ -30,11 +32,12 @@ export function Font(props: Props) {
         [styles.Strong]: Boolean(props.strong),
         [styles.Active]: Boolean(props.active),
         [styles.Warn]: Boolean(props.warn),
+        [styles.Danger]: Boolean(props.danger),
       }}
     >
       <Show
         when={_.isNil(props.key) || _.isEmpty(props.key)}
-        fallback={<Trans key={props.key!} />}
+        fallback={<Trans key={props.key!} options={props.options} />}
       >
         {props.children}
       </Show>

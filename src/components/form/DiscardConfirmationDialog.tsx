@@ -23,7 +23,7 @@ export function DiscardConfirmationDialog(props: Props) {
       <div slot="content">{props.children}</div>
 
       <div slot="actions">
-        <ActionButton actionType="neutral" onClick={props.onCancel}>
+        <ActionButton actionType="neutral-borderless" onClick={props.onCancel}>
           <Trans key={TKEYS.form.action.Cancel} />
         </ActionButton>
 

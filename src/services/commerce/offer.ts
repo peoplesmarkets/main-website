@@ -10,8 +10,7 @@ import {
   OfferType,
   PutPriceToOfferRequest,
   RemovePriceFromOfferRequest,
-  UpdateOfferRequest,
-  offerTypeToJSON,
+  UpdateOfferRequest
 } from "../peoplesmarkets/commerce/v1/offer";
 import {
   Currency,
@@ -81,10 +80,14 @@ export class OfferService extends ServiceClient {
   }
 }
 
-export function listOfferTypeCodes(): string[] {
-  return Object.values(OfferType)
-    .filter((t) => _.isNumber(t) && t > 0)
-    .map((t) => offerTypeToJSON(t as OfferType));
+export function listOfferTypeCodes(): OfferType[] {
+  const offerTypes = [];
+  for (const t of Object.values(OfferType)) {
+    if (_.isNumber(t) && t > 0) {
+      offerTypes.push(t);
+    }
+  }
+  return offerTypes;
 }
 
 export function listCurrencyCodes(): string[] {

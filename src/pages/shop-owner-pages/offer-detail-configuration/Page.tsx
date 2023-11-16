@@ -8,23 +8,13 @@ import {
 import _ from "lodash";
 import { Show, createResource, createSignal } from "solid-js";
 
-import { OfferImages, OfferPrice } from "../../../components/commerce";
 import { Anotation, Font, Multiline } from "../../../components/content";
-import {
-  CreateOfferImageDialog,
-  EditOfferDialog,
-  MediaSettings,
-} from "../../../components/dashboard";
-import {
-  ActionButton,
-  DeleteConfirmation,
-  MdButton,
-} from "../../../components/form";
+import { ActionButton, MdButton } from "../../../components/form";
 import { ConfirmationDialog } from "../../../components/form/ConfirmationDialog";
+import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirmationDialog";
 import { Section } from "../../../components/layout";
 import { DefaultBoundary } from "../../../components/layout/DefaultBoundary";
-import { EditOfferShippingRatesDialog } from "../../../components/shops/settings";
-import { EditOfferPriceDialog } from "../../../components/shops/settings/EditOfferPriceDialog";
+import { MdDialog } from "../../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { requireAuthentication } from "../../../guards/authentication";
 import { secondsToLocaleDateTime } from "../../../lib";
@@ -35,9 +25,15 @@ import {
   buildShopSettingsPath,
 } from "../../../routes/shops/shop-routing";
 import { OfferType } from "../../../services/peoplesmarkets/commerce/v1/offer";
-import styles from "./Page.module.scss";
+import { OfferPrice } from "../../OfferPrice";
 import { MyShopData } from "../MyShopData";
-import { MdDialog } from "../../../components/layout/MdDialog";
+import { CreateOfferImageDialog } from "./CreateOfferImageDialog";
+import { EditOfferDetailsDialog } from "./EditOfferDetailsDialog";
+import { EditOfferPriceDialog } from "./EditOfferPriceDialog";
+import { EditOfferShippingRatesDialog } from "./EditOfferShippingRatesDialog";
+import { MediaSettings } from "./MediaSettings";
+import { OfferImages } from "./OfferImages";
+import styles from "./Page.module.scss";
 
 type DIALOG =
   | "none"
@@ -210,7 +206,7 @@ export default function OfferDetailConfigurationPage() {
         </Section>
 
         <Show when={offer()?.type === OfferType.OFFER_TYPE_DIGITAL}>
-          <MediaSettings offer={() => offer()!} />
+          <MediaSettings offer={offer()} />
         </Show>
 
         <Section bordered>
@@ -312,50 +308,42 @@ export default function OfferDetailConfigurationPage() {
         </Section>
       </DefaultBoundary>
 
-      <Show when={showDialog() === "edit-offer"}>
-        <EditOfferDialog
-          offer={() => offer()!}
-          onClose={handleCloseDialog}
-          onUpdate={handleRefreshOffer}
-        />
-      </Show>
+      <EditOfferDetailsDialog
+        show={showDialog() === "edit-offer"}
+        offer={offer()}
+        onClose={handleCloseDialog}
+        onUpdate={handleRefreshOffer}
+      />
 
-      <Show when={showDialog() === "add-image"}>
-        <CreateOfferImageDialog
-          offerId={offer()!.offerId}
-          lastOrdering={lastImageOrdering()}
-          onClose={handleCloseDialog}
-          onUpdate={handleRefreshOffer}
-        />
-      </Show>
+      <CreateOfferImageDialog
+        show={showDialog() === "add-image"}
+        offerId={offer()?.offerId}
+        lastOrdering={lastImageOrdering()}
+        onClose={handleCloseDialog}
+        onUpdate={handleRefreshOffer}
+      />
 
-      <Show when={showDialog() === "edit-price"}>
-        <EditOfferPriceDialog
-          offer={() => offer()!}
-          onClose={handleCloseDialog}
-          onUpdate={handleRefreshOffer}
-        />
-      </Show>
+      <EditOfferPriceDialog
+        show={showDialog() === "edit-price"}
+        offer={offer()}
+        onClose={handleCloseDialog}
+        onUpdate={handleRefreshOffer}
+      />
 
-      <Show when={showDialog() === "edit-shipping-rates"}>
-        <EditOfferShippingRatesDialog
-          offer={() => offer()!}
-          onClose={handleCloseDialog}
-          onUpdate={handleRefreshOffer}
-        />
-      </Show>
+      <EditOfferShippingRatesDialog
+        show={showDialog() === "edit-shipping-rates"}
+        offer={offer()}
+        onClose={handleCloseDialog}
+      />
 
-      <Show when={showDialog() === "make-visible"}>
-        <ConfirmationDialog
-          actionType="active-filled"
-          title={trans(TKEYS.dashboard.offers["publish-notification-title"])}
-          message={trans(
-            TKEYS.dashboard.offers["publish-notification-message"]
-          )}
-          onCancel={handleCloseDialog}
-          onOk={() => handleVisibility(true)}
-        />
-      </Show>
+      <ConfirmationDialog
+        show={showDialog() === "make-visible"}
+        actionType="active-filled"
+        title={trans(TKEYS.dashboard.offers["publish-notification-title"])}
+        message={trans(TKEYS.dashboard.offers["publish-notification-message"])}
+        onCancel={handleCloseDialog}
+        onOk={() => handleVisibility(true)}
+      />
 
       <MdDialog
         open={showDialog() === "shop-not-public"}
@@ -386,26 +374,24 @@ export default function OfferDetailConfigurationPage() {
         </div>
       </MdDialog>
 
-      <Show when={showDialog() === "make-not-visible"}>
-        <ConfirmationDialog
-          actionType="danger"
-          title={trans(TKEYS.dashboard.offers["unpublish-notification-title"])}
-          message={trans(
-            TKEYS.dashboard.offers["unpublish-notification-message"]
-          )}
-          onCancel={handleCloseDialog}
-          onOk={() => handleVisibility(false)}
-        />
-      </Show>
+      <ConfirmationDialog
+        show={showDialog() === "make-not-visible"}
+        actionType="danger"
+        title={trans(TKEYS.dashboard.offers["unpublish-notification-title"])}
+        message={trans(
+          TKEYS.dashboard.offers["unpublish-notification-message"]
+        )}
+        onCancel={handleCloseDialog}
+        onOk={() => handleVisibility(false)}
+      />
 
-      <Show when={showDialog() === "delete-confirmation"}>
-        <DeleteConfirmation
-          item={trans(TKEYS.offer.title)}
-          itemName={offer()?.name}
-          onCancel={handleCloseDialog}
-          onConfirmation={handleConfirmDeletion}
-        />
-      </Show>
+      <DeleteConfirmationDialog
+        show={showDialog() === "delete-confirmation"}
+        item={trans(TKEYS.offer.title)}
+        itemName={offer()?.name}
+        onCancel={handleCloseDialog}
+        onConfirmation={handleConfirmDeletion}
+      />
     </>
   );
 }
