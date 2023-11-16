@@ -10,3 +10,9 @@
 
   --md-text-button-label-text-color: var(--danger-content-color);
 }
+
+.Square {
+  --md-elevated-button-container-shape: 4px;
+  --md-filled-button-container-shape: 4px;
+  --md-outlined-button-container-shape: 4px;
+}

@@ -9,7 +9,8 @@ import {
 } from "solid-js";
 
 import { ContentError } from "../components/content";
-import { Select, SelectKey } from "../components/form";
+import { MdButton, SelectKey } from "../components/form";
+import { MdSelect } from "../components/form/MdSelect";
 import { SearchIcon } from "../components/icons";
 import { RefreshIcon } from "../components/icons/RefreshIcon";
 import { Section, Slot } from "../components/layout";
@@ -121,11 +122,16 @@ export default function Offers() {
   }
 
   function handleOrderByInput(field: OffersOrderByField, direction: SelectKey) {
-    if (!_.isNumber(direction)) {
-      return;
+    let dir: number;
+    if (_.isNumber(direction)) {
+      dir = direction;
+    } else if (_.isString(direction)) {
+      dir = parseInt(direction, 10);
+    } else {
+      dir = direction ? 1 : 0;
     }
 
-    setOrderBy({ field, direction });
+    setOrderBy({ field, direction: dir });
   }
 
   function handleOrderByRandomInput() {
@@ -162,34 +168,35 @@ export default function Offers() {
       <Slot name="content">
         <Section>
           <div class={styles.Filters}>
-            <Select
+            <MdSelect
+              type="outlined"
               label={trans(TKEYS.query["order-by"]["created-at"].title)}
-              options={createdAtOrderByOptions}
-              onValue={(direction) =>
+              options={createdAtOrderByOptions()}
+              selected={selectedCreatedAtOrderByKey()}
+              onChange={(direction) =>
                 handleOrderByInput(
                   OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT,
                   direction
                 )
               }
-              value={selectedCreatedAtOrderByKey}
             />
-            <Select
+
+            <MdSelect
+              type="outlined"
               label={trans(TKEYS.query["order-by"]["updated-at"].title)}
-              options={updatedAtOrderByOptions}
-              onValue={(direction) =>
+              options={updatedAtOrderByOptions()}
+              selected={selectedUpdatedAtOrderByKey()}
+              onChange={(direction) =>
                 handleOrderByInput(
                   OffersOrderByField.OFFERS_ORDER_BY_FIELD_UPDATED_AT,
                   direction
                 )
               }
-              value={selectedUpdatedAtOrderByKey}
             />
-            <button
-              class={styles.QueryButton}
-              onClick={handleOrderByRandomInput}
-            >
+
+            <MdButton type="outlined" onClick={handleOrderByRandomInput}>
               <Trans key={TKEYS.query["order-by"].random.title} />
-            </button>
+            </MdButton>
           </div>
         </Section>
 
