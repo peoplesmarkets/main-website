@@ -11,11 +11,11 @@ import {
 
 import { MainLogoLink, MaterialIcon } from "../components/assets";
 import { EnvironmentBanner } from "../components/content/EnvironmentBanner";
-import { Cover, getSlots } from "../components/layout";
+import { MdIconButton } from "../components/form/MdIconButton";
+import { getSlots } from "../components/layout";
 import { NavbarItem, SettingsSlider } from "../components/main";
 import { ReportDialog } from "../components/report";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { clickOutside } from "../directives";
 import {
   buildAuthorizationRequest,
   setDocumentMetaDescription,
@@ -36,14 +36,10 @@ import {
   buildShopsPath,
 } from "./main-routing";
 
-false && clickOutside;
-
 type Props = {
   children?: JSX.Element;
   display?: boolean;
 };
-
-type Slider = "none" | "settings" | "report";
 
 export default function MainRoutesWrapper(props: Props) {
   const location = useLocation();
@@ -51,8 +47,9 @@ export default function MainRoutesWrapper(props: Props) {
   const [trans] = useTransContext();
   const { isAuthenticated } = useAccessTokensContext();
 
-  const [signingIn, setSigningIn] = createSignal(false);
-  const [showSlider, setShowSlider] = createSignal<Slider>("none");
+  const [showSettingsSlider, setShowSettingsSlider] = createSignal(false);
+  const [showReportDialog, setShowReportDialog] = createSignal(false);
+
   const [signInUrl] = createResource(() => !isAuthenticated(), buildSignInUrl);
 
   /* eslint-disable-next-line */
@@ -62,7 +59,6 @@ export default function MainRoutesWrapper(props: Props) {
     setDocumentTitle(EN["Peoples-Markets"]);
     setDocumentMetaDescription(EN.footer["main-paragraph"]);
     setFaviconHref(MAIN_FAVICON);
-    setSigningIn(false);
   });
 
   async function buildSignInUrl() {
@@ -76,16 +72,24 @@ export default function MainRoutesWrapper(props: Props) {
     return signInUrl.toString();
   }
 
-  function handleShowSlider(slider: Slider) {
-    setShowSlider(slider);
+  function handleShowSettingsSlider() {
+    setShowSettingsSlider(true);
+  }
+
+  function handleCloseSettingsSlider() {
+    setShowSettingsSlider(false);
+  }
+
+  function handleShowReportDialog() {
+    setShowReportDialog(true);
+  }
+
+  function handleCloseReportDialog() {
+    setShowReportDialog(false);
   }
 
   return (
     <>
-      <Show when={signingIn()}>
-        <Cover pageLoad />
-      </Show>
-
       <div
         class={styles.HeaderContainer}
         classList={{ [styles.Display]: Boolean(props.display) }}
@@ -107,7 +111,7 @@ export default function MainRoutesWrapper(props: Props) {
             <MaterialIcon
               class={styles.HeaderIcon}
               icon="settings"
-              onClick={() => handleShowSlider("settings")}
+              onClick={handleShowSettingsSlider}
             />
           </div>
         </div>
@@ -159,16 +163,21 @@ export default function MainRoutesWrapper(props: Props) {
             path={buildDashboardPath}
           />
         </Show>
+
+        <div class={styles.ReportButton}>
+          <MdIconButton icon="report" onClick={handleShowReportDialog} />
+        </div>
       </div>
 
       <SettingsSlider
-        show={showSlider() === "settings"}
-        onClose={() => handleShowSlider("none")}
+        show={showSettingsSlider()}
+        onClose={handleCloseSettingsSlider}
       />
 
-      <Show when={showSlider() === "report"}>
-        <ReportDialog onClose={() => handleShowSlider("none")} />
-      </Show>
+      <ReportDialog
+        show={showReportDialog()}
+        onClose={handleCloseReportDialog}
+      />
 
       <EnvironmentBanner />
     </>

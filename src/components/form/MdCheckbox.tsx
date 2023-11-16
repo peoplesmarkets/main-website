@@ -28,7 +28,7 @@ export function MdCheckbox(props: Props) {
           aria-label={local.label}
           touch-target="wrapper"
           onChange={({ target }) => local.onValue?.(target.checked)}
-        ></md-checkbox>
+        />
       </label>
     </>
   );

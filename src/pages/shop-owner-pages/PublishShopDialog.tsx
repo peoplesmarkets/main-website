@@ -53,11 +53,10 @@ export function PublishShopDialog(props: Props) {
   return (
     <MdDialog open={props.show} onClose={handleClose}>
       <div slot="headline">
-        <Font type="title">
-          <Trans
-            key={TKEYS.dashboard.shop.visibility["publish-notification-title"]}
-          />
-        </Font>
+        <Font
+          type="title"
+          key={TKEYS.dashboard.shop.visibility["publish-notification-title"]}
+        />
       </div>
 
       <div slot="content">

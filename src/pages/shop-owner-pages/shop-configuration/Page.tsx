@@ -20,6 +20,8 @@ import { EditAppearanceTab } from "./EditAppearanceTab";
 import { EditDetailsTab } from "./EditDetailsTab";
 import { EditPaymentTab } from "./EditPaymentTab";
 import styles from "./Page.module.scss";
+import { MdTabs } from "../../../components/navigation/MdTabs";
+import { MdTab } from "../../../components/navigation/MdTab";
 
 export type ActiveTab = "Details" | "Appearance" | "Payment";
 
@@ -85,15 +87,16 @@ export default function ShopConfiguration() {
   return (
     <>
       <DefaultBoundary loaded={loaded}>
-        <md-tabs class={styles.Tabs} onChange={handleTabChanged}>
+        <MdTabs class={styles.Tabs} onChange={handleTabChanged}>
           <For each={TABS}>
             {(tab) => (
-              <md-secondary-tab active={activeTab() === tab}>
+              <MdTab type="secondary" active={activeTab() === tab}>
                 <Trans key={TKEYS.shop.configuration[tab]} />
-              </md-secondary-tab>
+              </MdTab>
             )}
           </For>
-        </md-tabs>
+        </MdTabs>
+
         <div class={styles.TabsContent}>
           <Switch fallback={<ContentError />}>
             <Match when={activeTab() === "Details"}>
