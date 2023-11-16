@@ -112,6 +112,7 @@
 .Footer {
   max-width: var(--expanded-max-width);
   margin: 0 auto;
+  padding-bottom: 50px;
 }
 
 .Navbar {
@@ -145,4 +146,23 @@
 .Display {
   background: none;
   background-color: var(--main-display-background-color);
+}
+
+.ReportButton {
+  width: 42px;
+  height: 42px;
+  position: absolute;
+  top: -50px;
+  right: 8px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: 50%;
+  background-color: var(--primary-background-color);
+
+  @media only screen and (min-width: 720px) {
+    top: unset;
+    bottom: 8px;
+    right: -50px;
+  }
 }

@@ -33,7 +33,11 @@ export function ShopList(props: Props) {
   return (
     <For each={props.shops()}>
       {(shop) => (
-        <A class={styles.Row} href={buildShopConfigurationPath(shop.slug)}>
+        <A
+          class={styles.Row}
+          href={buildShopConfigurationPath(shop.slug)}
+          target="_blank"
+        >
           <Show when={!_.isEmpty(bannerImageUrl(shop))}>
             <img class={styles.Image} src={bannerImageUrl(shop)} alt="" />
           </Show>
