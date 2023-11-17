@@ -74,6 +74,7 @@ export const DE: typeof TKEYS = {
       "already-used": "Bereits verwendet",
       "item-too-large": "{item} ist zu groß",
       "item-too-large-size": "{item} ist zu groß. maximum: {maxSize}",
+      "quota-exceeded": "Datenkontingent überschritten",
       "wrong-type": "Falscher Dateityp. Derzeit unterstützt: {types}",
       "invalid-css-color": "Ungültige CSS Farbe",
       remove: "Lösche: {item}",
