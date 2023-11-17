@@ -46,7 +46,7 @@ export function CreateMediaDialog(props: Props) {
   });
   const [errors, setErrors] = createStore({
     name: [] as string[],
-    file: [] as string[],
+    file: ["quota reached"] as string[],
   });
 
   const [uploading, setUploading] = createSignal(false);
@@ -160,15 +160,34 @@ export function CreateMediaDialog(props: Props) {
       const end = i + CHUNKSIZE;
       const chunk = await readAsUint8Array(form.file, i, end);
       totalRead += chunk.length;
-      const part = await mediaService.putMultipartChunk({
-        mediaId: response.media.mediaId,
-        uploadId: initialized.uploadId,
-        partNumber,
-        chunk,
-      });
-      partNumber += 1;
-      parts.push(part.part!);
-      setUploadedBytes(totalRead);
+      try {
+        const part = await mediaService.putMultipartChunk({
+          mediaId: response.media.mediaId,
+          uploadId: initialized.uploadId,
+          partNumber,
+          chunk,
+        });
+        partNumber += 1;
+        parts.push(part.part!);
+        setUploadedBytes(totalRead);
+      } catch (err: any) {
+        setUploading(false);
+
+        if (
+          err.code === grpc.Code.ResourceExhausted ||
+          err.code === grpc.Code.OutOfRange
+        ) {
+          setErrors("file", [
+            trans(TKEYS.form.errors["item-too-large"], {
+              item: trans(TKEYS.media.Title),
+            }),
+          ]);
+        } else if (err.code === grpc.Code.Aborted) {
+          setErrors("file", [trans(TKEYS.form.errors["quota-exceeded"])]);
+        }
+
+        throw err;
+      }
     }
 
     await mediaService.completeMultipartUpload({
