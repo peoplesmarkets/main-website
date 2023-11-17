@@ -79,9 +79,8 @@ export function CreateMediaDialog(props: Props) {
         });
       }
 
-      setUploading(false);
+      handleConfirmCloseDialog();
       props.onUpdate();
-      props.onClose();
     } catch (err: any) {
       setUploading(false);
       if (
@@ -219,6 +218,7 @@ export function CreateMediaDialog(props: Props) {
   function handleConfirmCloseDialog() {
     setForm({ name: undefined, file: undefined });
     setShowDiscardConfirmation(false);
+    setUploading(false);
     props.onClose();
   }
 
@@ -266,7 +266,11 @@ export function CreateMediaDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+          <ActionButton
+            actionType="neutral-borderless"
+            onClick={handleCloseDialog}
+            disabled={uploading()}
+          >
             <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 
