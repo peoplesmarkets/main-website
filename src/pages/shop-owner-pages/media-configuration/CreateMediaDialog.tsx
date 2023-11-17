@@ -46,7 +46,7 @@ export function CreateMediaDialog(props: Props) {
   });
   const [errors, setErrors] = createStore({
     name: [] as string[],
-    file: ["quota reached"] as string[],
+    file: [] as string[],
   });
 
   const [uploading, setUploading] = createSignal(false);
