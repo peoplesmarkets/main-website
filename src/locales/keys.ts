@@ -74,6 +74,7 @@ export const TKEYS = {
       "already-used": "form.errors.already-used",
       "item-too-large": "form.errors.item-too-large",
       "item-too-large-size": "form.errors.item-too-large-size",
+      "quota-exceeded": "form.errors.quota-exceeded",
       "wrong-type": "form.errors.wrong-type",
       "invalid-css-color": "form.errors.invalid-css-color",
       remove: "form.errors.remove",

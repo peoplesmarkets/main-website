@@ -90,6 +90,8 @@ export function EditMediaDialog(props: Props) {
             item: trans(TKEYS.media.Title),
           }),
         ]);
+      } else if (err.code === grpc.Code.Aborted) {
+        setErrors("file", [trans(TKEYS.form.errors["quota-exceeded"])]);
       } else if (err.code === grpc.Code.InvalidArgument) {
         setErrors("file", [trans(TKEYS.form.errors["wrong-type"])]);
       } else {
@@ -175,7 +177,10 @@ export function EditMediaDialog(props: Props) {
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+          <ActionButton
+            actionType="neutral-borderless"
+            onClick={handleCloseDialog}
+          >
             <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 
