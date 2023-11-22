@@ -1,28 +1,22 @@
 import "@material/web/icon/icon";
 
-import _ from "lodash";
-import { ComponentProps, Show } from "solid-js";
+import { ComponentProps, splitProps } from "solid-js";
 
-type Props = {
+type Props = ComponentProps<"i"> & {
   readonly icon: string;
   readonly slot?: string | undefined;
 };
 
 export function MdIcon(props: Props) {
-  return (
-    <Show
-      when={!_.isEmpty(props.slot)}
-      fallback={<md-icon>{props.icon}</md-icon>}
-    >
-      <md-icon slot={props.slot}>{props.icon}</md-icon>;
-    </Show>
-  );
+  const [local, others] = splitProps(props, ["icon"]);
+
+  return <md-icon {...others}>{local.icon}</md-icon>;
 }
 
 declare module "solid-js" {
   namespace JSX {
     interface IntrinsicElements {
-      "md-icon": ComponentProps<"i"> & {};
+      "md-icon": Omit<Props, "icon">;
     }
   }
 }

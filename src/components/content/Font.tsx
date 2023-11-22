@@ -9,8 +9,14 @@ type Props = {
   readonly key?: string;
   readonly options?: Record<string, any>;
   readonly class?: string | undefined;
+  readonly classList?:
+    | {
+        [k: string]: boolean | undefined;
+      }
+    | undefined;
   readonly inline?: boolean | undefined;
   readonly strong?: boolean | undefined;
+  readonly light?: boolean | undefined;
   readonly active?: boolean | undefined;
   readonly warn?: boolean | undefined;
   readonly danger?: boolean | undefined;
@@ -30,9 +36,11 @@ export function Font(props: Props) {
         [styles.Detail]: props.type === "detail",
         [styles.Inline]: Boolean(props.inline),
         [styles.Strong]: Boolean(props.strong),
+        [styles.Light]: Boolean(props.light),
         [styles.Active]: Boolean(props.active),
         [styles.Warn]: Boolean(props.warn),
         [styles.Danger]: Boolean(props.danger),
+        ...props.classList,
       }}
     >
       <Show

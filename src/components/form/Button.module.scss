@@ -1,18 +1,21 @@
 .ActionButton {
-  border: 1px solid var(--active-content-color);
-  border-radius: 4px;
-  background-color: inherit;
-  color: var(--active-content-color);
-  padding: 0 23px;
-  box-sizing: border-box;
   min-height: 36px;
-  text-decoration: none;
-  outline: 0;
-  user-select: none;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 8px;
+  padding: 0 16px;
+  box-sizing: border-box;
+  border: 1px solid var(--active-content-color);
+  border-radius: 4px;
+
   font: var(--font-label-small);
+  text-decoration: none;
+  text-align: center;
+  color: var(--active-content-color);
+  background-color: inherit;
+  outline: 0;
+  user-select: none;
 }
 
 .ActionButton:hover {
@@ -70,8 +73,8 @@
 }
 
 .Neutral {
+  color: var(--primary-content-color);
   border-color: var(--primary-content-color);
-  color: var(--active-content-color);
 }
 
 .Neutral:hover {
@@ -105,8 +108,9 @@
 }
 
 .Tall {
-  min-height: unset;
   height: 100%;
+  max-height: 42px;
+  padding: 12px 32px;
 }
 
 .Wide {

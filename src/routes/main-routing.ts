@@ -1,38 +1,34 @@
-import { buildPath, buildBaseUrl } from "../lib";
-import { isCustomDomain } from "../lib/env";
+import { buildBaseUrl, buildPath } from "../lib";
+import { getOriginFromWindow, isCustomDomain } from "../lib/env";
 
-export const ROOT_PATH = "/";
-export const GET_STARTED_PATH = "";
-export const SHOPS_PATH = "/shops";
-export const OFFERS_PATH = "/offers";
-export const DASHBOARD_PATH = "/dashboard";
-export const DASHBOARD_CREATE_SHOP_PATH = "/create-shop";
+export const DASHBOARD_SHOP_PATH_SEGMENT = "/:shopId";
+export const DASHBOARD_OFFER_PATH_SEGMENT = "/:offerId";
 
 export function buildIndexPath() {
   return "/";
 }
 
+export function buildIndexUrl() {
+  return buildBaseUrl(buildIndexPath());
+}
+
 export function buildIndexPathOrUrl() {
   if (isCustomDomain()) {
-    return buildBaseUrl(buildIndexPath());
+    return buildIndexUrl();
   }
   return buildIndexPath();
 }
 
 export function buildGetStartedPath() {
-  return buildPath(ROOT_PATH, GET_STARTED_PATH);
-}
-
-export function buildShopsPath() {
-  return buildPath(ROOT_PATH, SHOPS_PATH);
+  return buildPath(buildIndexPath(), "get-started");
 }
 
 export function buildOffersPath() {
-  return buildPath(ROOT_PATH, OFFERS_PATH);
+  return buildPath(buildIndexPath(), "offers");
 }
 
 export function buildDashboardPath() {
-  return buildPath(ROOT_PATH, DASHBOARD_PATH);
+  return buildPath(buildIndexPath(), "dashboard");
 }
 
 export function buildDashboardPathOrUrl() {
@@ -42,6 +38,33 @@ export function buildDashboardPathOrUrl() {
   return buildDashboardPath();
 }
 
-export function buildDashboardCreateShopPath() {
-  return buildPath(ROOT_PATH, DASHBOARD_PATH, DASHBOARD_CREATE_SHOP_PATH);
+export function buildShopDashboardPath(shopId: string): string {
+  return buildPath(buildDashboardPath(), shopId);
+}
+
+export function buildShopConfigurationPath(shopId: string): string {
+  return buildPath(buildShopDashboardPath(shopId), "configurator");
+}
+
+export function buildOfferDetailConfigurationPath(
+  shopId: string,
+  offerId: string
+): string {
+  return buildPath(buildShopDashboardPath(shopId), "offer", offerId);
+}
+
+export function buildShopSettingsPath(shopId: string): string {
+  return buildPath(buildShopDashboardPath(shopId), "settings");
+}
+
+export function buildMediaConfigurationPath(shopId: string) {
+  return buildPath(buildShopDashboardPath(shopId), "media");
+}
+
+export function buildSignInCallbackPath() {
+  return buildPath(buildIndexPath(), "user", "sign-in", "callback");
+}
+
+export function buildSignInCallbackUrl() {
+  return `${getOriginFromWindow()}${buildSignInCallbackPath()}`;
 }

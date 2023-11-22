@@ -1,0 +1,99 @@
+.Search {
+  height: 52px;
+  box-sizing: border-box;
+  border-radius: 26px;
+  display: flex;
+  align-items: center;
+  background: var(--highlighted-background);
+}
+
+.SearchIcon {
+  fill: var(--primary-content-color);
+  stroke: var(--primary-content-color);
+  width: 1.5rem;
+  height: 1.5rem;
+  padding-left: 16px;
+  padding-right: 8px;
+}
+
+.RefreshIcon {
+  @extend .SearchIcon;
+  padding-left: 8px;
+  padding-right: 16px;
+  user-select: none;
+}
+
+.RefreshIcon:hover {
+  cursor: pointer;
+}
+
+.SearchInput {
+  width: 100%;
+  height: 100%;
+  flex: 1;
+  border: none;
+  background-color: rgba(0, 0, 0, 0);
+  font: var(--font-title);
+  color: var(--primary-content-color);
+}
+
+.SearchInput:focus:focus-visible {
+  outline: none;
+}
+
+.Filters {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.QueryButton {
+  display: inline;
+  font: var(--font-body);
+  padding: 0.3rem 1rem;
+  border: var(--secondary-border);
+  border-radius: 8px;
+
+  user-select: none;
+  text-decoration: none;
+  color: var(--primary-content-color);
+  background: none;
+  outline: inherit;
+  box-sizing: border-box;
+}
+
+.QueryButton:hover {
+  cursor: pointer;
+}
+
+.QueryButton:active {
+  color: var(--active-content-color);
+  border-color: var(--active-content-color);
+}
+
+$small-min-width: 361px;
+$medium-min-width: 640px;
+$expanded-min-width: 900px;
+
+.List {
+  display: grid;
+  gap: 0.5rem;
+
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  @media only screen and (min-width: $small-min-width) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  @media only screen and (min-width: $medium-min-width) {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  @media only screen and (min-width: $expanded-min-width) {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}

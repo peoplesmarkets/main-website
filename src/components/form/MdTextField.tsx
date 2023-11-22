@@ -26,7 +26,6 @@ export function MdTextField(props: Props) {
     "prefixText",
     "errorText",
     "supportingText",
-    "onFocusOut",
   ]);
 
   return (
@@ -37,11 +36,10 @@ export function MdTextField(props: Props) {
           {...others}
           value={local.value || ""}
           class={local.class || styles.MdTextField}
-          oninput={(event) => local.onValue(event.target.value)}
+          onInput={(event) => local.onValue(event.target.value)}
           prefix-text={local.prefixText}
           error-text={local.errorText}
           supporting-text={local.supportingText}
-          onfocusout={local.onFocusOut}
         />
       }
     >
@@ -49,11 +47,10 @@ export function MdTextField(props: Props) {
         {...others}
         value={local.value || ""}
         class={local.class || styles.MdTextField}
-        oninput={(event) => local.onValue(event.target.value)}
+        onInput={(event) => local.onValue(event.target.value)}
         prefix-text={local.prefixText}
         error-text={local.errorText}
         supporting-text={local.supportingText}
-        onfocusout={local.onFocusOut}
       />
     </Show>
   );

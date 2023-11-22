@@ -22,6 +22,7 @@ export const EN: typeof TKEYS = {
   },
   common: {
     by: "By",
+    or: "or",
     more: "more",
     file: "file",
     per: "per",
@@ -31,7 +32,6 @@ export const EN: typeof TKEYS = {
     resume: "resume",
     any: "Any",
     Preview: "Preview",
-    accept: "accept",
     reload: "reload",
     public: "public",
     hidden: "hidden",
@@ -46,6 +46,7 @@ export const EN: typeof TKEYS = {
       Previous: "Previous",
       Save: "Save",
       "Save-and-continue": "Save and continue",
+      Done: "Done",
       Send: "Send",
       Edit: "Edit",
       Delete: "Delete",
@@ -142,6 +143,7 @@ export const EN: typeof TKEYS = {
     "no-description": "No description ...",
     configuration: {
       title: "Configuration",
+      info: "Configure how people see your shop, like name, description and appearance.",
       Details: "Details",
       Payment: "Payment",
       Appearance: "Appearance",
@@ -151,7 +153,8 @@ export const EN: typeof TKEYS = {
       title: "Settings",
     },
     errors: {
-      "ensure-offers-deleted": "Ensure all Offers are deleted first.",
+      "conflict-on-delete":
+        "Ensure all Offers are deleted and also remove the configured domain if any.",
       "invalid-url": "Invalid URL",
     },
     labels: {
@@ -212,8 +215,8 @@ export const EN: typeof TKEYS = {
       description: "Description",
       "Created-at": "Created at",
       "Updated-at": "Updated at",
-      "is-publicly-visible": "This Offer is publicly visible",
-      "show-on-home-page": "Show this Offer on home page",
+      "is-publicly-visible": "This offer is publicly visible",
+      "show-on-home-page": "Show this offer on home page",
     },
     types: {
       [OfferType.OFFER_TYPE_PHYSICAL]: `Physical`,
@@ -252,7 +255,8 @@ export const EN: typeof TKEYS = {
     "no-subscriptions-yet": "No Subscriptions yet ...",
   },
   report: {
-    title: "Submit feedback",
+    label: "Report / Feedback",
+    title: "Report a bug / Submit feedback",
     "link-information":
       "Your feedback was successfully created as GitHub issue. You can check the status of it using the following link.",
 
@@ -282,6 +286,7 @@ export const EN: typeof TKEYS = {
       "edit-logo": "Edit logo",
       "delete-logo": "Delete logo",
       "edit-theme": "Edit theme",
+      "configure-shop": "Configure this shop",
       "delete-this-shop": "Delete this shop",
       "delete-shop-info":
         "Are you sure you want to delete this shop? All data will be deleted and can not be recovered afterwards.",
@@ -319,6 +324,7 @@ export const EN: typeof TKEYS = {
         "start-integration": "Start with",
         "continue-integration": "Continue with",
         "remove-integration": "Remove Stripe integration",
+        connected: "Stripe account is connected",
       },
       contact: {
         info: "If you don't use an online payment method, enter an email address here where your customers can reach you.",
@@ -326,8 +332,9 @@ export const EN: typeof TKEYS = {
       visibility: {
         Title: "Public Visibility",
         Info: "At any point in time you can change the public visibility of your shop. When changing the visibility of this shop, the visibility of all it's offers will be changed aswell.",
+        "not-published-yet-info": "Your shop is currently no publicly visible.",
         "hide-this-shop": "Hide this shop",
-        "publish-shop": "Publish Shop",
+        "publish-shop": "Publish this shop",
         "publish-notification-title": "Make this shop publicy visible",
         "publish-notification-message-left":
           "Please read and accept the Terms Of Service",
@@ -362,10 +369,10 @@ export const EN: typeof TKEYS = {
       Details: "Details",
       "My-Offers": "My Offers",
       "title-plural": "Offers",
-      "create-new-offer": "Create a new Offer",
-      "name-your-offer": "Give your new offer a name.",
+      "create-new-offer": "Create a new offer",
+      "name-your-offer": "Give your new offer a name",
       "create-your-first-offer": "Create your first offer",
-      "edit-offer": "Edit Offer",
+      "edit-offer": "Edit offer",
       "delete-this-offer": "Delete this offer",
       "add-image": "Add image",
       "edit-price": "Edit Price",
@@ -377,8 +384,9 @@ export const EN: typeof TKEYS = {
         "Your shop is currently not publicly visible. You can proceed publishing this offer, but your shop wont be accessible yet.",
       "go-to-shop-settings": "Shop Settings",
       "unpublish-notification-title":
-        "Are you sure you want to hide this Offer?",
+        "Are you sure you want to hide this offer?",
       "unpublish-notification-message": "",
+      "no-offers-yet": "No offers yet ...",
     },
     "shipping-rate": {
       "add-shipping-rate": "Add Shipping Rate",
@@ -395,6 +403,7 @@ export const EN: typeof TKEYS = {
   },
   "main-navigation": {
     actions: {
+      "create-shop": "Create Your Own Shop!",
       "sign-in": "Sign In",
       "sign-out": "Sign Out",
     },
@@ -442,6 +451,7 @@ export const EN: typeof TKEYS = {
   "landing-page": {
     "get-started": "Get started",
     REGISTER: "REGISTER NOW",
+    "Sign-In": "Sign In",
     "establish-your-online-appearance": "Establish Your Online Appearance",
     "create-your-online-shop-and-build-your-brand":
       "Create your online store and build your brand",
@@ -478,7 +488,7 @@ export const EN: typeof TKEYS = {
       "This is a developement environment for testing purpose only. For the main site visit: ",
   },
   footer: {
-    "powered-by": "Powered by",
+    "powered-by": "Powered by:",
     "main-paragraph":
       "Build your own online shop and offer your goods to the people.",
     "community-paragraph": "Get involved in any aspect of the project.",

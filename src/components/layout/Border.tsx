@@ -1,8 +1,9 @@
 import styles from "./Border.module.scss";
 
 type Props = {
-  narrow?: boolean;
-  tall?: boolean;
+  readonly narrow?: boolean | undefined;
+  readonly tall?: boolean | undefined;
+  readonly flat?: boolean | undefined;
 };
 
 export function Border(props: Props) {
@@ -12,6 +13,7 @@ export function Border(props: Props) {
       classList={{
         [styles.Narrow]: Boolean(props.narrow),
         [styles.Tall]: Boolean(props.tall),
+        [styles.Flat]: Boolean(props.flat),
       }}
     />
   );

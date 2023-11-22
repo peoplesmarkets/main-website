@@ -17,6 +17,7 @@ type Props = {
   actionType: ActionType;
   href: string;
   children: JSX.Element;
+  style?: string | JSX.CSSProperties | undefined;
   submit?: boolean;
   disabled?: boolean;
   small?: boolean;
@@ -46,6 +47,7 @@ export function LinkButton(props: Props) {
         [styles.Mail]: Boolean(props.mail),
       }}
       href={props.href}
+      style={props.style}
     >
       {props.children}
     </a>

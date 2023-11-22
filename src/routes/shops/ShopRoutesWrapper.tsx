@@ -37,13 +37,15 @@ import { ShopFooter } from "./ShopFooter";
 import styles from "./ShopRoutesWrapper.module.scss";
 import {
   buildInventoryPath,
-  buildOffersConfigurationPath,
-  buildShopConfigurationPath,
   buildShopDetailPath,
-  buildShopPathOrUrl,
-  buildShopSettingsPath,
+  buildShopDetailPathOrUrl,
 } from "./shop-routing";
 import { EN } from "../../locales/en";
+import {
+  buildShopConfigurationPath,
+  buildShopDashboardPath,
+  buildShopSettingsPath,
+} from "../main-routing";
 
 export default function ShopRoutesWrapper() {
   const location = useLocation();
@@ -183,25 +185,25 @@ export default function ShopRoutesWrapper() {
   }
 
   function shopCustomizationPath() {
-    const shopSlug = shopData.shop()?.slug;
-    if (!_.isNil(shopSlug)) {
-      return buildShopConfigurationPath(shopSlug);
+    const shopId = shopData.shop()?.shopId;
+    if (!_.isNil(shopId)) {
+      return buildShopConfigurationPath(shopId);
     }
     return "";
   }
 
   function offersConfigurationPath() {
-    const shopSlug = shopData.shop()?.slug;
-    if (!_.isNil(shopSlug)) {
-      return buildOffersConfigurationPath(shopSlug);
+    const shopId = shopData.shop()?.shopId;
+    if (!_.isNil(shopId)) {
+      return buildShopDashboardPath(shopId);
     }
     return "";
   }
 
   function shopSettingsPath() {
-    const shopSlug = shopData.shop()?.slug;
-    if (!_.isNil(shopSlug)) {
-      return buildShopSettingsPath(shopSlug);
+    const shopId = shopData.shop()?.shopId;
+    if (!_.isNil(shopId)) {
+      return buildShopSettingsPath(shopId);
     }
     return "";
   }
@@ -267,7 +269,7 @@ export default function ShopRoutesWrapper() {
       !_.isNil(slug) &&
       !_.isEmpty(slug)
     ) {
-      const redirectUrl = buildShopPathOrUrl(domain, slug);
+      const redirectUrl = buildShopDetailPathOrUrl(domain, slug);
 
       endSession(redirectUrl, clientId);
     } else {
@@ -379,6 +381,44 @@ export default function ShopRoutesWrapper() {
           </Show>
         </Slot>
       </Panel>
+
+      {/* 
+      <div class={styles.Navbar}>
+        <NavbarItem
+          label={trans(TKEYS["main-navigation"].links.shops)}
+          icon="storefront"
+          path={buildShopsPath}
+        />
+
+        <NavbarItem
+          label={trans(TKEYS["main-navigation"].links.offers)}
+          icon="travel_explore"
+          path={buildOffersPath}
+        />
+
+        <NavbarItem
+          label={trans(TKEYS["main-navigation"].links.community)}
+          icon="forum"
+          path={buildCommunityPath}
+        />
+
+        <Show
+          when={isAuthenticated()}
+          fallback={
+            <NavbarItem
+              label={trans(TKEYS["main-navigation"].links["get-started"])}
+              icon="rocket_launch"
+              path={buildIndexPath}
+            />
+          }
+        >
+          <NavbarItem
+            label={trans(TKEYS["main-navigation"].links.dashboard)}
+            icon="dashboard"
+            path={buildDashboardPath}
+          />
+        </Show>
+      </div> */}
 
       <Page style={customShopStyle}>
         <Outlet />

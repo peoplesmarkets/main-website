@@ -1,6 +1,6 @@
 import { A, useMatch } from "@solidjs/router";
 
-import { MaterialIcon } from "../assets";
+import { MdIcon } from "../assets";
 import styles from "./PanelItem.module.scss";
 
 type Props = {
@@ -20,7 +20,7 @@ export function PanelItem(props: Props) {
         [styles.Active]: Boolean(useMatch(props.path)()),
       }}
     >
-      <MaterialIcon
+      <MdIcon
         class={styles.Icon}
         classList={{ [styles.ActiveIcon]: Boolean(matches()) }}
         icon={props.icon}

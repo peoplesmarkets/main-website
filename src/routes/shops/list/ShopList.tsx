@@ -2,7 +2,7 @@ import { A } from "@solidjs/router";
 import { For } from "solid-js";
 
 import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
-import { buildShopPathOrUrl } from "../shop-routing";
+import { buildShopDetailPathOrUrl } from "../shop-routing";
 import styles from "./ShopList.module.scss";
 import { ShopListItem } from "./ShopListItem";
 
@@ -16,7 +16,7 @@ export function ShopList(props: Props) {
       {(shop) => (
         <A
           class={styles.Row}
-          href={buildShopPathOrUrl(shop?.domain, shop.slug)}
+          href={buildShopDetailPathOrUrl(shop?.domain, shop.slug)}
           target="_blank"
         >
           <ShopListItem shop={shop} />

@@ -1,0 +1,96 @@
+.Form {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.Fields {
+  width: 100%;
+  display: grid;
+  align-items: start;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+
+  margin-bottom: 2rem;
+
+  @media only screen and (min-width: 800px) {
+    row-gap: 4rem;
+    column-gap: 2rem;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+.FieldSet {
+  width: 100%;
+  grid-column: 1/-1;
+  margin-bottom: 4rem;
+}
+
+.Field {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 32px;
+}
+
+.FieldRow {
+  width: 100%;
+  grid-column: 1/-1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0 16px;
+  box-sizing: border-box;
+}
+
+.FieldInfo {
+  width: 100%;
+  margin-bottom: 16px;
+
+  @media only screen and (min-width: 800px) {
+    margin: 0;
+  }
+}
+
+.Headline {
+  margin-bottom: 16px;
+}
+
+.Details {
+  display: inline;
+  font: var(--font-body);
+  line-height: 1.4;
+}
+
+.Link {
+  color: var(--active-content-color);
+  text-decoration: underline;
+}
+
+.Actions {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 16px;
+}
+
+.ActionsLeft {
+  display: flex;
+  justify-content: start;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.ActionsRight {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.OpenInNewIcon {
+  height: 1rem;
+  padding: 0 0 0.2rem 0.2rem;
+  box-sizing: border-box;
+  fill: var(--active-content-color);
+}

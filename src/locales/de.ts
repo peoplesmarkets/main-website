@@ -21,17 +21,17 @@ export const DE: typeof TKEYS = {
   },
   common: {
     by: "Von",
+    or: "oder",
     more: "mehr",
     file: "Datei",
     per: "pro",
     every: "alle",
     "per-or-every": "{count, plural, =1 {pro} other {alle} }",
-    cancel: "kündigen",
-    resume: "fortsetzen",
+    cancel: "Kündigen",
+    resume: "Fortsetzen",
     any: "Alle",
     Preview: "Vorschau",
-    accept: "akzeptieren",
-    reload: "neu laden",
+    reload: "Neu laden",
     public: "öffentlich",
     hidden: "verborgen",
   },
@@ -45,6 +45,7 @@ export const DE: typeof TKEYS = {
       Previous: "Vorherige",
       Save: "Speichern",
       "Save-and-continue": "Speichern und weiter",
+      Done: "Speichern",
       Send: "Senden",
       Edit: "Bearbeiten",
       Delete: "Löschen",
@@ -141,16 +142,18 @@ export const DE: typeof TKEYS = {
     "no-description": "Keine Beschreibung vorhanden ...",
     configuration: {
       title: "Konfiguration",
+      info: "Bearbeite den Namen, die Beschreibung und das Aussehen deines Shops.",
       Details: "Details",
       Payment: "Bezahlung",
-      Appearance: "Erscheinung",
+      Appearance: "Erscheinungsbild",
       Settings: "Einstellungen",
     },
     settings: {
       title: "Einstellungen",
     },
     errors: {
-      "ensure-offers-deleted": "Lösche zuerst alle Angebote.",
+      "conflict-on-delete":
+        "Bitte vergewissere dich, dass alle Angebote und Domains gelöscht sind.",
       "invalid-url": "Ungültige URL",
     },
     labels: {
@@ -251,7 +254,8 @@ export const DE: typeof TKEYS = {
     "no-subscriptions-yet": "Bisher keine Abonnements ...",
   },
   report: {
-    title: "Feedback geben",
+    label: "Meldung / Feedback",
+    title: "Fehler melden / Feedback geben",
     "link-information":
       "Dein Feedback wurde als Issue in GitHub angelegt. Unter dem folgenden Link kannst du den Status einsehen.",
     labels: {
@@ -280,12 +284,13 @@ export const DE: typeof TKEYS = {
       "edit-logo": "Logo bearbeiten",
       "delete-logo": "Logo löschen",
       "edit-theme": "Erscheinungsbild anpassen",
+      "configure-shop": "Shop konfigurieren",
       "delete-this-shop": "Diesen Shop löschen",
       "delete-shop-info":
         "Bist du dir sicher, dass du den Shop löschen möchtest? Die Daten sind nicht widerherstellbar.",
       "resulting-url": "Resultierende URL",
       "duplicate-slug-error":
-        "Der automatisch generierte URL-Pfad ist bereits vergeben. Bitter versuche einen anderen zu verwenden.",
+        "Der automatisch generierte URL-Pfad ist bereits vergeben.",
       "empty-offers-warning-title": "Keine Angebote vorhanden",
       "empty-offers-warning-content":
         "Derzeit bietet dein Shop noch keine Angebote an. Wenn du fortfährst wird dein Shop leer sein.",
@@ -315,6 +320,7 @@ export const DE: typeof TKEYS = {
         "start-integration": "Starte mit",
         "continue-integration": "Fortsetzen mit",
         "remove-integration": "Stripe Einrichtung aufheben",
+        connected: "Stripe Account ist verbunden",
       },
       contact: {
         info: "Wenn du keine Online-Zahlungsmethode verwendest, gib hier eine E-Mail-Adresse an, unter der deine Kunden dich erreichen können.",
@@ -322,6 +328,8 @@ export const DE: typeof TKEYS = {
       visibility: {
         Title: "Öffentliche Sichtbarkeit",
         Info: "Du kannst jederzeit die öffentliche Sichtbarkeit deines Shops einstellen. Wenn du die Sichtbarkeit veränderst, wird auch die Sichtbarkeit aller Angebote angepasst.",
+        "not-published-yet-info":
+          "Dein Shop ist derzeit nicht öffentlich sichtbar.",
         "hide-this-shop": "Shop verbergen",
         "publish-shop": "Shop veröffentlichen",
         "publish-notification-title": "Shop veröffentlichen?",
@@ -358,7 +366,7 @@ export const DE: typeof TKEYS = {
       "My-Offers": "Meine Angebote",
       "title-plural": "Angebote",
       "create-new-offer": "Neues Angebot erstellen",
-      "name-your-offer": "Gib dem Angebot einen Namen.",
+      "name-your-offer": "Gib dem Angebot einen Namen",
       "create-your-first-offer": "Erstelle dein erstes Angebot",
       "edit-offer": "Angebot bearbeiten",
       "delete-this-offer": "Dieses Angebot löschen",
@@ -373,6 +381,7 @@ export const DE: typeof TKEYS = {
       "go-to-shop-settings": "Shop Einstellungen",
       "unpublish-notification-title": "Angebot verbergen?",
       "unpublish-notification-message": "",
+      "no-offers-yet": "Bisher keine Angebote erstellt ...",
     },
     "shipping-rate": {
       "add-shipping-rate": "Versandkosten hinzufügen",
@@ -389,6 +398,7 @@ export const DE: typeof TKEYS = {
   },
   "main-navigation": {
     actions: {
+      "create-shop": "Erstelle deinen Shop!",
       "sign-in": "Login",
       "sign-out": "Logout",
     },
@@ -436,6 +446,7 @@ export const DE: typeof TKEYS = {
   "landing-page": {
     "get-started": "Los geht's",
     REGISTER: "JETZT REGISTRIEREN",
+    "Sign-In": "Anmelden",
     "establish-your-online-appearance": "Erstelle dir eine Online-Präsenz",
     "create-your-online-shop-and-build-your-brand":
       "Baue deine Marke mit einem Online-Shop auf",

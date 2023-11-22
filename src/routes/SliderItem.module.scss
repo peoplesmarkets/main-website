@@ -1,0 +1,60 @@
+$navigation-item-height: 48px;
+
+.Button {
+  width: 80%;
+  height: $navigation-item-height;
+  padding: 0 32px;
+  border: var(--secondary-border);
+  border-radius: calc($navigation-item-height / 2);
+
+  user-select: none;
+  font: var(--font-label);
+  text-decoration: none;
+  color: var(--header-content-color);
+  background: none;
+  outline: inherit;
+  box-sizing: border-box;
+}
+
+.Button:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
+}
+
+.Link {
+  @extend .Button;
+}
+
+.InnerIconLeft {
+  height: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.InnerIconRight {
+  @extend .InnerIconLeft;
+}
+
+.Icon {
+  width: calc($navigation-item-height / 2.2);
+  height: calc($navigation-item-height / 2.2);
+  fill: var(--header-content-color);
+}
+
+.Label {
+  font-weight: 500;
+  flex: 1;
+}
+
+.Active {
+  color: var(--active-content-color);
+  fill: var(--active-content-color);
+  border-color: var(--active-content-color);
+}
+
+.Danger {
+  color: var(--danger-content-color);
+  fill: var(--danger-content-color);
+  border-color: var(--danger-content-color);
+}

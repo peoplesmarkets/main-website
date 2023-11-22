@@ -20,11 +20,12 @@ export default defineConfig({
           "@solidjs/router": ["@solidjs/router"],
           lodash: ["lodash"],
           axios: ["axios"],
-          i18next: ["i18next"],
-          "i18next-browser-languagedetector": [
+          i18next: [
+            "i18next",
             "i18next-browser-languagedetector",
+            "@mbarzda/solid-i18next",
+            "./src/locales",
           ],
-          "@mbarzda/solid-i18next": ["@mbarzda/solid-i18next"],
           "markdown-it": ["markdown-it"],
           "markdown-it-image-figures": ["markdown-it-image-figures"],
           "markdown-it-link-attributes": ["markdown-it-link-attributes"],
