@@ -9,11 +9,14 @@ import {
 } from "solid-js";
 
 import { ContentError } from "../../../components/content";
+import { LinkButton } from "../../../components/form/LinkButton";
 import { RefreshIcon, SearchIcon } from "../../../components/icons";
 import { Section } from "../../../components/layout";
 import { DefaultBoundary } from "../../../components/layout/DefaultBoundary";
+import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
+import { buildGetStartedPath } from "../../../routes/main-routing";
 import {
   ListShopsRequest,
   ShopsFilter,
@@ -23,12 +26,6 @@ import {
 import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering";
 import styles from "./Page.module.scss";
 import { ShopList } from "./ShopList";
-import { LinkButton } from "../../../components/form/LinkButton";
-import {
-  buildDashboardPath,
-  buildGetStartedPath,
-} from "../../../routes/main-routing";
-import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
 
 export default function ShopsPage() {
   const [trans] = useTransContext();

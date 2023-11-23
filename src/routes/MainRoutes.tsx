@@ -13,7 +13,6 @@ import {
   buildShopConfigurationPath,
   buildShopDashboardPath,
   buildShopSettingsPath,
-  buildShopsPath,
 } from "./main-routing";
 
 const HomePage = lazy(() => import("../pages/main-pages/home-page/Page"));
