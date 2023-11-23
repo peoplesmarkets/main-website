@@ -32,18 +32,15 @@ import {
 } from "../../lib";
 import { SHOP_FAVICON } from "../../lib/constants";
 import { TKEYS, getNextLanguageKey } from "../../locales";
+import { EN } from "../../locales/en";
 import { ShopData } from "./ShopData";
 import { ShopFooter } from "./ShopFooter";
 import styles from "./ShopRoutesWrapper.module.scss";
 import {
   buildInventoryPath,
-  buildOffersConfigurationPath,
-  buildShopConfigurationPath,
   buildShopDetailPath,
-  buildShopPathOrUrl,
-  buildShopSettingsPath,
+  buildShopDetailPathOrUrl,
 } from "./shop-routing";
-import { EN } from "../../locales/en";
 
 export default function ShopRoutesWrapper() {
   const location = useLocation();
@@ -182,30 +179,6 @@ export default function ShopRoutesWrapper() {
     return shopData.shop()?.userId === currentSession().userId;
   }
 
-  function shopCustomizationPath() {
-    const shopSlug = shopData.shop()?.slug;
-    if (!_.isNil(shopSlug)) {
-      return buildShopConfigurationPath(shopSlug);
-    }
-    return "";
-  }
-
-  function offersConfigurationPath() {
-    const shopSlug = shopData.shop()?.slug;
-    if (!_.isNil(shopSlug)) {
-      return buildOffersConfigurationPath(shopSlug);
-    }
-    return "";
-  }
-
-  function shopSettingsPath() {
-    const shopSlug = shopData.shop()?.slug;
-    if (!_.isNil(shopSlug)) {
-      return buildShopSettingsPath(shopSlug);
-    }
-    return "";
-  }
-
   function shopDetailPath() {
     const shopSlug = shopData.shop()?.slug;
     if (!_.isNil(shopSlug)) {
@@ -267,7 +240,7 @@ export default function ShopRoutesWrapper() {
       !_.isNil(slug) &&
       !_.isEmpty(slug)
     ) {
-      const redirectUrl = buildShopPathOrUrl(domain, slug);
+      const redirectUrl = buildShopDetailPathOrUrl(domain, slug);
 
       endSession(redirectUrl, clientId);
     } else {
@@ -307,33 +280,13 @@ export default function ShopRoutesWrapper() {
             </Slot>
 
             <Slot name="items">
-              <Show when={isOwnedShop()}>
-                <PanelItem
-                  icon="storefront"
-                  path={shopCustomizationPath}
-                  label={trans(TKEYS["main-navigation"].links["My-Shop"])}
-                />
-
-                <PanelItem
-                  icon="view_list"
-                  path={offersConfigurationPath}
-                  label={trans(TKEYS["main-navigation"].links["My-Offers"])}
-                />
-
-                <PanelItem
-                  icon="settings"
-                  path={shopSettingsPath}
-                  label={trans(TKEYS.shop.settings.title)}
-                />
-              </Show>
+              <PanelItem
+                icon="storefront"
+                path={shopDetailPath}
+                label={trans(TKEYS["main-navigation"].links.home)}
+              />
 
               <Show when={!isOwnedShop()}>
-                <PanelItem
-                  icon="storefront"
-                  path={shopDetailPath}
-                  label={trans(TKEYS["main-navigation"].links.home)}
-                />
-
                 <Show when={isAuthenticated()}>
                   <PanelItem
                     icon="inventory_2"

@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { buildSignInCallbackUrl } from "../routes/user/UserRoutes";
+import { buildSignInCallbackUrl } from "../routes/main-routing";
 import { ShopDomainService } from "../services";
 import { getDomainFromWindow, isCustomDomain } from "./env";
 import { hashCodeVerifier, utf8ToBase64 } from "./string-manipulation";

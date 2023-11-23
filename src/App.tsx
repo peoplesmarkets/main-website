@@ -5,17 +5,17 @@ import LanguageDetector from "i18next-browser-languagedetector";
 import ICU from "i18next-icu";
 import { Show, onMount } from "solid-js";
 
-import { Redirect } from "./components/navigation/Redirect";
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
 import { isCustomDomain, setDocumentLanguage } from "./lib";
 import { LOCALES } from "./locales";
 import NotFound from "./routes/404";
 import MainRoutes from "./routes/MainRoutes";
+import SignInCallback from "./routes/SignInCallback";
 import CommunityRoutes from "./routes/community/CommunityRoutes";
 import InfoRoutes from "./routes/info/InfoRoutes";
+import { buildSignInCallbackPath } from "./routes/main-routing";
 import { ShopRoutes } from "./routes/shops/ShopRoutes";
-import { UserRoutes } from "./routes/user/UserRoutes";
 
 export default function App() {
   const i18nextInstance = i18next.createInstance({
@@ -44,14 +44,15 @@ export default function App() {
 
                 <ShopRoutes />
 
-                <UserRoutes />
-
                 <CommunityRoutes />
 
                 <InfoRoutes />
               </Show>
 
-              <Route path="/redirect" element={<Redirect />} />
+              <Route
+                path={buildSignInCallbackPath()}
+                component={SignInCallback}
+              />
 
               <Route path="*" component={NotFound} />
             </Routes>

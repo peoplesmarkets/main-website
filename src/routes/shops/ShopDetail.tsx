@@ -5,7 +5,7 @@ import { ErrorBoundary, For, Show, Suspense, createResource } from "solid-js";
 
 import { ContentError, Multiline } from "../../components/content";
 import { Border, Section } from "../../components/layout";
-import { OfferDetailView, OfferList, ShopBanner } from "../../components/shops";
+import { OfferDetailView, ShopBanner } from "../../components/shops";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
 import {
@@ -15,6 +15,7 @@ import {
 import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
 import { ShopData } from "./ShopData";
 import styles from "./ShopDetail.module.scss";
+import { OfferList } from "../../pages/main-pages/home-page/offers/OfferList";
 
 export default function ShopDetail() {
   const { shopCustomizationService, offerService } = useServiceClientContext();
@@ -85,7 +86,7 @@ export default function ShopDetail() {
                 <Trans key={TKEYS.offer["other-offers"]} />:
               </Show>
             </span>
-            <OfferList offers={() => offers()!} />
+            <OfferList offers={offers()} />
           </Section>
         </Show>
       </Suspense>

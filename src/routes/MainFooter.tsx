@@ -1,19 +1,24 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 
-import { MainLogoText } from "../components/assets";
+import { Show } from "solid-js";
+import { MainLogoText, MdIcon } from "../components/assets";
 import { GitHubIcon, MainLogoIcon } from "../components/icons";
 import { Section } from "../components/layout";
+import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { TKEYS } from "../locales";
 import styles from "./MainFooter.module.scss";
 import { buildCommunityPathOrUrl } from "./community/community-routing";
 import {
-  buildImprintPathOrUrl,
-  buildPrivacyPolicyPathOrUrl,
-  buildTermsOfServicePathOrUrl,
+  buildImprintPath,
+  buildPrivacyPolicyPath,
+  buildTermsOfServicePath,
 } from "./info/info-routing";
+import { buildGetStartedPath } from "./main-routing";
 
 export default function MainFooter() {
+  const { isAuthenticated } = useAccessTokensContext();
+
   return (
     <footer class={styles.Footer}>
       <Section>
@@ -28,13 +33,20 @@ export default function MainFooter() {
       </Section>
 
       <div class={styles.SiteLinks}>
-        <A href={buildImprintPathOrUrl()}>
+        <Show when={!isAuthenticated()}>
+          <A class={styles.LinkWithIcon} href={buildGetStartedPath()}>
+            <MdIcon icon="rocket_launch" />
+            <Trans key={TKEYS["main-navigation"].links["get-started"]} />
+          </A>
+        </Show>
+
+        <A href={buildImprintPath()}>
           <Trans key={TKEYS.imprint.title} />
         </A>
-        <A href={buildPrivacyPolicyPathOrUrl()}>
+        <A href={buildPrivacyPolicyPath()}>
           <Trans key={TKEYS["privacy-policy"].title} />
         </A>
-        <A href={buildTermsOfServicePathOrUrl()}>
+        <A href={buildTermsOfServicePath()}>
           <Trans key={TKEYS["terms-of-service"].title} />
         </A>
       </div>
@@ -46,7 +58,8 @@ export default function MainFooter() {
       </Section>
 
       <div class={styles.SiteLinks}>
-        <A href={buildCommunityPathOrUrl()}>
+        <A class={styles.LinkWithIcon} href={buildCommunityPathOrUrl()}>
+          <MdIcon icon="forum" />
           <Trans key={TKEYS["main-navigation"].links.community} />{" "}
         </A>
       </div>

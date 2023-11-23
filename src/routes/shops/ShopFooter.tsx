@@ -1,7 +1,7 @@
-import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 
 import { MainLogoText } from "../../components/assets";
+import { Font } from "../../components/content";
 import { MainLogoIcon } from "../../components/icons";
 import { TKEYS } from "../../locales";
 import { buildIndexPathOrUrl } from "../main-routing";
@@ -11,8 +11,9 @@ export function ShopFooter() {
   return (
     <footer class={styles.Footer}>
       <div class={styles.Label}>
-        <Trans key={TKEYS.footer["powered-by"]} />:
+        <Font type="body" inline key={TKEYS.footer["powered-by"]} />
       </div>
+
       <div class={styles.Logo}>
         <A
           class={styles.LogoLink}

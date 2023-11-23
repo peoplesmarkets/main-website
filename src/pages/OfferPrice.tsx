@@ -12,7 +12,7 @@ import {
 import styles from "./OfferPrice.module.scss";
 
 type Props = {
-  readonly offer: () => OfferResponse | undefined;
+  readonly offer: OfferResponse | undefined;
   readonly class?: string;
   readonly small?: boolean;
 };
@@ -21,40 +21,40 @@ export function OfferPrice(props: Props) {
   const [trans] = useTransContext();
 
   function priceDecimal() {
-    const unitAmount = props.offer()?.price?.unitAmount;
+    const unitAmount = props.offer?.price?.unitAmount;
     if (!_.isNil(unitAmount)) {
       return centsToDecimal(unitAmount, trans(TKEYS.price["decimal-point"]));
     }
   }
 
   function currencyCode() {
-    const currency = props.offer()?.price?.currency;
+    const currency = props.offer?.price?.currency;
     if (!_.isNil(currency)) {
       return trans(TKEYS.price.currency[currencyToJSON(currency)]);
     }
   }
 
   function recurringIntervalCount() {
-    const intervalCount = props.offer()?.price?.recurring?.intervalCount;
+    const intervalCount = props.offer?.price?.recurring?.intervalCount;
     if (!_.isNil(intervalCount) && intervalCount > 1) {
       return intervalCount;
     }
   }
 
   function recurringInterval() {
-    const interval = props.offer()?.price?.recurring?.interval;
+    const interval = props.offer?.price?.recurring?.interval;
     if (!_.isNil(interval)) {
       return trans(
         TKEYS.price["recurring-interval"][recurringIntervalToJSON(interval)],
         {
-          intervalCount: props.offer()?.price?.recurring?.intervalCount,
+          intervalCount: props.offer?.price?.recurring?.intervalCount,
         }
       );
     }
   }
 
   function trialPeriodDays() {
-    return props.offer()?.price?.recurring?.trialPeriodDays;
+    return props.offer?.price?.recurring?.trialPeriodDays;
   }
 
   return (
@@ -67,7 +67,7 @@ export function OfferPrice(props: Props) {
           {priceDecimal()} {currencyCode()}{" "}
         </span>
 
-        <Show when={!_.isNil(props.offer()?.price?.recurring)}>
+        <Show when={!_.isNil(props.offer?.price?.recurring)}>
           <span
             class={styles.Recurring}
             classList={{ [styles.Small]: Boolean(props.small) }}

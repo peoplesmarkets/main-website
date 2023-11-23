@@ -8,13 +8,27 @@ import {
 } from "solid-js";
 
 import { ContentError, ContentLoading } from "../content";
+import { Redirect } from "../navigation/Redirect";
 
 type Props = {
-  loaded: () => boolean | undefined;
-  children: JSX.Element;
+  readonly loaded: () => boolean | undefined;
+  readonly signIn?: boolean | undefined;
+  readonly redirect?: boolean | undefined;
+  readonly children?: JSX.Element | undefined;
 };
 
-function LoadThenError() {
+function Loading(props: Props) {
+  return (
+    <Show
+      when={props.signIn || props.redirect}
+      fallback={<ContentLoading page />}
+    >
+      <Redirect singIn={props.signIn} />
+    </Show>
+  );
+}
+
+function LoadThenError(props: Props) {
   const [loading, setLoading] = createSignal(true);
 
   onMount(() => {
@@ -23,7 +37,7 @@ function LoadThenError() {
 
   return (
     <Show when={loading()} fallback={<ContentError />}>
-      <ContentLoading page />
+      <Loading {...props} />
     </Show>
   );
 }
@@ -31,9 +45,9 @@ function LoadThenError() {
 export function DefaultBoundary(props: Props) {
   return (
     <>
-      <ErrorBoundary fallback={<LoadThenError />}>
-        <Suspense fallback={<ContentLoading page />}>
-          <Show when={props.loaded()} fallback={<ContentLoading page />}>
+      <ErrorBoundary fallback={<LoadThenError {...props} />}>
+        <Suspense fallback={<Loading {...props} />}>
+          <Show when={props.loaded()} fallback={<Loading {...props} />}>
             {props.children}
           </Show>
         </Suspense>

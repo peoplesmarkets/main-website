@@ -21,6 +21,7 @@ export const TKEYS = {
   },
   common: {
     by: "common.by",
+    or: "common.or",
     more: "common.more",
     file: "common.file",
     per: "common.per",
@@ -30,10 +31,14 @@ export const TKEYS = {
     resume: "common.resume",
     any: "common.any",
     Preview: "common.Preview",
-    accept: "common.accept",
     reload: "common.reload",
     public: "common.public",
     hidden: "common.hidden",
+  },
+  authentication: {
+    "sign-in": "authentication.sign-in",
+    register: "authentication.register",
+    "sign-out": "authentication.sign-out",
   },
   form: {
     action: {
@@ -46,6 +51,7 @@ export const TKEYS = {
       Save: "form.action.Save",
       "Save-and-continue": "form.action.Save-and-continue",
       Send: "form.action.Send",
+      Done: "form.action.Done",
       Edit: "form.action.Edit",
       Delete: "form.action.Delete",
       Cancel: "form.action.Cancel",
@@ -155,6 +161,7 @@ export const TKEYS = {
     "no-description": "shop.no-description",
     configuration: {
       title: "shop.configuration.title",
+      info: "shop.configuration.info",
       Details: "shop.configuration.Details",
       Payment: "shop.configuration.Payment",
       Appearance: "shop.configuration.Appearance",
@@ -164,7 +171,7 @@ export const TKEYS = {
       title: "shop.settings.title",
     },
     errors: {
-      "ensure-offers-deleted": "shop.errors.ensure-offers-deleted",
+      "conflict-on-delete": "shop.errors.conflict-on-delete",
       "invalid-url": "shop.errors.invalid-url",
     },
     labels: {
@@ -272,6 +279,7 @@ export const TKEYS = {
     "no-subscriptions-yet": "subscription.no-subscriptions-yet",
   },
   report: {
+    label: "report.label",
     title: "report.title",
     "link-information": "report.link-information",
     labels: {
@@ -300,6 +308,7 @@ export const TKEYS = {
       "edit-logo": "dashboard.shop.edit-logo",
       "delete-logo": "dashboard.shop.delete-logo",
       "edit-theme": "dashboard.shop.edit-theme",
+      "configure-shop": "dashboard.shop.configure-shop",
       "delete-this-shop": "dashboard.shop.delete-this-shop",
       "delete-shop-info": "dashboard.shop.delete-shop-info",
       "resulting-url": "dashboard.shop.resulting-url",
@@ -334,6 +343,7 @@ export const TKEYS = {
         "start-integration": "dashboard.shop.stripe.start-integration",
         "continue-integration": "dashboard.shop.stripe.continue-integration",
         "remove-integration": "dashboard.shop.stripe.remove-integration",
+        connected: "dashboard.shop.stripe.connected",
       },
       contact: {
         info: "dashboard.shop.contact.info",
@@ -341,6 +351,8 @@ export const TKEYS = {
       visibility: {
         Title: "dashboard.shop.visibility.Title",
         Info: "dashboard.shop.visibility.Info",
+        "not-published-yet-info":
+          "dashboard.shop.visibility.not-published-yet-info",
         "hide-this-shop": "dashboard.shop.visibility.hide-this-shop",
         "publish-shop": "dashboard.shop.visibility.publish-shop",
         "publish-notification-title":
@@ -395,6 +407,7 @@ export const TKEYS = {
         "dashboard.offers.unpublish-notification-title",
       "unpublish-notification-message":
         "dashboard.offers.unpublish-notification-message",
+      "no-offers-yet": "dashboard.offers.no-offers-yet",
     },
     "shipping-rate": {
       "add-shipping-rate": "dashboard.shipping-rate.add-shipping-rate",
@@ -411,6 +424,8 @@ export const TKEYS = {
   },
   "main-navigation": {
     actions: {
+      "create-shop": "main-navigation.actions.create-shop",
+      "create-your-own-shop": "main-navigation.actions.create-your-own-shop",
       "sign-in": "main-navigation.actions.sign-in",
       "sign-out": "main-navigation.actions.sign-out",
     },
@@ -432,12 +447,6 @@ export const TKEYS = {
       report: "main-navigation.settings.report",
     },
   },
-  "shops-search": {
-    title: "shops-search.title",
-  },
-  "offers-search": {
-    title: "offers-search.title",
-  },
   user: {
     authenticating: "user.authenticating",
     settings: {
@@ -454,9 +463,17 @@ export const TKEYS = {
       medium: "community-page.posts.medium",
     },
   },
+  "home-page": {
+    "search-shops": "home-page.search-shops",
+    "search-offers": "home-page.search-offers",
+    "get-started-with-your-own-shop":
+      "home-page.get-started-with-your-own-shop",
+  },
   "landing-page": {
     "get-started": "landing-page.get-started",
-    REGISTER: "landing-page.REGISTER",
+    "register-now": "landing-page.register-now",
+    "Sign-In": "landing-page.Sign-In",
+    "to-create-your-own-shop": "landing-page.to-create-your-own-shop",
     "establish-your-online-appearance":
       "landing-page.establish-your-online-appearance",
     "create-your-online-shop-and-build-your-brand":

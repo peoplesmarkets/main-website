@@ -1,7 +1,6 @@
 import { Outlet, Route } from "@solidjs/router";
 import { lazy } from "solid-js";
 
-import { Slot } from "../../components/layout";
 import { Section } from "../../components/layout/Section";
 import MainRoutesWrapper from "../MainRoutesWrapper";
 import styles from "./CommunityRoutes.module.scss";
@@ -11,15 +10,13 @@ import { DEVELOPMENT_POST_PATH, ROOT_PATH } from "./community-routing";
 function PostsHeader() {
   return (
     <MainRoutesWrapper>
-      <Slot name="content">
-        <div class={styles.PostsHeader}>
-          <PostsNav />
-        </div>
+      <div class={styles.PostsHeader}>
+        <PostsNav />
+      </div>
 
-        <Section>
-          <Outlet />
-        </Section>
-      </Slot>
+      <Section>
+        <Outlet />
+      </Section>
     </MainRoutesWrapper>
   );
 }

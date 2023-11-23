@@ -2,25 +2,17 @@ import { Route } from "@solidjs/router";
 import { lazy } from "solid-js";
 
 import { isCustomDomain } from "../../lib";
-import { buildSignInCallbackPath } from "../user/UserRoutes";
-import { MyShopData } from "../../pages/shop-owner-pages/MyShopData";
+import { buildSignInCallbackPath } from "../main-routing";
 import { ShopData } from "./ShopData";
 import {
-  CONFIGURATION_PATH,
   INVENTORY_PATH,
-  MEDIA_CONFIGURATION_PATH,
-  OFFERS_CONFIGURATION_PATH,
   OFFER_PATH,
   ROOT_PATH,
-  SETTINGS_CONFIGURATION_PATH,
   SHOP_PATH,
   SUBSCRIPTION_PATH,
 } from "./shop-routing";
 
 const ShopRoutesWrapper = lazy(() => import("./ShopRoutesWrapper"));
-const MyShopRoutesWrapper = lazy(
-  () => import("../../pages/shop-owner-pages/MyShopRoutesWrapper")
-);
 
 const ShopDetailPage = lazy(() => import("./ShopDetail"));
 const OfferDetailPage = lazy(() => import("./OfferDetail"));
@@ -30,23 +22,7 @@ const SubscriptionDetailPage = lazy(
   () => import("./inventory/SubscriptionDetail")
 );
 
-const ShopConfigurationPage = lazy(
-  () => import("../../pages/shop-owner-pages/shop-configuration/Page")
-);
-const OffersConfigurationPage = lazy(
-  () => import("../../pages/shop-owner-pages/offers-configuration/Page")
-);
-const OfferDetailConfigurationPage = lazy(
-  () => import("../../pages/shop-owner-pages/offer-detail-configuration/Page")
-);
-const ShopSettingsPage = lazy(
-  () => import("../../pages/shop-owner-pages/shop-settings/Page")
-);
-const MediaConfigurationPage = lazy(
-  () => import("../../pages/shop-owner-pages/media-configuration/Page")
-);
-
-const SignInCallbackPage = lazy(() => import("./SignInCallback"));
+const SignInCallbackPage = lazy(() => import("../SignInCallback"));
 
 export function ShopRoutes() {
   const rootPath = isCustomDomain() ? "" : ROOT_PATH;
@@ -68,33 +44,6 @@ export function ShopRoutes() {
             path={buildSignInCallbackPath()}
             component={SignInCallbackPage}
           />
-        </Route>
-
-        <Route
-          path={shopPath}
-          data={MyShopData}
-          component={MyShopRoutesWrapper}
-        >
-          <Route path={CONFIGURATION_PATH}>
-            <Route path="" component={ShopConfigurationPage} />
-
-            <Route
-              path={OFFERS_CONFIGURATION_PATH}
-              component={OffersConfigurationPage}
-            />
-
-            <Route path={OFFER_PATH} component={OfferDetailConfigurationPage} />
-
-            <Route
-              path={SETTINGS_CONFIGURATION_PATH}
-              component={ShopSettingsPage}
-            />
-
-            <Route
-              path={MEDIA_CONFIGURATION_PATH}
-              component={MediaConfigurationPage}
-            />
-          </Route>
         </Route>
       </Route>
     </>

@@ -1,7 +1,7 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createResource } from "solid-js";
+import { Show, Suspense, createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
@@ -9,6 +9,7 @@ import { buildAuthorizationRequest, resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import {
+  buildInventoryPath,
   buildInventoryUrl,
   buildOfferPath,
   buildOfferUrl,
@@ -18,12 +19,13 @@ import {
   OfferType,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { PriceType } from "../../services/peoplesmarkets/commerce/v1/price";
+import { Font } from "../content";
 import { ActionButton } from "../form";
 import { LinkButton } from "../form/LinkButton";
 import styles from "./OfferBuy.module.scss";
 
 type Props = {
-  readonly offer: () => OfferResponse | undefined;
+  readonly offer: OfferResponse | undefined;
 };
 
 export function OfferBuy(props: Props) {
@@ -34,8 +36,41 @@ export function OfferBuy(props: Props) {
   const shopData = useRouteData<typeof ShopData>();
 
   const [mediaSubscription] = createResource(
-    () => props.offer()?.offerId,
+    () => props.offer?.offerId,
     fetchMediaSubscription
+  );
+
+  const [registerUrl] = createResource(
+    () =>
+      [
+        props.offer?.shopSlug as string,
+        props.offer?.offerId as string,
+        !isAuthenticated(),
+      ] as const,
+    async ([shopSlug, offerId]) => {
+      const registerUrl = await buildAuthorizationRequest(
+        "create",
+        buildOfferPath(shopSlug, offerId)
+      );
+      return registerUrl.toString();
+    }
+  );
+
+  const [signInUrl] = createResource(
+    () =>
+      [
+        props.offer?.shopSlug as string,
+        props.offer?.offerId as string,
+        !isAuthenticated(),
+      ] as const,
+    async ([shopSlug, offerId]) => {
+      const signInUrl = await buildAuthorizationRequest(
+        undefined,
+        buildOfferPath(shopSlug, offerId)
+      );
+
+      return signInUrl.toString();
+    }
   );
 
   const [stripeAccount] = createResource(shopData?.shopId, fetchStripeAccount);
@@ -80,14 +115,14 @@ export function OfferBuy(props: Props) {
     }
 
     if (
-      props.offer()?.price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
-      props.offer()?.type === OfferType.OFFER_TYPE_DIGITAL &&
+      props.offer?.price?.priceType === PriceType.PRICE_TYPE_RECURRING &&
+      props.offer?.type === OfferType.OFFER_TYPE_DIGITAL &&
       !isAuthenticated()
     ) {
       return "login";
     }
 
-    if (props.offer()?.price?.priceType === PriceType.PRICE_TYPE_RECURRING) {
+    if (props.offer?.price?.priceType === PriceType.PRICE_TYPE_RECURRING) {
       return "subscribe";
     }
 
@@ -101,9 +136,17 @@ export function OfferBuy(props: Props) {
     return "";
   }
 
+  function inventoryPath() {
+    const shopSlug = props.offer?.shopSlug;
+    if (!_.isNil(shopSlug)) {
+      return buildInventoryPath(shopSlug);
+    }
+    return "#";
+  }
+
   async function handleCheckout() {
-    const offerId = props.offer()?.offerId;
-    const shopSlug = props.offer()?.shopSlug;
+    const offerId = props.offer?.offerId;
+    const shopSlug = props.offer?.shopSlug;
 
     if (!_.isNil(offerId) && !_.isNil(shopSlug)) {
       const inventoryUrl = buildInventoryUrl(shopSlug);
@@ -119,31 +162,26 @@ export function OfferBuy(props: Props) {
     }
   }
 
-  async function handleSignIn() {
-    const offerId = props.offer()?.offerId;
-    const shopSlug = shopData.shop()?.slug;
-    if (
-      !resourceIsReady(shopData.shop) ||
-      _.isNil(shopSlug) ||
-      _.isNil(offerId)
-    ) {
-      return;
-    }
-
-    const signInUrl = await buildAuthorizationRequest(
-      "login",
-      buildOfferPath(shopSlug, offerId)
-    );
-    window.location.href = signInUrl.toString();
-  }
-
   return (
     <div class={styles.OfferBuy}>
-      <Show when={!_.isNil(props.offer()?.price)}>
+      <Show when={!_.isNil(props.offer?.price)}>
         <Show when={actionState() === "login"}>
-          <ActionButton actionType="active" onClick={handleSignIn} wide>
-            <Trans key={TKEYS.offer["sign-in-to-subscribe"]} />
-          </ActionButton>
+          <div>
+            <Font type="label" key={TKEYS.offer["downloadable-content"]} />
+            <Font type="body" key={TKEYS.offer["downloadable-content-info"]} />
+          </div>
+
+          <div class={styles.Actions}>
+            <Suspense>
+              <LinkButton actionType="active" wide href={signInUrl()!}>
+                <Trans key={TKEYS.authentication["sign-in"]} />
+              </LinkButton>
+              <Font type="label" key={TKEYS.common.or} />
+              <LinkButton actionType="active" wide href={registerUrl()!}>
+                <Trans key={TKEYS.authentication.register} />
+              </LinkButton>
+            </Suspense>
+          </div>
         </Show>
 
         <Show when={actionState() === "no-payment-method"}>
@@ -200,14 +238,10 @@ export function OfferBuy(props: Props) {
         </Show>
 
         <Show when={actionState() === "already-subscribed"}>
-          <ActionButton
-            actionType="active-filled"
-            wide
-            disabled
-            onClick={() => {}}
-          >
-            <Trans key={TKEYS.subscription["already-subscribed"]} />
-          </ActionButton>
+          <Font type="label" key={TKEYS.subscription["already-subscribed"]} />
+          <LinkButton actionType="active" wide href={inventoryPath()}>
+            <Trans key={TKEYS.media.Inventory} />
+          </LinkButton>
         </Show>
       </Show>
     </div>

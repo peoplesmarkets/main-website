@@ -1,0 +1,55 @@
+.HeadlineSection {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.List {
+  width: 100%;
+  min-height: 100px;
+  margin: 32px 0;
+}
+
+.ListItem {
+  border-top: solid 1px var(--secondary-border-color);
+}
+
+.ListItem:last-child {
+  border-bottom: solid 1px var(--secondary-border-color);
+}
+
+.Image {
+  width: 64px;
+}
+
+.Thumbnail {
+  display: block;
+  max-width: 64px;
+  max-height: 48px;
+  object-fit: contain;
+}
+
+.Headline {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.Name {
+  text-overflow: ellipsis;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-line-clamp: 2; /* number of lines to show */
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+}
+
+.Actions {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  align-items: center;
+  gap: 8px;
+}

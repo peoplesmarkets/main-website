@@ -1,5 +1,10 @@
 type Props = {
-  class?: string;
+  readonly class?: string | undefined;
+  readonly classList?:
+    | {
+        [k: string]: boolean | undefined;
+      }
+    | undefined;
 };
 
 /* eslint-disable i18next/no-literal-string */
@@ -9,6 +14,7 @@ export function MainLogoText(props: Props) {
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 248 64"
       class={props.class}
+      classList={props.classList}
     >
       <text
         font-family="Roboto"

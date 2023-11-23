@@ -11,9 +11,10 @@ import {
 
 import { ContentError } from "../../components/content";
 import { Border, Section } from "../../components/layout";
-import { OfferDetailView, OfferList } from "../../components/shops";
+import { OfferDetailView } from "../../components/shops";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
+import { OfferList } from "../../pages/main-pages/home-page/offers/OfferList";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferDetail.module.scss";
 
@@ -63,7 +64,7 @@ export default function OfferDetail() {
           <ErrorBoundary fallback={<ContentError />}>
             <Suspense>
               <Section>
-                <OfferList offers={() => otherOffers()!} />
+                <OfferList offers={otherOffers()} />
               </Section>
             </Suspense>
           </ErrorBoundary>

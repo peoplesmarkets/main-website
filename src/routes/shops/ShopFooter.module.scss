@@ -1,20 +1,18 @@
 .Footer {
   display: flex;
-  justify-content: space-between;
+  justify-content: end;
   align-items: center;
-  gap: 0.5rem;
+  gap: 8px;
   border-top: var(--primary-border);
   background-color: var(--footer-background-color);
 }
 
 .Label {
-  padding-left: 0.5rem;
-  font: var(--font-label);
-  font-weight: 300;
+  display: inline;
 }
 
 .Logo {
-  margin: 0.5rem 0;
+  margin: 8px;
 }
 
 .LogoLink {
@@ -22,7 +20,7 @@
   padding: 0 0.5rem;
   display: flex;
   align-items: center;
-  gap: 0.5rem;
+  gap: 4px;
 }
 
 .LogoLink:hover {
