@@ -24,6 +24,7 @@ export default defineConfig({
             "i18next",
             "i18next-browser-languagedetector",
             "@mbarzda/solid-i18next",
+            "./src/locales",
           ],
           "markdown-it": ["markdown-it"],
           "markdown-it-image-figures": ["markdown-it-image-figures"],
