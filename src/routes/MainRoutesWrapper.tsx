@@ -65,7 +65,7 @@ export default function MainRoutesWrapper() {
     <>
       <div class={styles.HeaderContainer}>
         <div class={styles.Header}>
-          <MainLogoLink />
+          <MainLogoLink showText={!showCreateShop()} />
 
           <Show when={showCreateShop()}>
             <MdButton type="filled" href={createShopPath()}>

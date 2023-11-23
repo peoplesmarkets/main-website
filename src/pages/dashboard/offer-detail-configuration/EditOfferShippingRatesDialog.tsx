@@ -215,6 +215,7 @@ export function EditOfferShippingRatesDialog(props: Props) {
                 </div>
 
                 <MdSelect
+                  class={commonStyles.NarrowSelect}
                   type="outlined"
                   menuPositioning="fixed"
                   label={trans(TKEYS.price.currency.title)}

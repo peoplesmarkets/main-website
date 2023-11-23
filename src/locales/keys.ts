@@ -35,6 +35,11 @@ export const TKEYS = {
     public: "common.public",
     hidden: "common.hidden",
   },
+  authentication: {
+    "sign-in": "authentication.sign-in",
+    register: "authentication.register",
+    "sign-out": "authentication.sign-out",
+  },
   form: {
     action: {
       "Create-new": "form.action.Create-new",
@@ -420,6 +425,7 @@ export const TKEYS = {
   "main-navigation": {
     actions: {
       "create-shop": "main-navigation.actions.create-shop",
+      "create-your-own-shop": "main-navigation.actions.create-your-own-shop",
       "sign-in": "main-navigation.actions.sign-in",
       "sign-out": "main-navigation.actions.sign-out",
     },
@@ -441,12 +447,6 @@ export const TKEYS = {
       report: "main-navigation.settings.report",
     },
   },
-  "shops-search": {
-    title: "shops-search.title",
-  },
-  "offers-search": {
-    title: "offers-search.title",
-  },
   user: {
     authenticating: "user.authenticating",
     settings: {
@@ -463,10 +463,17 @@ export const TKEYS = {
       medium: "community-page.posts.medium",
     },
   },
+  "home-page": {
+    "search-shops": "home-page.search-shops",
+    "search-offers": "home-page.search-offers",
+    "get-started-with-your-own-shop":
+      "home-page.get-started-with-your-own-shop",
+  },
   "landing-page": {
     "get-started": "landing-page.get-started",
-    REGISTER: "landing-page.REGISTER",
+    "register-now": "landing-page.register-now",
     "Sign-In": "landing-page.Sign-In",
+    "to-create-your-own-shop": "landing-page.to-create-your-own-shop",
     "establish-your-online-appearance":
       "landing-page.establish-your-online-appearance",
     "create-your-online-shop-and-build-your-brand":

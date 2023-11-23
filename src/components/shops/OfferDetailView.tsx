@@ -3,13 +3,10 @@ import _ from "lodash";
 import { Show } from "solid-js";
 
 import { TKEYS } from "../../locales";
-import {
-  OfferResponse,
-  OfferType,
-} from "../../services/peoplesmarkets/commerce/v1/offer";
-import { OfferImages } from "../../pages/dashboard/offer-detail-configuration/OfferImages";
 import { OfferPrice } from "../../pages/OfferPrice";
-import { Font, Multiline } from "../content";
+import { OfferImages } from "../../pages/dashboard/offer-detail-configuration/OfferImages";
+import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
+import { Multiline } from "../content";
 import { Section } from "../layout";
 import { OfferBuy } from "./OfferBuy";
 import styles from "./OfferDetailView.module.scss";
@@ -29,21 +26,13 @@ export function OfferDetailView(props: Props) {
 
       <Section class={styles.Summary} padded>
         <div>
-          <OfferPrice class={styles.Price} offer={props.offer} />
+          <OfferPrice class={styles.Price} offer={props.offer()} />
 
           <span class={styles.Title}>{props.offer()?.name}</span>
         </div>
 
         <div>
-          <OfferBuy offer={() => props.offer()} />
-
-          <Show when={props.offer()?.type === OfferType.OFFER_TYPE_DIGITAL}>
-            <Font type="label" key={TKEYS.offer["downloadable-content"]} />
-            <Font
-              type="detail"
-              key={TKEYS.offer["downloadable-content-info"]}
-            />
-          </Show>
+          <OfferBuy offer={props.offer()} />
         </div>
       </Section>
 

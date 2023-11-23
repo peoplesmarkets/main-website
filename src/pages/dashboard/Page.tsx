@@ -7,7 +7,6 @@ import { MdIcon } from "../../components/assets";
 import { Font } from "../../components/content";
 import { ActionButton } from "../../components/form";
 import { Section } from "../../components/layout";
-import { DefaultBoundary } from "../../components/layout/DefaultBoundary";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { useSelectedShopContext } from "../../contexts/ShopContext";
 import { requireAuthentication } from "../../guards/authentication";
@@ -23,7 +22,7 @@ export default function Dashboard() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  const { shopService, offerService } = useServiceClientContext();
+  const { shopService } = useServiceClientContext();
   const { selectedShopId, setSelectedShopId } = useSelectedShopContext();
 
   const [authenticated] = createResource(
@@ -43,16 +42,6 @@ export default function Dashboard() {
       });
 
       return response.shop;
-    }
-  );
-
-  const [offers] = createResource(
-    () => shop()?.shopId,
-    async (shopId: string) => {
-      const response = await offerService.list({
-        shopId,
-      });
-      return response.offers;
     }
   );
 
@@ -116,28 +105,26 @@ export default function Dashboard() {
           </>
         }
       >
-        <DefaultBoundary loaded={loaded}>
-          <Show when={!shop()?.isActive && !_.isEmpty(offers())}>
-            <Section flat>
-              <Font
-                type="body"
-                warn
-                key={TKEYS.dashboard.shop.visibility["not-published-yet-info"]}
-              />
-              <ActionButton
-                actionType="active-filled"
-                round
-                onClick={handleOpenPublishShop}
-              >
-                <Trans key={TKEYS.dashboard.shop.visibility.Title} />
-              </ActionButton>
-            </Section>
-          </Show>
-
+        <Show when={loaded() && !shop()?.isActive}>
           <Section flat>
-            <OfferList shop={shop()} offers={offers()} />
+            <Font
+              type="body"
+              warn
+              key={TKEYS.dashboard.shop.visibility["not-published-yet-info"]}
+            />
+            <ActionButton
+              actionType="active-filled"
+              round
+              onClick={handleOpenPublishShop}
+            >
+              <Trans key={TKEYS.dashboard.shop.visibility.Title} />
+            </ActionButton>
           </Section>
-        </DefaultBoundary>
+        </Show>
+
+        <Section flat>
+          <OfferList shop={shop()} />
+        </Section>
       </Show>
 
       <CreateShopDialog

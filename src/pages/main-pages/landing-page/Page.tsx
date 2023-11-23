@@ -77,21 +77,24 @@ export default function LandingPage() {
               <LinkButton
                 actionType="active-filled"
                 href={registerUrl() || "#"}
-                style={{
-                  height: "3rem",
-                  padding: "24px 32px",
-                  "background-color": "var(--orange)",
-                  color: "#000",
-                }}
+                tall
               >
-                <Font type="title" key={TKEYS["landing-page"].REGISTER} />
+                <Font
+                  type="label"
+                  key={TKEYS["landing-page"]["register-now"]}
+                />
               </LinkButton>
 
-              <Font type="body" key={TKEYS.common.or} />
+              <Font type="label" key={TKEYS.common.or} />
 
-              <LinkButton actionType="neutral" href={signInUrl() || "#"}>
-                <Trans key={TKEYS["landing-page"]["Sign-In"]} />
+              <LinkButton actionType="active" href={signInUrl() || "#"}>
+                <Font type="label" key={TKEYS["landing-page"]["Sign-In"]} />
               </LinkButton>
+
+              <Font
+                type="label"
+                key={TKEYS["landing-page"]["to-create-your-own-shop"]}
+              />
             </div>
           </div>
         </div>

@@ -35,6 +35,11 @@ export const DE: typeof TKEYS = {
     public: "öffentlich",
     hidden: "verborgen",
   },
+  authentication: {
+    "sign-in": "Einloggen",
+    "sign-out": "Logout",
+    register: "Registrieren",
+  },
   form: {
     action: {
       "Create-new": "Erstellen",
@@ -149,7 +154,7 @@ export const DE: typeof TKEYS = {
       Settings: "Einstellungen",
     },
     settings: {
-      title: "Einstellungen",
+      title: "Shop Einstellungen",
     },
     errors: {
       "conflict-on-delete":
@@ -200,7 +205,7 @@ export const DE: typeof TKEYS = {
     "other-offers": "Weitere Angebote",
     "downloadable-content": "Downloadbarer Inhalt",
     "downloadable-content-info":
-      "Melde dich an, um das Angebot zu abonnieren und anschließend auf die enthaltenen Dateien zuzugreifen.",
+      "Um das Angebot zu abonnieren musst du angemeldet sein, um anschließend auf die enthaltenen Dateien zugreifen zu können.",
     visibility: {
       title: "Sichtbarkeit",
       visible: "Öffentlich sichtbar",
@@ -229,7 +234,7 @@ export const DE: typeof TKEYS = {
     Download: "Download",
     "Download-now": "Jetzt herrunterladen",
     "download-file": 'Datei "{item}" herunterladen',
-    Inventory: "Inventory",
+    Inventory: "Meine Abos",
     "download-all": "Alles herunterladen",
     errors: {
       "still-part-of-an-offer": "Die Datei ist noch in Angeboten enhalten",
@@ -398,7 +403,8 @@ export const DE: typeof TKEYS = {
   },
   "main-navigation": {
     actions: {
-      "create-shop": "Erstelle deinen Shop!",
+      "create-shop": "Erstelle deinen Shop",
+      "create-your-own-shop": "Erstelle deinen eigenen Shop",
       "sign-in": "Login",
       "sign-out": "Logout",
     },
@@ -420,12 +426,6 @@ export const DE: typeof TKEYS = {
       report: EN["main-navigation"].settings.report,
     },
   },
-  "shops-search": {
-    title: "Suche Shops",
-  },
-  "offers-search": {
-    title: "Suche Angebote",
-  },
   user: {
     authenticating: "Authentifizierung",
     settings: {
@@ -443,13 +443,18 @@ export const DE: typeof TKEYS = {
       medium: EN["community-page"].posts.medium,
     },
   },
+  "home-page": {
+    "search-shops": "Suche Shops",
+    "search-offers": "Suche Angebote",
+    "get-started-with-your-own-shop": "Starte jetzt deinen eigenen Shop",
+  },
   "landing-page": {
     "get-started": "Los geht's",
-    REGISTER: "JETZT REGISTRIEREN",
+    "register-now": "Jetzt Registrieren",
+    "to-create-your-own-shop": "um deinen eigenen Shop zu erstellen",
     "Sign-In": "Anmelden",
     "establish-your-online-appearance": "Erstelle dir eine Online-Präsenz",
-    "create-your-online-shop-and-build-your-brand":
-      "Baue deine Marke mit einem Online-Shop auf",
+    "create-your-online-shop-and-build-your-brand": "Baue einen Online-Shop",
     "offer-your-goods-to-the-people": "Biete den Menschen deine Waren an",
     "no-costs-until-you-sell": "Keine Kosten bis zum Verkauf",
     "no-strings-attached": "Keine Verbindlichkeiten",

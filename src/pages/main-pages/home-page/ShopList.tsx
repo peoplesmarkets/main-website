@@ -1,8 +1,8 @@
 import { A } from "@solidjs/router";
 import { For } from "solid-js";
 
+import { buildShopDetailPathOrUrl } from "../../../routes/shops/shop-routing";
 import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
-import { buildShopDetailPathOrUrl } from "../shop-routing";
 import styles from "./ShopList.module.scss";
 import { ShopListItem } from "./ShopListItem";
 

@@ -97,3 +97,10 @@ $expanded-min-width: 900px;
     grid-template-columns: repeat(4, minmax(0, 1fr));
   }
 }
+
+.Actions {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

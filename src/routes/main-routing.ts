@@ -23,8 +23,8 @@ export function buildGetStartedPath() {
   return buildPath(buildIndexPath(), "get-started");
 }
 
-export function buildOffersPath() {
-  return buildPath(buildIndexPath(), "offers");
+export function buildShopsPath() {
+  return buildPath(buildIndexPath(), "shops");
 }
 
 export function buildDashboardPath() {

@@ -25,8 +25,8 @@
 }
 
 .List {
-  max-width: min(400px, 90%);
-  margin: 3rem auto 3rem auto;
+  max-width: min(390px, 90%);
+  margin: 32px auto;
   color: var(--primary-content-color);
   list-style: none;
   line-height: 1.2;
@@ -39,7 +39,7 @@
 }
 
 .List li::before {
-  color: var(--orange);
+  color: var(--active-content-color);
   content: "|\00a0\00a0\00a0";
   font: var(--font-title);
   font-weight: 800;
@@ -66,11 +66,11 @@
 .CallToActionButton {
   height: 3.5rem;
   color: #000;
-  background-color: var(--orange);
+  background-color: var(--active-content-color);
   font: var(--font-title);
   font-weight: 500;
   opacity: 95%;
-  border: 1px solid var(--orange);
+  border: 1px solid var(--active-content-color);
   border-radius: 4px;
   padding: 0 23px 0 23px;
   text-decoration: none;
@@ -78,7 +78,7 @@
 }
 
 .CallToActionButton:hover {
-  background-color: var(--orange);
+  background-color: var(--active-content-color);
   opacity: 100%;
   cursor: pointer;
 }

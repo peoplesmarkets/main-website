@@ -345,6 +345,7 @@ export function EditOfferPriceDialog(props: Props) {
               />
 
               <MdSelect
+                class={commonStyles.NarrowSelect}
                 type="outlined"
                 menuPositioning="fixed"
                 onChange={handleCurrencyChange}
@@ -385,6 +386,7 @@ export function EditOfferPriceDialog(props: Props) {
                 </div>
 
                 <MdSelect
+                  class={commonStyles.NarrowSelect}
                   type="outlined"
                   menuPositioning="fixed"
                   onChange={handleRecurringIntervalChange}
@@ -413,6 +415,7 @@ export function EditOfferPriceDialog(props: Props) {
               <Show when={showTrialPeriodInput()}>
                 <div class={commonStyles.FieldSet}>
                   <MdTextField
+                    class={commonStyles.NarrowSelect}
                     type="number"
                     label={trans(TKEYS.price["trial-period"])}
                     value={request.price?.recurring?.trialPeriodDays}

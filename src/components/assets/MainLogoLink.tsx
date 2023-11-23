@@ -4,7 +4,11 @@ import { buildIndexPathOrUrl } from "../../routes/main-routing";
 import { MainLogoIcon } from "../icons";
 import { MainLogoText } from "./MainLogoText";
 
-export function MainLogoLink() {
+type Props = {
+  readonly showText?: boolean | undefined;
+};
+
+export function MainLogoLink(props: Props) {
   return (
     <A
       class={styles.Link}
@@ -12,7 +16,10 @@ export function MainLogoLink() {
       aria-label="Go to home page"
     >
       <MainLogoIcon class={styles.Icon} />
-      <MainLogoText class={styles.Text} />
+      <MainLogoText
+        class={styles.Text}
+        classList={{ [styles.ShowText]: Boolean(props.showText) }}
+      />
     </A>
   );
 }

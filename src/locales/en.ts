@@ -36,6 +36,11 @@ export const EN: typeof TKEYS = {
     public: "public",
     hidden: "hidden",
   },
+  authentication: {
+    "sign-in": "Sign in",
+    register: "Register",
+    "sign-out": "Sign out",
+  },
   form: {
     action: {
       "Create-new": "Create new",
@@ -150,7 +155,7 @@ export const EN: typeof TKEYS = {
       Settings: "Settings",
     },
     settings: {
-      title: "Settings",
+      title: "Shop Settings",
     },
     errors: {
       "conflict-on-delete":
@@ -201,7 +206,7 @@ export const EN: typeof TKEYS = {
     "other-offers": "Other Offers",
     "downloadable-content": "Downloadable Content",
     "downloadable-content-info":
-      "In order to subscribe and access the files in this offer, you need to login first.",
+      "In order to subscribe and access the files in this offer, you need to be signed in.",
     visibility: {
       title: "Visibility",
       visible: "Publicly visible",
@@ -230,7 +235,7 @@ export const EN: typeof TKEYS = {
     Download: "Download",
     "Download-now": "Download now",
     "download-file": 'Download the file "{item}"',
-    Inventory: "Inventory",
+    Inventory: "My Subscriptions",
     "download-all": "Download all",
     errors: {
       "still-part-of-an-offer": "The file is still contained in some offers",
@@ -403,7 +408,8 @@ export const EN: typeof TKEYS = {
   },
   "main-navigation": {
     actions: {
-      "create-shop": "Create Your Own Shop!",
+      "create-shop": "Create your Shop",
+      "create-your-own-shop": "Create Your Own Shop",
       "sign-in": "Sign In",
       "sign-out": "Sign Out",
     },
@@ -425,12 +431,6 @@ export const EN: typeof TKEYS = {
       report: "Feedback",
     },
   },
-  "shops-search": {
-    title: "Search shops",
-  },
-  "offers-search": {
-    title: "Search offers",
-  },
   user: {
     authenticating: "Authenticating",
     settings: {
@@ -448,13 +448,18 @@ export const EN: typeof TKEYS = {
       medium: "Medium",
     },
   },
+  "home-page": {
+    "search-shops": "Search Shops",
+    "search-offers": "Search Offers",
+    "get-started-with-your-own-shop": "Get started with your own shop",
+  },
   "landing-page": {
     "get-started": "Get started",
-    REGISTER: "REGISTER NOW",
+    "register-now": "Register Now",
     "Sign-In": "Sign In",
+    "to-create-your-own-shop": "to create your own shop",
     "establish-your-online-appearance": "Establish Your Online Appearance",
-    "create-your-online-shop-and-build-your-brand":
-      "Create your online store and build your brand",
+    "create-your-online-shop-and-build-your-brand": "Create your online shop",
     "offer-your-goods-to-the-people": "Offer your goods to the people",
     "no-costs-until-you-sell": "No costs until you sell",
     "no-strings-attached": "No strings attached",

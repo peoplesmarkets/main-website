@@ -1,128 +1,82 @@
-import { useTransContext } from "@mbarzda/solid-i18next";
+import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
 import {
-  For,
+  ErrorBoundary,
+  Show,
   createResource,
   createSignal,
   resetErrorBoundaries,
 } from "solid-js";
 
-import { SearchIcon } from "../../../components/icons";
-import { RefreshIcon } from "../../../components/icons/RefreshIcon";
+import { ContentError } from "../../../components/content";
+import { RefreshIcon, SearchIcon } from "../../../components/icons";
 import { Section } from "../../../components/layout";
 import { DefaultBoundary } from "../../../components/layout/DefaultBoundary";
-import { MdChip } from "../../../components/navigation/MdChip";
-import { MdChipSet } from "../../../components/navigation/MdChipSet";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
 import {
-  ListOffersRequest,
-  OfferResponse,
-  OffersFilter,
-  OffersFilterField,
-  OffersOrderByField,
-} from "../../../services/peoplesmarkets/commerce/v1/offer";
-import {
   ListShopsRequest,
-  ShopResponse,
+  ShopsFilter,
+  ShopsFilterField,
   ShopsOrderByField,
 } from "../../../services/peoplesmarkets/commerce/v1/shop";
 import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering";
 import styles from "./Page.module.scss";
-import { ShopOrOfferCard } from "./ShopOrOfferCard";
+import { ShopList } from "./ShopList";
+import { LinkButton } from "../../../components/form/LinkButton";
+import {
+  buildDashboardPath,
+  buildGetStartedPath,
+} from "../../../routes/main-routing";
+import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
 
-export type Shop = {
-  type: "shop";
-  shop: ShopResponse;
-};
-
-export type Offer = {
-  type: "offer";
-  offer: OfferResponse;
-};
-
-export type ShopOrOffer = Shop | Offer;
-
-export default function HomePage() {
+export default function ShopsPage() {
   const [trans] = useTransContext();
 
-  const { shopService, offerService } = useServiceClientContext();
+  const { isAuthenticated } = useAccessTokensContext();
+  const { shopService } = useServiceClientContext();
 
-  const searchField =
-    OffersFilterField.OFFERS_FILTER_FIELD_NAME_AND_DESCRIPTION;
+  const searchField = ShopsFilterField.SHOPS_FILTER_FIELD_NAME_AND_DESCRIPTION;
 
-  const [searchShops] = createSignal(true);
-  const [searchOffers] = createSignal(true);
+  const defaultOrderBy = {
+    field: ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT,
+    direction: Direction.DIRECTION_DESC,
+  };
 
-  const [filter, setFilter] = createSignal<OffersFilter | undefined>();
+  const defaultFilter = {
+    field: ShopsFilterField.SHOPS_FILTER_FIELD_NAME_AND_DESCRIPTION,
+    query: "",
+  };
 
-  function shopsRequest() {
-    return _.omitBy(
-      {
-        orderBy: {
-          field: ShopsOrderByField.SHOPS_ORDER_BY_FIELD_CREATED_AT,
-          direction: Direction.DIRECTION_DESC,
-        },
-        filter: filter(),
-        extended: true,
-      },
-      _.isNil
-    );
-  }
+  const [filter, setFilter] = createSignal<ShopsFilter>(_.clone(defaultFilter));
 
-  function offerRequest() {
-    return _.omitBy(
-      {
-        orderBy: {
-          field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_CREATED_AT,
-          direction: Direction.DIRECTION_DESC,
-        },
-        filter: filter(),
-      },
-      _.isNil
-    );
-  }
+  const [shops, { refetch }] = createResource(() => filter(), fetchShops);
 
-  const [shops, shopsActions] = createResource(shopsRequest, fetchShops);
-  const [offers, offerActions] = createResource(offerRequest, fetchOffers);
+  async function fetchShops(filter: ShopsFilter) {
+    let request = {
+      orderBy: defaultOrderBy,
+      extended: true,
+    } as ListShopsRequest;
 
-  async function fetchShops(request: ListShopsRequest) {
+    if (!_.isNil(filter.query) && !_.isEmpty(filter.query)) {
+      request.filter = filter;
+    }
+
     return shopService
       .list(request)
       .then((res) => res.shops)
       .catch(() => []);
   }
 
-  async function fetchOffers(request: ListOffersRequest) {
-    return offerService
-      .list(request)
-      .then((res) => res.offers)
-      .catch(() => []);
-  }
-
-  function shopsAndOffers(): ShopOrOffer[] {
-    const fetchedShops = shops();
-    const fetchedOffers = offers();
-
-    if (_.isArrayLike(fetchedShops) && _.isArrayLike(fetchedOffers)) {
-      const s = fetchedShops.map((shop) => ({
-        type: "shop",
-        shop,
-      })) as ShopOrOffer[];
-      const o = fetchedOffers.map((offer) => ({
-        type: "offer",
-        offer,
-      })) as ShopOrOffer[];
-      return _.shuffle([...s, ...o]);
-    }
-    return [];
+  function loaded() {
+    return !_.isNil(shops());
   }
 
   function handleSearchInput(query: string) {
     if (!_.isEmpty(_.trim(query))) {
-      setFilter({ field: searchField, query });
+      setFilter(() => ({ field: searchField, query }));
     } else {
-      setFilter();
+      setFilter(() => defaultFilter);
     }
 
     resetErrorBoundaries();
@@ -132,13 +86,8 @@ export default function HomePage() {
     event.preventDefault();
   }
 
-  function handleRefresh() {
-    shopsActions.refetch();
-    offerActions.refetch();
-  }
-
   return (
-    <>
+    <ErrorBoundary fallback={<ContentError />}>
       <Section flat>
         <form class={styles.Search} onSubmit={handleSearchSubmit}>
           <SearchIcon class={styles.SearchIcon} />
@@ -147,33 +96,38 @@ export default function HomePage() {
             class={styles.SearchInput}
             id="search"
             type="search"
-            placeholder={trans(TKEYS["offers-search"].title)}
+            placeholder={trans(TKEYS["home-page"]["search-shops"])}
             value={filter()?.query || ""}
             onInput={(event) => handleSearchInput(event.currentTarget.value)}
             aria-label="search"
           />
 
-          <RefreshIcon class={styles.RefreshIcon} onClick={handleRefresh} />
+          <RefreshIcon class={styles.RefreshIcon} onClick={refetch} />
         </form>
       </Section>
 
-      <Section class={styles.Filters}>
-        <MdChipSet>
-          <MdChip type="filter" label="Shops" selected={searchShops()} />
-
-          <MdChip type="filter" label="Offers" selected={searchOffers()} />
-        </MdChipSet>
+      <Section>
+        <DefaultBoundary loaded={loaded}>
+          <ShopList shops={shops()} />
+        </DefaultBoundary>
       </Section>
 
-      <DefaultBoundary loaded={() => true}>
-        <Section flat>
-          <div class={styles.List}>
-            <For each={shopsAndOffers()}>
-              {(shopOrOffer) => <ShopOrOfferCard shopOrOffer={shopOrOffer} />}
-            </For>
+      <Show when={!isAuthenticated()}>
+        <Section>
+          <div class={styles.Actions}>
+            <LinkButton
+              actionType="active-filled"
+              round
+              tall
+              href={buildGetStartedPath()}
+            >
+              <Trans
+                key={TKEYS["main-navigation"].actions["create-your-own-shop"]}
+              />
+            </LinkButton>
           </div>
         </Section>
-      </DefaultBoundary>
-    </>
+      </Show>
+    </ErrorBoundary>
   );
 }

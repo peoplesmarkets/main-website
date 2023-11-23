@@ -24,6 +24,7 @@ type Props = {
   tall?: boolean;
   wide?: boolean;
   mail?: boolean;
+  round?: boolean | undefined;
 };
 
 export function LinkButton(props: Props) {
@@ -45,6 +46,7 @@ export function LinkButton(props: Props) {
         [styles.Tall]: Boolean(props.tall),
         [styles.Wide]: Boolean(props.wide),
         [styles.Mail]: Boolean(props.mail),
+        [styles.Round]: Boolean(props.round),
       }}
       href={props.href}
       style={props.style}
