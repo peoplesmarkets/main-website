@@ -12,9 +12,9 @@ import {
 import { ContentError } from "../../components/content";
 import { Border, Section } from "../../components/layout";
 import { OfferDetailView } from "../../components/shops";
+import { OfferList } from "../../components/shops/OfferList";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { OfferList } from "../../pages/main-pages/home-page/offers/OfferList";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import styles from "./OfferDetail.module.scss";
 
