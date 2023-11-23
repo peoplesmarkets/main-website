@@ -19,6 +19,12 @@ export function buildBaseUrl(...paths: string[]): string {
   return `${import.meta.env.VITE_BASE_URL}${buildPath(...paths)}`;
 }
 
+export function buildBaseUrlWithoutScheme(...paths: string[]): string {
+  return `${import.meta.env.VITE_BASE_URL}${buildPath(...paths)}`
+    .replace("https://", "")
+    .replace("http://", "");
+}
+
 export function removeLeadingSlash(path: string) {
   if (_.isNil(path) || _.isEmpty(path) || path === "/") {
     return path;

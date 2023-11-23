@@ -7,7 +7,7 @@ import { createStore } from "solid-js/store";
 import { Font } from "../../../components/content";
 import { ActionButton, MdTextField } from "../../../components/form";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
-import { buildBaseUrl } from "../../../lib";
+import { buildBaseUrlWithoutScheme } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import { buildShopDetailPath } from "../../../routes/shops/shop-routing";
 import {
@@ -109,7 +109,7 @@ export function UpdateSlugForm(props: Props) {
             type="text"
             value={updateSlugRequest.slug}
             label={trans(TKEYS.shop.labels.Path)}
-            prefixText={buildBaseUrl(buildShopDetailPath("//"))}
+            prefixText={buildBaseUrlWithoutScheme(buildShopDetailPath("//"))}
             required
             onValue={handleSlugInput}
             error={!_.isEmpty(updateSlugErrors.slug)}
