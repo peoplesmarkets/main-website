@@ -6,7 +6,7 @@ import { DefaultBoundary } from "../components/layout/DefaultBoundary";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../contexts/ServiceClientContext";
 import { useSelectedShopContext } from "../contexts/ShopContext";
-import { base64ToUtf8 } from "../lib";
+import { base64ToUtf8, getDomainFromWindow, isCustomDomain } from "../lib";
 import { buildDashboardPath } from "./main/main-routing";
 
 export default function SignInCallback() {
@@ -18,7 +18,16 @@ export default function SignInCallback() {
 
   const { setSelectedShopId } = useSelectedShopContext();
 
-  const [startSession] = createResource(async () => startSessionWithCode(code));
+  const [startSession] = createResource(async () => {
+    let clientId: string | undefined;
+
+    if (isCustomDomain()) {
+      const response = await shopService.getByDomain(getDomainFromWindow());
+      clientId = response.shop?.clientId;
+    }
+
+    return startSessionWithCode(code, clientId);
+  });
 
   createResource(
     () => currentSession()?.userId,
