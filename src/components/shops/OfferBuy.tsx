@@ -1,18 +1,20 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { useRouteData } from "@solidjs/router";
+import { useLocation, useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import { Show, Suspense, createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
-import { buildAuthorizationRequest, resourceIsReady } from "../../lib";
+import {
+  buildAuthorizationRequest,
+  buildBaseUrl,
+  resourceIsReady,
+} from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import {
   buildInventoryPath,
   buildInventoryUrl,
-  buildOfferPath,
-  buildOfferUrl,
 } from "../../routes/shops/shop-routing";
 import {
   OfferResponse,
@@ -29,6 +31,8 @@ type Props = {
 };
 
 export function OfferBuy(props: Props) {
+  const location = useLocation();
+
   const { isAuthenticated } = useAccessTokensContext();
 
   const { stripeService, mediaSubscriptionService } = useServiceClientContext();
@@ -41,32 +45,22 @@ export function OfferBuy(props: Props) {
   );
 
   const [registerUrl] = createResource(
-    () =>
-      [
-        props.offer?.shopSlug as string,
-        props.offer?.offerId as string,
-        !isAuthenticated(),
-      ] as const,
-    async ([shopSlug, offerId]) => {
+    () => !isAuthenticated(),
+    async () => {
       const registerUrl = await buildAuthorizationRequest(
         "create",
-        buildOfferPath(shopSlug, offerId)
+        location.pathname
       );
       return registerUrl.toString();
     }
   );
 
   const [signInUrl] = createResource(
-    () =>
-      [
-        props.offer?.shopSlug as string,
-        props.offer?.offerId as string,
-        !isAuthenticated(),
-      ] as const,
-    async ([shopSlug, offerId]) => {
+    () => !isAuthenticated(),
+    async () => {
       const signInUrl = await buildAuthorizationRequest(
         undefined,
-        buildOfferPath(shopSlug, offerId)
+        location.pathname
       );
 
       return signInUrl.toString();
@@ -150,12 +144,11 @@ export function OfferBuy(props: Props) {
 
     if (!_.isNil(offerId) && !_.isNil(shopSlug)) {
       const inventoryUrl = buildInventoryUrl(shopSlug);
-      const offerUrl = buildOfferUrl(shopSlug, offerId);
 
       const response = await stripeService.createCheckoutSession(
         offerId,
         inventoryUrl,
-        offerUrl
+        buildBaseUrl(location.pathname)
       );
 
       window.location.href = response.link;
