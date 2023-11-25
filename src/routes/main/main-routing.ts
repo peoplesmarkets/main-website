@@ -1,5 +1,5 @@
-import { buildBaseUrl, buildPath } from "../lib";
-import { getOriginFromWindow, isCustomDomain } from "../lib/env";
+import { buildBaseUrl, buildPath } from "../../lib";
+import { getOriginFromWindow, isCustomDomain } from "../../lib/env";
 
 export const DASHBOARD_SHOP_PATH_SEGMENT = "/:shopId";
 export const DASHBOARD_OFFER_PATH_SEGMENT = "/:offerId";
@@ -67,4 +67,12 @@ export function buildSignInCallbackPath() {
 
 export function buildSignInCallbackUrl() {
   return `${getOriginFromWindow()}${buildSignInCallbackPath()}`;
+}
+
+export function buildSignOutCallbackPath() {
+  return buildPath(buildIndexPath(), "user", "sign-out", "callback");
+}
+
+export function buildSignOutCallbackUrl() {
+  return `${getOriginFromWindow()}${buildSignOutCallbackPath()}`;
 }

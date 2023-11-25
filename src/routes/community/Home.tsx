@@ -3,7 +3,6 @@ import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { Markdown } from "../../components/content/Markdown";
 import { Section } from "../../components/layout/Section";
 import { TKEYS } from "../../locales";
-import MainRoutesWrapper from "../MainRoutesWrapper";
 import styles from "./Home.module.scss";
 import { PostsNav } from "./PostsNav";
 
@@ -11,7 +10,7 @@ export default function Home() {
   const [trans] = useTransContext();
 
   return (
-    <MainRoutesWrapper>
+    <>
       <div class={styles.Home}>
         <Section>
           <h1>
@@ -26,6 +25,6 @@ export default function Home() {
           <PostsNav />
         </Section>
       </div>
-    </MainRoutesWrapper>
+    </>
   );
 }

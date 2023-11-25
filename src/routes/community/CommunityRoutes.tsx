@@ -1,36 +1,25 @@
-import { Outlet, Route } from "@solidjs/router";
+import { Route } from "@solidjs/router";
 import { lazy } from "solid-js";
 
-import { Section } from "../../components/layout/Section";
-import MainRoutesWrapper from "../MainRoutesWrapper";
-import styles from "./CommunityRoutes.module.scss";
-import { PostsNav } from "./PostsNav";
-import { DEVELOPMENT_POST_PATH, ROOT_PATH } from "./community-routing";
+import MainRoutesWrapper from "../../layouts/MainLayout";
+import {
+  DEVELOPMENT_POST_PATH_SEGMENT,
+  buildCommunityPath,
+  buildDevelopementPostPath,
+} from "./community-routing";
 
-function PostsHeader() {
-  return (
-    <MainRoutesWrapper>
-      <div class={styles.PostsHeader}>
-        <PostsNav />
-      </div>
-
-      <Section>
-        <Outlet />
-      </Section>
-    </MainRoutesWrapper>
-  );
-}
+const CommunityHomePage = lazy(() => import("./Home"));
+const CommunityPostsPage = lazy(() => import("./Posts"));
 
 export default function CommunityRoutes() {
   return (
-    <Route path={ROOT_PATH}>
-      <Route path="" component={lazy(() => import("./Home"))} />
-      <Route path="/" element={<PostsHeader />}>
-        <Route
-          path={DEVELOPMENT_POST_PATH}
-          component={lazy(() => import("./Posts"))}
-        />
-      </Route>
+    <Route path="" component={MainRoutesWrapper}>
+      <Route path={buildCommunityPath()} component={CommunityHomePage} />
+
+      <Route
+        path={buildDevelopementPostPath(DEVELOPMENT_POST_PATH_SEGMENT)}
+        component={CommunityPostsPage}
+      />
     </Route>
   );
 }

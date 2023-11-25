@@ -1,9 +1,10 @@
-import { JSX, Show } from "solid-js";
-import styles from "./SliderItem.module.scss";
+import { A } from "@solidjs/router";
 import _ from "lodash";
+import { JSX, Show } from "solid-js";
+
 import { MdIcon } from "../components/assets";
 import { Font } from "../components/content";
-import { A } from "@solidjs/router";
+import styles from "./SliderItem.module.scss";
 
 type Props = {
   readonly type: "body" | "label";

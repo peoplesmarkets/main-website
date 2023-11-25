@@ -11,7 +11,7 @@ import { useServiceClientContext } from "../../../contexts/ServiceClientContext"
 import { useSelectedShopContext } from "../../../contexts/ShopContext";
 import { requireAuthentication } from "../../../guards/authentication";
 import { TKEYS } from "../../../locales";
-import { buildShopDashboardPath } from "../../../routes/main-routing";
+import { buildShopDashboardPath } from "../../../routes/main/main-routing";
 import { PublishShopDialog } from "../PublishShopDialog";
 import { EditAppearanceTab } from "./EditAppearanceTab";
 import { EditDetailsTab } from "./EditDetailsTab";

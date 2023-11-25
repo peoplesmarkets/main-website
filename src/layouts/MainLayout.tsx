@@ -1,27 +1,35 @@
+import { Trans } from "@mbarzda/solid-i18next";
+import { Outlet, useLocation } from "@solidjs/router";
+import _ from "lodash";
 import { Show, createSignal, onMount } from "solid-js";
 
-import { Outlet, useLocation } from "@solidjs/router";
 import { MainLogoLink, MdIcon } from "../components/assets";
 import { EnvironmentBanner } from "../components/content/EnvironmentBanner";
+import { MdButton } from "../components/form";
+import { Slot } from "../components/layout";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
+import { useSelectedShopContext } from "../contexts/ShopContext";
 import {
+  buildEndSessionRequest,
   setDocumentMetaDescription,
   setDocumentTitle,
   setFaviconHref,
 } from "../lib";
 import { MAIN_FAVICON } from "../lib/constants";
-import { EN } from "../locales/en";
-import MainFooter from "./MainFooter";
-import styles from "./MainRoutesWrapper.module.scss";
-import { SettingsSlider } from "./SettingsSlider";
-import { MdButton } from "../components/form";
-import { Trans } from "@mbarzda/solid-i18next";
 import { TKEYS } from "../locales";
-import { useSelectedShopContext } from "../contexts/ShopContext";
-import _ from "lodash";
-import { buildDashboardPath, buildGetStartedPath } from "./main-routing";
+import { EN } from "../locales/en";
+import {
+  buildDashboardPath,
+  buildGetStartedPath,
+  buildShopSettingsPath,
+  buildSignOutCallbackUrl,
+} from "../routes/main/main-routing";
+import MainFooter from "./MainFooter";
+import styles from "./MainLayout.module.scss";
+import { SettingsSlider } from "./SettingsSlider";
+import { SliderItem } from "./SliderItem";
 
-export default function MainRoutesWrapper() {
+export default function MainLayout() {
   const location = useLocation();
 
   const { isAuthenticated } = useAccessTokensContext();
@@ -53,7 +61,11 @@ export default function MainRoutesWrapper() {
     return buildGetStartedPath();
   }
 
-  function handleShowSettingsSlider() {
+  function signOutUrl() {
+    return buildEndSessionRequest(buildSignOutCallbackUrl(), undefined);
+  }
+
+  function handleOpenSettingsSlider() {
     setShowSettingsSlider(true);
   }
 
@@ -77,7 +89,7 @@ export default function MainRoutesWrapper() {
             <MdIcon
               class={styles.HeaderIcon}
               icon="menu"
-              onClick={handleShowSettingsSlider}
+              onClick={handleOpenSettingsSlider}
             />
           </div>
         </div>
@@ -95,8 +107,27 @@ export default function MainRoutesWrapper() {
 
       <SettingsSlider
         show={showSettingsSlider()}
+        signOutUrl={signOutUrl()}
         onClose={handleCloseSettingsSlider}
-      />
+      >
+        <Slot name="links">
+          <Show when={isAuthenticated()}>
+            <SliderItem
+              type="label"
+              icon="view_list"
+              key={TKEYS["main-navigation"].links["My-Offers"]}
+              href={buildDashboardPath()}
+            />
+
+            <SliderItem
+              type="label"
+              icon="settings"
+              key={TKEYS.shop.settings.title}
+              href={buildShopSettingsPath(selectedShopId() || "")}
+            />
+          </Show>
+        </Slot>
+      </SettingsSlider>
 
       <EnvironmentBanner />
     </>

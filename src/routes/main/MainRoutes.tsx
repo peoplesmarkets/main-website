@@ -1,7 +1,6 @@
 import { Route } from "@solidjs/router";
 import { lazy } from "solid-js";
 
-import MainRoutesWrapper from "./MainRoutesWrapper";
 import {
   DASHBOARD_OFFER_PATH_SEGMENT,
   DASHBOARD_SHOP_PATH_SEGMENT,
@@ -15,26 +14,28 @@ import {
   buildShopSettingsPath,
 } from "./main-routing";
 
-const HomePage = lazy(() => import("../pages/main-pages/home-page/Page"));
-const LandingPage = lazy(() => import("../pages/main-pages/landing-page/Page"));
+const MainLayout = lazy(() => import("../../layouts/MainLayout"));
 
-const DashboardPage = lazy(() => import("../pages/dashboard/Page"));
+const HomePage = lazy(() => import("../../pages/main-pages/home-page/Page"));
+const LandingPage = lazy(() => import("../../pages/main-pages/landing-page/Page"));
+
+const DashboardPage = lazy(() => import("../../pages/dashboard/Page"));
 const ShopConfigurationPage = lazy(
-  () => import("../pages/dashboard/shop-configurator/Page")
+  () => import("../../pages/dashboard/shop-configurator/Page")
 );
 const ShopSettingsPage = lazy(
-  () => import("../pages/dashboard/shop-settings/Page")
+  () => import("../../pages/dashboard/shop-settings/Page")
 );
 const OfferDetailConfigurationPage = lazy(
-  () => import("../pages/dashboard/offer-detail-configuration/Page")
+  () => import("../../pages/dashboard/offer-detail-configuration/Page")
 );
 const MediaConfigurationPage = lazy(
-  () => import("../pages/dashboard/media-configuration/Page")
+  () => import("../../pages/dashboard/media-configuration/Page")
 );
 
 export default function MainRoutes() {
   return (
-    <Route path="" component={MainRoutesWrapper}>
+    <Route path="" component={MainLayout}>
       <Route path={buildIndexPath()} component={HomePage} />
 
       <Route path={buildGetStartedPath()} component={LandingPage} />

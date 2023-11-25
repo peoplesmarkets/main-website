@@ -435,6 +435,7 @@ export const TKEYS = {
       shops: "main-navigation.links.shops",
       offers: "main-navigation.links.offers",
       "My-Offers": "main-navigation.links.My-Offers",
+      "My-Subscriptions": "main-navigation.links.My-Subscriptions",
       dashboard: "main-navigation.links.dashboard",
       community: "main-navigation.links.community",
       "get-started": "main-navigation.links.get-started",

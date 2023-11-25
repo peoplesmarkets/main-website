@@ -3,7 +3,7 @@ import _ from "lodash";
 import { Font } from "../../../components/content";
 import { LinkButton } from "../../../components/form/LinkButton";
 import { TKEYS } from "../../../locales";
-import { buildShopConfigurationPath } from "../../../routes/main-routing";
+import { buildShopConfigurationPath } from "../../../routes/main/main-routing";
 import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
 import commonStyles from "../Common.module.scss";
 

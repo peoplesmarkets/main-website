@@ -1,6 +1,6 @@
 import { A } from "@solidjs/router";
 import styles from "./MainLogoLink.module.scss";
-import { buildIndexPathOrUrl } from "../../routes/main-routing";
+import { buildIndexPathOrUrl } from "../../routes/main/main-routing";
 import { MainLogoIcon } from "../icons";
 import { MainLogoText } from "./MainLogoText";
 

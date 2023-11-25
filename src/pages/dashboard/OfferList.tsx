@@ -10,7 +10,7 @@ import { ActionButton } from "../../components/form";
 import { DefaultBoundary } from "../../components/layout/DefaultBoundary";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { buildOfferDetailConfigurationPath } from "../../routes/main-routing";
+import { buildOfferDetailConfigurationPath } from "../../routes/main/main-routing";
 import {
   OfferResponse,
   OffersFilterField,

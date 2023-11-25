@@ -19,7 +19,7 @@ import {
   buildDashboardPath,
   buildShopDashboardPath,
   buildShopSettingsPath,
-} from "../../../routes/main-routing";
+} from "../../../routes/main/main-routing";
 import { OfferType } from "../../../services/peoplesmarkets/commerce/v1/offer";
 import { OfferPrice } from "../../OfferPrice";
 import { CreateOfferImageDialog } from "./CreateOfferImageDialog";

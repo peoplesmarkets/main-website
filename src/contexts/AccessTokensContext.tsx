@@ -164,9 +164,14 @@ function initialize() {
       storeAccessTokens(await token.json());
       await fetchSessions();
     },
-    endSession: (redirectTo?: string, clientId?: string) => {
+    removeAccessTokens,
+    endSession: (
+      redirectTo?: string,
+      clientId?: string | undefined,
+      state?: string | undefined
+    ) => {
       removeAccessTokens();
-      endSession(redirectTo, clientId);
+      endSession(redirectTo, clientId, state);
     },
     ensureFreshTokens,
     refreshToken: refreshTokensAndSet,

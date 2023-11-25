@@ -1,4 +1,5 @@
 import _ from "lodash";
+import { getOriginFromWindow, isCustomDomain } from "./env";
 
 export function buildPath(...paths: string[]): string {
   if (paths.length === 1 && paths[0] === "/") {
@@ -16,6 +17,9 @@ export function buildPath(...paths: string[]): string {
 }
 
 export function buildBaseUrl(...paths: string[]): string {
+  if (isCustomDomain()) {
+    return `${getOriginFromWindow()}${buildPath(...paths)}`;
+  }
   return `${import.meta.env.VITE_BASE_URL}${buildPath(...paths)}`;
 }
 

@@ -2,12 +2,11 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
 
 import { TKEYS } from "../locales";
-import MainRoutesWrapper from "./MainRoutesWrapper";
-import { buildIndexPath } from "./main-routing";
+import { buildIndexPath } from "./main/main-routing";
 
 export default function NotFound() {
   return (
-    <MainRoutesWrapper>
+    <>
       <p
         style={{
           "font-size": "48px",
@@ -30,6 +29,6 @@ export default function NotFound() {
       >
         <Trans key={TKEYS["page-not-found"]["back-to-home"]} />
       </A>
-    </MainRoutesWrapper>
+    </>
   );
 }

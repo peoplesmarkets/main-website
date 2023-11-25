@@ -67,7 +67,7 @@ $slider-width: 320px;
   background: var(--hovered-background);
 }
 
-.Settings {
+.Links {
   width: 100%;
   padding: 16px 0;
   display: flex;
@@ -78,7 +78,7 @@ $slider-width: 320px;
   flex: 1;
 }
 
-.Actions {
-  @extend .Settings;
+.Settings {
+  @extend .Links;
   flex: 0;
 }

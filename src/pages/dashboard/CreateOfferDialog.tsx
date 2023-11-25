@@ -15,7 +15,7 @@ import {
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
 import { useNavigate } from "@solidjs/router";
-import { buildOfferDetailConfigurationPath } from "../../routes/main-routing";
+import { buildOfferDetailConfigurationPath } from "../../routes/main/main-routing";
 
 type Props = {
   readonly shop: ShopResponse | undefined;

@@ -10,7 +10,7 @@ import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirm
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { useSelectedShopContext } from "../../../contexts/ShopContext";
 import { TKEYS } from "../../../locales";
-import { buildDashboardPathOrUrl } from "../../../routes/main-routing";
+import { buildDashboardPathOrUrl } from "../../../routes/main/main-routing";
 import commonStyles from "../Common.module.scss";
 
 export function CriticalSettingsForm() {

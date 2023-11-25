@@ -10,7 +10,7 @@ import { TKEYS } from "../../../locales";
 import {
   buildDashboardPath,
   buildIndexPathOrUrl,
-} from "../../../routes/main-routing";
+} from "../../../routes/main/main-routing";
 import styles from "./Page.module.scss";
 
 export default function LandingPage() {
