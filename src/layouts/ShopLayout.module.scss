@@ -81,10 +81,14 @@ $header-height: 64px;
   object-fit: contain;
 }
 
-.Content {
+.Main {
   width: 100%;
-  min-height: 100vh;
   background-color: var(--main-background-color);
+}
+
+.Content {
+  max-width: var(--medium-max-width);
+  min-height: 100vh;
 
   margin: 0 auto;
   padding-top: $header-height;
