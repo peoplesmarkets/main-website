@@ -9,7 +9,8 @@ export const CODE_CHALLENGE_STORAGE_KEY = "sign-in-code-challange";
 
 export async function buildAuthorizationRequest(
   prompt?: "create" | "select_account" | "login",
-  redirectTo?: string
+  redirectTo?: string,
+  clientId?: string | undefined
 ) {
   let codeVerifier = sessionStorage.getItem(CODE_CHALLENGE_STORAGE_KEY);
 
@@ -25,7 +26,9 @@ export async function buildAuthorizationRequest(
     `${import.meta.env.VITE_AUTH_OAUTH_URL}/oauth/v2/authorize`
   );
 
-  if (isCustomDomain()) {
+  if (!_.isNil(clientId) && !_.isEmpty(clientId)) {
+    requestUri.searchParams.set("client_id", clientId);
+  } else if (isCustomDomain()) {
     const shopDomainService = new ShopDomainService(async () => null);
     const domain = getDomainFromWindow();
     const { clientId } = await shopDomainService.getClientIdForDomain(domain);

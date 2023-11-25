@@ -1,7 +1,7 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { useLocation, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show, Suspense, createResource } from "solid-js";
+import { Show, Suspense, createEffect, createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
@@ -44,12 +44,17 @@ export function OfferBuy(props: Props) {
     fetchMediaSubscription
   );
 
+  createEffect(() => {
+    console.log(shopData.shop());
+  });
+
   const [registerUrl] = createResource(
     () => !isAuthenticated(),
     async () => {
       const registerUrl = await buildAuthorizationRequest(
         "create",
-        location.pathname
+        location.pathname,
+        shopData.shop()?.clientId
       );
       return registerUrl.toString();
     }
@@ -60,7 +65,8 @@ export function OfferBuy(props: Props) {
     async () => {
       const signInUrl = await buildAuthorizationRequest(
         undefined,
-        location.pathname
+        location.pathname,
+        shopData.shop()?.clientId
       );
 
       return signInUrl.toString();
