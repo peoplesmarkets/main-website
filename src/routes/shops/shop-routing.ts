@@ -31,30 +31,6 @@ export function buildShopDetailPathOrUrl(
   return buildShopDetailPath(shopSlug);
 }
 
-export function buildOfferPath(shopSlug: string, offerId: string): string {
-  return buildPath(buildShopDetailPath(shopSlug), "offer", offerId);
-}
-
-export function buildOfferUrl(shopSlug: string, offerId: string): string {
-  const offerPath = buildOfferPath(shopSlug, offerId);
-  if (isCustomDomain()) {
-    return `${getOriginFromWindow()}${offerPath}`;
-  } else {
-    return buildBaseUrl(offerPath);
-  }
-}
-
-export function buildOfferPathOrUrl(
-  shopSlug: string,
-  offerId: string,
-  shopDomain?: string | undefined
-) {
-  if (!_.isNil(shopDomain) && !_.isEmpty(shopDomain)) {
-    return `${getSchemeFromWindow()}${shopDomain}/offer/${offerId}`;
-  }
-  return buildOfferPath(shopSlug, offerId);
-}
-
 export function buildInventoryPath(shopSlug: string) {
   return buildPath(buildShopDetailPath(shopSlug), INVENTORY_PATH);
 }
