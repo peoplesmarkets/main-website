@@ -1,5 +1,5 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { A, useLocation, useParams } from "@solidjs/router";
+import { useLocation, useParams } from "@solidjs/router";
 import _ from "lodash";
 import {
   ErrorBoundary,
@@ -20,10 +20,9 @@ import { requireAuthentication } from "../../../guards/authentication";
 import { secondsToLocaleDate } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import { MediaFilterField } from "../../../services/peoplesmarkets/media/v1/media";
-import { buildOfferPath } from "../shop-routing";
-import styles from "./SubscriptionDetail.module.scss";
+import styles from "./Page.module.scss";
 
-export default function SubscriptionDetail() {
+export default function SubscriptionDetailPage() {
   const location = useLocation();
 
   const [trans] = useTransContext();
@@ -75,14 +74,6 @@ export default function SubscriptionDetail() {
     return response.medias;
   }
 
-  function offerPath() {
-    const shopSlug = offer()?.shopSlug;
-    const offerId = offer()?.offerId;
-    if (!_.isNil(shopSlug) && !_.isNil(offerId)) {
-      return buildOfferPath(shopSlug, offerId);
-    }
-    return "";
-  }
   function toLocaleDate(timestamp: number | undefined) {
     if (!_.isNil(timestamp)) {
       return secondsToLocaleDate(timestamp, trans(TKEYS.lang));
@@ -115,13 +106,14 @@ export default function SubscriptionDetail() {
       <Suspense>
         <Section>
           <div class={styles.SubscriptionDetail}>
-            <span class={styles.Title}>
-              <Trans key={TKEYS.subscription["subscription-to"]} />{" "}
-              <A class={styles.Link} href={offerPath()}>
-                {offer()?.name}
-              </A>
-            </span>
-
+            <Font
+              type="title"
+              inline
+              key={TKEYS.subscription["subscription-to"]}
+            />{" "}
+            <Font type="title" inline strong>
+              {offer()?.name}
+            </Font>
             <Show when={!_.isNil(mediaSubscription()?.payedUntil)}>
               <span class={styles.Detail}>
                 <Trans key={TKEYS.subscription["payed-until"]} />:{" "}

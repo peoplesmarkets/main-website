@@ -1,36 +1,45 @@
 import { useTransContext } from "@mbarzda/solid-i18next";
 import { useLocation } from "@solidjs/router";
 import _ from "lodash";
-import { Show, createEffect, createResource, createSignal, on } from "solid-js";
+import {
+  JSX,
+  Show,
+  createEffect,
+  createResource,
+  createSignal,
+  on,
+} from "solid-js";
 
-import { CloseIcon, ThemeIcon } from "../components/icons";
-import { Border } from "../components/layout";
+import { CloseIcon, LanguageIcon, ThemeIcon } from "../components/icons";
+import { Border, getSlots } from "../components/layout";
 import { ReportDialog } from "../components/report";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { useSelectedShopContext } from "../contexts/ShopContext";
 import { Theme, useThemeContext } from "../contexts/ThemeContext";
 import { clickOutside } from "../directives";
 import { buildAuthorizationRequest, setDocumentLanguage } from "../lib";
 import { TKEYS, getNextLanguageKey } from "../locales";
 import styles from "./SettingsSlider.module.scss";
 import { SliderItem } from "./SliderItem";
-import { buildDashboardPath, buildShopSettingsPath } from "./main-routing";
 
 false && clickOutside;
 
 type Props = {
-  show: boolean;
-  onClose: () => void;
+  readonly show: boolean;
+  readonly signOutUrl: string | undefined;
+  readonly onClose: () => void;
+  readonly children?: JSX.Element | undefined;
 };
 
 export function SettingsSlider(props: Props) {
   const location = useLocation();
   const [trans, { changeLanguage, getI18next }] = useTransContext();
 
-  const { theme, setTheme } = useThemeContext();
-  const { selectedShopId } = useSelectedShopContext();
+  /* eslint-disable-next-line */
+  const slots = getSlots(props.children);
 
-  const { endSession, isAuthenticated } = useAccessTokensContext();
+  const { theme, setTheme } = useThemeContext();
+
+  const { isAuthenticated } = useAccessTokensContext();
 
   const [showReportDialog, setShowReportDialog] = createSignal(false);
 
@@ -39,7 +48,7 @@ export function SettingsSlider(props: Props) {
     async () => {
       const signInUrl = await buildAuthorizationRequest(
         undefined,
-        buildDashboardPath()
+        location.pathname
       );
 
       return signInUrl.toString();
@@ -59,11 +68,6 @@ export function SettingsSlider(props: Props) {
     }
 
     return trans(TKEYS["main-navigation"].settings["switch-to-dark-mode"]);
-  }
-
-  function handleSignOut() {
-    props.onClose();
-    endSession();
   }
 
   function handleSwitchTheme() {
@@ -106,36 +110,20 @@ export function SettingsSlider(props: Props) {
 
           <Border flat />
 
-          <div class={styles.Settings}>
-            <Show
-              when={isAuthenticated()}
-              fallback={
-                <SliderItem
-                  icon="login"
-                  type="label"
-                  active
-                  href={signInUrl()}
-                  key={TKEYS["main-navigation"].actions["sign-in"]}
-                />
-              }
-            >
+          <div class={styles.Links}>
+            <Show when={!isAuthenticated()}>
               <SliderItem
+                icon="login"
                 type="label"
-                icon="view_list"
-                key={TKEYS["main-navigation"].links["My-Offers"]}
-                href={buildDashboardPath()}
-              />
-
-              <SliderItem
-                type="label"
-                icon="settings"
-                key={TKEYS.shop.settings.title}
-                href={buildShopSettingsPath(selectedShopId() || "")}
+                active
+                href={signInUrl()}
+                key={TKEYS["main-navigation"].actions["sign-in"]}
               />
             </Show>
+            {slots.links}
           </div>
 
-          <div class={styles.Actions}>
+          <div class={styles.Settings}>
             <Show when={isAuthenticated()}>
               <SliderItem
                 type="body"
@@ -143,7 +131,7 @@ export function SettingsSlider(props: Props) {
                 danger
                 key={TKEYS["main-navigation"].actions["sign-out"]}
                 iconLeft
-                onClick={handleSignOut}
+                href={props.signOutUrl}
               />
             </Show>
 
@@ -158,11 +146,12 @@ export function SettingsSlider(props: Props) {
 
             <SliderItem
               type="body"
-              icon="language"
               key={TKEYS["main-navigation"].settings["change-language"]}
               iconLeft
               onClick={handleSwichtLanguage}
-            />
+            >
+              <LanguageIcon showLang />
+            </SliderItem>
 
             <SliderItem
               type="body"

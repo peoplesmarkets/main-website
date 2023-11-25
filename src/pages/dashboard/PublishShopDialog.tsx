@@ -11,7 +11,7 @@ import { MdDialog } from "../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
 import { buildTermsOfServicePathOrUrl } from "../../routes/info/info-routing";
-import { buildShopDashboardPath } from "../../routes/main-routing";
+import { buildShopDashboardPath } from "../../routes/main/main-routing";
 import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
 import commonStyles from "./Common.module.scss";
 import { EmptyOffersDialog } from "./EmptyOffersDialog";

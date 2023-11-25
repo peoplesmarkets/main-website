@@ -10,6 +10,7 @@ import styles from "./Redirect.module.scss";
 
 type Props = {
   singIn?: boolean | undefined;
+  noLogo?: boolean | undefined;
 };
 
 export function Redirect(props: Props) {
@@ -17,9 +18,11 @@ export function Redirect(props: Props) {
     <div class={styles.Redirect}>
       <div class={styles.Container}>
         <div class={styles.Header}>
-          <A href={buildBaseUrl()}>
-            <MainLogo class={styles.Logo} />
-          </A>
+          <Show when={!props.noLogo}>
+            <A href={buildBaseUrl()}>
+              <MainLogo class={styles.Logo} />
+            </A>
+          </Show>
         </div>
 
         <div class={styles.Loading}>

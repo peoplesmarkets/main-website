@@ -13,6 +13,7 @@ import { Redirect } from "../navigation/Redirect";
 type Props = {
   readonly loaded: () => boolean | undefined;
   readonly signIn?: boolean | undefined;
+  readonly noLogo?: boolean | undefined;
   readonly redirect?: boolean | undefined;
   readonly children?: JSX.Element | undefined;
 };
@@ -23,7 +24,7 @@ function Loading(props: Props) {
       when={props.signIn || props.redirect}
       fallback={<ContentLoading page />}
     >
-      <Redirect singIn={props.signIn} />
+      <Redirect singIn={props.signIn} noLogo={props.noLogo} />
     </Show>
   );
 }

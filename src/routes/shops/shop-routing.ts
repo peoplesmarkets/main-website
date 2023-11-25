@@ -72,7 +72,7 @@ export function buildSubscriptionPath(
   subscriptionId: string
 ) {
   return buildPath(
-    buildInventoryPath(shopSlug),
+    buildShopDetailPath(shopSlug),
     "subscription",
     subscriptionId
   );

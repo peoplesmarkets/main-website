@@ -1,20 +1,20 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
-
 import { Show } from "solid-js";
+
 import { MainLogoText, MdIcon } from "../components/assets";
 import { GitHubIcon, MainLogoIcon } from "../components/icons";
 import { Section } from "../components/layout";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { TKEYS } from "../locales";
-import styles from "./MainFooter.module.scss";
-import { buildCommunityPathOrUrl } from "./community/community-routing";
+import { buildCommunityPathOrUrl } from "../routes/community/community-routing";
 import {
   buildImprintPath,
   buildPrivacyPolicyPath,
   buildTermsOfServicePath,
-} from "./info/info-routing";
-import { buildGetStartedPath } from "./main-routing";
+} from "../routes/info/info-routing";
+import { buildGetStartedPath } from "../routes/main/main-routing";
+import styles from "./MainFooter.module.scss";
 
 export default function MainFooter() {
   const { isAuthenticated } = useAccessTokensContext();

@@ -414,6 +414,7 @@ export const DE: typeof TKEYS = {
       shops: "Shops",
       offers: "Angebote",
       "My-Offers": "Meine Angebote",
+      "My-Subscriptions": "Meine Abos",
       dashboard: EN["main-navigation"].links.dashboard,
       community: EN["main-navigation"].links.community,
       "get-started": "Get started",

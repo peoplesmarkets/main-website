@@ -6,8 +6,8 @@ import { DefaultBoundary } from "../components/layout/DefaultBoundary";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../contexts/ServiceClientContext";
 import { useSelectedShopContext } from "../contexts/ShopContext";
-import { buildDashboardPath } from "./main-routing";
 import { base64ToUtf8 } from "../lib";
+import { buildDashboardPath } from "./main/main-routing";
 
 export default function SignInCallback() {
   const navigate = useNavigate();
@@ -39,5 +39,5 @@ export default function SignInCallback() {
     return startSession.state === "ready" && shop.state === "ready";
   }
 
-  return <DefaultBoundary loaded={loaded} signIn />;
+  return <DefaultBoundary loaded={loaded} signIn noLogo />;
 }

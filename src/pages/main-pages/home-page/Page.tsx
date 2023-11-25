@@ -16,7 +16,7 @@ import { DefaultBoundary } from "../../../components/layout/DefaultBoundary";
 import { useAccessTokensContext } from "../../../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
-import { buildGetStartedPath } from "../../../routes/main-routing";
+import { buildGetStartedPath } from "../../../routes/main/main-routing";
 import {
   ListShopsRequest,
   ShopsFilter,

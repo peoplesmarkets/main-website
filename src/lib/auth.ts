@@ -1,6 +1,6 @@
 import _ from "lodash";
 
-import { buildSignInCallbackUrl } from "../routes/main-routing";
+import { buildSignInCallbackUrl } from "../routes/main/main-routing";
 import { ShopDomainService } from "../services";
 import { getDomainFromWindow, isCustomDomain } from "./env";
 import { hashCodeVerifier, utf8ToBase64 } from "./string-manipulation";
@@ -117,7 +117,11 @@ export async function refreshToken(refreshToken: string): Promise<Response> {
   });
 }
 
-export async function endSession(redirectTo?: string, clientId?: string) {
+export function buildEndSessionRequest(
+  redirectTo?: string,
+  clientId?: string | undefined,
+  state?: string | undefined
+): string {
   const requestUri = new URL(
     `${import.meta.env.VITE_AUTH_OAUTH_URL}/oidc/v1/end_session`
   );
@@ -140,5 +144,18 @@ export async function endSession(redirectTo?: string, clientId?: string) {
     );
   }
 
+  if (!_.isNil(state) && !_.isEmpty(state)) {
+    requestUri.searchParams.set("state", state);
+  }
+
+  return requestUri.toString();
+}
+
+export function endSession(
+  redirectTo?: string,
+  clientId?: string | undefined,
+  state?: string
+) {
+  const requestUri = buildEndSessionRequest(redirectTo, clientId, state);
   window.location.href = requestUri.toString();
 }

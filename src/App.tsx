@@ -10,12 +10,16 @@ import { ThemeProvider } from "./contexts/ThemeContext";
 import { isCustomDomain, setDocumentLanguage } from "./lib";
 import { LOCALES } from "./locales";
 import NotFound from "./routes/404";
-import MainRoutes from "./routes/MainRoutes";
+import MainRoutes from "./routes/main/MainRoutes";
 import SignInCallback from "./routes/SignInCallback";
 import CommunityRoutes from "./routes/community/CommunityRoutes";
 import InfoRoutes from "./routes/info/InfoRoutes";
-import { buildSignInCallbackPath } from "./routes/main-routing";
+import {
+  buildSignInCallbackPath,
+  buildSignOutCallbackPath,
+} from "./routes/main/main-routing";
 import { ShopRoutes } from "./routes/shops/ShopRoutes";
+import SignOutCallback from "./routes/SignOutCallback";
 
 export default function App() {
   const i18nextInstance = i18next.createInstance({
@@ -52,6 +56,11 @@ export default function App() {
               <Route
                 path={buildSignInCallbackPath()}
                 component={SignInCallback}
+              />
+
+              <Route
+                path={buildSignOutCallbackPath()}
+                component={SignOutCallback}
               />
 
               <Route path="*" component={NotFound} />

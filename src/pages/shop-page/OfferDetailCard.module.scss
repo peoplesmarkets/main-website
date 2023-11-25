@@ -1,11 +1,9 @@
-$medium-min-width: 900px;
-
 .OfferDetailView {
   display: grid;
-
+  margin: 16px 0;
   grid-template-columns: repeat(1, minmax(0, 1fr));
 
-  @media only screen and (min-width: $medium-min-width) {
+  @media only screen and (min-width: 900px) {
     grid-template-columns: repeat(5, minmax(0, 1fr));
   }
 }
@@ -24,7 +22,7 @@ $medium-min-width: 900px;
 }
 
 .Images {
-  @media only screen and (min-width: $medium-min-width) {
+  @media only screen and (min-width: 900px) {
     grid-column: 1 / 4;
   }
 }
@@ -34,13 +32,13 @@ $medium-min-width: 900px;
   flex-direction: column;
   justify-content: space-evenly;
 
-  @media only screen and (min-width: $medium-min-width) {
+  @media only screen and (min-width: 900px) {
     grid-column: 4 / 6;
   }
 }
 
 .Information {
-  @media only screen and (min-width: $medium-min-width) {
+  @media only screen and (min-width: 900px) {
     grid-column: 1 / 6;
   }
 }
@@ -48,7 +46,7 @@ $medium-min-width: 900px;
 .Price {
   text-align: end;
 
-  @media only screen and (min-width: $medium-min-width) {
+  @media only screen and (min-width: 900px) {
     text-align: start;
   }
 }

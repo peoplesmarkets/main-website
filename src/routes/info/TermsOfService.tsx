@@ -2,7 +2,7 @@ import { Trans } from "@mbarzda/solid-i18next";
 
 import { Section } from "../../components/layout/Section";
 import { TKEYS } from "../../locales";
-import MainRoutesWrapper from "../MainRoutesWrapper";
+import MainRoutesWrapper from "../../layouts/MainLayout";
 
 export default function TermsOfService() {
   return (
