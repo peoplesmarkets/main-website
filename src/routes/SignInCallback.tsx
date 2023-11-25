@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import _ from "lodash";
-import { createResource } from "solid-js";
+import { createResource, onMount } from "solid-js";
 
 import { DefaultBoundary } from "../components/layout/DefaultBoundary";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
@@ -20,7 +20,7 @@ export default function SignInCallback() {
 
   const [startSession] = createResource(async () => startSessionWithCode(code));
 
-  const [shop] = createResource(
+  createResource(
     () => currentSession()?.userId,
     async (userId: string) => {
       const response = await shopService.listDefault({ userId });
@@ -36,7 +36,8 @@ export default function SignInCallback() {
   );
 
   function loaded() {
-    return startSession.state === "ready" && shop.state === "ready";
+    startSession();
+    return true;
   }
 
   return <DefaultBoundary loaded={loaded} signIn noLogo />;
