@@ -249,8 +249,10 @@ export default function ShopLayout() {
           </div>
         </div>
 
-        <div class={styles.Content}>
-          <Outlet />
+        <div class={styles.Main}>
+          <div class={styles.Content}>
+            <Outlet />
+          </div>
         </div>
       </div>
 
