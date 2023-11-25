@@ -1,26 +1,19 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useLocation, useNavigate, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import {
-  ErrorBoundary,
-  For,
-  Show,
-  Suspense,
-  createResource,
-  onMount,
-} from "solid-js";
+import { For, Show, createResource, onMount } from "solid-js";
 
-import { ContentError } from "../../components/content";
 import { ActionButton } from "../../components/form";
 import { RefreshIcon } from "../../components/icons";
 import { Section } from "../../components/layout";
+import { DefaultBoundary } from "../../components/layout/DefaultBoundary";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { requireAuthentication } from "../../guards/authentication";
 import { resourceIsReady, secondsToLocaleDate } from "../../lib";
 import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import { buildSubscriptionPath } from "../../routes/shops/shop-routing";
 import styles from "./Page.module.scss";
-import { requireAuthentication } from "../../guards/authentication";
 
 export default function InventoryPage() {
   const location = useLocation();
@@ -40,6 +33,10 @@ export default function InventoryPage() {
   onMount(async () => {
     await requireAuthentication(location.pathname);
   });
+
+  function loaded() {
+    return !_.isNil(mediaSubscriptions());
+  }
 
   async function fetchMediaSubscriptions(shopId: string) {
     const result = [];
@@ -71,7 +68,7 @@ export default function InventoryPage() {
   }
 
   return (
-    <ErrorBoundary fallback={<ContentError />}>
+    <>
       <Section>
         <div class={styles.TitleContainer}>
           <span class={styles.Title}>
@@ -82,7 +79,7 @@ export default function InventoryPage() {
         </div>
       </Section>
 
-      <Suspense>
+      <DefaultBoundary loaded={loaded}>
         <Section flat>
           <div class={styles.Cards}>
             <Show
@@ -130,7 +127,7 @@ export default function InventoryPage() {
             </Show>
           </div>
         </Section>
-      </Suspense>
-    </ErrorBoundary>
+      </DefaultBoundary>
+    </>
   );
 }

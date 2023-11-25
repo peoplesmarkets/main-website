@@ -1,20 +1,14 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
 import { useLocation, useParams } from "@solidjs/router";
 import _ from "lodash";
-import {
-  ErrorBoundary,
-  Show,
-  Suspense,
-  createResource,
-  createSignal,
-  onMount,
-} from "solid-js";
+import { Show, createResource, createSignal, onMount } from "solid-js";
 
 import { MediaList } from "../../../components/commerce";
-import { ContentError, Font } from "../../../components/content";
+import { Font } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
 import { CancelConfirmation } from "../../../components/form/CancelConfirmation";
 import { Section } from "../../../components/layout";
+import { DefaultBoundary } from "../../../components/layout/DefaultBoundary";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { requireAuthentication } from "../../../guards/authentication";
 import { secondsToLocaleDate } from "../../../lib";
@@ -74,6 +68,10 @@ export default function SubscriptionDetailPage() {
     return response.medias;
   }
 
+  function loaded() {
+    return !_.isNil(mediaSubscription());
+  }
+
   function toLocaleDate(timestamp: number | undefined) {
     if (!_.isNil(timestamp)) {
       return secondsToLocaleDate(timestamp, trans(TKEYS.lang));
@@ -102,75 +100,70 @@ export default function SubscriptionDetailPage() {
   }
 
   return (
-    <ErrorBoundary fallback={<ContentError />}>
-      <Suspense>
-        <Section>
-          <div class={styles.SubscriptionDetail}>
-            <Font
-              type="title"
-              inline
-              key={TKEYS.subscription["subscription-to"]}
-            />{" "}
-            <Font type="title" inline strong>
-              {offer()?.name}
-            </Font>
-            <Show when={!_.isNil(mediaSubscription()?.payedUntil)}>
-              <span class={styles.Detail}>
-                <Trans key={TKEYS.subscription["payed-until"]} />:{" "}
-                {toLocaleDate(mediaSubscription()?.payedUntil)}
-              </span>
-            </Show>
-            <Show when={!_.isNil(mediaSubscription()?.canceledAt)}>
-              <span class={styles.Detail}>
-                <Trans key={TKEYS.subscription["canceled-at"]} />:{" "}
-                {toLocaleDate(mediaSubscription()?.canceledAt)}
-              </span>
-            </Show>
-          </div>
-        </Section>
+    <DefaultBoundary loaded={loaded}>
+      <Section>
+        <div class={styles.SubscriptionDetail}>
+          <Font
+            type="title"
+            inline
+            key={TKEYS.subscription["subscription-to"]}
+          />{" "}
+          <Font type="title" inline strong>
+            {offer()?.name}
+          </Font>
+          <Show when={!_.isNil(mediaSubscription()?.payedUntil)}>
+            <span class={styles.Detail}>
+              <Trans key={TKEYS.subscription["payed-until"]} />:{" "}
+              {toLocaleDate(mediaSubscription()?.payedUntil)}
+            </span>
+          </Show>
+          <Show when={!_.isNil(mediaSubscription()?.canceledAt)}>
+            <span class={styles.Detail}>
+              <Trans key={TKEYS.subscription["canceled-at"]} />:{" "}
+              {toLocaleDate(mediaSubscription()?.canceledAt)}
+            </span>
+          </Show>
+        </div>
+      </Section>
 
+      <Section bordered>
+        <div class={styles.SectionHeader}>
+          <span class={styles.Label}>
+            <Trans key={TKEYS.subscription["included-files"]} />
+          </span>
+        </div>
+
+        <MediaList medias={() => files()} />
+      </Section>
+
+      <Show when={_.isNil(mediaSubscription()?.canceledAt)}>
         <Section bordered>
           <div class={styles.SectionHeader}>
             <span class={styles.Label}>
-              <Trans key={TKEYS.subscription["included-files"]} />
+              <Trans key={TKEYS.subscription["subscription-configuration"]} />
             </span>
           </div>
 
-          <MediaList medias={() => files()} />
+          <div class={styles.Action}>
+            <Font type="body" key={TKEYS.subscription["cancel-subscription"]} />
+
+            <ActionButton
+              actionType="danger"
+              small
+              onClick={handleCancelSubscription}
+            >
+              <Trans key={TKEYS.common.cancel} />
+            </ActionButton>
+          </div>
         </Section>
+      </Show>
 
-        <Show when={_.isNil(mediaSubscription()?.canceledAt)}>
-          <Section bordered>
-            <div class={styles.SectionHeader}>
-              <span class={styles.Label}>
-                <Trans key={TKEYS.subscription["subscription-configuration"]} />
-              </span>
-            </div>
-
-            <div class={styles.Action}>
-              <Font
-                type="body"
-                key={TKEYS.subscription["cancel-subscription"]}
-              />
-
-              <ActionButton
-                actionType="danger"
-                small
-                onClick={handleCancelSubscription}
-              >
-                <Trans key={TKEYS.common.cancel} />
-              </ActionButton>
-            </div>
-          </Section>
-        </Show>
-
-        <Show when={showCancelConfirmation()}>
-          <CancelConfirmation
-            onCancel={handleQuitCancelSubscription}
-            onConfirmation={handleConfirmCancelSubscription}
-          />
-        </Show>
-      </Suspense>
-    </ErrorBoundary>
+      <Show when={showCancelConfirmation()}>
+        <CancelConfirmation
+          onCancel={handleQuitCancelSubscription}
+          onConfirmation={handleConfirmCancelSubscription}
+        />
+      </Show>
+    </DefaultBoundary>
   );
 }

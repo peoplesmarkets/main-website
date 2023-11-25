@@ -30,10 +30,12 @@ $navigation-item-height: 48px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  text-align: center;
 }
 
 .InnerIconRight {
   @extend .InnerIconLeft;
+  text-align: start;
 }
 
 .Icon {
