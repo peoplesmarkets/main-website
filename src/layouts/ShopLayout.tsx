@@ -114,7 +114,6 @@ export default function ShopLayout() {
   });
 
   createEffect(() => {
-    console.log(signOutUrl());
     if (!_.isNil(shopData.shop.error)) {
       return;
     }
@@ -262,7 +261,7 @@ export default function ShopLayout() {
         <div class={styles.FooterLogo}>
           <A
             class={styles.FooterLogoLink}
-            href={buildIndexPathOrUrl()}
+            href={import.meta.env.VITE_MAIN_WEBSITE_URL}
             target="_blank"
             aria-label="Peoples Market's home page"
           >
