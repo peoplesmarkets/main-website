@@ -1,6 +1,6 @@
 import { useNavigate, useSearchParams } from "@solidjs/router";
 import _ from "lodash";
-import { createResource, onMount } from "solid-js";
+import { createResource } from "solid-js";
 
 import { DefaultBoundary } from "../components/layout/DefaultBoundary";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
