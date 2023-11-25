@@ -24,9 +24,9 @@ export function OfferDetailView(props: Props) {
 
       <Section class={styles.Summary} padded>
         <div>
-          <OfferPrice class={styles.Price} offer={props.offer} />
-
           <Font type="title">{props.offer?.name}</Font>
+
+          <OfferPrice class={styles.Price} offer={props.offer} />
 
           <Show when={!_.isEmpty(props.offer?.description)}>
             <Font type="body">
