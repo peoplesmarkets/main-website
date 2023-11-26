@@ -8,6 +8,7 @@ import { MdList } from "../../components/content/MdList";
 import { MdListItem } from "../../components/content/MdListItem";
 import { ActionButton } from "../../components/form";
 import { DefaultBoundary } from "../../components/layout/DefaultBoundary";
+import { Pagination } from "../../components/navigation/Pagination";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
 import { buildOfferDetailConfigurationPath } from "../../routes/main/main-routing";
@@ -18,6 +19,7 @@ import {
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
 import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
+import { PaginationRequest } from "../../services/peoplesmarkets/pagination/v1/pagination";
 import { OfferPrice } from "../OfferPrice";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import styles from "./OfferList.module.scss";
@@ -39,6 +41,7 @@ export function OfferList(props: Props) {
     page: 1,
     size: 5,
   });
+  const [totalElements, setTotalElements] = createSignal(0);
 
   const [orderBy] = createSignal({
     field: OffersOrderByField.OFFERS_ORDER_BY_FIELD_NAME,
@@ -60,6 +63,10 @@ export function OfferList(props: Props) {
         filter,
       });
 
+      if (!_.isNil(response.pagination)) {
+        setTotalElements(response.pagination.totalElements);
+      }
+
       if (pagination.page === 1 && _.isEmpty(response.offers)) {
         setShowCreateOffer(true);
       }
@@ -80,14 +87,16 @@ export function OfferList(props: Props) {
     return "";
   }
 
-  function handleNextOfferPage() {
-    setPagination((current) => ({ ...current, page: current.page + 1 }));
+  function paginationResponse() {
+    return {
+      page: pagination().page,
+      size: pagination().size,
+      totalElements: totalElements(),
+    };
   }
 
-  function handlePreviousOfferPage() {
-    if (pagination().page > 1) {
-      setPagination((current) => ({ ...current, page: current.page - 1 }));
-    }
+  function handlePagination(next: PaginationRequest) {
+    setPagination(next);
   }
 
   function handleOpenCreateOffer() {
@@ -177,14 +186,11 @@ export function OfferList(props: Props) {
         </MdList>
       </DefaultBoundary>
 
-      <div class={styles.Actions}>
-        <ActionButton actionType="neutral" onClick={handlePreviousOfferPage}>
-          <Trans key={TKEYS.pagination.previous} />
-        </ActionButton>
-
-        <ActionButton actionType="neutral" onClick={handleNextOfferPage}>
-          <Trans key={TKEYS.pagination.next} />
-        </ActionButton>
+      <div class={styles.Pagination}>
+        <Pagination
+          pagination={paginationResponse}
+          onValue={handlePagination}
+        />
       </div>
 
       <CreateOfferDialog
