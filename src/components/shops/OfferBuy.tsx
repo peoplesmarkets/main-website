@@ -1,7 +1,7 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { useLocation, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show, Suspense, createEffect, createResource } from "solid-js";
+import { Show, Suspense, createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
@@ -43,10 +43,6 @@ export function OfferBuy(props: Props) {
     () => props.offer?.offerId,
     fetchMediaSubscription
   );
-
-  createEffect(() => {
-    console.log(shopData.shop());
-  });
 
   const [registerUrl] = createResource(
     () => !isAuthenticated(),

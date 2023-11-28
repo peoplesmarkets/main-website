@@ -6,6 +6,7 @@ import { buildSignInCallbackPath } from "../main/main-routing";
 import { ShopData } from "./ShopData";
 import {
   INVENTORY_PATH,
+  OFFER_PATH,
   ROOT_PATH,
   SHOP_PATH,
   SUBSCRIPTION_PATH,
@@ -14,6 +15,7 @@ import {
 const ShopLayout = lazy(() => import("../../layouts/ShopLayout"));
 
 const ShopDetailPage = lazy(() => import("../../pages/shop-page/Page"));
+const OfferDetailPage = lazy(() => import("../../pages/offer-detail/Page"));
 
 const InventoryPage = lazy(() => import("../../pages/inventory/Page"));
 
@@ -32,6 +34,8 @@ export function ShopRoutes() {
       <Route path={rootPath}>
         <Route path={shopPath} data={ShopData} component={ShopLayout}>
           <Route path="" component={ShopDetailPage} />
+
+          <Route path={OFFER_PATH} component={OfferDetailPage} />
 
           <Route path={INVENTORY_PATH} component={InventoryPage} />
 

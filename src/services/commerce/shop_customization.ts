@@ -5,6 +5,7 @@ import {
   PutLogoImageToShopRequest,
   PutShopCustomizationRequest,
   ShopCustomizationServiceClientImpl,
+  ShopLayoutType,
 } from "../peoplesmarkets/commerce/v1/shop_customization";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
@@ -68,6 +69,16 @@ export class ShopCustomizationService extends ServiceClient {
       await this.withAuthHeader()
     );
   }
+}
+
+export function listShopLayoutTypeCodes(): ShopLayoutType[] {
+  const shopLayoutTypes = [];
+  for (const t of Object.values(ShopLayoutType)) {
+    if (_.isNumber(t) && t > 0) {
+      shopLayoutTypes.push(t);
+    }
+  }
+  return shopLayoutTypes;
 }
 
 export function getMaxSizeFromError(err: any) {

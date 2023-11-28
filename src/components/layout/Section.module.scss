@@ -20,6 +20,11 @@
   border: var(--danger-border);
 }
 
+.Warn {
+  @extend .Bordered;
+  border-color: var(--warning-content-color);
+}
+
 .Flat {
   padding-top: 0;
   padding-bottom: 0;

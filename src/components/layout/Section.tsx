@@ -1,31 +1,44 @@
-import { JSX } from "solid-js";
+import { JSX, splitProps } from "solid-js";
 
 import styles from "./Section.module.scss";
 
 type Props = JSX.HTMLAttributes<HTMLDivElement> & {
-  bordered?: boolean;
-  danger?: boolean;
-  active?: boolean;
-  flat?: boolean;
-  padded?: boolean;
-  narrow?: boolean;
+  readonly bordered?: boolean | undefined;
+  readonly danger?: boolean | undefined;
+  readonly warn?: boolean | undefined;
+  readonly active?: boolean | undefined;
+  readonly flat?: boolean | undefined;
+  readonly padded?: boolean | undefined;
+  readonly narrow?: boolean | undefined;
 };
 
 export function Section(props: Props) {
+  const [local, other] = splitProps(props, [
+    "bordered",
+    "danger",
+    "warn",
+    "active",
+    "flat",
+    "padded",
+    "narrow",
+    "children",
+  ]);
+
   return (
     <div
       classList={{
         [styles.Section]: true,
-        [styles.Bordered]: Boolean(props.bordered),
-        [styles.Active]: Boolean(props.active),
-        [styles.Danger]: Boolean(props.danger),
-        [styles.Flat]: Boolean(props.flat),
-        [styles.Padded]: Boolean(props.padded),
-        [styles.Narrow]: Boolean(props.narrow),
+        [styles.Bordered]: Boolean(local.bordered),
+        [styles.Active]: Boolean(local.active),
+        [styles.Danger]: Boolean(local.danger),
+        [styles.Warn]: Boolean(local.warn),
+        [styles.Flat]: Boolean(local.flat),
+        [styles.Padded]: Boolean(local.padded),
+        [styles.Narrow]: Boolean(local.narrow),
       }}
-      {...props}
+      {...other}
     >
-      {props.children}
+      {local.children}
     </div>
   );
 }

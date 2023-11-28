@@ -109,19 +109,23 @@ export default function Dashboard() {
         }
       >
         <Show when={loaded() && !shop()?.isActive}>
-          <Section flat>
-            <Font
-              type="body"
-              warn
-              key={TKEYS.dashboard.shop.visibility["not-published-yet-info"]}
-            />
-            <ActionButton
-              actionType="active-filled"
-              round
-              onClick={handleOpenPublishShop}
-            >
-              <Trans key={TKEYS.dashboard.shop.visibility.Title} />
-            </ActionButton>
+          <Section warn>
+            <div class={styles.Actions}>
+              <Font
+                type="label"
+                warn
+                key={TKEYS.dashboard.shop.visibility["not-published-yet-info"]}
+              />
+
+              <ActionButton
+                actionType="active"
+                round
+                small
+                onClick={handleOpenPublishShop}
+              >
+                <Trans key={TKEYS.dashboard.shop.visibility["publish-shop"]} />
+              </ActionButton>
+            </div>
           </Section>
         </Show>
 

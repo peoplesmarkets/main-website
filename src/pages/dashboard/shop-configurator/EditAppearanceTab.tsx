@@ -1,11 +1,12 @@
 import { Trans } from "@mbarzda/solid-i18next";
+import { Show } from "solid-js";
 
 import { ActionButton } from "../../../components/form";
 import { TKEYS } from "../../../locales";
 import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
 import commonStyles from "../Common.module.scss";
 import { EditLogo } from "./EditLogo";
-import { Show } from "solid-js";
+import { LayoutSelection } from "./LayoutSelection";
 
 type Props = {
   shop: ShopResponse | undefined;
@@ -29,6 +30,10 @@ export function EditAppearanceTab(props: Props) {
         <div class={commonStyles.Fields}>
           <div class={commonStyles.FieldSet}>
             <EditLogo shop={props.shop} onUpdate={handleUpdate} />
+          </div>
+
+          <div class={commonStyles.FieldSet}>
+            <LayoutSelection shop={props.shop} onUpdate={handleUpdate} />
           </div>
         </div>
 
