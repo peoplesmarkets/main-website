@@ -7,6 +7,7 @@ import {
   priceTypeToJSON,
   recurringIntervalToJSON,
 } from "../services/peoplesmarkets/commerce/v1/price";
+import { ShopLayoutType } from "../services/peoplesmarkets/commerce/v1/shop_customization";
 import { ReportType } from "../services/peoplesmarkets/report/v1/report";
 import { TKEYS } from "./keys";
 
@@ -184,15 +185,21 @@ export const EN: typeof TKEYS = {
     },
   },
   "shop-customization": {
+    "layout-info":
+      "Select the layout with which your offers will be presented on your home page.",
     labels: {
-      headerBackgroundColorLight: "Header background color (light theme)",
-      headerBackgroundColorDark: "Header background color (dark theme)",
-      headerContentColorLight: "Header content color (light theme)",
-      headerContentColorDark: "Header content color (dark theme)",
-      secondaryBackgroundColorLight: "Secondary background color (light theme)",
-      secondaryBackgroundColorDark: "Secondary background color (dark theme)",
-      secondaryContentColorLight: "Secondary content color (light theme)",
-      secondaryContentColorDark: "Secondary content color (dark theme)",
+      Layout: "Layout",
+      "primary-color": "Brand Color",
+    },
+    "layout-types": {
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_FEAD]: "Fead",
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_OFFER_LIST]: "Offers search",
+    },
+    "layout-type-info": {
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_FEAD]:
+        'When you choose the layout "Fead" your offers will be listed one after the other on your home page.',
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_OFFER_LIST]:
+        'When you choose the layout "Offers search" your offers will be listed as cards. Additionally there will be a search field available.',
     },
   },
   offer: {

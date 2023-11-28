@@ -7,6 +7,7 @@ import {
   priceTypeToJSON,
   recurringIntervalToJSON,
 } from "../services/peoplesmarkets/commerce/v1/price";
+import { ShopLayoutType } from "../services/peoplesmarkets/commerce/v1/shop_customization";
 import { ReportType } from "../services/peoplesmarkets/report/v1/report";
 
 export const TKEYS = {
@@ -196,24 +197,23 @@ export const TKEYS = {
     },
   },
   "shop-customization": {
+    "layout-info": "shop-customization.layout-info",
     labels: {
-      headerBackgroundColorLight:
-        "shop-customization.labels.headerBackgroundColorLight",
-      headerBackgroundColorDark:
-        "shop-customization.labels.headerBackgroundColorDark",
-      headerContentColorLight:
-        "shop-customization.labels.headerContentColorLight",
-      headerContentColorDark:
-        "shop-customization.labels.headerContentColorDark",
-      secondaryBackgroundColorLight:
-        "shop-customization.labels.secondaryBackgroundColorLight",
-      secondaryBackgroundColorDark:
-        "shop-customization.labels.secondaryBackgroundColorDark",
-      secondaryContentColorLight:
-        "shop-customization.labels.secondaryContentColorLight",
-      secondaryContentColorDark:
-        "shop-customization.labels.secondaryContentColorDark",
+      Layout: "shop-customization.labels.Layout",
+      "primary-color": "shop-customization.labels.primary-color",
     },
+    "layout-types": {
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_FEAD]:
+        "shop-customization.layout-types.1",
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_OFFER_LIST]:
+        "shop-customization.layout-types.2",
+    } as Record<number, string>,
+    "layout-type-info": {
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_FEAD]:
+        "shop-customization.layout-type-info.1",
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_OFFER_LIST]:
+        "shop-customization.layout-type-info.2",
+    } as Record<number, string>,
   },
   offer: {
     title: "offer.title",

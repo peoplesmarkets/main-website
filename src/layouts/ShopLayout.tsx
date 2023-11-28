@@ -1,24 +1,15 @@
 import { A, Outlet, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import {
-  Show,
-  createEffect,
-  createResource,
-  createSignal,
-  onMount,
-} from "solid-js";
-import { createStore } from "solid-js/store";
+import { Show, createEffect, createSignal, onMount } from "solid-js";
 
 import { MainLogoText, MdIcon } from "../components/assets";
 import { Font } from "../components/content";
 import { MainLogoIcon } from "../components/icons";
 import { Slot } from "../components/layout";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { useServiceClientContext } from "../contexts/ServiceClientContext";
 import { Theme, useThemeContext } from "../contexts/ThemeContext";
 import {
   buildEndSessionRequest,
-  isCssColor,
   setDocumentMetaDescription,
   setDocumentTitle,
   setFaviconHref,
@@ -27,16 +18,12 @@ import {
 import { SHOP_FAVICON } from "../lib/constants";
 import { TKEYS } from "../locales";
 import { EN } from "../locales/en";
-import {
-  buildIndexPathOrUrl,
-  buildSignOutCallbackUrl,
-} from "../routes/main/main-routing";
+import { buildSignOutCallbackUrl } from "../routes/main/main-routing";
 import { ShopData } from "../routes/shops/ShopData";
 import {
   buildInventoryPath,
   buildShopDetailPath,
 } from "../routes/shops/shop-routing";
-import { ShopResponse } from "../services/peoplesmarkets/commerce/v1/shop";
 import { SettingsSlider } from "./SettingsSlider";
 import styles from "./ShopLayout.module.scss";
 import { SliderItem } from "./SliderItem";
@@ -45,65 +32,36 @@ export default function ShopLayout() {
   const { theme } = useThemeContext();
   const { isAuthenticated } = useAccessTokensContext();
 
-  const { shopCustomizationService, shopDomainService } =
-    useServiceClientContext();
-
   const shopData = useRouteData<typeof ShopData>();
 
   const [showSettingsSlider, setShowSettingsSlider] = createSignal(false);
 
-  const [shopCustomization] = createResource(shopData?.shopId, async (shopId) =>
-    shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
-  );
+  function signOutUrl() {
+    const shopSlug = shopData.shop()?.slug;
+    const clientId = shopData.shop()?.clientId;
 
-  const [signOutUrl] = createResource(
-    () => shopData?.shop(),
-    async (shop: ShopResponse) => {
-      const domainResponse = await shopDomainService.getDomainStatus(
-        shop.shopId
-      );
-
-      const slug = shop?.slug;
-      const clientId = domainResponse?.domainStatus?.clientId;
-
-      if (!_.isNil(slug) && !_.isEmpty(slug)) {
-        if (!_.isNil(clientId) && !_.isEmpty(clientId)) {
-          return buildEndSessionRequest(buildSignOutCallbackUrl(), clientId);
-        }
-
-        return buildEndSessionRequest(
-          buildSignOutCallbackUrl(),
-          undefined,
-          utf8ToBase64(buildShopDetailPath(slug))
-        );
+    if (!_.isNil(shopSlug) && !_.isEmpty(shopSlug)) {
+      if (!_.isNil(clientId) && !_.isNil(clientId)) {
+        return buildEndSessionRequest(buildSignOutCallbackUrl(), clientId);
       }
 
-      return buildIndexPathOrUrl();
+      return buildEndSessionRequest(
+        buildSignOutCallbackUrl(),
+        undefined,
+        utf8ToBase64(buildShopDetailPath(shopSlug))
+      );
     }
-  );
 
-  const emptyShopStyle = {
-    "--header-background-color": undefined as string | undefined,
-    "--header-content-color": undefined as string | undefined,
-    "--footer-background-color": undefined as string | undefined,
-    "--footer-content-color": undefined as string | undefined,
-  };
-
-  const [customShopStyle, setCustomShopStyle] = createStore(
-    _.clone(emptyShopStyle)
-  );
+    return buildEndSessionRequest(buildSignOutCallbackUrl(), undefined);
+  }
 
   function logoImageUrl() {
-    if (!_.isNil(shopCustomization.error)) {
-      return;
-    }
-
-    const logoImageLightUrl = shopCustomization()?.logoImageLightUrl;
+    const logoImageLightUrl = shopData.shop()?.customization?.logoImageLightUrl;
     if (!_.isEmpty(logoImageLightUrl) && theme() === Theme.DefaultLight) {
       return logoImageLightUrl;
     }
 
-    const logoImageDarkUrl = shopCustomization()?.logoImageDarkUrl;
+    const logoImageDarkUrl = shopData.shop()?.customization?.logoImageDarkUrl;
     if (!_.isEmpty(logoImageDarkUrl) && theme() === Theme.DefaultDark) {
       return logoImageDarkUrl;
     }
@@ -126,71 +84,6 @@ export default function ShopLayout() {
 
     const description = shopData.shop()?.description || name;
     setDocumentMetaDescription(description + EN["powered-by-peoplesmarkets"]);
-  });
-
-  createEffect(() => {
-    if (!_.isNil(shopCustomization.error)) {
-      return;
-    }
-
-    const styles = shopCustomization();
-    if (_.isNil(styles)) {
-      return;
-    }
-
-    setCustomShopStyle(_.clone(emptyShopStyle));
-
-    if (theme() === Theme.DefaultDark) {
-      if (isCssColor(styles.headerBackgroundColorDark)) {
-        setCustomShopStyle(
-          "--header-background-color",
-          styles.headerBackgroundColorDark!
-        );
-      }
-      if (isCssColor(styles.headerContentColorDark)) {
-        setCustomShopStyle(
-          "--header-content-color",
-          styles.headerContentColorDark!
-        );
-      }
-      if (isCssColor(styles.secondaryBackgroundColorDark)) {
-        setCustomShopStyle(
-          "--footer-background-color",
-          styles.secondaryBackgroundColorDark!
-        );
-      }
-      if (isCssColor(styles.secondaryContentColorDark)) {
-        setCustomShopStyle(
-          "--footer-content-color",
-          styles.secondaryContentColorDark!
-        );
-      }
-    } else {
-      if (isCssColor(styles.headerBackgroundColorLight)) {
-        setCustomShopStyle(
-          "--header-background-color",
-          styles.headerBackgroundColorLight!
-        );
-      }
-      if (isCssColor(styles.headerContentColorLight)) {
-        setCustomShopStyle(
-          "--header-content-color",
-          styles.headerContentColorLight!
-        );
-      }
-      if (isCssColor(styles.secondaryBackgroundColorLight)) {
-        setCustomShopStyle(
-          "--footer-background-color",
-          styles.secondaryBackgroundColorLight!
-        );
-      }
-      if (isCssColor(styles.secondaryContentColorLight)) {
-        setCustomShopStyle(
-          "--footer-content-color",
-          styles.secondaryContentColorLight!
-        );
-      }
-    }
   });
 
   function shopDetailPath() {
@@ -219,7 +112,7 @@ export default function ShopLayout() {
 
   return (
     <>
-      <div style={customShopStyle}>
+      <div>
         <div class={styles.HeaderContainer}>
           <div class={styles.Header}>
             <Show
@@ -234,7 +127,11 @@ export default function ShopLayout() {
               }
             >
               <A class={styles.LogoLink} href={shopDetailPath()}>
-                <img class={styles.Logo} src={logoImageUrl()} alt="" />
+                <img
+                  class={styles.Logo}
+                  src={logoImageUrl()}
+                  alt={shopData.shop()?.name + "logo"}
+                />
               </A>
             </Show>
 

@@ -9,6 +9,8 @@ import {
   buildImprintPath,
 } from "./info-routing";
 
+const MainLayout = lazy(() => import("../../layouts/MainLayout"));
+
 export default function InfoRoutes() {
   function InfoRedirect() {
     const navigate = useNavigate();
@@ -17,7 +19,7 @@ export default function InfoRoutes() {
   }
 
   return (
-    <Route path={ROOT_PATH}>
+    <Route path={ROOT_PATH} component={MainLayout}>
       <Route path="" element={<InfoRedirect />} />
       <Route path={IMPRINT_PATH} component={lazy(() => import("./Imprint"))} />
       <Route
