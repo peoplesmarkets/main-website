@@ -42,7 +42,7 @@ export default function ShopConfiguration() {
     selectedShopId,
     async (shopId: string) => {
       return shopService
-        .get(shopId)
+        .get({ shopId })
         .then((res) => res.shop)
         .catch((_err) => undefined);
     }

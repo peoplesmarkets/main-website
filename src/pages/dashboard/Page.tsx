@@ -17,12 +17,14 @@ import { CreateShopDialog } from "./CreateShopDialog";
 import { OfferList } from "./OfferList";
 import styles from "./Page.module.scss";
 import { PublishShopDialog } from "./PublishShopDialog";
+import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 
 export default function Dashboard() {
   const location = useLocation();
   const navigate = useNavigate();
 
   const { shopService } = useServiceClientContext();
+  const { currentSession } = useAccessTokensContext();
   const { selectedShopId, setSelectedShopId } = useSelectedShopContext();
 
   const [authenticated] = createResource(
@@ -34,11 +36,12 @@ export default function Dashboard() {
   const [showPublishShop, setShowPublishShop] = createSignal(false);
 
   const [shop, { refetch }] = createResource(
-    () => selectedShopId(),
-    async (shopId: string) => {
-      const response = await shopService.getMyShop({
-        shopId,
+    () => [selectedShopId(), currentSession()?.userId] as const,
+    async ([shopId, ownerId]) => {
+      const response = await shopService.get({
+        shopId: shopId as string,
         extended: true,
+        owner: ownerId as string,
       });
 
       return response.shop;

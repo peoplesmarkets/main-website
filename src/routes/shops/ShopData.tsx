@@ -5,26 +5,22 @@ import { createResource } from "solid-js";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { getDomainFromWindow, isCustomDomain } from "../../lib/env";
 import { resourceIsReady } from "../../lib";
+import { GetShopRequest } from "../../services/peoplesmarkets/commerce/v1/shop";
 
 export function ShopData({ params }: RouteDataFuncArgs) {
   const { shopService } = useServiceClientContext();
 
-  const [shop, { refetch, mutate }] = isCustomDomain()
-    ? createResource(() => getDomainFromWindow(), fetchShopByDomain)
-    : createResource(() => params.shopSlug, fetchShop);
-
-  async function fetchShopByDomain(domain: string) {
-    const response = await shopService.getByDomain(domain);
-
-    if (_.isNil(response.shop)) {
-      throw new Error("Not Found");
+  function request(): GetShopRequest {
+    if (isCustomDomain()) {
+      return { domain: getDomainFromWindow(), extended: true };
     }
-
-    return response.shop;
+    return { slug: params.shopSlug, extended: true };
   }
 
-  async function fetchShop(slug: string) {
-    const response = await shopService.getBySlug(slug);
+  const [shop, { refetch, mutate }] = createResource(request, fetchShop);
+
+  async function fetchShop(request: GetShopRequest) {
+    const response = await shopService.get(request);
 
     if (_.isNil(response.shop)) {
       throw new Error("Not Found");

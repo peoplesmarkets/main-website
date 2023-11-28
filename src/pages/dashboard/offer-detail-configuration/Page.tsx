@@ -60,7 +60,7 @@ export default function OfferDetailConfigurationPage() {
   );
 
   const [shop] = createResource(selectedShopId, async (shopId: string) => {
-    return shopService.get(shopId).then((res) => res.shop);
+    return shopService.get({ shopId }).then((res) => res.shop);
   });
 
   const [offer, { refetch }] = createResource(
