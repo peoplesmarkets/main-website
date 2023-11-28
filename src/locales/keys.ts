@@ -262,6 +262,7 @@ export const TKEYS = {
     labels: {
       name: "media.labels.name",
       file: "media.labels.file",
+      filename: "media.labels.filename",
     },
   },
   subscription: {

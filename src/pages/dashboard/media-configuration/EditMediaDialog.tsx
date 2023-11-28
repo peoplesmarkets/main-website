@@ -34,11 +34,13 @@ export function EditMediaDialog(props: Props) {
   const [form, setForm] = createStore({
     name: undefined as string | undefined,
     file: undefined as File | undefined,
+    fileName: undefined as string | undefined,
   });
 
   const [errors, setErrors] = createStore({
     name: [] as string[],
     file: [] as string[],
+    fileName: [] as string[],
   });
 
   const [uploading, setUploading] = createSignal(false);
@@ -48,6 +50,7 @@ export function EditMediaDialog(props: Props) {
   createEffect(() => {
     if (props.show) {
       setForm("name", props.media?.name);
+      setForm("fileName", props.media?.fileName);
     }
   });
 
@@ -74,6 +77,7 @@ export function EditMediaDialog(props: Props) {
         mediaId,
         name: form.name,
         file,
+        fileName: form.fileName,
       });
       setUploading(false);
       props.onUpdate();
@@ -128,6 +132,10 @@ export function EditMediaDialog(props: Props) {
     setForm("name", value);
   }
 
+  function handleFileNameInput(value: string) {
+    setForm("fileName", value);
+  }
+
   function handleCloseDialog() {
     if (!_.isNil(form.file) || form.name !== props.media?.name) {
       setShowDiscardConfirmation(true);
@@ -165,6 +173,15 @@ export function EditMediaDialog(props: Props) {
                 onValue={handleNameInput}
                 error={!_.isEmpty(errors.name)}
                 errorText={errors.name}
+              />
+
+              <MdTextField
+                type="text"
+                value={form.fileName}
+                label={trans(TKEYS.media.labels.filename)}
+                onValue={handleFileNameInput}
+                error={!_.isEmpty(errors.fileName)}
+                errorText={errors.fileName}
               />
 
               <FileField

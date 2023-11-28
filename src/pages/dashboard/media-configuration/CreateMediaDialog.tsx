@@ -118,6 +118,7 @@ export function CreateMediaDialog(props: Props) {
         contentType: form.file.type,
         data: await readAsUint8Array(form.file, 0, form.file.size),
       },
+      fileName: form.file.name,
     });
 
     return response.media!;
@@ -138,6 +139,7 @@ export function CreateMediaDialog(props: Props) {
     const response = await mediaService.create({
       shopId,
       name: form.name || form.file.name,
+      fileName: form.file.name,
     });
 
     if (_.isNil(response.media)) {
