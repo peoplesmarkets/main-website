@@ -27,7 +27,7 @@ export default function ShopSettingsPage() {
   const [shop, { refetch }] = createResource(
     selectedShopId,
     async (shopId: string) => {
-      return shopService.get(shopId).then((res) => res.shop);
+      return shopService.get({ shopId }).then((res) => res.shop);
     }
   );
 

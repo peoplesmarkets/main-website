@@ -22,7 +22,7 @@ export default function SignInCallback() {
     let clientId: string | undefined;
 
     if (isCustomDomain()) {
-      const response = await shopService.getByDomain(getDomainFromWindow());
+      const response = await shopService.get({ domain: getDomainFromWindow() });
       clientId = response.shop?.clientId;
     }
 

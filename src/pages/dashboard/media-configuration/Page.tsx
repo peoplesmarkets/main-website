@@ -25,7 +25,7 @@ export default function MediaConfigurationPage() {
   );
 
   const [shop] = createResource(selectedShopId, async (shopId: string) => {
-    return shopService.get(shopId).then((res) => res.shop);
+    return shopService.get({ shopId }).then((res) => res.shop);
   });
 
   const [medias, mediasActions] = createResource(
