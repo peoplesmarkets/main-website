@@ -16,8 +16,10 @@ import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering
 import { MediaList } from "../MediaList";
 import { CreateMediaDialog } from "../media-configuration/CreateMediaDialog";
 import styles from "./MediaSettings.module.scss";
+import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
 
 type Props = {
+  readonly shop: ShopResponse | undefined;
   readonly offer: OfferResponse | undefined;
 };
 
@@ -86,6 +88,7 @@ export function MediaSettings(props: Props) {
       </Section>
 
       <CreateMediaDialog
+        shop={props.shop}
         offerId={props.offer?.offerId}
         show={showCreateMedia()}
         onClose={handleCloseCreateMedia}

@@ -209,7 +209,7 @@ export default function OfferDetailConfigurationPage() {
         </Section>
 
         <Show when={offer()?.type === OfferType.OFFER_TYPE_DIGITAL}>
-          <MediaSettings offer={offer()} />
+          <MediaSettings shop={shop()} offer={offer()} />
         </Show>
 
         <Section bordered>

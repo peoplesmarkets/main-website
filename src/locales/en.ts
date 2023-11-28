@@ -243,6 +243,7 @@ export const EN: typeof TKEYS = {
     labels: {
       name: "Name",
       file: "File",
+      filename: "Filename",
     },
   },
   subscription: {

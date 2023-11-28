@@ -73,11 +73,13 @@ export function CreateOfferDialog(props: Props) {
       const response = await offerService.create(request);
       handleClose();
 
-      const shopSlug = props.shop?.slug;
-      const offerId = response.offer?.offerId;
-
-      if (!_.isNil(shopSlug) && !_.isNil(offerId)) {
-        navigate(buildOfferDetailConfigurationPath(shopSlug, offerId));
+      if (!_.isNil(props.shop) && !_.isNil(response.offer)) {
+        navigate(
+          buildOfferDetailConfigurationPath(
+            props.shop.shopId,
+            response.offer.offerId
+          )
+        );
       }
     } catch (err: any) {
       if (err.code && err.code === grpc.Code.AlreadyExists) {

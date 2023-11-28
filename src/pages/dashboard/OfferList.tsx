@@ -80,9 +80,11 @@ export function OfferList(props: Props) {
   }
 
   function offerDetailConfigurationPath(offer: OfferResponse): string {
-    const shopSlug = props.shop?.slug;
-    if (!_.isNil(shopSlug)) {
-      return buildOfferDetailConfigurationPath(shopSlug, offer.offerId);
+    if (!_.isNil(props.shop)) {
+      return buildOfferDetailConfigurationPath(
+        props.shop.shopId,
+        offer.offerId
+      );
     }
     return "";
   }
