@@ -14,12 +14,11 @@ import {
   argbFromHex,
   themeFromSourceColor,
 } from "@material/material-color-utilities";
-import { PlaceholderAdd } from "../../../components/assets";
+import { MdIcon, PlaceholderAdd } from "../../../components/assets";
 import { ContentLoading, Font } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
 import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirmationDialog";
 import { IconFileField } from "../../../components/form/IconFileField";
-import { BurgerIcon } from "../../../components/icons";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { useThemeContext } from "../../../contexts/ThemeContext";
 import { readAsUint8Array } from "../../../lib";
@@ -177,9 +176,7 @@ export function EditLogo(props: Props) {
           <Suspense fallback={<ContentLoading />}>
             <div class={commonStyles.Field}>
               <div class={styles.LogoPreview} ref={previewContainerElement}>
-                <div class={styles.Panel}>
-                  <BurgerIcon class={styles.MenuIcon} onClick={() => {}} />
-
+                <div class={styles.Header}>
                   <IconFileField onValue={handleLogoFileInput}>
                     <div class={styles.LogoLink}>
                       <Show
@@ -201,6 +198,10 @@ export function EditLogo(props: Props) {
                       </Show>
                     </div>
                   </IconFileField>
+
+                  <div class={styles.HeaderActions}>
+                    <MdIcon class={styles.HeaderIcon} icon="menu" />
+                  </div>
                 </div>
               </div>
             </div>
