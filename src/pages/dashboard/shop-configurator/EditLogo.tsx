@@ -16,6 +16,7 @@ import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirm
 import { IconFileField } from "../../../components/form/IconFileField";
 import { BurgerIcon } from "../../../components/icons";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { useThemeContext } from "../../../contexts/ThemeContext";
 import { readAsUint8Array } from "../../../lib";
 import { resizeImage } from "../../../lib/image";
 import { TKEYS } from "../../../locales";
@@ -30,6 +31,8 @@ type Props = {
 };
 
 export function EditLogo(props: Props) {
+  const { isDarkTheme } = useThemeContext();
+
   const { shopCustomizationService } = useServiceClientContext();
 
   const [shopCustomization, { refetch }] = createResource(
@@ -51,7 +54,16 @@ export function EditLogo(props: Props) {
   createEffect(() => {
     if (_.isEmpty(logoForm.shopId)) {
       setLogoForm("shopId", shopCustomization()?.shopId);
-      setLogoForm("imageUrl", shopCustomization()?.logoImageLightUrl);
+    }
+  });
+
+  createEffect(() => {
+    if (_.isNil(logoForm.image)) {
+      if (isDarkTheme() && !_.isNil(shopCustomization()?.logoImageDarkUrl)) {
+        setLogoForm("imageUrl", shopCustomization()?.logoImageDarkUrl);
+      } else {
+        setLogoForm("imageUrl", shopCustomization()?.logoImageLightUrl);
+      }
     }
   });
 
@@ -82,14 +94,17 @@ export function EditLogo(props: Props) {
         logoForm.image.size
       );
 
-      request.image = {
-        contentType: "image/webp",
-        data,
-      };
-      request.imageDark = {
-        contentType: "image/webp",
-        data,
-      };
+      if (isDarkTheme()) {
+        request.imageDark = {
+          contentType: "image/webp",
+          data,
+        };
+      } else {
+        request.image = {
+          contentType: "image/webp",
+          data,
+        };
+      }
     }
 
     try {
