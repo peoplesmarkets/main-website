@@ -1,6 +1,5 @@
 .OfferDetailView {
   display: grid;
-  margin: 16px 0;
   grid-template-columns: repeat(1, minmax(0, 1fr));
 
   @media only screen and (min-width: 900px) {
