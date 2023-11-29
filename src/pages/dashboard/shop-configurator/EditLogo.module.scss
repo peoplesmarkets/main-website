@@ -7,8 +7,8 @@
 .Panel {
   width: 100%;
   min-height: 64px;
-  color: var(--header-content-color);
-  background-color: var(--header-background-color);
+  background-color: var(--md-sys-color-primary-container);
+  color: var(--md-sys-color-on-primary-container);
   display: flex;
   justify-content: space-between;
   align-items: center;

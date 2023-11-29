@@ -9,6 +9,11 @@ import {
 } from "solid-js";
 import { createStore } from "solid-js/store";
 
+import {
+  applyTheme,
+  argbFromHex,
+  themeFromSourceColor,
+} from "@material/material-color-utilities";
 import { PlaceholderAdd } from "../../../components/assets";
 import { ContentLoading, Font } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
@@ -28,16 +33,19 @@ import styles from "./EditLogo.module.scss";
 type Props = {
   shop: ShopResponse | undefined;
   onUpdate: () => void;
+  updateTrigger: () => boolean;
 };
 
 export function EditLogo(props: Props) {
+  let previewContainerElement: HTMLDivElement | undefined;
+
   const { isDarkTheme } = useThemeContext();
 
   const { shopCustomizationService } = useServiceClientContext();
 
   const [shopCustomization, { refetch }] = createResource(
-    () => props.shop?.shopId,
-    async (shopId) =>
+    () => [props.shop?.shopId, props.updateTrigger()] as [string, boolean],
+    async ([shopId]) =>
       shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
   );
 
@@ -64,6 +72,18 @@ export function EditLogo(props: Props) {
       } else {
         setLogoForm("imageUrl", shopCustomization()?.logoImageLightUrl);
       }
+    }
+  });
+
+  createEffect(() => {
+    const primaryColor = shopCustomization()?.primaryColor;
+    if (!_.isNil(previewContainerElement) && !_.isNil(primaryColor)) {
+      const customTheme = themeFromSourceColor(argbFromHex(primaryColor));
+
+      applyTheme(customTheme, {
+        target: previewContainerElement,
+        dark: isDarkTheme(),
+      });
     }
   });
 
@@ -156,7 +176,7 @@ export function EditLogo(props: Props) {
 
           <Suspense fallback={<ContentLoading />}>
             <div class={commonStyles.Field}>
-              <div class={styles.LogoPreview}>
+              <div class={styles.LogoPreview} ref={previewContainerElement}>
                 <div class={styles.Panel}>
                   <BurgerIcon class={styles.MenuIcon} onClick={() => {}} />
 

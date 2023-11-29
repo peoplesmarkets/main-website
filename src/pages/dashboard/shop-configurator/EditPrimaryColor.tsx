@@ -109,7 +109,12 @@ export function EditPrimaryColor(props: Props) {
         <div class={commonStyles.ActionsLeft} />
 
         <div class={commonStyles.ActionsRight}>
-          <ActionButton actionType="danger" round onClick={handleRemove}>
+          <ActionButton
+            actionType="danger"
+            round
+            disabled={_.isNil(props.shop?.customization?.primaryColor)}
+            onClick={handleRemove}
+          >
             <Trans key={TKEYS.form.action.Remove} />
           </ActionButton>
           <ActionButton
