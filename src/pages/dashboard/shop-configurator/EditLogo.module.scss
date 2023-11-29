@@ -1,32 +1,58 @@
 .LogoPreview {
   width: 100%;
+  height: 64px;
   box-sizing: border-box;
   border: var(--secondary-border);
-}
-
-.Panel {
-  width: 100%;
-  min-height: 64px;
   background-color: var(--md-sys-color-primary-container);
   color: var(--md-sys-color-on-primary-container);
+}
+
+.Header {
+  max-width: var(--medium-max-width);
+  height: 100%;
+  margin: 0 auto;
+  box-sizing: border-box;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0 8px;
 }
 
-.MenuIcon {
-  fill: var(--header-content-color);
-  width: 22px;
-  height: 22px;
-  margin: 10px;
-  padding: 11px;
+.HeaderActions {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  gap: 8px;
+}
+
+.HeaderIcon {
+  width: 24px;
+  height: 24px;
+  padding: 12px;
   border-radius: 50%;
-  flex-shrink: 0;
+  fill: var(--md-sys-color-on-surface-variant);
+  color: var(--md-sys-color-on-surface-variant);
 }
 
-.MenuIcon:hover {
-  background-color: rgba(0, 0, 0, 0);
+.HeaderIcon:hover {
+  cursor: pointer;
   background: var(--hovered-background);
+}
+
+.HeaderIcon:active:focus {
+  background: var(--hovered-background);
+}
+
+.MainLink {
+  padding: 0.5rem 1rem;
+  color: var(--md-sys-color-on-surface-variant);
+  font: var(--font-title);
+  text-decoration: none;
+}
+
+.MainLink:hover {
+  background: var(--hovered-background);
+  cursor: pointer;
 }
 
 .LogoLink {
