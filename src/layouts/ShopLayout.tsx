@@ -27,6 +27,11 @@ import {
 import { SettingsSlider } from "./SettingsSlider";
 import styles from "./ShopLayout.module.scss";
 import { SliderItem } from "./SliderItem";
+import { createStore } from "solid-js/store";
+
+type CustomShopStyle = {
+  "--header-background-color": string | undefined;
+};
 
 export default function ShopLayout() {
   const { theme } = useThemeContext();
@@ -34,6 +39,13 @@ export default function ShopLayout() {
 
   const shopData = useRouteData<typeof ShopData>();
 
+  const emptyCustomShopStyle: CustomShopStyle = {
+    "--header-background-color": undefined,
+  };
+
+  const [customShopStyle, setCustomShopStyle] = createStore(
+    _.clone(emptyCustomShopStyle)
+  );
   const [showSettingsSlider, setShowSettingsSlider] = createSignal(false);
 
   function signOutUrl() {
@@ -69,6 +81,15 @@ export default function ShopLayout() {
 
   onMount(() => {
     setFaviconHref(SHOP_FAVICON);
+  });
+
+  createEffect(() => {
+    if (!_.isNil(shopData.shop()?.customization)) {
+      setCustomShopStyle(
+        "--header-background-color",
+        shopData.shop()?.customization?.primaryColor
+      );
+    }
   });
 
   createEffect(() => {
@@ -112,7 +133,7 @@ export default function ShopLayout() {
 
   return (
     <>
-      <div>
+      <div style={customShopStyle}>
         <div class={styles.HeaderContainer}>
           <div class={styles.Header}>
             <Show

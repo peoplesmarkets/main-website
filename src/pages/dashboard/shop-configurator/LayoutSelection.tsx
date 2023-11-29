@@ -6,7 +6,6 @@ import { createStore } from "solid-js/store";
 import { Font } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
 import { MdSelect, SelectKey } from "../../../components/form/MdSelect";
-import { Border } from "../../../components/layout";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
 import { listShopLayoutTypeCodes } from "../../../services";
@@ -87,9 +86,8 @@ export function LayoutSelection(props: Props) {
             onChange={handleLayoutTypeSelected}
           />
 
-          <Border />
-
           <Font
+            class={commonStyles.Details}
             type="body"
             key={
               TKEYS["shop-customization"]["layout-type-info"][

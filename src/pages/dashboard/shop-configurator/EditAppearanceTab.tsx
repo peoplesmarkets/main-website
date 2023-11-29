@@ -7,6 +7,8 @@ import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop"
 import commonStyles from "../Common.module.scss";
 import { EditLogo } from "./EditLogo";
 import { LayoutSelection } from "./LayoutSelection";
+import { Border } from "../../../components/layout";
+import { EditPrimaryColor } from "./EditPrimaryColor";
 
 type Props = {
   shop: ShopResponse | undefined;
@@ -27,15 +29,13 @@ export function EditAppearanceTab(props: Props) {
   return (
     <>
       <div class={commonStyles.Form}>
-        <div class={commonStyles.Fields}>
-          <div class={commonStyles.FieldSet}>
-            <EditLogo shop={props.shop} onUpdate={handleUpdate} />
-          </div>
+        <EditPrimaryColor shop={props.shop} onUpdate={handleUpdate} />
 
-          <div class={commonStyles.FieldSet}>
-            <LayoutSelection shop={props.shop} onUpdate={handleUpdate} />
-          </div>
-        </div>
+        <EditLogo shop={props.shop} onUpdate={handleUpdate} />
+
+        <LayoutSelection shop={props.shop} onUpdate={handleUpdate} />
+
+        <Border />
 
         <div class={commonStyles.Actions}>
           <div class={commonStyles.ActionsLeft}>
