@@ -2,6 +2,11 @@ import { A, Outlet, useRouteData } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createEffect, createSignal, onMount } from "solid-js";
 
+import {
+  applyTheme,
+  argbFromHex,
+  themeFromSourceColor,
+} from "@material/material-color-utilities";
 import { MainLogoText, MdIcon } from "../components/assets";
 import { Font } from "../components/content";
 import { MainLogoIcon } from "../components/icons";
@@ -27,11 +32,6 @@ import {
 import { SettingsSlider } from "./SettingsSlider";
 import styles from "./ShopLayout.module.scss";
 import { SliderItem } from "./SliderItem";
-import { createStore } from "solid-js/store";
-
-type CustomShopStyle = {
-  "--header-background-color": string | undefined;
-};
 
 export default function ShopLayout() {
   const { theme } = useThemeContext();
@@ -39,13 +39,6 @@ export default function ShopLayout() {
 
   const shopData = useRouteData<typeof ShopData>();
 
-  const emptyCustomShopStyle: CustomShopStyle = {
-    "--header-background-color": undefined,
-  };
-
-  const [customShopStyle, setCustomShopStyle] = createStore(
-    _.clone(emptyCustomShopStyle)
-  );
   const [showSettingsSlider, setShowSettingsSlider] = createSignal(false);
 
   function signOutUrl() {
@@ -84,11 +77,16 @@ export default function ShopLayout() {
   });
 
   createEffect(() => {
-    if (!_.isNil(shopData.shop()?.customization)) {
-      setCustomShopStyle(
-        "--header-background-color",
-        shopData.shop()?.customization?.primaryColor
-      );
+    const primaryColor = shopData.shop()?.customization?.primaryColor;
+    if (!_.isNil(primaryColor)) {
+      const customTheme = themeFromSourceColor(argbFromHex(primaryColor), [
+        // { name: "custom-1", value: argbFromHex(primaryColor), blend: true },
+      ]);
+
+      applyTheme(customTheme, {
+        target: document.body,
+        dark: theme() === Theme.DefaultDark,
+      });
     }
   });
 
@@ -133,7 +131,7 @@ export default function ShopLayout() {
 
   return (
     <>
-      <div style={customShopStyle}>
+      <div>
         <div class={styles.HeaderContainer}>
           <div class={styles.Header}>
             <Show

@@ -15,6 +15,7 @@ type Props = {
   disabled?: boolean | undefined;
   danger?: boolean | undefined;
   square?: boolean | undefined;
+  wide?: boolean | undefined;
   trailingIcon?: boolean | undefined;
   onClick?: (_event: any) => void;
   children: SolidJSX.Element;
@@ -28,6 +29,7 @@ export function MdButton(props: Props) {
           classList={{
             [styles.Danger]: Boolean(props.danger),
             [styles.Square]: Boolean(props.square),
+            [styles.Wide]: Boolean(props.wide),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -44,6 +46,7 @@ export function MdButton(props: Props) {
           classList={{
             [styles.Danger]: Boolean(props.danger),
             [styles.Square]: Boolean(props.square),
+            [styles.Wide]: Boolean(props.wide),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -59,6 +62,7 @@ export function MdButton(props: Props) {
           classList={{
             [styles.Danger]: Boolean(props.danger),
             [styles.Square]: Boolean(props.square),
+            [styles.Wide]: Boolean(props.wide),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -74,6 +78,7 @@ export function MdButton(props: Props) {
           classList={{
             [styles.Danger]: Boolean(props.danger),
             [styles.Square]: Boolean(props.square),
+            [styles.Wide]: Boolean(props.wide),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -89,6 +94,7 @@ export function MdButton(props: Props) {
           classList={{
             [styles.Danger]: Boolean(props.danger),
             [styles.Square]: Boolean(props.square),
+            [styles.Wide]: Boolean(props.wide),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}
@@ -104,6 +110,7 @@ export function MdButton(props: Props) {
           classList={{
             [styles.Danger]: Boolean(props.danger),
             [styles.Square]: Boolean(props.square),
+            [styles.Wide]: Boolean(props.wide),
           }}
           type={props.submit ? "submit" : "button"}
           disabled={Boolean(props.disabled)}

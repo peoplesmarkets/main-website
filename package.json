@@ -14,6 +14,7 @@
   "type": "module",
   "dependencies": {
     "@improbable-eng/grpc-web": "^0.15.0",
+    "@material/material-color-utilities": "^0.2.7",
     "@material/web": "^1.0.1",
     "@mbarzda/solid-i18next": "^1.2.2",
     "@solidjs/router": "^0.8.3",
