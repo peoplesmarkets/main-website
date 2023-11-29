@@ -26,6 +26,7 @@ export function LayoutSelection(props: Props) {
   const [request, setRequest] = createStore({
     shopId: undefined as string | undefined,
     layoutType: 1,
+    primaryColor: undefined as string | undefined,
   });
 
   createEffect(() => {
@@ -33,6 +34,7 @@ export function LayoutSelection(props: Props) {
       setRequest("shopId", props.shop.shopId);
       if (!_.isNil(props.shop.customization)) {
         setRequest("layoutType", props.shop.customization.layoutType);
+        setRequest("primaryColor", props.shop.customization.primaryColor);
       }
     }
   });
