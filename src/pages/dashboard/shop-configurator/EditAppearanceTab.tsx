@@ -1,11 +1,14 @@
 import { Trans } from "@mbarzda/solid-i18next";
+import { Show, createSignal } from "solid-js";
 
 import { ActionButton } from "../../../components/form";
 import { TKEYS } from "../../../locales";
 import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
 import commonStyles from "../Common.module.scss";
 import { EditLogo } from "./EditLogo";
-import { Show } from "solid-js";
+import { LayoutSelection } from "./LayoutSelection";
+import { Border } from "../../../components/layout";
+import { EditPrimaryColor } from "./EditPrimaryColor";
 
 type Props = {
   shop: ShopResponse | undefined;
@@ -15,8 +18,11 @@ type Props = {
 };
 
 export function EditAppearanceTab(props: Props) {
+  const [updateTrigger, setUpdateTrigger] = createSignal(false);
+
   function handleUpdate() {
     props.onUpdate();
+    setUpdateTrigger(!updateTrigger());
   }
 
   function handleDone() {
@@ -26,11 +32,17 @@ export function EditAppearanceTab(props: Props) {
   return (
     <>
       <div class={commonStyles.Form}>
-        <div class={commonStyles.Fields}>
-          <div class={commonStyles.FieldSet}>
-            <EditLogo shop={props.shop} onUpdate={handleUpdate} />
-          </div>
-        </div>
+        <EditPrimaryColor shop={props.shop} onUpdate={handleUpdate} />
+
+        <EditLogo
+          shop={props.shop}
+          onUpdate={handleUpdate}
+          updateTrigger={updateTrigger}
+        />
+
+        <LayoutSelection shop={props.shop} onUpdate={handleUpdate} />
+
+        <Border />
 
         <div class={commonStyles.Actions}>
           <div class={commonStyles.ActionsLeft}>

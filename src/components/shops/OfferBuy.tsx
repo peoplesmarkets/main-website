@@ -1,7 +1,7 @@
 import { Trans } from "@mbarzda/solid-i18next";
 import { useLocation, useRouteData } from "@solidjs/router";
 import _ from "lodash";
-import { Show, Suspense, createEffect, createResource } from "solid-js";
+import { Show, Suspense, createResource } from "solid-js";
 
 import { useAccessTokensContext } from "../../contexts/AccessTokensContext";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
@@ -21,8 +21,8 @@ import {
   OfferType,
 } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { PriceType } from "../../services/peoplesmarkets/commerce/v1/price";
-import { Font } from "../content";
-import { ActionButton } from "../form";
+import { ContentLoading, Font } from "../content";
+import { MdButton } from "../form";
 import { LinkButton } from "../form/LinkButton";
 import styles from "./OfferBuy.module.scss";
 
@@ -43,10 +43,6 @@ export function OfferBuy(props: Props) {
     () => props.offer?.offerId,
     fetchMediaSubscription
   );
-
-  createEffect(() => {
-    console.log(shopData.shop());
-  });
 
   const [registerUrl] = createResource(
     () => !isAuthenticated(),
@@ -172,68 +168,50 @@ export function OfferBuy(props: Props) {
 
           <div class={styles.Actions}>
             <Suspense>
-              <LinkButton actionType="active" wide href={signInUrl()!}>
+              <MdButton type="outlined" square wide href={signInUrl()}>
                 <Trans key={TKEYS.authentication["sign-in"]} />
-              </LinkButton>
+              </MdButton>
               <Font type="label" key={TKEYS.common.or} />
-              <LinkButton actionType="active" wide href={registerUrl()!}>
+              <MdButton type="outlined" square wide href={registerUrl()}>
                 <Trans key={TKEYS.authentication.register} />
-              </LinkButton>
+              </MdButton>
             </Suspense>
           </div>
         </Show>
 
         <Show when={actionState() === "no-payment-method"}>
-          <ActionButton
-            actionType="neutral-filled"
-            onClick={() => {}}
-            wide
-            disabled
-          >
+          <MdButton type="filled" wide square disabled>
             <Trans key={TKEYS.offer["currently-not-available"]} />
-          </ActionButton>
+          </MdButton>
         </Show>
 
         <Show when={actionState() === "subscribe"}>
-          <ActionButton
-            actionType="active-filled"
-            onClick={handleCheckout}
-            wide
-          >
+          <MdButton type="filled" wide square onClick={handleCheckout}>
             <Trans key={TKEYS.form.action.Subscribe} />
-          </ActionButton>
+          </MdButton>
         </Show>
 
         <Show when={actionState() === "contact-email"}>
-          <LinkButton
-            actionType="active-filled"
-            href={"mailto:" + contactEmailAddress()}
-            mail
+          <MdButton
+            type="filled"
+            square
             wide
+            href={"mailto:" + contactEmailAddress()}
           >
             <Trans key={TKEYS.offer["contact-shop"]} />
-          </LinkButton>
+          </MdButton>
         </Show>
 
         <Show when={actionState() === "buy"}>
-          <ActionButton
-            actionType="active-filled"
-            onClick={handleCheckout}
-            wide
-          >
+          <MdButton type="filled" square wide onClick={handleCheckout}>
             <Trans key={TKEYS.form.action.Buy} />
-          </ActionButton>
+          </MdButton>
         </Show>
 
         <Show when={actionState() === "loading"}>
-          <ActionButton
-            actionType="active-filled"
-            wide
-            disabled
-            onClick={() => {}}
-          >
-            {""}
-          </ActionButton>
+          <div class={styles.Loading}>
+            <ContentLoading />
+          </div>
         </Show>
 
         <Show when={actionState() === "already-subscribed"}>

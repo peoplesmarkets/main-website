@@ -73,5 +73,6 @@ function initialize() {
       setThemeHtmlRoot(theme);
       setTheme(theme);
     },
+    isDarkTheme: () => theme() === Theme.DefaultDark,
   };
 }

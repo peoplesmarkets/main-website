@@ -9,9 +9,10 @@ import {
 
 import { ContentError, ContentLoading } from "../content";
 import { Redirect } from "../navigation/Redirect";
+import _ from "lodash";
 
 type Props = {
-  readonly loaded: () => boolean | undefined;
+  readonly loaded?: () => boolean | undefined;
   readonly signIn?: boolean | undefined;
   readonly noLogo?: boolean | undefined;
   readonly redirect?: boolean | undefined;
@@ -48,7 +49,10 @@ export function DefaultBoundary(props: Props) {
     <>
       <ErrorBoundary fallback={<LoadThenError {...props} />}>
         <Suspense fallback={<Loading {...props} />}>
-          <Show when={props.loaded()} fallback={<Loading {...props} />}>
+          <Show
+            when={_.isNil(props.loaded) || props.loaded()}
+            fallback={<Loading {...props} />}
+          >
             {props.children}
           </Show>
         </Suspense>

@@ -31,6 +31,10 @@ export function buildShopDetailPathOrUrl(
   return buildShopDetailPath(shopSlug);
 }
 
+export function buildOfferDetailPath(shopSlug: string, offerId: string) {
+  return buildPath(buildShopDetailPath(shopSlug), "offer", offerId);
+}
+
 export function buildInventoryPath(shopSlug: string) {
   return buildPath(buildShopDetailPath(shopSlug), INVENTORY_PATH);
 }

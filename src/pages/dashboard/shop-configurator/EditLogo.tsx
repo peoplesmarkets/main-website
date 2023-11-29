@@ -9,13 +9,18 @@ import {
 } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { PlaceholderAdd } from "../../../components/assets";
+import {
+  applyTheme,
+  argbFromHex,
+  themeFromSourceColor,
+} from "@material/material-color-utilities";
+import { MdIcon, PlaceholderAdd } from "../../../components/assets";
 import { ContentLoading, Font } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
 import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirmationDialog";
 import { IconFileField } from "../../../components/form/IconFileField";
-import { BurgerIcon } from "../../../components/icons";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { useThemeContext } from "../../../contexts/ThemeContext";
 import { readAsUint8Array } from "../../../lib";
 import { resizeImage } from "../../../lib/image";
 import { TKEYS } from "../../../locales";
@@ -27,14 +32,19 @@ import styles from "./EditLogo.module.scss";
 type Props = {
   shop: ShopResponse | undefined;
   onUpdate: () => void;
+  updateTrigger: () => boolean;
 };
 
 export function EditLogo(props: Props) {
+  let previewContainerElement: HTMLDivElement | undefined;
+
+  const { isDarkTheme } = useThemeContext();
+
   const { shopCustomizationService } = useServiceClientContext();
 
   const [shopCustomization, { refetch }] = createResource(
-    () => props.shop?.shopId,
-    async (shopId) =>
+    () => [props.shop?.shopId, props.updateTrigger()] as [string, boolean],
+    async ([shopId]) =>
       shopCustomizationService.get(shopId).then((res) => res.shopCustomization)
   );
 
@@ -51,7 +61,28 @@ export function EditLogo(props: Props) {
   createEffect(() => {
     if (_.isEmpty(logoForm.shopId)) {
       setLogoForm("shopId", shopCustomization()?.shopId);
-      setLogoForm("imageUrl", shopCustomization()?.logoImageLightUrl);
+    }
+  });
+
+  createEffect(() => {
+    if (_.isNil(logoForm.image)) {
+      if (isDarkTheme() && !_.isNil(shopCustomization()?.logoImageDarkUrl)) {
+        setLogoForm("imageUrl", shopCustomization()?.logoImageDarkUrl);
+      } else {
+        setLogoForm("imageUrl", shopCustomization()?.logoImageLightUrl);
+      }
+    }
+  });
+
+  createEffect(() => {
+    const primaryColor = shopCustomization()?.primaryColor;
+    if (!_.isNil(previewContainerElement) && !_.isNil(primaryColor)) {
+      const customTheme = themeFromSourceColor(argbFromHex(primaryColor));
+
+      applyTheme(customTheme, {
+        target: previewContainerElement,
+        dark: isDarkTheme(),
+      });
     }
   });
 
@@ -82,14 +113,17 @@ export function EditLogo(props: Props) {
         logoForm.image.size
       );
 
-      request.image = {
-        contentType: "image/webp",
-        data,
-      };
-      request.imageDark = {
-        contentType: "image/webp",
-        data,
-      };
+      if (isDarkTheme()) {
+        request.imageDark = {
+          contentType: "image/webp",
+          data,
+        };
+      } else {
+        request.image = {
+          contentType: "image/webp",
+          data,
+        };
+      }
     }
 
     try {
@@ -125,77 +159,89 @@ export function EditLogo(props: Props) {
 
   return (
     <>
-      <div class={commonStyles.FieldInfo}>
-        <Font
-          type="headline"
-          class={commonStyles.Headline}
-          key={TKEYS.shop.labels.Logo}
-        />
+      <div class={commonStyles.Fields}>
+        <div class={commonStyles.FieldSet}>
+          <div class={commonStyles.FieldInfo}>
+            <Font
+              type="headline"
+              class={commonStyles.Headline}
+              key={TKEYS.shop.labels.Logo}
+            />
 
-        <span class={commonStyles.Details}>
-          <Trans key={TKEYS.dashboard.shop.logo["logo-info"]} />
-        </span>
+            <span class={commonStyles.Details}>
+              <Trans key={TKEYS.dashboard.shop.logo["logo-info"]} />
+            </span>
+          </div>
+
+          <Suspense fallback={<ContentLoading />}>
+            <div class={commonStyles.Field}>
+              <div class={styles.LogoPreview} ref={previewContainerElement}>
+                <div class={styles.Header}>
+                  <IconFileField onValue={handleLogoFileInput}>
+                    <div class={styles.LogoLink}>
+                      <Show
+                        when={!_.isEmpty(logoForm.imageUrl)}
+                        fallback={
+                          <PlaceholderAdd class={styles.PlaceholderAdd} />
+                        }
+                      >
+                        <Show
+                          when={!logoUploading()}
+                          fallback={<ContentLoading size="42px" />}
+                        >
+                          <img
+                            class={styles.Logo}
+                            src={logoForm.imageUrl}
+                            alt=""
+                          />
+                        </Show>
+                      </Show>
+                    </div>
+                  </IconFileField>
+
+                  <div class={styles.HeaderActions}>
+                    <MdIcon class={styles.HeaderIcon} icon="menu" />
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class={commonStyles.Actions}>
+              <div class={commonStyles.ActionsLeft} />
+              <div class={commonStyles.ActionsRight}>
+                <ActionButton
+                  actionType="danger"
+                  round
+                  disabled={_.isEmpty(shopCustomization()?.logoImageLightUrl)}
+                  onClick={handleDeleteLogo}
+                >
+                  <Trans key={TKEYS.form.action.Remove} />
+                </ActionButton>
+
+                <ActionButton
+                  actionType="active-filled"
+                  round
+                  disabled={_.isNil(logoForm.image)}
+                  onClick={handleUpdateLogo}
+                >
+                  <Trans key={TKEYS.form.action.Save} />
+                </ActionButton>
+              </div>
+            </div>
+          </Suspense>
+        </div>
       </div>
 
-      <Suspense fallback={<ContentLoading />}>
-        <div class={commonStyles.Field}>
-          <div class={styles.LogoPreview}>
-            <div class={styles.Panel}>
-              <BurgerIcon class={styles.MenuIcon} onClick={() => {}} />
-
-              <IconFileField onValue={handleLogoFileInput}>
-                <div class={styles.LogoLink}>
-                  <Show
-                    when={!_.isEmpty(logoForm.imageUrl)}
-                    fallback={<PlaceholderAdd class={styles.PlaceholderAdd} />}
-                  >
-                    <Show
-                      when={!logoUploading()}
-                      fallback={<ContentLoading size="42px" />}
-                    >
-                      <img class={styles.Logo} src={logoForm.imageUrl} alt="" />
-                    </Show>
-                  </Show>
-                </div>
-              </IconFileField>
-            </div>
-          </div>
-        </div>
-
-        <div class={commonStyles.Actions}>
-          <div class={commonStyles.ActionsLeft} />
-          <div class={commonStyles.ActionsRight}>
-            <ActionButton
-              actionType="danger"
-              round
-              disabled={_.isEmpty(shopCustomization()?.logoImageLightUrl)}
-              onClick={handleDeleteLogo}
-            >
-              <Trans key={TKEYS.form.action.Remove} />
-            </ActionButton>
-
-            <ActionButton
-              actionType="active-filled"
-              round
-              disabled={_.isNil(logoForm.image)}
-              onClick={handleUpdateLogo}
-            >
-              <Trans key={TKEYS.form.action.Save} />
-            </ActionButton>
-          </div>
-        </div>
-
-        <DeleteConfirmationDialog
-          show={showDeleteLogoConfirmation()}
-          onCancel={handleContinueEditing}
-          onConfirmation={handleConfirmDeleteLogo}
-        >
-          <Font
-            type="body"
-            key={TKEYS.dashboard.shop.logo["delete-confirmation-message"]}
-          />
-        </DeleteConfirmationDialog>
-      </Suspense>
+      <DeleteConfirmationDialog
+        show={showDeleteLogoConfirmation()}
+        onCancel={handleContinueEditing}
+        onConfirmation={handleConfirmDeleteLogo}
+      >
+        <Font
+          type="body"
+          key={TKEYS.dashboard.shop.logo["delete-confirmation-message"]}
+        />
+      </DeleteConfirmationDialog>
     </>
   );
 }

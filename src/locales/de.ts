@@ -5,6 +5,7 @@ import {
   priceTypeToJSON,
   recurringIntervalToJSON,
 } from "../services/peoplesmarkets/commerce/v1/price";
+import { ShopLayoutType } from "../services/peoplesmarkets/commerce/v1/shop_customization";
 import { ReportType } from "../services/peoplesmarkets/report/v1/report";
 import { EN } from "./en";
 import { TKEYS } from "./keys";
@@ -50,7 +51,7 @@ export const DE: typeof TKEYS = {
       Previous: "Vorherige",
       Save: "Speichern",
       "Save-and-continue": "Speichern und weiter",
-      Done: "Speichern",
+      Done: "Fertig",
       Send: "Senden",
       Edit: "Bearbeiten",
       Delete: "Löschen",
@@ -183,15 +184,21 @@ export const DE: typeof TKEYS = {
     },
   },
   "shop-customization": {
+    "layout-info":
+      "Wähle das Layout aus, mit dem deine Angebote auf der Haupseite angezeigt werden.",
     labels: {
-      headerBackgroundColorLight: "Header Hintergrundfarbe (Hellmodus)",
-      headerBackgroundColorDark: "Header Hintergrundfarbe (Dunkelmodus)",
-      headerContentColorLight: "Header Farbe (Hellmodus)",
-      headerContentColorDark: "Header Farbe (Dunkelmodus)",
-      secondaryBackgroundColorLight: "Sekundär Hintergrundfarbe (Hellmodus)",
-      secondaryBackgroundColorDark: "Sekundär Hintergrundfarbe (Dunkelmodus)",
-      secondaryContentColorLight: "Sekundär Farbe (Hellmodus)",
-      secondaryContentColorDark: "Sekundär Farbe (Dunkelmodus)",
+      Layout: EN["shop-customization"].labels.Layout,
+      "primary-color": "Markenfarbe",
+    },
+    "layout-types": {
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_FEAD]: "Fead",
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_OFFER_LIST]: "Angebotssuche",
+    },
+    "layout-type-info": {
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_FEAD]:
+        'Mit dem Layout "Fead" werden alle deine Angebote einzeln nacheinander auf der Hauptseite aufgelistet.',
+      [ShopLayoutType.SHOP_LAYOUT_TYPE_OFFER_LIST]:
+        'Mit dem Layout "Angebotssuche" werden deine Angebote in Karten aufgelistet. Bei diesem Layout ist auch ein Suchfeld dabei.',
     },
   },
   offer: {

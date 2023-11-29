@@ -12,6 +12,7 @@ import {
 } from "../../../services/peoplesmarkets/commerce/v1/shop";
 import commonStyles from "../Common.module.scss";
 import { Font } from "../../../components/content";
+import { Border } from "../../../components/layout";
 
 type Props = {
   shop: ShopResponse | undefined;
@@ -120,6 +121,8 @@ export function EditDetailsTab(props: Props) {
           />
         </div>
       </div>
+
+      <Border />
 
       <div class={commonStyles.Actions}>
         <div class={commonStyles.ActionsLeft} />

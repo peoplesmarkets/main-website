@@ -13,20 +13,16 @@ export function ShopListItem(props: Props) {
   const { theme } = useThemeContext();
 
   function bannerImageUrl() {
-    if (
-      theme() === Theme.DefaultLight &&
-      !_.isEmpty(props.shop?.customization?.bannerImageLightUrl) &&
-      props.shop?.customization?.showBannerInListing
-    ) {
-      return props.shop.customization?.bannerImageLightUrl;
-    }
+    let bannerImageUrl = props.shop.customization?.bannerImageLightUrl;
+
     if (
       theme() === Theme.DefaultDark &&
-      !_.isEmpty(props.shop?.customization?.bannerImageDarkUrl) &&
-      props.shop?.customization?.showBannerInListing
+      !_.isEmpty(props.shop?.customization?.bannerImageDarkUrl)
     ) {
-      return props.shop.customization?.bannerImageDarkUrl;
+      bannerImageUrl = props.shop.customization?.bannerImageDarkUrl;
     }
+
+    return bannerImageUrl;
   }
 
   return (

@@ -1,0 +1,18 @@
+.ColorPicker {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.ColorPickerLabel {
+  width: 80%;
+  height: 48px;
+  border: var(--primary-border);
+  border-width: 2px;
+  border-radius: 16px;
+}
+
+.ColorPickerInput {
+  display: none;
+}
