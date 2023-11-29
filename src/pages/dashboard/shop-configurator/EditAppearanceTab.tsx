@@ -1,5 +1,5 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { Show } from "solid-js";
+import { Show, createSignal } from "solid-js";
 
 import { ActionButton } from "../../../components/form";
 import { TKEYS } from "../../../locales";
@@ -18,8 +18,11 @@ type Props = {
 };
 
 export function EditAppearanceTab(props: Props) {
+  const [updateTrigger, setUpdateTrigger] = createSignal(false);
+
   function handleUpdate() {
     props.onUpdate();
+    setUpdateTrigger(!updateTrigger());
   }
 
   function handleDone() {
@@ -31,7 +34,11 @@ export function EditAppearanceTab(props: Props) {
       <div class={commonStyles.Form}>
         <EditPrimaryColor shop={props.shop} onUpdate={handleUpdate} />
 
-        <EditLogo shop={props.shop} onUpdate={handleUpdate} />
+        <EditLogo
+          shop={props.shop}
+          onUpdate={handleUpdate}
+          updateTrigger={updateTrigger}
+        />
 
         <LayoutSelection shop={props.shop} onUpdate={handleUpdate} />
 

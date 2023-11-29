@@ -12,7 +12,7 @@ import { Font } from "../components/content";
 import { MainLogoIcon } from "../components/icons";
 import { Slot } from "../components/layout";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { Theme, useThemeContext } from "../contexts/ThemeContext";
+import { useThemeContext } from "../contexts/ThemeContext";
 import {
   buildEndSessionRequest,
   setDocumentMetaDescription,
@@ -34,7 +34,7 @@ import styles from "./ShopLayout.module.scss";
 import { SliderItem } from "./SliderItem";
 
 export default function ShopLayout() {
-  const { theme } = useThemeContext();
+  const { isDarkTheme } = useThemeContext();
   const { isAuthenticated } = useAccessTokensContext();
 
   const shopData = useRouteData<typeof ShopData>();
@@ -62,12 +62,12 @@ export default function ShopLayout() {
 
   function logoImageUrl() {
     const logoImageLightUrl = shopData.shop()?.customization?.logoImageLightUrl;
-    if (!_.isEmpty(logoImageLightUrl) && theme() === Theme.DefaultLight) {
+    if (!_.isEmpty(logoImageLightUrl) && !isDarkTheme()) {
       return logoImageLightUrl;
     }
 
     const logoImageDarkUrl = shopData.shop()?.customization?.logoImageDarkUrl;
-    if (!_.isEmpty(logoImageDarkUrl) && theme() === Theme.DefaultDark) {
+    if (!_.isEmpty(logoImageDarkUrl) && isDarkTheme()) {
       return logoImageDarkUrl;
     }
   }
@@ -85,7 +85,7 @@ export default function ShopLayout() {
 
       applyTheme(customTheme, {
         target: document.body,
-        dark: theme() === Theme.DefaultDark,
+        dark: isDarkTheme(),
       });
     }
   });
