@@ -32,15 +32,15 @@ export function useSelectedShopContext() {
 }
 
 function initialize() {
-  let shopId = localStorage?.getItem(SELECTED_SHOP_ID_STORAGE_KEY);
+  let shopId = sessionStorage?.getItem(SELECTED_SHOP_ID_STORAGE_KEY);
   const [selectedShopId, setSelectedShopId_] = createSignal(shopId);
 
   function setSelectedShopId(shopId?: string | null) {
     if (!_.isNil(shopId)) {
-      localStorage?.setItem(SELECTED_SHOP_ID_STORAGE_KEY, shopId);
+      sessionStorage?.setItem(SELECTED_SHOP_ID_STORAGE_KEY, shopId);
       setSelectedShopId_(shopId);
     } else {
-      localStorage?.removeItem(SELECTED_SHOP_ID_STORAGE_KEY);
+      sessionStorage?.removeItem(SELECTED_SHOP_ID_STORAGE_KEY);
       setSelectedShopId_(null);
     }
   }
