@@ -22,9 +22,9 @@ export function MdIconButton(props: Props) {
       <Switch
         fallback={
           <md-icon-button
-            {...other}
-            class={styles.MdIconButton}
-            classList={{ [styles.Danger]: Boolean(local.danger) }}
+          class={styles.MdIconButton}
+          classList={{ [styles.Danger]: Boolean(local.danger) }}
+          {...other}
           >
             <MdIcon icon={local.icon} />
           </md-icon-button>
@@ -32,27 +32,27 @@ export function MdIconButton(props: Props) {
       >
         <Match when={local.buttonType === "filled"}>
           <md-filled-icon-button
-            {...other}
             class={styles.MdIconButton}
             classList={{ [styles.Danger]: Boolean(local.danger) }}
+            {...other}
           >
             <MdIcon icon={local.icon} />
           </md-filled-icon-button>
         </Match>
         <Match when={local.buttonType === "filled-tonal"}>
           <md-filled-tonal-button
-            {...other}
             class={styles.MdIconButton}
             classList={{ [styles.Danger]: Boolean(local.danger) }}
+            {...other}
           >
             <MdIcon icon={local.icon} />
           </md-filled-tonal-button>
         </Match>
         <Match when={local.buttonType === "outlined"}>
           <md-outlined-icon-button
-            {...other}
             class={styles.MdIconButton}
             classList={{ [styles.Danger]: Boolean(local.danger) }}
+            {...other}
           >
             <MdIcon icon={local.icon} />
           </md-outlined-icon-button>

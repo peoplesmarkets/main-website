@@ -1,16 +1,22 @@
 import { grpc } from "@improbable-eng/grpc-web";
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { For, Show, createSignal } from "solid-js";
+import { For, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
-import { ActionButton } from "../../components/form";
+import {
+  DragDropProvider,
+  DragDropSensors,
+  SortableProvider,
+  closestCenter,
+} from "@thisbeyond/solid-dnd";
+import { MdList } from "../../components/content/MdList";
 import { DeleteConfirmationDialog } from "../../components/form/DeleteConfirmationDialog";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
 import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
-import styles from "./MediaList.module.scss";
+import { MediaListItem } from "./MediaListItem";
 import { EditMediaDialog } from "./media-configuration/EditMediaDialog";
 
 type Props = {
@@ -28,10 +34,18 @@ export function MediaList(props: Props) {
   const [showDeleteConfirmation, setShowDeleteConfirmation] =
     createSignal(false);
 
+  const [mediaToDrag, setMediaToDrag] = createSignal<MediaResponse>();
   const [mediaToEdit, setMediaToEdit] = createSignal<MediaResponse>();
   const [mediaToDelete, setMediaToDelete] = createSignal<MediaResponse>();
 
-  const [errors, setErrors] = createStore<Record<string, string>>();
+  const [, setErrors] = createStore<Record<string, string>>();
+
+  function mediaIds() {
+    if (!_.isNil(props.medias)) {
+      return props.medias.map((m) => m.mediaId);
+    }
+    return [];
+  }
 
   function handleOpenEditMedia(media: MediaResponse) {
     setMediaToEdit(media);
@@ -75,44 +89,58 @@ export function MediaList(props: Props) {
     }
   }
 
+  function handleDragStart({ draggable }: any) {
+    setMediaToDrag(props.medias?.find((m) => m.mediaId === draggable.id));
+  }
+
+  async function handleDragEnd({ draggable, droppable }: any) {
+    if (draggable && droppable && draggable.id !== droppable.id) {
+      const fromMedia = _.find(props.medias, { mediaId: draggable.id });
+      const toMedia = _.find(props.medias, { mediaId: droppable.id });
+
+      if (!_.isNil(fromMedia) && !_.isNil(toMedia)) {
+        await handleUpdateMediaOrder(fromMedia.mediaId, toMedia.ordering);
+        await handleUpdateMediaOrder(toMedia.mediaId, fromMedia.ordering);
+      }
+    }
+  }
+
+  async function handleUpdateMediaOrder(mediaId: string, ordering: number) {
+    if (!_.isNil(props.offer)) {
+      await mediaService.updateMediaOfferOrdering({
+        offerId: props.offer.offerId,
+        mediaId,
+        ordering,
+      });
+    }
+
+    props.onUpdate();
+  }
+
   return (
     <>
-      <div class={styles.MediaList}>
-        <For each={props.medias}>
-          {(media) => (
-            <div class={styles.Row}>
-              <span class={styles.Label}>{media.name}</span>
+      <DragDropProvider
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        collisionDetector={closestCenter}
+      >
+        <DragDropSensors />
 
-              <Show
-                when={
-                  !_.isNil(errors[media.mediaId]) &&
-                  !_.isEmpty(errors[media.mediaId])
-                }
-              >
-                <span class={styles.Errors}>{errors[media.mediaId]}</span>
-              </Show>
-
-              <div class={styles.RowActions}>
-                <ActionButton
-                  actionType="neutral"
-                  small
-                  onClick={() => handleOpenEditMedia(media)}
-                >
-                  <Trans key={TKEYS.form.action.Edit} />
-                </ActionButton>
-
-                <ActionButton
-                  actionType="danger"
-                  small
-                  onClick={() => handleStartDelete(media)}
-                >
-                  <Trans key={TKEYS.form.action.Delete} />
-                </ActionButton>
-              </div>
-            </div>
-          )}
-        </For>
-      </div>
+        <MdList>
+          <SortableProvider ids={mediaIds()}>
+            <For each={props.medias}>
+              {(media) => (
+                <MediaListItem
+                  media={media}
+                  isActive={media.mediaId === mediaToDrag()?.mediaId}
+                  onEditMedia={handleOpenEditMedia}
+                  onStartDeleteMedia={handleStartDelete}
+                />
+              )}
+            </For>
+          </SortableProvider>
+        </MdList>
+      </DragDropProvider>
 
       <EditMediaDialog
         show={showEditMedia()}

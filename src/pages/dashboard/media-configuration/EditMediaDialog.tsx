@@ -41,6 +41,7 @@ export function EditMediaDialog(props: Props) {
     name: [] as string[],
     file: [] as string[],
     fileName: [] as string[],
+    ordering: [] as string[],
   });
 
   const [uploading, setUploading] = createSignal(false);

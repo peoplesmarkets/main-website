@@ -13,8 +13,12 @@ import { useServiceClientContext } from "../../../contexts/ServiceClientContext"
 import { requireAuthentication } from "../../../guards/authentication";
 import { secondsToLocaleDate } from "../../../lib";
 import { TKEYS } from "../../../locales";
-import { MediaFilterField } from "../../../services/peoplesmarkets/media/v1/media";
+import {
+  MediaFilterField,
+  MediaOrderByField,
+} from "../../../services/peoplesmarkets/media/v1/media";
 import styles from "./Page.module.scss";
+import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering";
 
 export default function SubscriptionDetailPage() {
   const location = useLocation();
@@ -63,6 +67,10 @@ export default function SubscriptionDetailPage() {
       filter: {
         field: MediaFilterField.MEDIA_FILTER_FIELD_OFFER_ID,
         query: offerId,
+      },
+      orderBy: {
+        field: MediaOrderByField.MEDIA_ORDER_BY_FIELD_ORDERING,
+        direction: Direction.DIRECTION_ASC,
       },
     });
     return response.medias;

@@ -1,13 +1,18 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { Match, Switch, createResource, createSignal } from "solid-js";
+import {
+  ErrorBoundary,
+  Suspense,
+  createResource,
+  createSignal,
+} from "solid-js";
 
-import { ContentError } from "../../../components/content";
+import { ContentError, ContentLoading } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
 import { Section } from "../../../components/layout";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
-import { resourceIsReady } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import { OfferResponse } from "../../../services/peoplesmarkets/commerce/v1/offer";
+import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
 import {
   MediaFilterField,
   MediaOrderByField,
@@ -16,7 +21,6 @@ import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering
 import { MediaList } from "../MediaList";
 import { CreateMediaDialog } from "../media-configuration/CreateMediaDialog";
 import styles from "./MediaSettings.module.scss";
-import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
 
 type Props = {
   readonly shop: ShopResponse | undefined;
@@ -38,8 +42,8 @@ export function MediaSettings(props: Props) {
         query: offer.offerId,
       },
       orderBy: {
-        field: MediaOrderByField.MEDIA_ORDER_BY_FIELD_CREATED_AT,
-        direction: Direction.DIRECTION_DESC,
+        field: MediaOrderByField.MEDIA_ORDER_BY_FIELD_ORDERING,
+        direction: Direction.DIRECTION_ASC,
       },
     });
 
@@ -73,18 +77,15 @@ export function MediaSettings(props: Props) {
           </ActionButton>
         </div>
 
-        <Switch>
-          <Match when={medias.state === "errored"}>
-            <ContentError />
-          </Match>
-          <Match when={resourceIsReady(medias)}>
+        <ErrorBoundary fallback={<ContentError />}>
+          <Suspense fallback={<ContentLoading />}>
             <MediaList
               medias={medias()}
               onUpdate={refreshMedias}
               offer={props.offer}
             />
-          </Match>
-        </Switch>
+          </Suspense>
+        </ErrorBoundary>
       </Section>
 
       <CreateMediaDialog

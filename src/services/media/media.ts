@@ -9,6 +9,7 @@ import {
   MediaServiceClientImpl,
   PutMultipartChunkRequest,
   RemoveMediaFromOfferRequest,
+  UpdateMediaOfferOrderingRequest,
   UpdateMediaRequest,
 } from "../peoplesmarkets/media/v1/media";
 
@@ -80,6 +81,15 @@ export class MediaService extends ServiceClient {
 
   public async addMediaToOffer(request: AddMediaToOfferRequest) {
     return this.client.AddMediaToOffer(request, await this.withAuthHeader());
+  }
+
+  public async updateMediaOfferOrdering(
+    request: UpdateMediaOfferOrderingRequest
+  ) {
+    return this.client.UpdateMediaOfferOrdering(
+      request,
+      await this.withAuthHeader()
+    );
   }
 
   public async removeMediaFromOffer(request: RemoveMediaFromOfferRequest) {
