@@ -12,18 +12,17 @@ import {
   SelectKey,
 } from "../../../components/form";
 import { DiscardConfirmationDialog } from "../../../components/form/DiscardConfirmationDialog";
-import { MdCheckbox } from "../../../components/form/MdCheckbox";
 import { MdSelect, Option } from "../../../components/form/MdSelect";
 import { MdSelectOption } from "../../../components/form/MdSelectOption";
 import { MdDialog } from "../../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
+import { isDifferentOmittingNilWithFilter } from "../../../lib/object-compair";
 import { TKEYS } from "../../../locales";
 import { listOfferTypeCodes } from "../../../services";
 import {
   OfferResponse,
   UpdateOfferRequest,
 } from "../../../services/peoplesmarkets/commerce/v1/offer";
-import { isDifferentOmittingNilWithFilter } from "../../../lib/object-compair";
 
 type Props = {
   readonly show: boolean;
@@ -108,12 +107,6 @@ export function EditOfferDetailsDialog(props: Props) {
   function handleOfferTypeChange(value: SelectKey) {
     if (_.isNumber(value)) {
       setRequest("type", value);
-    }
-  }
-
-  function handleFeaturedChange(value: SelectKey) {
-    if (_.isBoolean(value)) {
-      setRequest("isFeatured", value);
     }
   }
 
@@ -204,17 +197,14 @@ export function EditOfferDetailsDialog(props: Props) {
               error={!_.isEmpty(errors.description)}
               errorText={errors.description}
             />
-
-            <MdCheckbox
-              label={trans(TKEYS.offer.labels["show-on-home-page"])}
-              checked={request.isFeatured}
-              onValue={handleFeaturedChange}
-            />
           </Form>
         </div>
 
         <div slot="actions">
-          <ActionButton actionType="neutral-borderless" onClick={handleCloseDialog}>
+          <ActionButton
+            actionType="neutral-borderless"
+            onClick={handleCloseDialog}
+          >
             <Trans key={TKEYS.form.action.Close} />
           </ActionButton>
 

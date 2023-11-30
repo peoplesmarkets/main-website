@@ -18,6 +18,7 @@
     "@material/web": "^1.0.1",
     "@mbarzda/solid-i18next": "^1.2.2",
     "@solidjs/router": "^0.8.3",
+    "@thisbeyond/solid-dnd": "^0.7.5",
     "axios": "^1.4.0",
     "i18next": "^23.4.4",
     "i18next-browser-languagedetector": "^7.1.0",

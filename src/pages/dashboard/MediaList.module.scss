@@ -1,5 +1,4 @@
 .MediaList {
-  border-top: var(--secondary-border);
   display: flex;
   flex-direction: column;
 }
@@ -10,16 +9,23 @@
 }
 
 .Row {
-  padding: 0.5rem;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
+  background-color: var(--primary-background-color);
+  margin-top: -1px;
+  margin-bottom: -1px;
+  border-top: var(--secondary-border);
   border-bottom: var(--secondary-border);
-  gap: 0.5rem;
 }
 
 .Row:hover {
   background: var(--hovered-background);
+}
+
+.ActiveRow {
+  z-index: 2;
+}
+
+.ActiveRow:hover {
+  background-color: var(--primary-background-color);
 }
 
 .RowActions {
