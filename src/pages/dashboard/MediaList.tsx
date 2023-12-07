@@ -1,7 +1,7 @@
 import { grpc } from "@improbable-eng/grpc-web";
 import { useTransContext } from "@mbarzda/solid-i18next";
 import _ from "lodash";
-import { For, createSignal } from "solid-js";
+import { For, Show, createSignal } from "solid-js";
 import { createStore } from "solid-js/store";
 
 import {
@@ -18,6 +18,7 @@ import { OfferResponse } from "../../services/peoplesmarkets/commerce/v1/offer";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
 import { MediaListItem } from "./MediaListItem";
 import { EditMediaDialog } from "./media-configuration/EditMediaDialog";
+import { Font } from "../../components/content";
 
 type Props = {
   medias: MediaResponse[] | undefined;
@@ -38,7 +39,7 @@ export function MediaList(props: Props) {
   const [mediaToEdit, setMediaToEdit] = createSignal<MediaResponse>();
   const [mediaToDelete, setMediaToDelete] = createSignal<MediaResponse>();
 
-  const [, setErrors] = createStore<Record<string, string>>();
+  const [errors, setErrors] = createStore<Record<string, string>>();
 
   function mediaIds() {
     if (!_.isNil(props.medias)) {
@@ -119,6 +120,12 @@ export function MediaList(props: Props) {
 
   return (
     <>
+      <Show when={!_.isEmpty(errors)}>
+        <Font type="body" danger>
+          {_.values(errors)}
+        </Font>
+      </Show>
+
       <DragDropProvider
         onDragStart={handleDragStart}
         onDragEnd={handleDragEnd}
