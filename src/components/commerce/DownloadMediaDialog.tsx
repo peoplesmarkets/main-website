@@ -1,59 +1,77 @@
-import { Trans, useTransContext } from "@mbarzda/solid-i18next";
+import { Trans } from "@mbarzda/solid-i18next";
 import { A } from "@solidjs/router";
-import { createResource } from "solid-js";
+import { Suspense, createResource } from "solid-js";
 
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
+import { resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
+import { Font } from "../content";
 import { ActionButton } from "../form";
-import { Dialog } from "../layout";
+import { MdDialog } from "../layout/MdDialog";
 import styles from "./DownloadMediaDialog.module.scss";
-import { resourceIsReady } from "../../lib";
 
 type Props = {
-  media: () => MediaResponse;
+  show: boolean;
+  media: MediaResponse | undefined;
   onClose: () => void;
 };
 
 export function DownloadMediaDialog(props: Props) {
-  const [trans] = useTransContext();
-
   const { mediaService } = useServiceClientContext();
 
-  const [mediaDownloadUrl] = createResource(fetchDownloadUrl);
-
-  async function fetchDownloadUrl() {
-    const response = await mediaService.downloadMedia(props.media().mediaId);
-
-    return response.downloadUrl;
+  function getMediaDownloadLink() {
+    if (props.show) {
+      return props.media;
+    }
   }
+
+  const [mediaDownloadUrl] = createResource(
+    getMediaDownloadLink,
+    async (media) => {
+      const response = await mediaService.downloadMedia(media.mediaId);
+
+      return response.downloadUrl;
+    }
+  );
 
   return (
     <>
-      <Dialog
-        title={trans(TKEYS.media["download-file"], {
-          item: props.media().name,
-        })}
-        onClose={props.onClose}
-      >
-        <div class={styles.Form}>
-          <div class={styles.DialogFooter}>
-            <ActionButton
-              actionType="active"
-              onClick={props.onClose}
-              disabled={!resourceIsReady(mediaDownloadUrl)}
-            >
+      <MdDialog open={props.show} onClose={props.onClose}>
+        <div slot="headline">
+          <Font
+            type="title"
+            key={TKEYS.media["download-file"]}
+            options={{
+              item: props.media?.name,
+            }}
+          />
+        </div>
+
+        <div slot="content" />
+
+        <div slot="actions">
+          <ActionButton actionType="neutral-borderless" onClick={props.onClose}>
+            <Trans key={TKEYS.form.action.Cancel} />
+          </ActionButton>
+
+          <ActionButton
+            actionType="active"
+            onClick={props.onClose}
+            disabled={!resourceIsReady(mediaDownloadUrl)}
+          >
+            <Suspense>
               <A
                 class={styles.ButtonLink}
                 href={mediaDownloadUrl() || ""}
-                target="_blank"
+                download
               >
                 <Trans key={TKEYS.media["Download-now"]} />
               </A>
-            </ActionButton>
-          </div>
+            </Suspense>
+          </ActionButton>
         </div>
-      </Dialog>
+      </MdDialog>
     </>
   );
 }

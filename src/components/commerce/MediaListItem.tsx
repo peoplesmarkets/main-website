@@ -1,5 +1,5 @@
 import { Trans } from "@mbarzda/solid-i18next";
-import { Show, createSignal } from "solid-js";
+import { createSignal } from "solid-js";
 
 import { TKEYS } from "../../locales";
 import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
@@ -36,12 +36,11 @@ export function MediaListItem(props: Props) {
         </ActionButton>
       </div>
 
-      <Show when={showDownloadMediaDialog()}>
-        <DownloadMediaDialog
-          media={props.media}
-          onClose={handleCloseDownloadMediaDialog}
-        />
-      </Show>
+      <DownloadMediaDialog
+        show={showDownloadMediaDialog()}
+        media={props.media()}
+        onClose={handleCloseDownloadMediaDialog}
+      />
     </>
   );
 }

@@ -17,6 +17,7 @@ type Props = {
 };
 
 export function MediaListItem(props: Props) {
+  /* eslint-disable-next-line solid/reactivity */
   const sortable = createSortable(props.media.mediaId);
   false && sortable;
 
