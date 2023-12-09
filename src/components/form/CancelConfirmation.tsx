@@ -19,11 +19,11 @@ export function CancelConfirmation(props: Props) {
       onClose={props.onClose}
     >
       <div class={styles.Footer}>
-        <ActionButton actionType="danger" onClick={props.onClose}>
+        <ActionButton actionType="neutral" onClick={props.onClose}>
           <Trans key={TKEYS.form.action.Cancel} />
         </ActionButton>
 
-        <ActionButton actionType="neutral" onClick={props.onConfirmation}>
+        <ActionButton actionType="danger" onClick={props.onConfirmation}>
           <Trans key={TKEYS.common.cancel} />
         </ActionButton>
       </div>
