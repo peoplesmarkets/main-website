@@ -277,6 +277,7 @@ export const TKEYS = {
     "subscription-configuration": "subscription.subscription-configuration",
     resume: "subscription.resume",
     "canceled-at": "subscription.canceled-at",
+    "cancel-to": "subscription.cancel-to",
     "no-subscriptions-yet": "subscription.no-subscriptions-yet",
   },
   report: {
