@@ -6,7 +6,7 @@ import { Show, createResource, createSignal, onMount } from "solid-js";
 import { MediaList } from "../../../components/commerce";
 import { Font } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
-import { CancelConfirmation } from "../../../components/form/CancelConfirmation";
+import { CancelConfirmationDialog } from "./CancelConfirmationDialog";
 import { Section } from "../../../components/layout";
 import { DefaultBoundary } from "../../../components/layout/DefaultBoundary";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
@@ -87,24 +87,23 @@ export default function SubscriptionDetailPage() {
     return "";
   }
 
-  function handleCancelSubscription() {
-    setShowCancelConfirmation(true);
-  }
-
-  function handleQuitCancelSubscription() {
-    setShowCancelConfirmation(false);
-  }
-
   async function handleConfirmCancelSubscription() {
     const mediaSubscriptionId = mediaSubscription()?.mediaSubscriptionId;
     if (!_.isNil(mediaSubscriptionId)) {
       await mediaSubscriptionService.cancel({
         mediaSubscriptionId,
       });
-
       mediaSubscriptionActions.refetch();
-      handleQuitCancelSubscription();
     }
+    handleCloseCancelSubscription();
+  }
+
+  function handleCancelSubscription() {
+    setShowCancelConfirmation(true);
+  }
+
+  function handleCloseCancelSubscription() {
+    setShowCancelConfirmation(false);
   }
 
   return (
@@ -125,11 +124,16 @@ export default function SubscriptionDetailPage() {
               {toLocaleDate(mediaSubscription()?.payedUntil)}
             </span>
           </Show>
-          <Show when={!_.isNil(mediaSubscription()?.canceledAt)}>
-            <span class={styles.Detail}>
-              <Trans key={TKEYS.subscription["canceled-at"]} />:{" "}
-              {toLocaleDate(mediaSubscription()?.canceledAt)}
-            </span>
+          <Show when={!_.isNil(mediaSubscription()?.cancelAt)}>
+            <Font
+              type="body"
+              danger
+              inline
+              key={TKEYS.subscription["cancel-to"]}
+            />
+            <Font type="body" danger inline>
+              : {toLocaleDate(mediaSubscription()?.cancelAt)}
+            </Font>
           </Show>
         </div>
       </Section>
@@ -144,34 +148,32 @@ export default function SubscriptionDetailPage() {
         <MediaList medias={() => files()} />
       </Section>
 
-      <Show when={_.isNil(mediaSubscription()?.canceledAt)}>
-        <Section bordered>
-          <div class={styles.SectionHeader}>
-            <span class={styles.Label}>
-              <Trans key={TKEYS.subscription["subscription-configuration"]} />
-            </span>
-          </div>
+      <Section bordered>
+        <div class={styles.SectionHeader}>
+          <span class={styles.Label}>
+            <Trans key={TKEYS.subscription["subscription-configuration"]} />
+          </span>
+        </div>
 
-          <div class={styles.Action}>
-            <Font type="body" key={TKEYS.subscription["cancel-subscription"]} />
+        <div class={styles.Action}>
+          <Font type="body" key={TKEYS.subscription["cancel-subscription"]} />
 
-            <ActionButton
-              actionType="danger"
-              small
-              onClick={handleCancelSubscription}
-            >
-              <Trans key={TKEYS.common.cancel} />
-            </ActionButton>
-          </div>
-        </Section>
-      </Show>
+          <ActionButton
+            actionType="danger"
+            small
+            onClick={handleCancelSubscription}
+            disabled={!_.isNil(mediaSubscription()?.cancelAt)}
+          >
+            <Trans key={TKEYS.common.cancel} />
+          </ActionButton>
+        </div>
+      </Section>
 
-      <Show when={showCancelConfirmation()}>
-        <CancelConfirmation
-          onConfirmation={handleConfirmCancelSubscription}
-          onClose={handleQuitCancelSubscription}
-        />
-      </Show>
+      <CancelConfirmationDialog
+        show={showCancelConfirmation()}
+        onConfirmation={handleConfirmCancelSubscription}
+        onClose={handleCloseCancelSubscription}
+      />
     </DefaultBoundary>
   );
 }

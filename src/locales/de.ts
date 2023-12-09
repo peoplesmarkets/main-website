@@ -264,6 +264,7 @@ export const DE: typeof TKEYS = {
     "subscription-configuration": "Abonnement Einstellungen",
     resume: "Abonnement fortsetzen",
     "canceled-at": "Gekündigt am",
+    "cancel-to": "Gekündigt zum",
     "no-subscriptions-yet": "Bisher keine Abonnements ...",
   },
   report: {

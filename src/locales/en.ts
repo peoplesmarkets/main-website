@@ -29,7 +29,7 @@ export const EN: typeof TKEYS = {
     per: "per",
     every: "every",
     "per-or-every": "{count, plural, =1 {every} other {every} }",
-    cancel: "cancel",
+    cancel: "Cancel",
     resume: "resume",
     any: "Any",
     Preview: "Preview",
@@ -265,6 +265,7 @@ export const EN: typeof TKEYS = {
     "subscription-configuration": "Subscription Configuration",
     resume: "Resume Subscription",
     "canceled-at": "Canceled at",
+    "cancel-to": "Cancel at",
     "no-subscriptions-yet": "No Subscriptions yet ...",
   },
   report: {
