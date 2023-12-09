@@ -7,7 +7,7 @@ import styles from "./DeleteConfirmation.module.scss";
 
 type Props = {
   readonly onConfirmation: () => void;
-  readonly onCancel: () => void;
+  readonly onClose: () => void;
 };
 
 export function CancelConfirmation(props: Props) {
@@ -16,14 +16,15 @@ export function CancelConfirmation(props: Props) {
   return (
     <Dialog
       title={trans(TKEYS.form.action["Confirm-Cancellation"])}
-      onClose={props.onCancel}
+      onClose={props.onClose}
     >
       <div class={styles.Footer}>
-        <ActionButton
-          actionType="danger"
-          onClick={props.onConfirmation}
-        >
+        <ActionButton actionType="neutral" onClick={props.onClose}>
           <Trans key={TKEYS.form.action.Cancel} />
+        </ActionButton>
+
+        <ActionButton actionType="danger" onClick={props.onConfirmation}>
+          <Trans key={TKEYS.common.cancel} />
         </ActionButton>
       </div>
     </Dialog>
