@@ -168,8 +168,8 @@ export default function SubscriptionDetailPage() {
 
       <Show when={showCancelConfirmation()}>
         <CancelConfirmation
-          onCancel={handleQuitCancelSubscription}
           onConfirmation={handleConfirmCancelSubscription}
+          onClose={handleQuitCancelSubscription}
         />
       </Show>
     </DefaultBoundary>
