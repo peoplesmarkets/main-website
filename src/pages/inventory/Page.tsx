@@ -14,6 +14,7 @@ import { TKEYS } from "../../locales";
 import { ShopData } from "../../routes/shops/ShopData";
 import { buildSubscriptionPath } from "../../routes/shops/shop-routing";
 import styles from "./Page.module.scss";
+import { Font } from "../../components/content";
 
 export default function InventoryPage() {
   const location = useLocation();
@@ -69,6 +70,16 @@ export default function InventoryPage() {
 
   return (
     <>
+      <Section warn>
+        <Font type="label" key={TKEYS.beta.title} />
+        <Font type="body" inline key={TKEYS.beta.info} />
+        <Font type="body" inline>
+          <a href={`mailto:${import.meta.env.VITE_SUPPORT_EMAIL_ADDRESS}`}>
+            {import.meta.env.VITE_SUPPORT_EMAIL_ADDRESS}
+          </a>
+        </Font>
+      </Section>
+
       <Section>
         <div class={styles.TitleContainer}>
           <span class={styles.Title}>
