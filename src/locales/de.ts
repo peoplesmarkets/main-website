@@ -479,7 +479,6 @@ export const DE: typeof TKEYS = {
       address_line_2: "Deutschland",
     },
     Support: "Support",
-    "support-email": EN.imprint["support-email"],
   },
   "privacy-policy": {
     title: "Datenschutzrichtlinie",
@@ -491,6 +490,10 @@ export const DE: typeof TKEYS = {
   "page-not-found": {
     title: "404 Seite nicht gefunden",
     "back-to-home": "Zurück zur Startseite",
+  },
+  beta: {
+    title: "Beta Feature",
+    info: "Diese Funktion ist noch sehr neu. Wenn Probleme auftreten, sende uns bitte eine E-Mail an: ",
   },
   "environment-banner": {
     title: "Testumgebung",

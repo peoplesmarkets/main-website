@@ -496,7 +496,6 @@ export const TKEYS = {
       address_line_2: "imprint.responsible.address_line_2",
     },
     Support: "imprint.Support",
-    "support-email": "imprint.support-email",
   },
   "privacy-policy": {
     title: "privacy-policy.title",
@@ -508,6 +507,10 @@ export const TKEYS = {
   "page-not-found": {
     title: "page-not-found.title",
     "back-to-home": "page-not-found.back-to-home",
+  },
+  beta: {
+    title: "beta.title",
+    info: "beta.info",
   },
   "environment-banner": {
     title: "environment-banner.title",

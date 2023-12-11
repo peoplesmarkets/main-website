@@ -107,73 +107,85 @@ export default function SubscriptionDetailPage() {
   }
 
   return (
-    <DefaultBoundary loaded={loaded}>
-      <Section>
-        <div class={styles.SubscriptionDetail}>
-          <Font
-            type="title"
-            inline
-            key={TKEYS.subscription["subscription-to"]}
-          />{" "}
-          <Font type="title" inline strong>
-            {offer()?.name}
-          </Font>
-          <Show when={!_.isNil(mediaSubscription()?.payedUntil)}>
-            <span class={styles.Detail}>
-              <Trans key={TKEYS.subscription["payed-until"]} />:{" "}
-              {toLocaleDate(mediaSubscription()?.payedUntil)}
-            </span>
-          </Show>
-          <Show when={!_.isNil(mediaSubscription()?.cancelAt)}>
+    <>
+      <Section warn>
+        <Font type="label" key={TKEYS.beta.title} />
+        <Font type="body" inline key={TKEYS.beta.info} />
+        <Font type="body" inline>
+          <a href={`mailto:${import.meta.env.VITE_SUPPORT_EMAIL_ADDRESS}`}>
+            {import.meta.env.VITE_SUPPORT_EMAIL_ADDRESS}
+          </a>
+        </Font>
+      </Section>
+
+      <DefaultBoundary loaded={loaded}>
+        <Section>
+          <div class={styles.SubscriptionDetail}>
             <Font
-              type="body"
-              danger
+              type="title"
               inline
-              key={TKEYS.subscription["cancel-to"]}
-            />
-            <Font type="body" danger inline>
-              : {toLocaleDate(mediaSubscription()?.cancelAt)}
+              key={TKEYS.subscription["subscription-to"]}
+            />{" "}
+            <Font type="title" inline strong>
+              {offer()?.name}
             </Font>
-          </Show>
-        </div>
-      </Section>
+            <Show when={!_.isNil(mediaSubscription()?.payedUntil)}>
+              <span class={styles.Detail}>
+                <Trans key={TKEYS.subscription["payed-until"]} />:{" "}
+                {toLocaleDate(mediaSubscription()?.payedUntil)}
+              </span>
+            </Show>
+            <Show when={!_.isNil(mediaSubscription()?.cancelAt)}>
+              <Font
+                type="body"
+                danger
+                inline
+                key={TKEYS.subscription["cancel-to"]}
+              />
+              <Font type="body" danger inline>
+                : {toLocaleDate(mediaSubscription()?.cancelAt)}
+              </Font>
+            </Show>
+          </div>
+        </Section>
 
-      <Section bordered>
-        <div class={styles.SectionHeader}>
-          <span class={styles.Label}>
-            <Trans key={TKEYS.subscription["included-files"]} />
-          </span>
-        </div>
+        <Section bordered>
+          <div class={styles.SectionHeader}>
+            <span class={styles.Label}>
+              <Trans key={TKEYS.subscription["included-files"]} />
+            </span>
+          </div>
 
-        <MediaList medias={() => files()} />
-      </Section>
+          <MediaList medias={() => files()} />
+        </Section>
 
-      <Section bordered>
-        <div class={styles.SectionHeader}>
-          <span class={styles.Label}>
-            <Trans key={TKEYS.subscription["subscription-configuration"]} />
-          </span>
-        </div>
+        <Section bordered>
+          <div class={styles.SectionHeader}>
+            <span class={styles.Label}>
+              <Trans key={TKEYS.subscription["subscription-configuration"]} />
+            </span>
+          </div>
 
-        <div class={styles.Action}>
-          <Font type="body" key={TKEYS.subscription["cancel-subscription"]} />
+          <div class={styles.Action}>
+            <Font type="body" key={TKEYS.subscription["cancel-subscription"]} />
 
-          <ActionButton
-            actionType="danger"
-            small
-            onClick={handleCancelSubscription}
-            disabled={!_.isNil(mediaSubscription()?.cancelAt)}
-          >
-            <Trans key={TKEYS.common.cancel} />
-          </ActionButton>
-        </div>
-      </Section>
+            <ActionButton
+              actionType="danger"
+              small
+              onClick={handleCancelSubscription}
+              disabled={!_.isNil(mediaSubscription()?.cancelAt)}
+            >
+              <Trans key={TKEYS.common.cancel} />
+            </ActionButton>
+          </div>
+        </Section>
 
-      <CancelConfirmationDialog
-        show={showCancelConfirmation()}
-        onConfirmation={handleConfirmCancelSubscription}
-        onClose={handleCloseCancelSubscription}
-      />
-    </DefaultBoundary>
+        <CancelConfirmationDialog
+          show={showCancelConfirmation()}
+          onConfirmation={handleConfirmCancelSubscription}
+          onClose={handleCloseCancelSubscription}
+        />
+      </DefaultBoundary>
+    </>
   );
 }

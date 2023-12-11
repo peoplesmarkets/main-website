@@ -484,7 +484,6 @@ export const EN: typeof TKEYS = {
       address_line_2: "Germany",
     },
     Support: "Support",
-    "support-email": "support@peoplesmarkets.com",
   },
   "privacy-policy": {
     title: "Privacy Policy",
@@ -496,6 +495,11 @@ export const EN: typeof TKEYS = {
   "page-not-found": {
     title: "404 Page Not Found",
     "back-to-home": "Back to home page",
+  },
+  beta: {
+    title: "Beta Feature",
+    info:
+      "This feature is still very new. If you encounter any problems please send us an email at: ",
   },
   "environment-banner": {
     title: "Developement Environment",
