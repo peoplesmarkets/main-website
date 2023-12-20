@@ -95,11 +95,17 @@ export function OfferBuy(props: Props) {
   }
 
   function actionState() {
-    if (resourceIsReady(mediaSubscription) && !_.isNil(mediaSubscription())) {
-      return "already-subscribed";
+    if (resourceIsReady(mediaSubscription)) {
+      const subscription = mediaSubscription();
+      if (
+        !_.isNil(subscription) &&
+        subscription.payedUntil > new Date().getTime() / 1000
+      ) {
+        return "already-subscribed";
+      }
     }
 
-    if (!resourceIsReady(stripeAccount)) {
+    if (stripeAccount.loading) {
       return "loading";
     }
 
@@ -126,8 +132,9 @@ export function OfferBuy(props: Props) {
   }
 
   function contactEmailAddress() {
-    if (resourceIsReady(shopData.shop)) {
-      return shopData.shop()?.contactEmailAddress || "";
+    const shop = shopData.shop();
+    if (!_.isNil(shop?.contactEmailAddress)) {
+      return shop.contactEmailAddress;
     }
     return "";
   }

@@ -30,7 +30,7 @@ export const EN: typeof TKEYS = {
     every: "every",
     "per-or-every": "{count, plural, =1 {every} other {every} }",
     cancel: "Cancel",
-    resume: "resume",
+    resume: "Resume",
     any: "Any",
     Preview: "Preview",
     reload: "reload",

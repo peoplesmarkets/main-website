@@ -31,6 +31,12 @@ job "main-website" {
     task "main-website" {
       driver = "docker"
 
+      resources {
+        cpu        = 100
+        memory     = 256
+        memory_max = 256
+      }
+
       template {
         destination = "local/default.conf"
         change_mode = "restart"
