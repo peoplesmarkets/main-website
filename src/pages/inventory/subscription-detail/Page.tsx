@@ -1,5 +1,5 @@
 import { Trans, useTransContext } from "@mbarzda/solid-i18next";
-import { useLocation, useParams } from "@solidjs/router";
+import { useLocation, useNavigate, useParams } from "@solidjs/router";
 import _ from "lodash";
 import { Show, createResource, createSignal, onMount } from "solid-js";
 
@@ -19,9 +19,12 @@ import {
 } from "../../../services/peoplesmarkets/media/v1/media";
 import styles from "./Page.module.scss";
 import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering";
+import { ResumeConfirmationDialog } from "./ResumeConfirmationDialog";
+import { buildInventoryPath } from "../../../routes/shops/shop-routing";
 
 export default function SubscriptionDetailPage() {
   const location = useLocation();
+  const navigate = useNavigate();
 
   const [trans] = useTransContext();
 
@@ -30,8 +33,10 @@ export default function SubscriptionDetailPage() {
 
   const [showCancelConfirmation, setShowCancelConfirmation] =
     createSignal(false);
+  const [showResumeConfirmation, setShowResumeConfirmation] =
+    createSignal(false);
 
-  const [mediaSubscription, mediaSubscriptionActions] = createResource(
+  const [mediaSubscription] = createResource(
     () => useParams().subscriptionId,
     fetchMediaSubscription
   );
@@ -88,14 +93,27 @@ export default function SubscriptionDetailPage() {
   }
 
   async function handleConfirmCancelSubscription() {
+    handleCloseCancelSubscription();
     const mediaSubscriptionId = mediaSubscription()?.mediaSubscriptionId;
     if (!_.isNil(mediaSubscriptionId)) {
       await mediaSubscriptionService.cancel({
         mediaSubscriptionId,
       });
-      mediaSubscriptionActions.refetch();
+      if (!_.isNil(offer())) {
+        navigate(buildInventoryPath(offer()?.shopSlug!));
+      }
     }
-    handleCloseCancelSubscription();
+  }
+
+  async function handleConfirmResumeSubscription() {
+    handleCloseResumeSubscription();
+    const mediaSubscriptionId = mediaSubscription()?.mediaSubscriptionId;
+    if (!_.isNil(mediaSubscriptionId)) {
+      await mediaSubscriptionService.resume({ mediaSubscriptionId });
+      if (!_.isNil(offer())) {
+        navigate(buildInventoryPath(offer()?.shopSlug!));
+      }
+    }
   }
 
   function handleCancelSubscription() {
@@ -104,6 +122,14 @@ export default function SubscriptionDetailPage() {
 
   function handleCloseCancelSubscription() {
     setShowCancelConfirmation(false);
+  }
+
+  function handleResumeSubscription() {
+    setShowResumeConfirmation(true);
+  }
+
+  function handleCloseResumeSubscription() {
+    setShowResumeConfirmation(false);
   }
 
   return (
@@ -167,16 +193,35 @@ export default function SubscriptionDetailPage() {
           </div>
 
           <div class={styles.Action}>
-            <Font type="body" key={TKEYS.subscription["cancel-subscription"]} />
+            <Show
+              when={_.isNil(mediaSubscription()?.cancelAt)}
+              fallback={
+                <>
+                  <Font type="body" key={TKEYS.subscription.resume} />
 
-            <ActionButton
-              actionType="danger"
-              small
-              onClick={handleCancelSubscription}
-              disabled={!_.isNil(mediaSubscription()?.cancelAt)}
+                  <ActionButton
+                    actionType="active-filled"
+                    small
+                    onClick={handleResumeSubscription}
+                  >
+                    <Trans key={TKEYS.common.resume} />
+                  </ActionButton>
+                </>
+              }
             >
-              <Trans key={TKEYS.common.cancel} />
-            </ActionButton>
+              <Font
+                type="body"
+                key={TKEYS.subscription["cancel-subscription"]}
+              />
+
+              <ActionButton
+                actionType="danger"
+                small
+                onClick={handleCancelSubscription}
+              >
+                <Trans key={TKEYS.common.cancel} />
+              </ActionButton>
+            </Show>
           </div>
         </Section>
 
@@ -184,6 +229,12 @@ export default function SubscriptionDetailPage() {
           show={showCancelConfirmation()}
           onConfirmation={handleConfirmCancelSubscription}
           onClose={handleCloseCancelSubscription}
+        />
+
+        <ResumeConfirmationDialog
+          show={showResumeConfirmation()}
+          onConfirmation={handleConfirmResumeSubscription}
+          onClose={handleCloseResumeSubscription}
         />
       </DefaultBoundary>
     </>

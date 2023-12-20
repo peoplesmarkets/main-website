@@ -41,7 +41,10 @@ export default function InventoryPage() {
 
   async function fetchMediaSubscriptions(shopId: string) {
     const result = [];
-    const response = await mediaSubscriptionService.list({ shopId });
+    const response = await mediaSubscriptionService.list({
+      shopId,
+      isAccessible: true,
+    });
 
     for (const mediaSubscription of response.mediaSubscriptions) {
       const offerRes = await offerService.get(mediaSubscription.offerId);
@@ -54,8 +57,11 @@ export default function InventoryPage() {
     return result;
   }
 
-  function toLocaleDate(timestamp: number) {
-    return secondsToLocaleDate(timestamp, trans(TKEYS.lang));
+  function toLocaleDate(timestamp: number | undefined) {
+    if (!_.isNil(timestamp)) {
+      return secondsToLocaleDate(timestamp, trans(TKEYS.lang));
+    }
+    return "";
   }
 
   function handleViewSubscription(mediaSubscriptionId: string) {
@@ -111,11 +117,16 @@ export default function InventoryPage() {
                         <Trans key={TKEYS.subscription["payed-until"]} />:{" "}
                         {toLocaleDate(mediaSubscription.payedUntil)}
                       </span>
-                      <Show when={!_.isNil(mediaSubscription.canceledAt)}>
-                        <span class={styles.Detail}>
-                          <Trans key={TKEYS.subscription["canceled-at"]} />:{" "}
-                          {toLocaleDate(mediaSubscription.canceledAt!)}
-                        </span>
+                      <Show when={!_.isNil(mediaSubscription?.cancelAt)}>
+                        <Font
+                          type="body"
+                          danger
+                          inline
+                          key={TKEYS.subscription["cancel-to"]}
+                        />
+                        <Font type="body" danger inline>
+                          : {toLocaleDate(mediaSubscription?.cancelAt!)}
+                        </Font>
                       </Show>
                     </div>
 

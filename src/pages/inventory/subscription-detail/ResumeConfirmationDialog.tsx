@@ -11,7 +11,7 @@ type Props = {
   readonly onClose: () => void;
 };
 
-export function ResumeConfirmation(props: Props) {
+export function ResumeConfirmationDialog(props: Props) {
   return (
     <>
       <MdDialog open={props.show} onClose={props.onClose}>
