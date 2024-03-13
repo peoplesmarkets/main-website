@@ -3,7 +3,7 @@ job "main-website" {
   type        = "service"
 
   group "main-website" {
-    count = 2
+    count = 1
 
     network {
       mode = "bridge"

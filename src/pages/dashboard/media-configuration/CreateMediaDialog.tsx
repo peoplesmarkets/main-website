@@ -81,7 +81,6 @@ export function CreateMediaDialog(props: Props) {
       props.onUpdate();
     } catch (err: any) {
       setUploading(false);
-
       if (
         err.code === grpc.Code.ResourceExhausted ||
         err.code === grpc.Code.OutOfRange
