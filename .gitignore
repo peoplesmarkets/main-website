@@ -4,6 +4,7 @@ dist
 .vercel
 .netlify
 netlify
+run.sh
 
 # Generated Clients
 src/services/peoplesmarkets

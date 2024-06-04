@@ -92,20 +92,18 @@ function initialize() {
       (session) => session.userId === claims.sub
     );
 
-    if (_.isNil(currentSession)) {
-      setSession(emptySession);
-      setAccessTokens(emptyAccessTokens);
-    } else {
-      const sessionToStore: Session = {
-        userId: currentSession.userId,
-        loginName: currentSession.loginName,
-        userName: currentSession.userName,
-        displayName: currentSession.displayName,
-      };
+    const sessionToStore: Partial<Session> = {
+      userId: claims.sub,
+    };
 
-      setSession(sessionToStore);
-      setSessionToStore(session);
+    if (!_.isNil(currentSession)) {
+      sessionToStore.loginName = currentSession.loginName;
+      sessionToStore.userName = currentSession.userName;
+      sessionToStore.displayName = currentSession.displayName;
     }
+    
+    setSession(sessionToStore);
+    setSessionToStore(session);
   }
 
   function storeAccessTokens({
