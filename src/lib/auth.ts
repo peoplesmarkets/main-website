@@ -2,7 +2,6 @@ import _ from "lodash";
 
 import { buildSignInCallbackUrl } from "../routes/main/main-routing";
 import { ShopDomainService } from "../services";
-import { getDomainFromWindow, isCustomDomain } from "./env";
 import { hashCodeVerifier, utf8ToBase64 } from "./string-manipulation";
 
 export const CODE_CHALLENGE_STORAGE_KEY = "sign-in-code-challange";
@@ -27,15 +26,6 @@ export async function buildAuthorizationRequest(
   );
 
   if (!_.isNil(clientId) && !_.isEmpty(clientId)) {
-    requestUri.searchParams.set("client_id", clientId);
-  } else if (isCustomDomain()) {
-    const shopDomainService = new ShopDomainService(async () => null);
-    const domain = getDomainFromWindow();
-    const { clientId } = await shopDomainService.getClientIdForDomain(domain);
-    if (_.isNil(clientId) || _.isEmpty(clientId)) {
-      throw new Error(`Could not get clientId for domain '${domain}'`);
-    }
-
     requestUri.searchParams.set("client_id", clientId);
   } else {
     requestUri.searchParams.set(
@@ -64,10 +54,7 @@ export async function buildAuthorizationRequest(
   return requestUri;
 }
 
-export async function getToken(
-  code: string,
-  clientId?: string
-): Promise<Response> {
+export async function getToken(code: string): Promise<Response> {
   const codeVerifier = sessionStorage.getItem(CODE_CHALLENGE_STORAGE_KEY);
   sessionStorage.removeItem(CODE_CHALLENGE_STORAGE_KEY);
 
@@ -79,13 +66,7 @@ export async function getToken(
   body.set("grant_type", "authorization_code");
   body.set("code", code);
   body.set("redirect_uri", buildSignInCallbackUrl());
-
-  if (!_.isNil(clientId) && !_.isEmpty(clientId)) {
-    body.set("client_id", clientId);
-  } else {
-    body.set("client_id", import.meta.env.VITE_AUTH_OAUTH_CLIENT_ID);
-  }
-
+  body.set("client_id", import.meta.env.VITE_AUTH_OAUTH_CLIENT_ID);
   body.set("code_verifier", codeVerifier);
 
   return fetch(`${import.meta.env.VITE_AUTH_OAUTH_URL}/oauth/v2/token`, {

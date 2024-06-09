@@ -5,7 +5,6 @@ import {
   DASHBOARD_OFFER_PATH_SEGMENT,
   DASHBOARD_SHOP_PATH_SEGMENT,
   buildDashboardPath,
-  buildGetStartedPath,
   buildIndexPath,
   buildMediaConfigurationPath,
   buildOfferDetailConfigurationPath,
@@ -16,8 +15,9 @@ import {
 
 const MainLayout = lazy(() => import("../../layouts/MainLayout"));
 
-const HomePage = lazy(() => import("../../pages/main-pages/home-page/Page"));
-const LandingPage = lazy(() => import("../../pages/main-pages/landing-page/Page"));
+const LandingPage = lazy(
+  () => import("../../pages/main-pages/landing-page/Page")
+);
 
 const DashboardPage = lazy(() => import("../../pages/dashboard/Page"));
 const ShopConfigurationPage = lazy(
@@ -36,9 +36,7 @@ const MediaConfigurationPage = lazy(
 export default function MainRoutes() {
   return (
     <Route path="" component={MainLayout}>
-      <Route path={buildIndexPath()} component={HomePage} />
-
-      <Route path={buildGetStartedPath()} component={LandingPage} />
+      <Route path={buildIndexPath()} component={LandingPage} />
 
       <Route path={buildDashboardPath()} component={DashboardPage} />
 

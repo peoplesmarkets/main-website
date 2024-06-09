@@ -9,9 +9,7 @@ import { Form, MdButton, MdTextField } from "../../components/form";
 import { DiscardConfirmationDialog } from "../../components/form/DiscardConfirmationDialog";
 import { MdDialog } from "../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
-import { buildBaseUrl, slugify } from "../../lib";
 import { TKEYS } from "../../locales";
-import { buildShopDetailPath } from "../../routes/shops/shop-routing";
 import {
   CreateShopRequest,
   ShopResponse,
@@ -53,12 +51,6 @@ export function CreateShopDialog(props: Props) {
   function handleNameInput(value: string) {
     resetErrors();
     setRequest("name", value);
-    setRequest("slug", slugify(value));
-  }
-
-  function handleSlugInput(value: string) {
-    resetErrors();
-    setRequest("slug", value);
   }
 
   async function handleCreateShop(event: SubmitEvent) {
@@ -120,18 +112,6 @@ export function CreateShopDialog(props: Props) {
               label={trans(TKEYS.shop.labels.name)}
               onValue={handleNameInput}
             />
-
-            <Show when={showPathField()}>
-              <MdTextField
-                label={trans(TKEYS.shop.labels.slug)}
-                required
-                prefixText={buildBaseUrl(buildShopDetailPath("/")) + "/"}
-                value={request.slug}
-                onValue={handleSlugInput}
-                error={!_.isEmpty(errors.slug)}
-                errorText={errors.slug}
-              />
-            </Show>
           </Form>
         </div>
 

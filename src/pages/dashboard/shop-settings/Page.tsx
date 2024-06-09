@@ -6,13 +6,11 @@ import { useServiceClientContext } from "../../../contexts/ServiceClientContext"
 import { useSelectedShopContext } from "../../../contexts/ShopContext";
 import { requireAuthentication } from "../../../guards/authentication";
 import { requireShopOwner } from "../../../guards/shop";
-import { isCustomDomain } from "../../../lib";
 import { CriticalSettingsForm } from "./CriticalSettingsForm";
 import { UpdateConfigurationForm } from "./UpdateConfigurationForm";
 import { UpdateContactEmailAddressForm } from "./UpdateContactEmailAddressFrom";
 import { UpdateDomainForm } from "./UpdateDomainForm";
 import { UpdatePublicVisibilityForm } from "./UpdatePublicVisibilityForm";
-import { UpdateSlugForm } from "./UpdateSlugForm";
 import { UpdateStripeForm } from "./UpdateStripeForm";
 
 export default function ShopSettingsPage() {
@@ -59,12 +57,6 @@ export default function ShopSettingsPage() {
 
         <Section bordered>
           <UpdateDomainForm shop={shop()} onUpdate={handleUpdate} />
-        </Section>
-
-        <Section bordered>
-          <Show when={!isCustomDomain()}>
-            <UpdateSlugForm shop={shop()} onUpdate={handleUpdate} />
-          </Show>
         </Section>
 
         <Section danger={shop()?.isActive} bordered={!shop()?.isActive}>

@@ -9,7 +9,7 @@ import { buildAuthorizationRequest } from "../../../lib";
 import { TKEYS } from "../../../locales";
 import {
   buildDashboardPath,
-  buildIndexPathOrUrl,
+  buildIndexPath,
 } from "../../../routes/main/main-routing";
 import styles from "./Page.module.scss";
 
@@ -32,7 +32,7 @@ export default function LandingPage() {
     async () => {
       const signInUrl = await buildAuthorizationRequest(
         undefined,
-        buildIndexPathOrUrl()
+        buildDashboardPath()
       );
 
       return signInUrl.toString();

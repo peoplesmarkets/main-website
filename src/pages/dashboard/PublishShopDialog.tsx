@@ -10,7 +10,7 @@ import { OpenInNewIcon } from "../../components/icons";
 import { MdDialog } from "../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { buildTermsOfServicePathOrUrl } from "../../routes/info/info-routing";
+import { buildTermsOfServicePath } from "../../routes/info/info-routing";
 import { buildShopDashboardPath } from "../../routes/main/main-routing";
 import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
 import commonStyles from "./Common.module.scss";
@@ -98,7 +98,7 @@ export function PublishShopDialog(props: Props) {
                 />{" "}
                 <A
                   class={commonStyles.Link}
-                  href={buildTermsOfServicePathOrUrl()}
+                  href={buildTermsOfServicePath()}
                   target="_blank"
                 >
                   <Trans key={TKEYS["terms-of-service"].title} />{" "}

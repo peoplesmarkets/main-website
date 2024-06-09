@@ -10,7 +10,7 @@ import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirm
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { useSelectedShopContext } from "../../../contexts/ShopContext";
 import { TKEYS } from "../../../locales";
-import { buildDashboardPathOrUrl } from "../../../routes/main/main-routing";
+import { buildDashboardPath } from "../../../routes/main/main-routing";
 import commonStyles from "../Common.module.scss";
 
 export function CriticalSettingsForm() {
@@ -44,7 +44,7 @@ export function CriticalSettingsForm() {
       throw err;
     }
 
-    navigate(buildDashboardPathOrUrl(), { replace: true });
+    navigate(buildDashboardPath(), { replace: true });
   }
 
   function handleOpenDeleteDialog() {

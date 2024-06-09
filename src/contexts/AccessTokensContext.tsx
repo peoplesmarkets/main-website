@@ -157,8 +157,8 @@ function initialize() {
   }
 
   return {
-    startSessionWithCode: async (code: string, clientId?: string) => {
-      const token = await getToken(code, clientId);
+    startSessionWithCode: async (code: string) => {
+      const token = await getToken(code);
       storeAccessTokens(await token.json());
       await fetchSessions();
     },

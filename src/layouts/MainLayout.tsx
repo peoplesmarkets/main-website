@@ -20,7 +20,7 @@ import { TKEYS } from "../locales";
 import { EN } from "../locales/en";
 import {
   buildDashboardPath,
-  buildGetStartedPath,
+  buildIndexPath,
   buildShopSettingsPath,
   buildSignOutCallbackUrl,
 } from "../routes/main/main-routing";
@@ -47,7 +47,7 @@ export default function MainLayout() {
     if (location.pathname === buildDashboardPath()) {
       return false;
     }
-    if (location.pathname === buildGetStartedPath()) {
+    if (location.pathname === buildIndexPath()) {
       return false;
     }
 
@@ -58,7 +58,7 @@ export default function MainLayout() {
     if (isAuthenticated()) {
       return buildDashboardPath();
     }
-    return buildGetStartedPath();
+    return buildIndexPath();
   }
 
   function signOutUrl() {

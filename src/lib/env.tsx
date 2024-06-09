@@ -1,22 +1,5 @@
 import _ from "lodash";
 
-export function isCustomDomain() {
-  return !_.startsWith(window?.location?.href, import.meta.env.VITE_BASE_URL);
-}
-
-export function getDomainFromWindow() {
-  if (!isCustomDomain()) {
-    throw new Error("Unexpected Error");
-  }
-
-  const url = new URL(window.location.href);
-
-  if (!_.isNil(url.port) && !_.isEmpty(url.port)) {
-    return `${url.hostname}:${url.port}`;
-  }
-
-  return url.hostname;
-}
 
 export function getOriginFromWindow() {
   return new URL(window.location.href).origin;

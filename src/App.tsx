@@ -3,11 +3,11 @@ import { Route, Router, Routes } from "@solidjs/router";
 import i18next from "i18next";
 import LanguageDetector from "i18next-browser-languagedetector";
 import ICU from "i18next-icu";
-import { Show, onMount } from "solid-js";
+import { onMount } from "solid-js";
 
 import { AccessTokenProvider } from "./contexts/AccessTokensContext";
 import { ThemeProvider } from "./contexts/ThemeContext";
-import { isCustomDomain, setDocumentLanguage } from "./lib";
+import { setDocumentLanguage } from "./lib";
 import { LOCALES } from "./locales";
 import NotFound from "./routes/404";
 import MainRoutes from "./routes/main/MainRoutes";
@@ -18,7 +18,6 @@ import {
   buildSignInCallbackPath,
   buildSignOutCallbackPath,
 } from "./routes/main/main-routing";
-import { ShopRoutes } from "./routes/shops/ShopRoutes";
 import SignOutCallback from "./routes/SignOutCallback";
 
 export default function App() {
@@ -39,19 +38,11 @@ export default function App() {
         <ThemeProvider>
           <AccessTokenProvider>
             <Routes>
-              <Show when={isCustomDomain()}>
-                <ShopRoutes />
-              </Show>
+              <MainRoutes />
 
-              <Show when={!isCustomDomain()}>
-                <MainRoutes />
+              <CommunityRoutes />
 
-                <ShopRoutes />
-
-                <CommunityRoutes />
-
-                <InfoRoutes />
-              </Show>
+              <InfoRoutes />
 
               <Route
                 path={buildSignInCallbackPath()}

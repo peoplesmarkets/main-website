@@ -7,14 +7,14 @@ import { GitHubIcon, MainLogoIcon } from "../components/icons";
 import { Section } from "../components/layout";
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
 import { TKEYS } from "../locales";
-import { buildCommunityPathOrUrl } from "../routes/community/community-routing";
 import {
   buildImprintPath,
   buildPrivacyPolicyPath,
   buildTermsOfServicePath,
 } from "../routes/info/info-routing";
-import { buildGetStartedPath } from "../routes/main/main-routing";
 import styles from "./MainFooter.module.scss";
+import { buildIndexPath } from "../routes/main/main-routing";
+import { buildCommunityPath } from "../routes/community/community-routing";
 
 export default function MainFooter() {
   const { isAuthenticated } = useAccessTokensContext();
@@ -34,7 +34,7 @@ export default function MainFooter() {
 
       <div class={styles.SiteLinks}>
         <Show when={!isAuthenticated()}>
-          <A class={styles.LinkWithIcon} href={buildGetStartedPath()}>
+          <A class={styles.LinkWithIcon} href={buildIndexPath()}>
             <MdIcon icon="rocket_launch" />
             <Trans key={TKEYS["main-navigation"].links["get-started"]} />
           </A>
@@ -58,7 +58,7 @@ export default function MainFooter() {
       </Section>
 
       <div class={styles.SiteLinks}>
-        <A class={styles.LinkWithIcon} href={buildCommunityPathOrUrl()}>
+        <A class={styles.LinkWithIcon} href={buildCommunityPath()}>
           <MdIcon icon="forum" />
           <Trans key={TKEYS["main-navigation"].links.community} />{" "}
         </A>
