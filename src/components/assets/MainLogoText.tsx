@@ -12,7 +12,7 @@ export function MainLogoText(props: Props) {
   return (
     <svg
       xmlns="http://www.w3.org/2000/svg"
-      viewBox="0 0 248 64"
+      viewBox="0 0 105 54"
       class={props.class}
       classList={props.classList}
     >
@@ -22,8 +22,8 @@ export function MainLogoText(props: Props) {
         font-weight="500"
         letter-spacing="0em"
       >
-        <tspan x="0" y="42.9375">
-          People's Markets
+        <tspan x="0" y="40">
+          sited.io
         </tspan>
       </text>
     </svg>
