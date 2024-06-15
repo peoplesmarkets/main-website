@@ -7,7 +7,7 @@ netlify
 run.sh
 
 # Generated Clients
-src/services/peoplesmarkets
+src/services/sited_io
 
 # Environment
 .env

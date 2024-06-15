@@ -1,4 +1,4 @@
-import { OfferType } from "../services/peoplesmarkets/commerce/v1/offer";
+import { OfferType } from "../services/sited_io/commerce/v1/offer";
 import {
   Currency,
   PriceType,
@@ -6,16 +6,16 @@ import {
   currencyToJSON,
   priceTypeToJSON,
   recurringIntervalToJSON,
-} from "../services/peoplesmarkets/commerce/v1/price";
-import { ShopLayoutType } from "../services/peoplesmarkets/commerce/v1/shop_customization";
-import { ReportType } from "../services/peoplesmarkets/report/v1/report";
+} from "../services/sited_io/commerce/v1/price";
+import { ShopLayoutType } from "../services/sited_io/commerce/v1/shop_customization";
+import { ReportType } from "../services/sited_io/report/v1/report";
 
 export const TKEYS = {
   lang: "lang",
   "Peoples-Markets": "Peoples-Markets",
   peoplesmarkets_com: "peoplesmarkets_com",
   peoplesmarkets_main_link: "peoplesmarkets_main_link",
-  "powered-by-peoplesmarkets": "powered-by-peoplesmarkets",
+  "powered-by-sited_io": "powered-by-sited_io",
   fetching: {
     "content-loading": "fetching.content-loading",
     "content-error": "fetching.content-error",

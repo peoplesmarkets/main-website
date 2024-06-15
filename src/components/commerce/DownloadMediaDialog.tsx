@@ -5,7 +5,7 @@ import { Suspense, createResource } from "solid-js";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { resourceIsReady } from "../../lib";
 import { TKEYS } from "../../locales";
-import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
+import { MediaResponse } from "../../services/sited_io/media/v1/media";
 import { Font } from "../content";
 import { ActionButton } from "../form";
 import { MdDialog } from "../layout/MdDialog";

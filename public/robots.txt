@@ -3,4 +3,4 @@ Allow: /
 Disallow: /sign-in/
 Disallow: /dashboard/
 Disallow: /user-settings/
-Sitemap: https://peoplesmarkets.com/sitemap.txt
+Sitemap: https://sited.io/sitemap.txt

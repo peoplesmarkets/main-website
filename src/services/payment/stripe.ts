@@ -1,7 +1,7 @@
 import {
   GrpcWebImpl,
   StripeServiceClientImpl,
-} from "../peoplesmarkets/payment/v1/stripe";
+} from "../sited_io/payment/v1/stripe";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
 export class StripeService extends ServiceClient {

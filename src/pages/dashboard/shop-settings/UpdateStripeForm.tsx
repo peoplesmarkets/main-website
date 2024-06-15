@@ -10,7 +10,7 @@ import { OpenInNewIcon } from "../../../components/icons";
 import { MdLoading } from "../../../components/navigation";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
-import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../../../services/sited_io/commerce/v1/shop";
 import commonStyles from "../Common.module.scss";
 import styles from "./UpdateStripeForm.module.scss";
 import { buildBaseUrl } from "../../../lib";

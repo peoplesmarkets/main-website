@@ -6,7 +6,7 @@ import { ActionButton } from "../../components/form";
 import { MdDialog } from "../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
-import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../../services/sited_io/commerce/v1/shop";
 
 type Props = {
   readonly shop: ShopResponse | undefined;

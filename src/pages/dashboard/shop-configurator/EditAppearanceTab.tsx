@@ -3,7 +3,7 @@ import { Show, createSignal } from "solid-js";
 
 import { ActionButton } from "../../../components/form";
 import { TKEYS } from "../../../locales";
-import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../../../services/sited_io/commerce/v1/shop";
 import commonStyles from "../Common.module.scss";
 import { EditLogo } from "./EditLogo";
 import { LayoutSelection } from "./LayoutSelection";

@@ -9,8 +9,8 @@ import { MdSelect, SelectKey } from "../../../components/form/MdSelect";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
 import { listShopLayoutTypeCodes } from "../../../services";
-import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
-import { PutShopCustomizationRequest } from "../../../services/peoplesmarkets/commerce/v1/shop_customization";
+import { ShopResponse } from "../../../services/sited_io/commerce/v1/shop";
+import { PutShopCustomizationRequest } from "../../../services/sited_io/commerce/v1/shop_customization";
 import commonStyles from "../Common.module.scss";
 
 type Props = {

@@ -17,7 +17,7 @@ import { MdDialog } from "../../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { readAsUint8Array } from "../../../lib";
 import { TKEYS } from "../../../locales";
-import { MediaResponse } from "../../../services/peoplesmarkets/media/v1/media";
+import { MediaResponse } from "../../../services/sited_io/media/v1/media";
 
 type Props = {
   readonly media: MediaResponse | undefined;

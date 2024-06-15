@@ -12,7 +12,7 @@ import { useSelectedShopContext } from "../../contexts/ShopContext";
 import { requireAuthentication } from "../../guards/authentication";
 import { TKEYS } from "../../locales";
 import { buildShopConfigurationPath } from "../../routes/main/main-routing";
-import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../../services/sited_io/commerce/v1/shop";
 import { CreateShopDialog } from "./CreateShopDialog";
 import { OfferList } from "./OfferList";
 import styles from "./Page.module.scss";

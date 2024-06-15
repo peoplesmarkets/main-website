@@ -24,13 +24,13 @@ import { MdDialog } from "../../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
 import { listCurrencyCodes } from "../../../services";
-import { OfferResponse } from "../../../services/peoplesmarkets/commerce/v1/offer";
+import { OfferResponse } from "../../../services/sited_io/commerce/v1/offer";
 import {
   Currency,
   currencyFromJSON,
   currencyToJSON,
-} from "../../../services/peoplesmarkets/commerce/v1/price";
-import { PutShippingRateRequest } from "../../../services/peoplesmarkets/commerce/v1/shipping_rate";
+} from "../../../services/sited_io/commerce/v1/price";
+import { PutShippingRateRequest } from "../../../services/sited_io/commerce/v1/shipping_rate";
 import commonStyles from "./Common.module.scss";
 import { DiscardConfirmationDialog } from "../../../components/form/DiscardConfirmationDialog";
 import { DeleteConfirmationDialog } from "../../../components/form/DeleteConfirmationDialog";

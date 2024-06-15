@@ -19,8 +19,8 @@ import {
 import {
   OfferResponse,
   OfferType,
-} from "../../services/peoplesmarkets/commerce/v1/offer";
-import { PriceType } from "../../services/peoplesmarkets/commerce/v1/price";
+} from "../../services/sited_io/commerce/v1/offer";
+import { PriceType } from "../../services/sited_io/commerce/v1/price";
 import { ContentLoading, Font } from "../content";
 import { MdButton } from "../form";
 import { LinkButton } from "../form/LinkButton";

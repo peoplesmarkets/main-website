@@ -22,7 +22,7 @@ import { listOfferTypeCodes } from "../../../services";
 import {
   OfferResponse,
   UpdateOfferRequest,
-} from "../../../services/peoplesmarkets/commerce/v1/offer";
+} from "../../../services/sited_io/commerce/v1/offer";
 
 type Props = {
   readonly show: boolean;

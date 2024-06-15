@@ -1,12 +1,12 @@
-import { OfferType } from "../services/peoplesmarkets/commerce/v1/offer";
+import { OfferType } from "../services/sited_io/commerce/v1/offer";
 import {
   PriceType,
   RecurringInterval,
   priceTypeToJSON,
   recurringIntervalToJSON,
-} from "../services/peoplesmarkets/commerce/v1/price";
-import { ShopLayoutType } from "../services/peoplesmarkets/commerce/v1/shop_customization";
-import { ReportType } from "../services/peoplesmarkets/report/v1/report";
+} from "../services/sited_io/commerce/v1/price";
+import { ShopLayoutType } from "../services/sited_io/commerce/v1/shop_customization";
+import { ReportType } from "../services/sited_io/report/v1/report";
 import { EN } from "./en";
 import { TKEYS } from "./keys";
 
@@ -15,7 +15,7 @@ export const DE: typeof TKEYS = {
   "Peoples-Markets": EN["Peoples-Markets"],
   peoplesmarkets_com: EN.peoplesmarkets_com,
   peoplesmarkets_main_link: EN.peoplesmarkets_main_link,
-  "powered-by-peoplesmarkets": EN["powered-by-peoplesmarkets"],
+  "powered-by-sited_io": EN["powered-by-sited_io"],
   fetching: {
     "content-loading": "Wird geladen ...",
     "content-error": "Unerwarteter Fehler",
@@ -366,12 +366,12 @@ export const DE: typeof TKEYS = {
       domain: {
         "edit-domain": "Domain einstellen",
         "edit-domain-info":
-          "Du kannst deine eigene Domain verwenden, unter der dein Shop erreichbar ist. Nach dem Speichern muss ein DNS-CNAME-Eintrag für die Domain eingerichtet werden, der auf mysite.peoplesmarkets.com zeigt. Anschließend werden wir die Einrichtung abschließen.",
+          "Du kannst deine eigene Domain verwenden, unter der dein Shop erreichbar ist. Nach dem Speichern muss ein DNS-CNAME-Eintrag für die Domain eingerichtet werden, der auf mysite.sited.io zeigt. Anschließend werden wir die Einrichtung abschließen.",
         pending: "Wird eingerichtet",
         "pending-information":
           "Bitte konfiguriere den folgenden DNS CNAME Eintrag für die angegebene Domain:",
         "pending-information-sample":
-          "{item}. CNAME mysite.peoplesmarkets.com.",
+          "{item}. CNAME fallback.sited.io.",
         active: "Verifiziert",
       },
     },
@@ -445,7 +445,7 @@ export const DE: typeof TKEYS = {
   "community-page": {
     headline: "Hilf dem Projekt zu wachsen!",
     description:
-      '## Es ist geplant, dass das der Ort sein wird, an dem sich jeder am Projekt beteiligen kann. Momentan nutze bitte die "[Issues](https://github.com/peoplesmarkets/Project/issues)" auf GitHub, um dein Feedback und Kritik abzugeben.',
+      '## Es ist geplant, dass das der Ort sein wird, an dem sich jeder am Projekt beteiligen kann. Momentan nutze bitte die "[Issues](https://github.com/sited_io/Project/issues)" auf GitHub, um dein Feedback und Kritik abzugeben.',
     posts: {
       title: EN["community-page"].posts.title,
       "presentation-is-inspired-by":

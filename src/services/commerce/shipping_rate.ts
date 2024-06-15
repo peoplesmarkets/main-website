@@ -4,7 +4,7 @@ import {
   GrpcWebImpl,
   ShippingCountry,
   ShippingRateServiceClientImpl,
-} from "../peoplesmarkets/commerce/v1/shipping_rate";
+} from "../sited_io/commerce/v1/shipping_rate";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
 export class ShippingRateService extends ServiceClient {

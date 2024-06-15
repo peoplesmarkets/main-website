@@ -12,7 +12,7 @@ import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
 import { buildTermsOfServicePath } from "../../routes/info/info-routing";
 import { buildShopDashboardPath } from "../../routes/main/main-routing";
-import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../../services/sited_io/commerce/v1/shop";
 import commonStyles from "./Common.module.scss";
 import { EmptyOffersDialog } from "./EmptyOffersDialog";
 

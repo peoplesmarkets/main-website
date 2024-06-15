@@ -15,11 +15,11 @@ import { ActionButton, MdTextField } from "../../../components/form";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { isValidHostname } from "../../../lib";
 import { TKEYS } from "../../../locales";
-import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../../../services/sited_io/commerce/v1/shop";
 import {
   AddDomainToShopRequest,
   DomainStatus,
-} from "../../../services/peoplesmarkets/commerce/v1/shop_domain";
+} from "../../../services/sited_io/commerce/v1/shop_domain";
 import commonStyles from "../Common.module.scss";
 
 type Props = {

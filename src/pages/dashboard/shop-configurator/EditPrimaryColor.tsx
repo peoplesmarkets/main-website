@@ -6,11 +6,11 @@ import { Font } from "../../../components/content";
 import { ActionButton } from "../../../components/form";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
-import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../../../services/sited_io/commerce/v1/shop";
 import {
   PutShopCustomizationRequest,
   ShopLayoutType,
-} from "../../../services/peoplesmarkets/commerce/v1/shop_customization";
+} from "../../../services/sited_io/commerce/v1/shop_customization";
 import commonStyles from "../Common.module.scss";
 import styles from "./EditPrimaryColor.module.scss";
 

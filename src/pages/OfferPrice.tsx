@@ -4,11 +4,11 @@ import { Show } from "solid-js";
 
 import { centsToDecimal } from "../lib";
 import { TKEYS } from "../locales";
-import { OfferResponse } from "../services/peoplesmarkets/commerce/v1/offer";
+import { OfferResponse } from "../services/sited_io/commerce/v1/offer";
 import {
   currencyToJSON,
   recurringIntervalToJSON,
-} from "../services/peoplesmarkets/commerce/v1/price";
+} from "../services/sited_io/commerce/v1/price";
 import styles from "./OfferPrice.module.scss";
 
 type Props = {

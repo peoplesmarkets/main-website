@@ -7,7 +7,7 @@ import { MdDialog } from "../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../contexts/ServiceClientContext";
 import { TKEYS } from "../../locales";
 import { buildShopDashboardPath } from "../../routes/main/main-routing";
-import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../../services/sited_io/commerce/v1/shop";
 import commonStyles from "./Common.module.scss";
 
 type Props = {

@@ -29,7 +29,7 @@ import {
 import {
   OfferResponse,
   PutPriceToOfferRequest,
-} from "../../../services/peoplesmarkets/commerce/v1/offer";
+} from "../../../services/sited_io/commerce/v1/offer";
 import {
   Currency,
   Price,
@@ -43,7 +43,7 @@ import {
   priceTypeToJSON,
   recurringIntervalFromJSON,
   recurringIntervalToJSON,
-} from "../../../services/peoplesmarkets/commerce/v1/price";
+} from "../../../services/sited_io/commerce/v1/price";
 import commonStyles from "./Common.module.scss";
 
 type Dialog = "none" | "edit" | "discard" | "delete";

@@ -9,7 +9,7 @@ import { TKEYS } from "../../../locales";
 import {
   ShopResponse,
   UpdateShopRequest,
-} from "../../../services/peoplesmarkets/commerce/v1/shop";
+} from "../../../services/sited_io/commerce/v1/shop";
 import commonStyles from "../Common.module.scss";
 import { Font } from "../../../components/content";
 import { Border } from "../../../components/layout";

@@ -5,7 +5,7 @@ import {
   ListMediaSubscriptionsRequest,
   MediaSubscriptionServiceClientImpl,
   ResumeMediaSubscriptionRequest,
-} from "../peoplesmarkets/media/v1/media_subscription";
+} from "../sited_io/media/v1/media_subscription";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
 export class MediaSubscriptionService extends ServiceClient {

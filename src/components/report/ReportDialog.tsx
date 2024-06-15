@@ -9,7 +9,7 @@ import { TKEYS } from "../../locales";
 import {
   CreateReportRequest,
   ReportType,
-} from "../../services/peoplesmarkets/report/v1/report";
+} from "../../services/sited_io/report/v1/report";
 import { listReportTypeCodes } from "../../services/report/report";
 import { ContentLoading, Font } from "../content";
 import { ActionButton, Form, MdTextField, SelectKey } from "../form";

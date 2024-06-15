@@ -20,7 +20,7 @@ import {
   buildShopDashboardPath,
   buildShopSettingsPath,
 } from "../../../routes/main/main-routing";
-import { OfferType } from "../../../services/peoplesmarkets/commerce/v1/offer";
+import { OfferType } from "../../../services/sited_io/commerce/v1/offer";
 import { OfferPrice } from "../../OfferPrice";
 import { CreateOfferImageDialog } from "./CreateOfferImageDialog";
 import { EditOfferDetailsDialog } from "./EditOfferDetailsDialog";

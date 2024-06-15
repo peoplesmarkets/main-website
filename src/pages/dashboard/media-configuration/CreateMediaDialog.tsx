@@ -17,11 +17,11 @@ import { MdDialog } from "../../../components/layout/MdDialog";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { readAsUint8Array } from "../../../lib";
 import { TKEYS } from "../../../locales";
-import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../../../services/sited_io/commerce/v1/shop";
 import {
   MediaResponse,
   Part,
-} from "../../../services/peoplesmarkets/media/v1/media";
+} from "../../../services/sited_io/media/v1/media";
 
 const CHUNKSIZE = 1024 * 1024 * 5;
 

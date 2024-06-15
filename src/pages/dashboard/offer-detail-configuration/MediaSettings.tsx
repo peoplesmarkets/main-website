@@ -11,13 +11,13 @@ import { ActionButton } from "../../../components/form";
 import { Section } from "../../../components/layout";
 import { useServiceClientContext } from "../../../contexts/ServiceClientContext";
 import { TKEYS } from "../../../locales";
-import { OfferResponse } from "../../../services/peoplesmarkets/commerce/v1/offer";
-import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
+import { OfferResponse } from "../../../services/sited_io/commerce/v1/offer";
+import { ShopResponse } from "../../../services/sited_io/commerce/v1/shop";
 import {
   MediaFilterField,
   MediaOrderByField,
-} from "../../../services/peoplesmarkets/media/v1/media";
-import { Direction } from "../../../services/peoplesmarkets/ordering/v1/ordering";
+} from "../../../services/sited_io/media/v1/media";
+import { Direction } from "../../../services/sited_io/ordering/v1/ordering";
 import { MediaList } from "../MediaList";
 import { CreateMediaDialog } from "../media-configuration/CreateMediaDialog";
 import styles from "./MediaSettings.module.scss";

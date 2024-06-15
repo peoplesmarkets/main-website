@@ -4,7 +4,7 @@ import {
   GrpcWebImpl,
   ReportServiceClientImpl,
   ReportType,
-} from "../peoplesmarkets/report/v1/report";
+} from "../sited_io/report/v1/report";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
 export class ReportService extends ServiceClient {

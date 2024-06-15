@@ -24,8 +24,8 @@ import { useThemeContext } from "../../../contexts/ThemeContext";
 import { readAsUint8Array } from "../../../lib";
 import { resizeImage } from "../../../lib/image";
 import { TKEYS } from "../../../locales";
-import { ShopResponse } from "../../../services/peoplesmarkets/commerce/v1/shop";
-import { PutLogoImageToShopRequest } from "../../../services/peoplesmarkets/commerce/v1/shop_customization";
+import { ShopResponse } from "../../../services/sited_io/commerce/v1/shop";
+import { PutLogoImageToShopRequest } from "../../../services/sited_io/commerce/v1/shop_customization";
 import commonStyles from "../Common.module.scss";
 import styles from "./EditLogo.module.scss";
 

@@ -6,7 +6,7 @@
     "lint": "eslint './src/**/*.{ts,tsx}'",
     "test": "vitest run",
     "test:watch": "vitest",
-    "gen": "rm -rf src/services/peoplesmarkets && buf generate service-apis/proto --template buf.gen.service-apis.yaml",
+    "gen": "rm -rf src/services/sited_io && buf generate service-apis/proto --template buf.gen.service-apis.yaml",
     "prebuild": "npm run gen",
     "build": "vite build",
     "build:dev": "vite build --mode dev",

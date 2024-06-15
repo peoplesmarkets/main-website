@@ -1,5 +1,5 @@
 import { createSortable } from "@thisbeyond/solid-dnd";
-import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
+import { MediaResponse } from "../../services/sited_io/media/v1/media";
 
 import { Trans } from "@mbarzda/solid-i18next";
 import { MdIcon } from "../../components/assets";

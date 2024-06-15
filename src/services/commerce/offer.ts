@@ -11,7 +11,7 @@ import {
   PutPriceToOfferRequest,
   RemovePriceFromOfferRequest,
   UpdateOfferRequest
-} from "../peoplesmarkets/commerce/v1/offer";
+} from "../sited_io/commerce/v1/offer";
 import {
   Currency,
   PriceType,
@@ -19,7 +19,7 @@ import {
   currencyToJSON,
   priceTypeToJSON,
   recurringIntervalToJSON,
-} from "../peoplesmarkets/commerce/v1/price";
+} from "../sited_io/commerce/v1/price";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
 export class OfferService extends ServiceClient {

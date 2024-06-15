@@ -12,8 +12,8 @@ import { TKEYS } from "../../locales";
 import {
   CreateOfferRequest,
   OfferType,
-} from "../../services/peoplesmarkets/commerce/v1/offer";
-import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
+} from "../../services/sited_io/commerce/v1/offer";
+import { ShopResponse } from "../../services/sited_io/commerce/v1/shop";
 import { useNavigate } from "@solidjs/router";
 import { buildOfferDetailConfigurationPath } from "../../routes/main/main-routing";
 

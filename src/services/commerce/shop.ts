@@ -6,9 +6,9 @@ import {
   ShopServiceClientImpl,
   ShopsOrderByField,
   UpdateShopRequest,
-} from "../peoplesmarkets/commerce/v1/shop";
+} from "../sited_io/commerce/v1/shop";
 
-import { Direction } from "../peoplesmarkets/ordering/v1/ordering";
+import { Direction } from "../sited_io/ordering/v1/ordering";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
 export class ShopService extends ServiceClient {

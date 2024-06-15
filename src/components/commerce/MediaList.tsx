@@ -1,6 +1,6 @@
 import { For } from "solid-js";
 
-import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
+import { MediaResponse } from "../../services/sited_io/media/v1/media";
 import styles from "./MediaList.module.scss";
 import { MediaListItem } from "./MediaListItem";
 

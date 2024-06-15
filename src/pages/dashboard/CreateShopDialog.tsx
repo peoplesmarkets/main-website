@@ -13,7 +13,7 @@ import { TKEYS } from "../../locales";
 import {
   CreateShopRequest,
   ShopResponse,
-} from "../../services/peoplesmarkets/commerce/v1/shop";
+} from "../../services/sited_io/commerce/v1/shop";
 
 type Props = {
   show: boolean;

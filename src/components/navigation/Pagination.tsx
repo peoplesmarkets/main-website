@@ -3,7 +3,7 @@ import _ from "lodash";
 import {
   PaginationRequest,
   PaginationResponse,
-} from "../../services/peoplesmarkets/pagination/v1/pagination";
+} from "../../services/sited_io/pagination/v1/pagination";
 import Chevron from "../icons/Chevron";
 import styles from "./Pagination.module.scss";
 

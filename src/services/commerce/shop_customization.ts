@@ -6,7 +6,7 @@ import {
   PutShopCustomizationRequest,
   ShopCustomizationServiceClientImpl,
   ShopLayoutType,
-} from "../peoplesmarkets/commerce/v1/shop_customization";
+} from "../sited_io/commerce/v1/shop_customization";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
 export class ShopCustomizationService extends ServiceClient {

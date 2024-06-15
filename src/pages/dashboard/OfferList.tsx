@@ -16,10 +16,10 @@ import {
   OfferResponse,
   OffersFilterField,
   OffersOrderByField,
-} from "../../services/peoplesmarkets/commerce/v1/offer";
-import { ShopResponse } from "../../services/peoplesmarkets/commerce/v1/shop";
-import { Direction } from "../../services/peoplesmarkets/ordering/v1/ordering";
-import { PaginationRequest } from "../../services/peoplesmarkets/pagination/v1/pagination";
+} from "../../services/sited_io/commerce/v1/offer";
+import { ShopResponse } from "../../services/sited_io/commerce/v1/shop";
+import { Direction } from "../../services/sited_io/ordering/v1/ordering";
+import { PaginationRequest } from "../../services/sited_io/pagination/v1/pagination";
 import { OfferPrice } from "../OfferPrice";
 import { CreateOfferDialog } from "./CreateOfferDialog";
 import styles from "./OfferList.module.scss";

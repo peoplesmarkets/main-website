@@ -11,7 +11,7 @@ import {
   RemoveMediaFromOfferRequest,
   UpdateMediaOfferOrderingRequest,
   UpdateMediaRequest,
-} from "../peoplesmarkets/media/v1/media";
+} from "../sited_io/media/v1/media";
 
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 

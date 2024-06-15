@@ -3,7 +3,7 @@ import {
   GrpcWebImpl,
   RemoveDomainFromShopRequest,
   ShopDomainServiceClientImpl,
-} from "../peoplesmarkets/commerce/v1/shop_domain";
+} from "../sited_io/commerce/v1/shop_domain";
 import { AccessTokenGetter, ServiceClient } from "../service-client";
 
 export class ShopDomainService extends ServiceClient {

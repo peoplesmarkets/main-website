@@ -3,7 +3,7 @@ import { Show } from "solid-js";
 import { Font, Multiline } from "../components/content";
 import { Section } from "../components/layout";
 import { OfferBuy } from "../components/shops";
-import { OfferResponse } from "../services/peoplesmarkets/commerce/v1/offer";
+import { OfferResponse } from "../services/sited_io/commerce/v1/offer";
 import styles from "./OfferDetail.module.scss";
 import { OfferPrice } from "./OfferPrice";
 import { OfferImages } from "./dashboard/offer-detail-configuration/OfferImages";

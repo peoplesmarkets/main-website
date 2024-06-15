@@ -2,7 +2,7 @@ import { Trans } from "@mbarzda/solid-i18next";
 import { createSignal } from "solid-js";
 
 import { TKEYS } from "../../locales";
-import { MediaResponse } from "../../services/peoplesmarkets/media/v1/media";
+import { MediaResponse } from "../../services/sited_io/media/v1/media";
 import { ActionButton } from "../form";
 import { DownloadMediaDialog } from "./DownloadMediaDialog";
 import styles from "./MediaListItem.module.scss";

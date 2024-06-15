@@ -1,4 +1,4 @@
-import { OfferType } from "../services/peoplesmarkets/commerce/v1/offer";
+import { OfferType } from "../services/sited_io/commerce/v1/offer";
 import {
   Currency,
   PriceType,
@@ -6,17 +6,17 @@ import {
   currencyToJSON,
   priceTypeToJSON,
   recurringIntervalToJSON,
-} from "../services/peoplesmarkets/commerce/v1/price";
-import { ShopLayoutType } from "../services/peoplesmarkets/commerce/v1/shop_customization";
-import { ReportType } from "../services/peoplesmarkets/report/v1/report";
+} from "../services/sited_io/commerce/v1/price";
+import { ShopLayoutType } from "../services/sited_io/commerce/v1/shop_customization";
+import { ReportType } from "../services/sited_io/report/v1/report";
 import { TKEYS } from "./keys";
 
 export const EN: typeof TKEYS = {
   lang: "en",
   "Peoples-Markets": "People's Markets",
-  peoplesmarkets_com: "peoplesmarkets.com",
-  peoplesmarkets_main_link: "https://peoplesmarkets.com",
-  "powered-by-peoplesmarkets": " - powered by peoplesmarkets.com",
+  peoplesmarkets_com: "sited.io",
+  peoplesmarkets_main_link: "https://sited.io",
+  "powered-by-sited_io": " - powered by sited.io",
   fetching: {
     "content-loading": "Content loading ...",
     "content-error": "Unexpected Error",
@@ -375,7 +375,7 @@ export const EN: typeof TKEYS = {
         "pending-information":
           "Please configure the following DNS CNAME record for the specified domain:",
         "pending-information-sample":
-          "{item}. CNAME mysite.peoplesmarkets.com.",
+          "{item}. CNAME mysite.sited.io.",
         active: "Verified",
       },
     },
@@ -450,7 +450,7 @@ export const EN: typeof TKEYS = {
   "community-page": {
     headline: "Help the project grow!",
     description:
-      "## This is planned to be the place where everyone can involve themselves in the project. Currently, the place to give feedback and criticize is the [Issues section](https://github.com/peoplesmarkets/Project/issues) on GitHub.",
+      "## This is planned to be the place where everyone can involve themselves in the project. Currently, the place to give feedback and criticize is the [Issues section](https://github.com/sited_io/Project/issues) on GitHub.",
     posts: {
       title: "Posts",
       "presentation-is-inspired-by":

@@ -1,7 +1,7 @@
 import _ from "lodash";
 
 import { useAccessTokensContext } from "../contexts/AccessTokensContext";
-import { ShopResponse } from "../services/peoplesmarkets/commerce/v1/shop";
+import { ShopResponse } from "../services/sited_io/commerce/v1/shop";
 import { useNavigate } from "@solidjs/router";
 import { buildDashboardPath } from "../routes/main/main-routing";
 

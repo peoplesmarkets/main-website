@@ -9,7 +9,7 @@ import { TKEYS } from "../../../locales";
 import {
   OfferImageResponse,
   OfferResponse,
-} from "../../../services/peoplesmarkets/commerce/v1/offer";
+} from "../../../services/sited_io/commerce/v1/offer";
 import styles from "./OfferImages.module.scss";
 
 type Props = {
